@@ -1,0 +1,313 @@
+{
+    "section1": {
+        "files": [
+            {
+                "url": "assets/images/anim-collide.png",
+                "type": "spritesheet",
+                "frameConfig": {
+                    "frameWidth": 480,
+                    "frameHeight": 166
+                },
+                "key": "anim-collide"
+            },
+            {
+                "url": "assets/images/bar-blocks.png",
+                "type": "image",
+                "key": "bar-blocks"
+            },
+            {
+                "url": "assets/images/bar-points.png",
+                "type": "image",
+                "key": "bar-points"
+            },
+            {
+                "url": "assets/fonts/bebas.ttf",
+                "format": "truetype",
+                "descriptors": {},
+                "type": "font",
+                "key": "bebas"
+            },
+            {
+                "url": "assets/images/bg-game1.png",
+                "type": "image",
+                "key": "bg-game1"
+            },
+            {
+                "url": "assets/images/bg-game2.png",
+                "type": "image",
+                "key": "bg-game2"
+            },
+            {
+                "url": "assets/images/bg-game3.png",
+                "type": "image",
+                "key": "bg-game3"
+            },
+            {
+                "url": "assets/images/bg-home.png",
+                "type": "image",
+                "key": "bg-home"
+            },
+            {
+                "url": "assets/images/bg-map.png",
+                "type": "image",
+                "key": "bg-map"
+            },
+            {
+                "url": "assets/images/block.png",
+                "type": "image",
+                "key": "block"
+            },
+            {
+                "url": "assets/images/block-bottom.png",
+                "type": "image",
+                "key": "block-bottom"
+            },
+            {
+                "url": "assets/images/block-top.png",
+                "type": "image",
+                "key": "block-top"
+            },
+            {
+                "url": "assets/images/btn-close.png",
+                "type": "image",
+                "key": "btn-close"
+            },
+            {
+                "url": "assets/images/btn-home.png",
+                "type": "image",
+                "key": "btn-home"
+            },
+            {
+                "url": "assets/images/btn-map.png",
+                "type": "image",
+                "key": "btn-map"
+            },
+            {
+                "url": "assets/images/btn-newgame.png",
+                "type": "image",
+                "key": "btn-newgame"
+            },
+            {
+                "url": "assets/images/btn-next.png",
+                "type": "image",
+                "key": "btn-next"
+            },
+            {
+                "url": "assets/images/btn-pause.png",
+                "type": "image",
+                "key": "btn-pause"
+            },
+            {
+                "url": "assets/images/btn-play.png",
+                "type": "image",
+                "key": "btn-play"
+            },
+            {
+                "url": "assets/images/btn-restart.png",
+                "type": "image",
+                "key": "btn-restart"
+            },
+            {
+                "url": "assets/images/btn-start-level.png",
+                "type": "image",
+                "key": "btn-start-level"
+            },
+            {
+                "url": "assets/images/building1.png",
+                "type": "image",
+                "key": "building1"
+            },
+            {
+                "url": "assets/images/building2.png",
+                "type": "image",
+                "key": "building2"
+            },
+            {
+                "url": "assets/images/building3.png",
+                "type": "image",
+                "key": "building3"
+            },
+            {
+                "url": "assets/images/building4.png",
+                "type": "image",
+                "key": "building4"
+            },
+            {
+                "url": "assets/images/building5.png",
+                "type": "image",
+                "key": "building5"
+            },
+            {
+                "url": "assets/images/building6.png",
+                "type": "image",
+                "key": "building6"
+            },
+            {
+                "url": "assets/images/building7.png",
+                "type": "image",
+                "key": "building7"
+            },
+            {
+                "url": "assets/images/building8.png",
+                "type": "image",
+                "key": "building8"
+            },
+            {
+                "url": "assets/images/claw1.png",
+                "type": "image",
+                "key": "claw1"
+            },
+            {
+                "url": "assets/images/claw2.png",
+                "type": "image",
+                "key": "claw2"
+            },
+            {
+                "url": [
+                    "assets/audio/click.mp3"
+                ],
+                "type": "audio",
+                "key": "click"
+            },
+            {
+                "url": [
+                    "assets/audio/completed.mp3"
+                ],
+                "type": "audio",
+                "key": "completed"
+            },
+            {
+                "url": "assets/images/cover.png",
+                "type": "image",
+                "key": "cover"
+            },
+            {
+                "url": [
+                    "assets/audio/fall.mp3"
+                ],
+                "type": "audio",
+                "key": "fall"
+            },
+            {
+                "url": "assets/FufuSuperDino.png",
+                "type": "image",
+                "key": "FufuSuperDino"
+            },
+            {
+                "url": "assets/images/game-title.png",
+                "type": "image",
+                "key": "game-title"
+            },
+            {
+                "url": [
+                    "assets/audio/gameover.mp3"
+                ],
+                "type": "audio",
+                "key": "gameover"
+            },
+            {
+                "url": [
+                    "assets/audio/good.mp3"
+                ],
+                "type": "audio",
+                "key": "good"
+            },
+            {
+                "url": "assets/spine/good.json",
+                "type": "spineJson",
+                "key": "good",
+                "previewAtlasKey": "good-atlas"
+            },
+            {
+                "url": "assets/spine/good.png",
+                "type": "image",
+                "key": "good"
+            },
+            {
+                "type": "spineAtlas",
+                "key": "good-atlas",
+                "url": "assets/spine/good.atlas"
+            },
+            {
+                "url": [
+                    "assets/audio/hit.mp3"
+                ],
+                "type": "audio",
+                "key": "hit"
+            },
+            {
+                "url": "assets/images/icon.png",
+                "type": "image",
+                "key": "icon"
+            },
+            {
+                "url": "assets/images/location-marker.png",
+                "type": "image",
+                "key": "location-marker"
+            },
+            {
+                "url": [
+                    "assets/audio/perfect.mp3"
+                ],
+                "type": "audio",
+                "key": "perfect"
+            },
+            {
+                "url": "assets/spine/perfect.json",
+                "type": "spineJson",
+                "key": "perfect",
+                "previewAtlasKey": "perfect-atlas"
+            },
+            {
+                "url": "assets/spine/perfect.png",
+                "type": "image",
+                "key": "perfect"
+            },
+            {
+                "type": "spineAtlas",
+                "key": "perfect-atlas",
+                "url": "assets/spine/perfect.atlas"
+            },
+            {
+                "url": "assets/images/popup.png",
+                "type": "image",
+                "key": "popup"
+            },
+            {
+                "url": "assets/images/popup-end.png",
+                "type": "image",
+                "key": "popup-end"
+            },
+            {
+                "url": "assets/images/popup-play.png",
+                "type": "image",
+                "key": "popup-play"
+            },
+            {
+                "url": [
+                    "assets/audio/positive.mp3"
+                ],
+                "type": "audio",
+                "key": "positive"
+            },
+            {
+                "url": "assets/images/txt-good.png",
+                "type": "image",
+                "key": "txt-good"
+            },
+            {
+                "url": "assets/images/txt-perfect.png",
+                "type": "image",
+                "key": "txt-perfect"
+            }
+        ]
+    },
+    "meta": {
+        "app": "Phaser Editor 2D - Asset Pack Editor",
+        "contentType": "phasereditor2d.pack.core.AssetContentType",
+        "url": "https://phasereditor2d.com",
+        "version": 2,
+        "showAllFilesInBlocks": false,
+        "visible": true
+    }
+}

@@ -1,0 +1,97 @@
+{
+    "id": "9012f966-6a9f-4478-bae4-6d311ef4cca0",
+    "sceneType": "SCENE",
+    "settings": {
+        "exportClass": true,
+        "autoImport": true,
+        "preloadPackFiles": [],
+        "createMethodName": "editorCreate",
+        "sceneKey": "Ui",
+        "compilerOutputLanguage": "TYPE_SCRIPT",
+        "borderWidth": 720,
+        "borderHeight": 1080
+    },
+    "displayList": [
+        {
+            "type": "Image",
+            "id": "76757228-fbc7-42a2-94b2-66f3d4a099d0",
+            "label": "barBlocks",
+            "scope": "CLASS",
+            "texture": { "key": "bar-blocks" },
+            "x": 20,
+            "y": 60,
+            "originX": 0,
+            "originY": 0.5
+        },
+        {
+            "type": "Image",
+            "id": "5f4042f2-6fb3-44bc-8ddf-3a9f224b348d",
+            "label": "barPoints",
+            "scope": "CLASS",
+            "texture": { "key": "bar-points" },
+            "x": 20,
+            "y": 150,
+            "originX": 0,
+            "originY": 0.5
+        },
+        {
+            "type": "Text",
+            "id": "ec0ee2ec-f8f8-47e0-abf4-9f4fbeaf0c7c",
+            "label": "txtBlocks",
+            "scope": "CLASS",
+            "x": 218,
+            "y": 62,
+            "originX": 1,
+            "originY": 0.5,
+            "text": "0",
+            "fontFamily": "bebas",
+            "fontSize": "35px",
+            "align": "right"
+        },
+        {
+            "type": "Text",
+            "id": "08f3140f-8f4f-4189-8636-31d9858f6474",
+            "label": "txtPoints",
+            "scope": "CLASS",
+            "x": 218,
+            "y": 152,
+            "originX": 1,
+            "originY": 0.5,
+            "text": "0/0",
+            "fontFamily": "bebas",
+            "fontSize": "35px",
+            "align": "right"
+        },
+        {
+            "type": "Text",
+            "id": "e9f48163-3211-4d15-aaf6-b279643915e3",
+            "label": "txtPointsAdded",
+            "scope": "CLASS",
+            "x": 250,
+            "y": 152,
+            "originX": 0,
+            "originY": 0.5,
+            "text": "",
+            "fontFamily": "bebas",
+            "fontSize": "35px",
+            "color": "#23b84b",
+            "align": "left"
+        },
+        {
+            "type": "Sprite",
+            "id": "c0d26f0b-4382-4ce9-a8ed-4701e8fd4089",
+            "label": "pauseButton",
+            "scope": "CLASS",
+            "texture": { "key": "btn-pause" },
+            "x": 650,
+            "y": 70
+        }
+    ],
+    "plainObjects": [],
+    "meta": {
+        "app": "Phaser Editor - Scene Editor",
+        "url": "https://phaser.io/editor",
+        "contentType": "phasereditor2d.core.scene.SceneContentType",
+        "version": 5
+    }
+}
