@@ -1,0 +1,14 @@
+export const GAME_STATE = {
+    NONE: "NONE" as const,
+    PRE_GAME: "PRE_GAME" as const,
+    START: "START" as const,
+    PLAYING: "PLAYING" as const,
+    PAUSED: "PAUSED" as const,
+    RESUMED: "RESUMED" as const,
+    GAME_OVER_WIN: "GAME_OVER_WIN" as const,
+    GAME_OVER_LOSE: "GAME_OVER_LOSE" as const,
+    RESTART: "RESTART" as const,
+    SHARING: "SHARING" as const,
+    ERROR: "ERROR" as const,
+    ABANDONED: "ABANDONED" as const,
+};

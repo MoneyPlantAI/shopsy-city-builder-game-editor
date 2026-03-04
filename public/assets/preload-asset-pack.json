@@ -2,9 +2,39 @@
     "section1": {
         "files": [
             {
-                "url": "assets/guapen.png",
+                "url": "assets/images/loading/error-box-preload.png",
                 "type": "image",
-                "key": "guapen"
+                "key": "error-box-preload"
+            },
+            {
+                "url": "assets/images/loading/error-button-preload.png",
+                "type": "image",
+                "key": "error-button-preload"
+            },
+            {
+                "url": "assets/images/loading/error-char-preload.png",
+                "type": "image",
+                "key": "error-char-preload"
+            },
+            {
+                "url": "assets/images/loading/loading-bar-bg-min.png",
+                "type": "image",
+                "key": "loading-bar-bg-min"
+            },
+            {
+                "url": "assets/images/loading/loading-bar-fg-min.png",
+                "type": "image",
+                "key": "loading-bar-fg-min"
+            },
+            {
+                "url": "assets/images/loading/loading-bg-min.png",
+                "type": "image",
+                "key": "loading-bg-min"
+            },
+            {
+                "url": "assets/images/loading/loading-text-min.png",
+                "type": "image",
+                "key": "loading-text-min"
             }
         ]
     },
@@ -13,6 +43,7 @@
         "contentType": "phasereditor2d.pack.core.AssetContentType",
         "url": "https://phasereditor2d.com",
         "version": 2,
-        "showAllFilesInBlocks": false
+        "showAllFilesInBlocks": false,
+        "visible": true
     }
 }

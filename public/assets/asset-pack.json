@@ -2,7 +2,7 @@
     "section1": {
         "files": [
             {
-                "url": "assets/images/anim-collide.png",
+                "url": "assets/images/gameplay/anim-collide.png",
                 "type": "spritesheet",
                 "frameConfig": {
                     "frameWidth": 480,
@@ -11,12 +11,22 @@
                 "key": "anim-collide"
             },
             {
-                "url": "assets/images/bar-blocks.png",
+                "url": "assets/images/ui-assets/back-button.png",
+                "type": "image",
+                "key": "back-button"
+            },
+            {
+                "url": "assets/images/ui-assets/back-icon.png",
+                "type": "image",
+                "key": "back-icon"
+            },
+            {
+                "url": "assets/images/gameplay/bar-blocks.png",
                 "type": "image",
                 "key": "bar-blocks"
             },
             {
-                "url": "assets/images/bar-points.png",
+                "url": "assets/images/gameplay/bar-points.png",
                 "type": "image",
                 "key": "bar-points"
             },
@@ -28,137 +38,167 @@
                 "key": "bebas"
             },
             {
-                "url": "assets/images/bg-game1.png",
+                "url": "assets/images/gameplay/bg-game1.png",
                 "type": "image",
                 "key": "bg-game1"
             },
             {
-                "url": "assets/images/bg-game2.png",
+                "url": "assets/images/gameplay/bg-game2.png",
                 "type": "image",
                 "key": "bg-game2"
             },
             {
-                "url": "assets/images/bg-game3.png",
+                "url": "assets/images/gameplay/bg-game3.png",
                 "type": "image",
                 "key": "bg-game3"
             },
             {
-                "url": "assets/images/bg-home.png",
+                "url": "assets/images/gameplay/bg-home.png",
                 "type": "image",
                 "key": "bg-home"
             },
             {
-                "url": "assets/images/bg-map.png",
+                "url": "assets/images/gameplay/bg-map.png",
                 "type": "image",
                 "key": "bg-map"
             },
             {
-                "url": "assets/images/block.png",
+                "url": "assets/images/gameplay/block.png",
                 "type": "image",
                 "key": "block"
             },
             {
-                "url": "assets/images/block-bottom.png",
+                "url": "assets/images/gameplay/block-bottom.png",
                 "type": "image",
                 "key": "block-bottom"
             },
             {
-                "url": "assets/images/block-top.png",
+                "url": "assets/images/gameplay/block-top.png",
                 "type": "image",
                 "key": "block-top"
             },
             {
-                "url": "assets/images/btn-close.png",
+                "url": "assets/images/game-end/blur-bg.png",
+                "type": "image",
+                "key": "blur-bg"
+            },
+            {
+                "url": "assets/images/gameplay/btn-close.png",
                 "type": "image",
                 "key": "btn-close"
             },
             {
-                "url": "assets/images/btn-home.png",
+                "url": "assets/images/gameplay/btn-home.png",
                 "type": "image",
                 "key": "btn-home"
             },
             {
-                "url": "assets/images/btn-map.png",
+                "url": "assets/images/gameplay/btn-map.png",
                 "type": "image",
                 "key": "btn-map"
             },
             {
-                "url": "assets/images/btn-newgame.png",
+                "url": "assets/images/gameplay/btn-newgame.png",
                 "type": "image",
                 "key": "btn-newgame"
             },
             {
-                "url": "assets/images/btn-next.png",
+                "url": "assets/images/gameplay/btn-next.png",
                 "type": "image",
                 "key": "btn-next"
             },
             {
-                "url": "assets/images/btn-pause.png",
+                "url": "assets/images/gameplay/btn-pause.png",
                 "type": "image",
                 "key": "btn-pause"
             },
             {
-                "url": "assets/images/btn-play.png",
+                "url": "assets/images/gameplay/btn-play.png",
                 "type": "image",
                 "key": "btn-play"
             },
             {
-                "url": "assets/images/btn-restart.png",
+                "url": "assets/images/gameplay/btn-restart.png",
                 "type": "image",
                 "key": "btn-restart"
             },
             {
-                "url": "assets/images/btn-start-level.png",
+                "url": "assets/images/gameplay/btn-start-level.png",
                 "type": "image",
                 "key": "btn-start-level"
             },
             {
-                "url": "assets/images/building1.png",
+                "url": "assets/images/gameplay/building1.png",
                 "type": "image",
                 "key": "building1"
             },
             {
-                "url": "assets/images/building2.png",
+                "url": "assets/images/gameplay/building2.png",
                 "type": "image",
                 "key": "building2"
             },
             {
-                "url": "assets/images/building3.png",
+                "url": "assets/images/gameplay/building3.png",
                 "type": "image",
                 "key": "building3"
             },
             {
-                "url": "assets/images/building4.png",
+                "url": "assets/images/gameplay/building4.png",
                 "type": "image",
                 "key": "building4"
             },
             {
-                "url": "assets/images/building5.png",
+                "url": "assets/images/gameplay/building5.png",
                 "type": "image",
                 "key": "building5"
             },
             {
-                "url": "assets/images/building6.png",
+                "url": "assets/images/gameplay/building6.png",
                 "type": "image",
                 "key": "building6"
             },
             {
-                "url": "assets/images/building7.png",
+                "url": "assets/images/gameplay/building7.png",
                 "type": "image",
                 "key": "building7"
             },
             {
-                "url": "assets/images/building8.png",
+                "url": "assets/images/gameplay/building8.png",
                 "type": "image",
                 "key": "building8"
             },
             {
-                "url": "assets/images/claw1.png",
+                "url": "assets/images/game-play/cancel-btn.png",
+                "type": "image",
+                "key": "cancel-btn"
+            },
+            {
+                "url": "assets/images/pause/cancel-btn.png",
+                "type": "image",
+                "key": "cancel-btn_1"
+            },
+            {
+                "url": "assets/images/ui-assets/character-bg.png",
+                "type": "image",
+                "key": "character-bg"
+            },
+            {
+                "url": "assets/images/game-end/character-glow.png",
+                "type": "image",
+                "key": "character-glow"
+            },
+            {
+                "url": "assets/images/ui-assets/character-icon.png",
+                "type": "image",
+                "key": "character-icon"
+            },
+            {
+                "url": "assets/images/gameplay/claw1.png",
                 "type": "image",
                 "key": "claw1"
             },
             {
-                "url": "assets/images/claw2.png",
+                "url": "assets/images/gameplay/claw2.png",
                 "type": "image",
                 "key": "claw2"
             },
@@ -177,9 +217,44 @@
                 "key": "completed"
             },
             {
-                "url": "assets/images/cover.png",
+                "url": "assets/images/gameplay/cover.png",
                 "type": "image",
                 "key": "cover"
+            },
+            {
+                "url": "assets/images/error/error-box1.png",
+                "type": "image",
+                "key": "error-box1"
+            },
+            {
+                "url": "assets/images/error/error-box2.png",
+                "type": "image",
+                "key": "error-box2"
+            },
+            {
+                "url": "assets/images/error/error-button.png",
+                "type": "image",
+                "key": "error-button"
+            },
+            {
+                "url": "assets/images/error/error-button2.png",
+                "type": "image",
+                "key": "error-button2"
+            },
+            {
+                "url": "assets/images/error/error-icon1.png",
+                "type": "image",
+                "key": "error-icon1"
+            },
+            {
+                "url": "assets/images/error/error-icon2.png",
+                "type": "image",
+                "key": "error-icon2"
+            },
+            {
+                "url": "assets/images/error/error-icon3.png",
+                "type": "image",
+                "key": "error-icon3"
             },
             {
                 "url": [
@@ -189,12 +264,12 @@
                 "key": "fall"
             },
             {
-                "url": "assets/FufuSuperDino.png",
+                "url": "assets/images/common/female-icon.png",
                 "type": "image",
-                "key": "FufuSuperDino"
+                "key": "female-icon"
             },
             {
-                "url": "assets/images/game-title.png",
+                "url": "assets/images/gameplay/game-title.png",
                 "type": "image",
                 "key": "game-title"
             },
@@ -204,6 +279,11 @@
                 ],
                 "type": "audio",
                 "key": "gameover"
+            },
+            {
+                "url": "assets/images/common/gem.png",
+                "type": "image",
+                "key": "gem"
             },
             {
                 "url": [
@@ -229,6 +309,16 @@
                 "url": "assets/spine/good.atlas"
             },
             {
+                "url": "assets/images/game-end/high-score-bg.png",
+                "type": "image",
+                "key": "high-score-bg"
+            },
+            {
+                "url": "assets/images/game-end/high-score-character.png",
+                "type": "image",
+                "key": "high-score-character"
+            },
+            {
                 "url": [
                     "assets/audio/hit.mp3"
                 ],
@@ -236,14 +326,44 @@
                 "key": "hit"
             },
             {
-                "url": "assets/images/icon.png",
+                "url": "assets/images/gameplay/icon.png",
                 "type": "image",
                 "key": "icon"
             },
             {
-                "url": "assets/images/location-marker.png",
+                "url": "assets/images/gameplay/location-marker.png",
                 "type": "image",
                 "key": "location-marker"
+            },
+            {
+                "url": "assets/images/common/logo-01.png",
+                "type": "image",
+                "key": "logo-01"
+            },
+            {
+                "url": "assets/images/game-end/low-score-character.png",
+                "type": "image",
+                "key": "low-score-character"
+            },
+            {
+                "url": "assets/images/game-start/naz-text2.png",
+                "type": "image",
+                "key": "naz-text2"
+            },
+            {
+                "url": "assets/images/game-start/naz-text3.png",
+                "type": "image",
+                "key": "naz-text3"
+            },
+            {
+                "url": "assets/images/game-play/pause-panel.png",
+                "type": "image",
+                "key": "pause-panel"
+            },
+            {
+                "url": "assets/images/pause/pause-panel.png",
+                "type": "image",
+                "key": "pause-panel_1"
             },
             {
                 "url": [
@@ -269,17 +389,22 @@
                 "url": "assets/spine/perfect.atlas"
             },
             {
-                "url": "assets/images/popup.png",
+                "url": "assets/images/game-end/play-again-btn.png",
+                "type": "image",
+                "key": "play-again-btn"
+            },
+            {
+                "url": "assets/images/gameplay/popup.png",
                 "type": "image",
                 "key": "popup"
             },
             {
-                "url": "assets/images/popup-end.png",
+                "url": "assets/images/gameplay/popup-end.png",
                 "type": "image",
                 "key": "popup-end"
             },
             {
-                "url": "assets/images/popup-play.png",
+                "url": "assets/images/gameplay/popup-play.png",
                 "type": "image",
                 "key": "popup-play"
             },
@@ -291,12 +416,77 @@
                 "key": "positive"
             },
             {
-                "url": "assets/images/txt-good.png",
+                "url": "assets/images/game-play/quit-btn.png",
+                "type": "image",
+                "key": "quit-btn"
+            },
+            {
+                "url": "assets/images/pause/quit-btn.png",
+                "type": "image",
+                "key": "quit-btn_1"
+            },
+            {
+                "url": "assets/images/ui-assets/score-panel.png",
+                "type": "image",
+                "key": "score-panel"
+            },
+            {
+                "url": "assets/images/share/sh-character.png",
+                "type": "image",
+                "key": "sh-character"
+            },
+            {
+                "url": "assets/images/share/sh-large-panel.png",
+                "type": "image",
+                "key": "sh-large-panel"
+            },
+            {
+                "url": "assets/images/share/sh-panel.png",
+                "type": "image",
+                "key": "sh-panel"
+            },
+            {
+                "url": "assets/images/share/share-bg.png",
+                "type": "image",
+                "key": "share-bg"
+            },
+            {
+                "url": "assets/images/ui-assets/share-btn.png",
+                "type": "image",
+                "key": "share-btn"
+            },
+            {
+                "url": "assets/images/game-end/share-btn-text.png",
+                "type": "image",
+                "key": "share-btn-text"
+            },
+            {
+                "url": "assets/images/share/share-text1.png",
+                "type": "image",
+                "key": "share-text1"
+            },
+            {
+                "url": "assets/images/game-start/start-btn.png",
+                "type": "image",
+                "key": "start-btn"
+            },
+            {
+                "url": "assets/images/game-start/start-panel.png",
+                "type": "image",
+                "key": "start-panel"
+            },
+            {
+                "url": "assets/images/common/title.png",
+                "type": "image",
+                "key": "title"
+            },
+            {
+                "url": "assets/images/gameplay/txt-good.png",
                 "type": "image",
                 "key": "txt-good"
             },
             {
-                "url": "assets/images/txt-perfect.png",
+                "url": "assets/images/gameplay/txt-perfect.png",
                 "type": "image",
                 "key": "txt-perfect"
             }
