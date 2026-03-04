@@ -11,107 +11,126 @@ import { LEVELS, LEVEL_BUILDING_OFFSET_Y } from "../data/levels";
 
 export default class Level extends Phaser.Scene {
 
-    constructor() {
-        super("Level");
+	constructor() {
+		super("Level");
 
-        /* START-USER-CTR-CODE */
+		/* START-USER-CTR-CODE */
         // Write your code here.
         /* END-USER-CTR-CODE */
-    }
+	}
 
-    editorCreate(): void {
+	editorCreate(): void {
 
-        // bgMap
-        this.add.image(360, 540, "bg-map");
+		// mapWorldContainer
+		const mapWorldContainer = this.add.container(0, 0);
 
-        // homeButton
-        const homeButton = this.add.sprite(70, 70, "btn-home");
-        homeButton.name = "homeButton";
+		// bgMap
+		const bgMap = this.add.image(360, 540, "bg-map");
+		mapWorldContainer.add(bgMap);
 
-        // startLevelButton
-        const startLevelButton = this.add.sprite(361, 813, "btn-start-level");
-        startLevelButton.name = "startLevelButton";
+		// mapUiContainer
+		const mapUiContainer = this.add.container(0, 0);
 
-        // locationMarker
-        const locationMarker = this.add.image(361, 763, "location-marker");
-        locationMarker.name = "locationMarker";
+		// homeButton
+		const homeButton = this.add.sprite(70, 70, "btn-home");
+		mapUiContainer.add(homeButton);
 
-        // popupDark
-        const popupDark = this.add.rectangle(0, 0, 720, 1080);
-        popupDark.name = "popupDark";
-        popupDark.setOrigin(0, 0);
-        popupDark.isFilled = true;
-        popupDark.fillColor = 0;
-        popupDark.fillAlpha = 0.5;
-        popupDark.visible = false;
+		// startLevelButton
+		const startLevelButton = this.add.sprite(361, 813, "btn-start-level");
+		mapUiContainer.add(startLevelButton);
 
-        // popupBg
-        const popupBg = this.add.image(360, 540, "popup-play");
-        popupBg.name = "popupBg";
-        popupBg.visible = false;
+		// locationMarker
+		const locationMarker = this.add.image(361, 763, "location-marker");
+		mapUiContainer.add(locationMarker);
 
-        // popupPlayButton
-        const popupPlayButton = this.add.sprite(360, 650, "btn-play");
-        popupPlayButton.name = "popupPlayButton";
-        popupPlayButton.visible = false;
+		// popupDark
+		const popupDark = this.add.rectangle(0, 0, 720, 1080);
+		popupDark.setOrigin(0, 0);
+		popupDark.visible = false;
+		popupDark.isFilled = true;
+		popupDark.fillColor = 0;
+		popupDark.fillAlpha = 0.5;
 
-        // popupCloseButton
-        const popupCloseButton = this.add.sprite(515, 385, "btn-close");
-        popupCloseButton.name = "popupCloseButton";
-        popupCloseButton.visible = false;
+		// playPopupContainer
+		const playPopupContainer = this.add.container(0, 0);
+		playPopupContainer.visible = false;
 
-        // popupTitle
-        const popupTitle = this.add.text(360, 383, "Building 1", {});
-        popupTitle.name = "popupTitle";
-        popupTitle.setOrigin(0.5, 0.5);
-        popupTitle.setStyle({ "align": "center", "color": "#FFFFFF", "fontFamily": "bebas", "fontSize": "40px" });
-        popupTitle.visible = false;
+		// popupBg
+		const popupBg = this.add.image(360, 540, "popup-play");
+		playPopupContainer.add(popupBg);
 
-        // popupBlocks
-        const popupBlocks = this.add.text(340, 502, "0", {});
-        popupBlocks.name = "popupBlocks";
-        popupBlocks.setOrigin(1, 0.5);
-        popupBlocks.setStyle({ "align": "right", "color": "#FFFFFF", "fontFamily": "bebas", "fontSize": "30px" });
-        popupBlocks.visible = false;
+		// popupPlayButton
+		const popupPlayButton = this.add.sprite(360, 650, "btn-play");
+		playPopupContainer.add(popupPlayButton);
 
-        // popupPoints
-        const popupPoints = this.add.text(480, 502, "0", {});
-        popupPoints.name = "popupPoints";
-        popupPoints.setOrigin(1, 0.5);
-        popupPoints.setStyle({ "align": "right", "color": "#FFFFFF", "fontFamily": "bebas", "fontSize": "30px" });
-        popupPoints.visible = false;
+		// popupCloseButton
+		const popupCloseButton = this.add.sprite(515, 385, "btn-close");
+		playPopupContainer.add(popupCloseButton);
 
-        this.homeButton = homeButton;
-        this.startLevelButton = startLevelButton;
-        this.locationMarker = locationMarker;
-        this.popupDark = popupDark;
-        this.popupBg = popupBg;
-        this.popupPlayButton = popupPlayButton;
-        this.popupCloseButton = popupCloseButton;
-        this.popupTitle = popupTitle;
-        this.popupBlocks = popupBlocks;
-        this.popupPoints = popupPoints;
+		// popupTitle
+		const popupTitle = this.add.text(360, 383, "", {});
+		popupTitle.setOrigin(0.5, 0.5);
+		popupTitle.text = "Building 1";
+		popupTitle.setStyle({ "align": "center", "color": "#FFFFFF", "fontFamily": "bebas", "fontSize": "40px" });
+		playPopupContainer.add(popupTitle);
 
-        this.events.emit("scene-awake");
-    }
+		// popupBlocks
+		const popupBlocks = this.add.text(340, 502, "", {});
+		popupBlocks.setOrigin(1, 0.5);
+		popupBlocks.text = "0";
+		popupBlocks.setStyle({ "align": "right", "color": "#FFFFFF", "fontFamily": "bebas", "fontSize": "30px" });
+		playPopupContainer.add(popupBlocks);
 
-    private homeButton!: Phaser.GameObjects.Sprite;
-    private startLevelButton!: Phaser.GameObjects.Sprite;
-    private locationMarker!: Phaser.GameObjects.Image;
-    private popupDark!: Phaser.GameObjects.Rectangle;
-    private popupBg!: Phaser.GameObjects.Image;
-    private popupPlayButton!: Phaser.GameObjects.Sprite;
-    private popupCloseButton!: Phaser.GameObjects.Sprite;
-    private popupTitle!: Phaser.GameObjects.Text;
-    private popupBlocks!: Phaser.GameObjects.Text;
-    private popupPoints!: Phaser.GameObjects.Text;
+		// popupPoints
+		const popupPoints = this.add.text(480, 502, "", {});
+		popupPoints.setOrigin(1, 0.5);
+		popupPoints.text = "0";
+		popupPoints.setStyle({ "align": "right", "color": "#FFFFFF", "fontFamily": "bebas", "fontSize": "30px" });
+		playPopupContainer.add(popupPoints);
 
-    /* START-USER-CODE */
+		this.bgMap = bgMap;
+		this.mapWorldContainer = mapWorldContainer;
+		this.homeButton = homeButton;
+		this.startLevelButton = startLevelButton;
+		this.locationMarker = locationMarker;
+		this.mapUiContainer = mapUiContainer;
+		this.popupDark = popupDark;
+		this.popupBg = popupBg;
+		this.popupPlayButton = popupPlayButton;
+		this.popupCloseButton = popupCloseButton;
+		this.popupTitle = popupTitle;
+		this.popupBlocks = popupBlocks;
+		this.popupPoints = popupPoints;
+		this.playPopupContainer = playPopupContainer;
+
+		this.events.emit("scene-awake");
+	}
+
+	private bgMap!: Phaser.GameObjects.Image;
+	private mapWorldContainer!: Phaser.GameObjects.Container;
+	private homeButton!: Phaser.GameObjects.Sprite;
+	private startLevelButton!: Phaser.GameObjects.Sprite;
+	private locationMarker!: Phaser.GameObjects.Image;
+	private mapUiContainer!: Phaser.GameObjects.Container;
+	private popupDark!: Phaser.GameObjects.Rectangle;
+	private popupBg!: Phaser.GameObjects.Image;
+	private popupPlayButton!: Phaser.GameObjects.Sprite;
+	private popupCloseButton!: Phaser.GameObjects.Sprite;
+	private popupTitle!: Phaser.GameObjects.Text;
+	private popupBlocks!: Phaser.GameObjects.Text;
+	private popupPoints!: Phaser.GameObjects.Text;
+	private playPopupContainer!: Phaser.GameObjects.Container;
+
+	/* START-USER-CODE */
 
     private completedBuildings: Phaser.GameObjects.Image[] = [];
 
     create(): void {
         this.editorCreate();
+        this.mapWorldContainer.setDepth(0);
+        this.mapUiContainer.setDepth(1000);
+        this.popupDark.setDepth(2000);
+        this.playPopupContainer.setDepth(2100);
 
         const home = configureButton(this.homeButton, "home");
         const startLevel = configureButton(this.startLevelButton, "start-level");
@@ -156,6 +175,7 @@ export default class Level extends Phaser.Scene {
         LEVELS.forEach((data, index) => {
             if (index < gameState.currentLevel) {
                 const building = this.add.image(data.x, data.y + LEVEL_BUILDING_OFFSET_Y, data.building).setOrigin(0.5, 1);
+                this.mapWorldContainer.add(building);
                 this.completedBuildings.push(building);
             }
         });
@@ -184,15 +204,7 @@ export default class Level extends Phaser.Scene {
 
         this.popupDark.setVisible(true).setInteractive();
         this.popupDark.alpha = 0;
-
-        [
-            this.popupBg,
-            this.popupPlayButton,
-            this.popupCloseButton,
-            this.popupTitle,
-            this.popupBlocks,
-            this.popupPoints
-        ].forEach((obj) => obj.setVisible(true));
+        this.playPopupContainer.setVisible(true);
 
         this.tweens.add({
             targets: this.popupDark,
@@ -203,14 +215,7 @@ export default class Level extends Phaser.Scene {
 
     private hidePlayPopup(): void {
         this.popupDark.setVisible(false).disableInteractive();
-        [
-            this.popupBg,
-            this.popupPlayButton,
-            this.popupCloseButton,
-            this.popupTitle,
-            this.popupBlocks,
-            this.popupPoints
-        ].forEach((obj) => obj.setVisible(false));
+        this.playPopupContainer.setVisible(false);
     }
 
     /* END-USER-CODE */

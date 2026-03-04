@@ -13,92 +13,122 @@
     },
     "displayList": [
         {
-            "type": "Image",
-            "id": "7e5f2f09-e4ac-4fd9-b8f1-c0f4b18f68c5",
-            "label": "bgGame1",
+            "type": "Container",
+            "id": "a1b2cb02-fe5a-4f2e-b8f7-8f2f04c66f3f",
+            "label": "gameWorldContainer",
             "scope": "CLASS",
-            "texture": {
-                "key": "bg-game1"
-            },
-            "x": 360,
-            "y": 540
+            "x": 0,
+            "y": 0,
+            "list": [
+                {
+                    "type": "Image",
+                    "id": "7e5f2f09-e4ac-4fd9-b8f1-c0f4b18f68c5",
+                    "label": "bgGame1",
+                    "scope": "CLASS",
+                    "texture": {
+                        "key": "bg-game1"
+                    },
+                    "x": 360,
+                    "y": 540
+                },
+                {
+                    "type": "Image",
+                    "id": "a973e218-c4f8-4d0d-b9f4-6a0bcc5b27e8",
+                    "label": "bgGame2",
+                    "scope": "CLASS",
+                    "texture": {
+                        "key": "bg-game2"
+                    },
+                    "x": 360,
+                    "y": -540
+                },
+                {
+                    "type": "Image",
+                    "id": "d5d6da00-b00c-41d7-b060-1933eaf34d4c",
+                    "label": "bgGame3a",
+                    "scope": "CLASS",
+                    "texture": {
+                        "key": "bg-game3"
+                    },
+                    "x": 360,
+                    "y": -1620
+                },
+                {
+                    "type": "Image",
+                    "id": "e210d799-ec29-48f7-b69c-bfa5ec25be6f",
+                    "label": "bgGame3b",
+                    "scope": "CLASS",
+                    "texture": {
+                        "key": "bg-game3"
+                    },
+                    "x": 360,
+                    "y": -2700
+                },
+                {
+                    "type": "Image",
+                    "id": "437d9d90-118d-4969-a3fc-e0475f3dceff",
+                    "label": "blockBottom",
+                    "scope": "CLASS",
+                    "texture": {
+                        "key": "block-bottom"
+                    },
+                    "x": 360,
+                    "y": 866
+                }
+            ]
         },
         {
-            "type": "Image",
-            "id": "a973e218-c4f8-4d0d-b9f4-6a0bcc5b27e8",
-            "label": "bgGame2",
+            "type": "Container",
+            "id": "e65d2a48-d534-4f7f-b06f-8496bf6f5f26",
+            "label": "gameplayContainer",
             "scope": "CLASS",
-            "texture": {
-                "key": "bg-game2"
-            },
-            "x": 360,
-            "y": -540
+            "x": 0,
+            "y": 0,
+            "list": [
+                {
+                    "type": "Sprite",
+                    "id": "7ca64ff4-75e5-443f-bdbd-4c00272542f7",
+                    "label": "blockTop",
+                    "scope": "CLASS",
+                    "texture": {
+                        "key": "block"
+                    },
+                    "x": 160,
+                    "y": 120
+                },
+                {
+                    "type": "Sprite",
+                    "id": "904486f0-28c8-4a4f-847e-c85e5e0fc350",
+                    "label": "claw",
+                    "scope": "CLASS",
+                    "texture": {
+                        "key": "claw1"
+                    },
+                    "x": 160
+                }
+            ]
         },
         {
-            "type": "Image",
-            "id": "d5d6da00-b00c-41d7-b060-1933eaf34d4c",
-            "label": "bgGame3a",
+            "type": "Container",
+            "id": "c11c1d8d-4f89-4f8e-83a5-eb160ea02ecb",
+            "label": "fxContainer",
             "scope": "CLASS",
-            "texture": {
-                "key": "bg-game3"
-            },
-            "x": 360,
-            "y": -1620
-        },
-        {
-            "type": "Image",
-            "id": "e210d799-ec29-48f7-b69c-bfa5ec25be6f",
-            "label": "bgGame3b",
-            "scope": "CLASS",
-            "texture": {
-                "key": "bg-game3"
-            },
-            "x": 360,
-            "y": -2700
-        },
-        {
-            "type": "Image",
-            "id": "437d9d90-118d-4969-a3fc-e0475f3dceff",
-            "label": "blockBottom",
-            "scope": "CLASS",
-            "texture": {
-                "key": "block-bottom"
-            },
-            "x": 360,
-            "y": 866
-        },
-        {
-            "type": "Sprite",
-            "id": "7ca64ff4-75e5-443f-bdbd-4c00272542f7",
-            "label": "blockTop",
-            "scope": "CLASS",
-            "texture": {
-                "key": "block"
-            },
-            "x": 160,
-            "y": 120
-        },
-        {
-            "type": "Sprite",
-            "id": "904486f0-28c8-4a4f-847e-c85e5e0fc350",
-            "label": "claw",
-            "scope": "CLASS",
-            "texture": {
-                "key": "claw1"
-            },
-            "x": 160
-        },
-        {
-            "type": "Sprite",
-            "id": "e01f8876-3944-41eb-a69e-9ca2e7172398",
-            "label": "collideFx",
-            "scope": "CLASS",
-            "texture": {
-                "key": "anim-collide"
-            },
-            "x": -300,
-            "y": -300,
-            "visible": false
+            "x": 0,
+            "y": 0,
+            "list": [
+                {
+                    "type": "Sprite",
+                    "id": "e01f8876-3944-41eb-a69e-9ca2e7172398",
+                    "label": "collideFx",
+                    "scope": "CLASS",
+                    "texture": {
+                        "key": "anim-collide"
+                    },
+                    "x": -300,
+                    "y": -300,
+                    "visible": false
+                }
+            ]
         }
     ],
     "plainObjects": [],

@@ -5,7 +5,7 @@
 /* START-USER-IMPORTS */
 import { playSound } from "../core/audio";
 import { gameState, setCurrentLevel } from "../core/state";
-import { configureButton, ButtonSprite, createButton } from "../core/ui-factory";
+import { configureButton, ButtonSprite } from "../core/ui-factory";
 import { LEVELS } from "../data/levels";
 /* END-USER-IMPORTS */
 
@@ -20,57 +20,100 @@ export default class Ui extends Phaser.Scene {
     }
 
     editorCreate(): void {
+        const hudContainer = this.add.container(0, 0);
 
-        // barBlocks
-        this.add.image(20, 60, "bar-blocks").setOrigin(0, 0.5);
-
-        // barPoints
-        this.add.image(20, 150, "bar-points").setOrigin(0, 0.5);
-
-        // txtBlocks
-        const txtBlocks = this.add.text(218, 62, "0", {});
-        txtBlocks.name = "txtBlocks";
-        txtBlocks.setOrigin(1, 0.5);
-        txtBlocks.setStyle({ "align": "right", "fontFamily": "bebas", "fontSize": "35px" });
-
-        // txtPoints
-        const txtPoints = this.add.text(218, 152, "0/0", {});
-        txtPoints.name = "txtPoints";
-        txtPoints.setOrigin(1, 0.5);
-        txtPoints.setStyle({ "align": "right", "fontFamily": "bebas", "fontSize": "35px" });
-
-        // txtPointsAdded
-        const txtPointsAdded = this.add.text(250, 152, "", {});
-        txtPointsAdded.name = "txtPointsAdded";
-        txtPointsAdded.setOrigin(0, 0.5);
-        txtPointsAdded.setStyle({ "align": "left", "color": "#23b84b", "fontFamily": "bebas", "fontSize": "35px" });
-
-        // pauseButton
+        const barBlocks = this.add.image(20, 60, "bar-blocks").setOrigin(0, 0.5);
+        const barPoints = this.add.image(20, 150, "bar-points").setOrigin(0, 0.5);
+        const txtBlocks = this.add.text(218, 62, "0", { align: "right", fontFamily: "bebas", fontSize: "35px" }).setOrigin(1, 0.5);
+        const txtPoints = this.add.text(218, 152, "0/0", { align: "right", fontFamily: "bebas", fontSize: "35px" }).setOrigin(1, 0.5);
+        const txtPointsAdded = this.add.text(250, 152, "", { align: "left", color: "#23b84b", fontFamily: "bebas", fontSize: "35px" }).setOrigin(0, 0.5);
         const pauseButton = this.add.sprite(650, 70, "btn-pause");
-        pauseButton.name = "pauseButton";
+        hudContainer.add([barBlocks, barPoints, txtBlocks, txtPoints, txtPointsAdded, pauseButton]);
 
+        const popupDark = this.add.rectangle(0, 0, 720, 1080, 0x000000, 0.5).setOrigin(0, 0);
+        popupDark.visible = false;
+
+        const pausePopupContainer = this.add.container(0, 0);
+        const pausePopupBg = this.add.image(360, 540, "popup");
+        const pauseTitle = this.add.text(360, 383, "PAUSED", { align: "center", color: "#FFFFFF", fontFamily: "bebas", fontSize: "40px" }).setOrigin(0.5);
+        const pauseRestartButton = this.add.sprite(360, 585, "btn-restart");
+        const pauseMapButton = this.add.sprite(360, 680, "btn-map");
+        const pauseCloseButton = this.add.sprite(515, 385, "btn-close");
+        pausePopupContainer.add([pausePopupBg, pauseTitle, pauseRestartButton, pauseMapButton, pauseCloseButton]);
+        pausePopupContainer.visible = false;
+
+        const endPopupContainer = this.add.container(0, 0);
+        const endPopupBg = this.add.image(360, 540, "popup-end");
+        const endTitle = this.add.text(360, 430, "STAGE FAILED!", { align: "center", color: "#FFFFFF", fontFamily: "bebas", fontSize: "40px" }).setOrigin(0.5);
+        const endBlocks = this.add.text(340, 502, "0/0", { align: "right", color: "#FFFFFF", fontFamily: "bebas", fontSize: "30px" }).setOrigin(1, 0.5);
+        const endPoints = this.add.text(480, 502, "0/0", { align: "right", color: "#FFFFFF", fontFamily: "bebas", fontSize: "30px" }).setOrigin(1, 0.5);
+        const endRestartButton = this.add.sprite(360, 585, "btn-restart");
+        const endMapButton = this.add.sprite(360, 680, "btn-map");
+        const endNextButton = this.add.sprite(360, 650, "btn-next");
+        endPopupContainer.add([endPopupBg, endTitle, endBlocks, endPoints, endRestartButton, endMapButton, endNextButton]);
+        endPopupContainer.visible = false;
+
+        this.hudContainer = hudContainer;
         this.txtBlocks = txtBlocks;
         this.txtPoints = txtPoints;
         this.txtPointsAdded = txtPointsAdded;
         this.pauseButton = pauseButton;
+        this.popupDark = popupDark;
+        this.pausePopupContainer = pausePopupContainer;
+        this.pauseRestartButton = pauseRestartButton;
+        this.pauseMapButton = pauseMapButton;
+        this.pauseCloseButton = pauseCloseButton;
+        this.endPopupContainer = endPopupContainer;
+        this.endTitle = endTitle;
+        this.endBlocks = endBlocks;
+        this.endPoints = endPoints;
+        this.endRestartButton = endRestartButton;
+        this.endMapButton = endMapButton;
+        this.endNextButton = endNextButton;
 
         this.events.emit("scene-awake");
     }
 
+    private hudContainer!: Phaser.GameObjects.Container;
     private txtBlocks!: Phaser.GameObjects.Text;
     private txtPoints!: Phaser.GameObjects.Text;
     private txtPointsAdded!: Phaser.GameObjects.Text;
     private pauseButton!: Phaser.GameObjects.Sprite;
+    private popupDark!: Phaser.GameObjects.Rectangle;
+    private pausePopupContainer!: Phaser.GameObjects.Container;
+    private pauseRestartButton!: Phaser.GameObjects.Sprite;
+    private pauseMapButton!: Phaser.GameObjects.Sprite;
+    private pauseCloseButton!: Phaser.GameObjects.Sprite;
+    private endPopupContainer!: Phaser.GameObjects.Container;
+    private endTitle!: Phaser.GameObjects.Text;
+    private endBlocks!: Phaser.GameObjects.Text;
+    private endPoints!: Phaser.GameObjects.Text;
+    private endRestartButton!: Phaser.GameObjects.Sprite;
+    private endMapButton!: Phaser.GameObjects.Sprite;
+    private endNextButton!: Phaser.GameObjects.Sprite;
 
     /* START-USER-CODE */
+
+    private currentPoints = 0;
 
     create(): void {
         this.editorCreate();
 
-        let currentPoints = 0;
-        const popup = this.add.group();
+        this.hudContainer.setDepth(1000);
+        this.popupDark.setDepth(2000);
+        this.pausePopupContainer.setDepth(2100);
+        this.endPopupContainer.setDepth(2100);
 
         configureButton(this.pauseButton, "pause");
+        configureButton(this.pauseRestartButton, "restart");
+        configureButton(this.pauseMapButton, "map");
+        configureButton(this.pauseCloseButton, "close");
+        configureButton(this.endRestartButton, "restart");
+        configureButton(this.endMapButton, "map");
+        configureButton(this.endNextButton, "next");
+
+        this.hidePausePopup();
+        this.hideEndPopup();
 
         this.txtBlocks.setText(String(LEVELS[gameState.currentLevel].blockAmount));
         this.txtPoints.setText(`0/${LEVELS[gameState.currentLevel].pointRequired}`);
@@ -82,7 +125,7 @@ export default class Ui extends Phaser.Scene {
         gameScene.events.off("completed");
 
         gameScene.events.on("update-score", (data: { curPoints: number; added: number }) => {
-            currentPoints = data.curPoints;
+            this.currentPoints = data.curPoints;
             this.txtPoints.setText(`${data.curPoints}/${LEVELS[gameState.currentLevel].pointRequired}`);
             if (data.curPoints > LEVELS[gameState.currentLevel].pointRequired) {
                 this.txtPoints.setColor("#54ff82");
@@ -95,13 +138,8 @@ export default class Ui extends Phaser.Scene {
             this.txtBlocks.setText(String(value));
         });
 
-        gameScene.events.on("gameover", () => {
-            showEndPopup("STAGE FAILED!", false);
-        });
-
-        gameScene.events.on("completed", () => {
-            showEndPopup("COMPLETED!", true);
-        });
+        gameScene.events.on("gameover", () => this.showEndPopup(false));
+        gameScene.events.on("completed", () => this.showEndPopup(true));
 
         this.input.on("gameobjectdown", (_pointer: Phaser.Input.Pointer, obj: Phaser.GameObjects.GameObject) => {
             const button = obj as ButtonSprite;
@@ -131,70 +169,54 @@ export default class Ui extends Phaser.Scene {
                         this.scene.stop("Game");
                     } else if (button.name === "pause") {
                         this.scene.pause("Game");
-                        showPausePopup();
+                        this.showPausePopup();
                     } else if (button.name === "close") {
-                        popup.clear(true, true);
+                        this.hidePausePopup();
                         this.scene.resume("Game");
                     }
                 }
             });
         });
+    }
 
-        const showPausePopup = (): void => {
-            const dark = this.add.rectangle(0, 0, 720, 1080, 0x000000).setOrigin(0).setInteractive();
-            dark.alpha = 0;
-            this.tweens.add({ targets: dark, alpha: 0.5, duration: 200 });
-            const bgPopup = this.add.sprite(360, 540, "popup");
-            const bRestart = createButton(this, 360, 585, "restart");
-            const bMap = createButton(this, 360, 680, "map");
-            const bClose = createButton(this, 515, 385, "close");
-            const txtTitle = this.add.text(360, 383, "PAUSED", {
-                fontFamily: "bebas",
-                fontSize: "40px",
-                align: "center",
-                color: "#FFFFFF"
-            }).setOrigin(0.5);
-            popup.addMultiple([dark, bgPopup, bRestart, bMap, bClose, txtTitle]);
-        };
+    private showPausePopup(): void {
+        this.hideEndPopup();
+        this.popupDark.setVisible(true).setInteractive();
+        this.pausePopupContainer.setVisible(true);
+        this.popupDark.alpha = 0;
+        this.tweens.add({ targets: this.popupDark, alpha: 0.5, duration: 200 });
+    }
 
-        const showEndPopup = (title: string, completed: boolean): void => {
-            playSound(this, completed ? "completed" : "gameover");
-            const dark = this.add.rectangle(0, 0, 720, 1080, 0x000000).setOrigin(0).setInteractive();
-            dark.alpha = 0;
-            this.tweens.add({ targets: dark, alpha: 0.5, duration: 200 });
+    private hidePausePopup(): void {
+        this.pausePopupContainer.setVisible(false);
+        this.popupDark.setVisible(false).disableInteractive();
+    }
 
-            this.add.sprite(360, 540, "popup-end");
-            if (completed) {
-                createButton(this, 360, 650, "next");
-                if (gameState.currentLevel < LEVELS.length - 1) {
-                    setCurrentLevel(gameState.currentLevel + 1);
-                }
-            } else {
-                createButton(this, 360, 585, "restart");
-                createButton(this, 360, 680, "map");
-            }
+    private showEndPopup(completed: boolean): void {
+        playSound(this, completed ? "completed" : "gameover");
+        this.hidePausePopup();
 
-            this.add.text(360, 383, title, {
-                fontFamily: "bebas",
-                fontSize: "40px",
-                align: "center",
-                color: "#FFFFFF"
-            }).setOrigin(0.5);
+        this.popupDark.setVisible(true).setInteractive();
+        this.popupDark.alpha = 0;
+        this.tweens.add({ targets: this.popupDark, alpha: 0.5, duration: 200 });
 
-            this.add.text(340, 502, `${gameState.totalStackedBlocks}/${LEVELS[gameState.currentLevel].blockAmount}`, {
-                fontFamily: "bebas",
-                fontSize: "30px",
-                align: "right",
-                color: "#FFFFFF"
-            }).setOrigin(1, 0.5);
+        this.endTitle.setText(completed ? "COMPLETED!" : "STAGE FAILED!");
+        this.endBlocks.setText(`${gameState.totalStackedBlocks}/${LEVELS[gameState.currentLevel].blockAmount}`);
+        this.endPoints.setText(`${this.currentPoints}/${LEVELS[gameState.currentLevel].pointRequired}`);
 
-            this.add.text(480, 502, `${currentPoints}/${LEVELS[gameState.currentLevel].pointRequired}`, {
-                fontFamily: "bebas",
-                fontSize: "30px",
-                align: "right",
-                color: "#FFFFFF"
-            }).setOrigin(1, 0.5);
-        };
+        this.endRestartButton.setVisible(!completed);
+        this.endMapButton.setVisible(!completed);
+        this.endNextButton.setVisible(completed);
+
+        if (completed && gameState.currentLevel < LEVELS.length - 1) {
+            setCurrentLevel(gameState.currentLevel + 1);
+        }
+
+        this.endPopupContainer.setVisible(true);
+    }
+
+    private hideEndPopup(): void {
+        this.endPopupContainer.setVisible(false);
     }
 
     /* END-USER-CODE */

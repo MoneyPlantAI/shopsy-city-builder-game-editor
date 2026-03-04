@@ -19,32 +19,30 @@ export default class Game extends Phaser.Scene {
 	}
 
 	editorCreate(): void {
-
-		// bgGame1
+		// gameWorldContainer
+		const gameWorldContainer = this.add.container(0, 0);
 		const bgGame1 = this.add.image(360, 540, "bg-game1");
-
-		// bgGame2
 		const bgGame2 = this.add.image(360, -540, "bg-game2");
-
-		// bgGame3a
 		const bgGame3a = this.add.image(360, -1620, "bg-game3");
-
-		// bgGame3b
 		const bgGame3b = this.add.image(360, -2700, "bg-game3");
-
-		// blockBottom
 		const blockBottom = this.add.image(360, 866, "block-bottom");
+		gameWorldContainer.add([bgGame1, bgGame2, bgGame3a, bgGame3b, blockBottom]);
 
-		// blockTop
+		// gameplayContainer
+		const gameplayContainer = this.add.container(0, 0);
 		const blockTop = this.add.sprite(160, 120, "block");
-
-		// claw
 		const claw = this.add.sprite(160, 0, "claw1");
+		gameplayContainer.add([blockTop, claw]);
 
-		// collideFx
+		// fxContainer
+		const fxContainer = this.add.container(0, 0);
 		const collideFx = this.add.sprite(-300, -300, "anim-collide");
 		collideFx.visible = false;
+		fxContainer.add(collideFx);
 
+		this.gameWorldContainer = gameWorldContainer;
+		this.gameplayContainer = gameplayContainer;
+		this.fxContainer = fxContainer;
 		this.bgGame1 = bgGame1;
 		this.bgGame2 = bgGame2;
 		this.bgGame3a = bgGame3a;
@@ -57,6 +55,9 @@ export default class Game extends Phaser.Scene {
 		this.events.emit("scene-awake");
 	}
 
+	private gameWorldContainer!: Phaser.GameObjects.Container;
+	private gameplayContainer!: Phaser.GameObjects.Container;
+	private fxContainer!: Phaser.GameObjects.Container;
 	private bgGame1!: Phaser.GameObjects.Image;
 	private bgGame2!: Phaser.GameObjects.Image;
 	private bgGame3a!: Phaser.GameObjects.Image;
@@ -95,6 +96,9 @@ export default class Game extends Phaser.Scene {
 
     create(): void {
         this.editorCreate();
+        this.gameWorldContainer.setDepth(0);
+        this.gameplayContainer.setDepth(1000);
+        this.fxContainer.setDepth(1100);
 
         resetBlockRunState();
         this.scene.launch("Ui");
@@ -151,6 +155,7 @@ export default class Game extends Phaser.Scene {
                     spineGood = spineFactory.spine(-400, -400, "good", "good-atlas");
                     spineGood.setDepth(1);
                     spineGood.setVisible(false);
+                    this.fxContainer.add(spineGood);
                 }
                 return spineGood;
             }
@@ -159,6 +164,7 @@ export default class Game extends Phaser.Scene {
                 spinePerfect = spineFactory.spine(-400, -400, "perfect", "perfect-atlas");
                 spinePerfect.setDepth(1);
                 spinePerfect.setVisible(false);
+                this.fxContainer.add(spinePerfect);
             }
             return spinePerfect;
         };
@@ -178,6 +184,7 @@ export default class Game extends Phaser.Scene {
             lastBlock = key === "block-top";
 
             const block = this.add.sprite(this.blockTop.x, this.blockTop.y, key) as DroppedBlockSprite;
+            this.gameplayContainer.add(block);
 
             if (!isColliding()) {
                 targetDropY = this.blockTop.y + 1080 + 200;

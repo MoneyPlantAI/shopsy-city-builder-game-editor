@@ -13,148 +13,165 @@
     },
     "displayList": [
         {
-            "type": "Image",
-            "id": "b89aa4f0-d846-423f-a5b5-83fa4191111a",
-            "label": "bgMap",
+            "type": "Container",
+            "id": "14ea8970-9db0-4bf0-95f6-7708e68b7b60",
+            "label": "mapWorldContainer",
             "scope": "CLASS",
-            "texture": {
-                "key": "bg-map"
-            },
-            "x": 360,
-            "y": 540
+            "list": [
+                {
+                    "type": "Image",
+                    "id": "b89aa4f0-d846-423f-a5b5-83fa4191111a",
+                    "label": "bgMap",
+                    "scope": "CLASS",
+                    "texture": {
+                        "key": "bg-map"
+                    },
+                    "x": 360,
+                    "y": 540
+                }
+            ]
         },
         {
-            "type": "Sprite",
-            "id": "a0cb5132-ec2f-4687-9009-3f5bfb53f8ba",
-            "label": "homeButton",
+            "type": "Container",
+            "id": "eae94be9-7846-4637-a4c2-d5ed2359f5d0",
+            "label": "mapUiContainer",
             "scope": "CLASS",
-            "texture": {
-                "key": "btn-home"
-            },
-            "x": 70,
-            "y": 70
-        },
-        {
-            "type": "Sprite",
-            "id": "1cc8f050-5fb2-4113-ad7b-a62256f35fc9",
-            "label": "startLevelButton",
-            "scope": "CLASS",
-            "texture": {
-                "key": "btn-start-level"
-            },
-            "x": 361,
-            "y": 813
-        },
-        {
-            "type": "Image",
-            "id": "f8e4ac95-6ec5-4ede-9e1a-a3d94350ea7a",
-            "label": "locationMarker",
-            "scope": "CLASS",
-            "texture": {
-                "key": "location-marker"
-            },
-            "x": 361,
-            "y": 763
+            "list": [
+                {
+                    "type": "Sprite",
+                    "id": "a0cb5132-ec2f-4687-9009-3f5bfb53f8ba",
+                    "label": "homeButton",
+                    "scope": "CLASS",
+                    "texture": {
+                        "key": "btn-home"
+                    },
+                    "x": 70,
+                    "y": 70
+                },
+                {
+                    "type": "Sprite",
+                    "id": "1cc8f050-5fb2-4113-ad7b-a62256f35fc9",
+                    "label": "startLevelButton",
+                    "scope": "CLASS",
+                    "texture": {
+                        "key": "btn-start-level"
+                    },
+                    "x": 361,
+                    "y": 813
+                },
+                {
+                    "type": "Image",
+                    "id": "f8e4ac95-6ec5-4ede-9e1a-a3d94350ea7a",
+                    "label": "locationMarker",
+                    "scope": "CLASS",
+                    "texture": {
+                        "key": "location-marker"
+                    },
+                    "x": 361,
+                    "y": 763
+                }
+            ]
         },
         {
             "type": "Rectangle",
             "id": "0f195736-2fbb-487c-b1de-eaf7722f78ee",
             "label": "popupDark",
             "scope": "CLASS",
-            "x": 0,
-            "y": 0,
             "originX": 0,
             "originY": 0,
+            "visible": false,
             "isFilled": true,
             "fillColor": "#000000",
             "fillAlpha": 0.5,
             "width": 720,
-            "height": 1080,
-            "visible": false
+            "height": 1080
         },
         {
-            "type": "Image",
-            "id": "52631eee-8c20-474d-b80e-4316f6ee2754",
-            "label": "popupBg",
+            "type": "Container",
+            "id": "1b908dca-b0a2-4ff9-be80-2e5a82eaefea",
+            "label": "playPopupContainer",
             "scope": "CLASS",
-            "texture": {
-                "key": "popup-play"
-            },
-            "x": 360,
-            "y": 540,
-            "visible": false
-        },
-        {
-            "type": "Sprite",
-            "id": "9eb4f6df-6f17-4928-9da3-1fb901ea80b4",
-            "label": "popupPlayButton",
-            "scope": "CLASS",
-            "texture": {
-                "key": "btn-play"
-            },
-            "x": 360,
-            "y": 650,
-            "visible": false
-        },
-        {
-            "type": "Sprite",
-            "id": "e5db35ff-9984-473e-a9cb-c8ca4f88da2a",
-            "label": "popupCloseButton",
-            "scope": "CLASS",
-            "texture": {
-                "key": "btn-close"
-            },
-            "x": 515,
-            "y": 385,
-            "visible": false
-        },
-        {
-            "type": "Text",
-            "id": "f19317f9-25d9-43aa-87f3-4c4d6d1d3c12",
-            "label": "popupTitle",
-            "scope": "CLASS",
-            "x": 360,
-            "y": 383,
-            "originX": 0.5,
-            "originY": 0.5,
-            "text": "Building 1",
-            "fontFamily": "bebas",
-            "fontSize": "40px",
-            "align": "center",
-            "color": "#FFFFFF",
-            "visible": false
-        },
-        {
-            "type": "Text",
-            "id": "dd47b21e-f474-46fe-8a56-7405f6ec2f6d",
-            "label": "popupBlocks",
-            "scope": "CLASS",
-            "x": 340,
-            "y": 502,
-            "originX": 1,
-            "originY": 0.5,
-            "text": "0",
-            "fontFamily": "bebas",
-            "fontSize": "30px",
-            "align": "right",
-            "color": "#FFFFFF",
-            "visible": false
-        },
-        {
-            "type": "Text",
-            "id": "e4792911-3fb0-4430-b7e9-81a865f3f1ad",
-            "label": "popupPoints",
-            "scope": "CLASS",
-            "x": 480,
-            "y": 502,
-            "originX": 1,
-            "originY": 0.5,
-            "text": "0",
-            "fontFamily": "bebas",
-            "fontSize": "30px",
-            "align": "right",
-            "color": "#FFFFFF",
-            "visible": false
+            "visible": false,
+            "list": [
+                {
+                    "type": "Image",
+                    "id": "52631eee-8c20-474d-b80e-4316f6ee2754",
+                    "label": "popupBg",
+                    "scope": "CLASS",
+                    "texture": {
+                        "key": "popup-play"
+                    },
+                    "x": 360,
+                    "y": 540
+                },
+                {
+                    "type": "Sprite",
+                    "id": "9eb4f6df-6f17-4928-9da3-1fb901ea80b4",
+                    "label": "popupPlayButton",
+                    "scope": "CLASS",
+                    "texture": {
+                        "key": "btn-play"
+                    },
+                    "x": 360,
+                    "y": 650
+                },
+                {
+                    "type": "Sprite",
+                    "id": "e5db35ff-9984-473e-a9cb-c8ca4f88da2a",
+                    "label": "popupCloseButton",
+                    "scope": "CLASS",
+                    "texture": {
+                        "key": "btn-close"
+                    },
+                    "x": 515,
+                    "y": 385
+                },
+                {
+                    "type": "Text",
+                    "id": "f19317f9-25d9-43aa-87f3-4c4d6d1d3c12",
+                    "label": "popupTitle",
+                    "scope": "CLASS",
+                    "x": 360,
+                    "y": 383,
+                    "originX": 0.5,
+                    "originY": 0.5,
+                    "text": "Building 1",
+                    "align": "center",
+                    "fontFamily": "bebas",
+                    "fontSize": "40px",
+                    "color": "#FFFFFF"
+                },
+                {
+                    "type": "Text",
+                    "id": "dd47b21e-f474-46fe-8a56-7405f6ec2f6d",
+                    "label": "popupBlocks",
+                    "scope": "CLASS",
+                    "x": 340,
+                    "y": 502,
+                    "originX": 1,
+                    "originY": 0.5,
+                    "text": "0",
+                    "align": "right",
+                    "fontFamily": "bebas",
+                    "fontSize": "30px",
+                    "color": "#FFFFFF"
+                },
+                {
+                    "type": "Text",
+                    "id": "e4792911-3fb0-4430-b7e9-81a865f3f1ad",
+                    "label": "popupPoints",
+                    "scope": "CLASS",
+                    "x": 480,
+                    "y": 502,
+                    "originX": 1,
+                    "originY": 0.5,
+                    "text": "0",
+                    "align": "right",
+                    "fontFamily": "bebas",
+                    "fontSize": "30px",
+                    "color": "#FFFFFF"
+                }
+            ]
         }
     ],
     "plainObjects": [],
