@@ -31,13 +31,6 @@
                 "key": "bar-points"
             },
             {
-                "url": "assets/fonts/bebas.ttf",
-                "format": "truetype",
-                "descriptors": {},
-                "type": "font",
-                "key": "bebas"
-            },
-            {
                 "url": "assets/images/gameplay/bg-game1.png",
                 "type": "image",
                 "key": "bg-game1"
@@ -344,6 +337,11 @@
                 "url": "assets/images/game-end/low-score-character.png",
                 "type": "image",
                 "key": "low-score-character"
+            },
+            {
+                "url": "assets/images/game-start/naz-text1.png",
+                "type": "image",
+                "key": "naz-text1"
             },
             {
                 "url": "assets/images/game-start/naz-text2.png",

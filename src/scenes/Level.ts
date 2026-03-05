@@ -5,7 +5,6 @@
 /* START-USER-IMPORTS */
 import { playSound } from "../core/audio";
 import { applyGameplayConfig, gameState, setCurrentLevel, resetBlockRunState, DroppedBlockSprite, gameplayConfig } from "../core/state";
-import { configureButton } from "../core/ui-factory";
 import { LEVELS } from "../data/levels";
 import { GAME_PANEL } from "../game-core/GamePanel";
 import { GAME_STATE } from "../game-core/GameState";
@@ -104,10 +103,6 @@ export default class Level extends Phaser.Scene {
 		txtPointsAdded.setOrigin(0, 0.5);
 		txtPointsAdded.setStyle({ "color": "#23b84b", "fontFamily": "bebas", "fontSize": "35px" });
 		hudContainer.add(txtPointsAdded);
-
-		// pauseButton
-		const pauseButton = this.add.sprite(650, 70, "btn-pause");
-		hudContainer.add(pauseButton);
 
 		// popupDark
 		const popupDark = this.add.rectangle(0, 0, 720, 1080);
@@ -751,7 +746,7 @@ export default class Level extends Phaser.Scene {
 		game_start_panel_container.add(blur_bg_1);
 
 		// naz_new_screen
-		const naz_new_screen = this.add.image(12, 42, "naz-new-screen");
+		const naz_new_screen = this.add.image(12, 42, "start-panel");
 		game_start_panel_container.add(naz_new_screen);
 
 		// naz_text3
@@ -771,11 +766,11 @@ export default class Level extends Phaser.Scene {
 		const top_text = this.add.text(12, -537, "", {});
 		top_text.setOrigin(0.5, 0.64);
 		top_text.text = "Pop Nazars & Earn SuperCoins";
-		top_text.setStyle({ "color": "#ecff3bff", "fontFamily": "font-1", "fontSize": "42px", "stroke": "#600080ff", "strokeThickness": 10 });
+		top_text.setStyle({ "color": "#ecff3bff", "fontFamily": "bebas", "fontSize": "42px", "stroke": "#600080ff", "strokeThickness": 10 });
 		game_start_panel_container.add(top_text);
 
 		// start_btn
-		const start_btn = this.add.image(12, 857, "start-button");
+		const start_btn = this.add.image(12, 857, "start-btn");
 		start_btn.name = "start_btn";
 		game_start_panel_container.add(start_btn);
 
@@ -798,7 +793,7 @@ export default class Level extends Phaser.Scene {
 		game_start_panel_container.add(profile_text);
 
 		// title_1
-		const title_1 = this.add.image(12, -788, "title");
+		const title_1 = this.add.image(12, -788, "game-title");
 		title_1.name = "title_1";
 		game_start_panel_container.add(title_1);
 
@@ -826,7 +821,6 @@ export default class Level extends Phaser.Scene {
 		this.txtBlocks = txtBlocks;
 		this.txtPoints = txtPoints;
 		this.txtPointsAdded = txtPointsAdded;
-		this.pauseButton = pauseButton;
 		this.hudContainer = hudContainer;
 		this.popupDark = popupDark;
 		this.pausePopupBg = pausePopupBg;
@@ -907,7 +901,6 @@ export default class Level extends Phaser.Scene {
 	private txtBlocks!: Phaser.GameObjects.Text;
 	private txtPoints!: Phaser.GameObjects.Text;
 	private txtPointsAdded!: Phaser.GameObjects.Text;
-	private pauseButton!: Phaser.GameObjects.Sprite;
 	private hudContainer!: Phaser.GameObjects.Container;
 	private popupDark!: Phaser.GameObjects.Rectangle;
 	private pausePopupBg!: Phaser.GameObjects.Image;
@@ -1000,28 +993,13 @@ export default class Level extends Phaser.Scene {
     private shareBtnNode?: Phaser.GameObjects.GameObject;
     private exitBtnNode?: Phaser.GameObjects.GameObject;
     private errorPanelContainer?: Phaser.GameObjects.Container;
-    public share_panel_container?: Phaser.GameObjects.Container;
     private errorPopupManager?: ErrorPopupManager;
     private shareManager?: ShareManager;
-    private game_start_panel_container?: Phaser.GameObjects.Container;
-    private pause_panel_container?: Phaser.GameObjects.Container;
-    private game_over_panel_container?: Phaser.GameObjects.Container;
-    private game_over_win_panel_container?: Phaser.GameObjects.Container;
-    private game_over_lose_panel_container?: Phaser.GameObjects.Container;
-    private top_ui_container?: Phaser.GameObjects.Container;
-    private game_elements_container?: Phaser.GameObjects.Container;
-    private high_score?: Phaser.GameObjects.Text;
-    private high_score_1?: Phaser.GameObjects.Text;
-    private low_score?: Phaser.GameObjects.Text;
-    private time_spend?: Phaser.GameObjects.Text;
-    private start_btn?: Phaser.GameObjects.GameObject;
-    private pause_btn?: Phaser.GameObjects.GameObject;
-    private resume_btn?: Phaser.GameObjects.GameObject;
-    private abandon_btn?: Phaser.GameObjects.GameObject;
-    private restart_btn?: Phaser.GameObjects.GameObject;
-    private share_btn?: Phaser.GameObjects.GameObject;
-    private exit_btn?: Phaser.GameObjects.GameObject;
-    private exit_back_button?: Phaser.GameObjects.GameObject;
+    private readonly shopsyDesignWidth = 1080;
+    private readonly shopsyDesignHeight = 1920;
+    private shopsyLayoutCaptured = false;
+    private shopsyLayout = new Map<Phaser.GameObjects.GameObject, { x: number; y: number; scaleX: number; scaleY: number }>();
+    private shopsyLayoutRoots: Phaser.GameObjects.GameObject[] = [];
 
     private bridgeUnsubscribers: Array<() => void> = [];
 
@@ -1063,17 +1041,22 @@ export default class Level extends Phaser.Scene {
 
         this.setupManagers();
         this.setupShopsyUiBindings();
+        this.captureShopsyLayoutRoots();
+        this.applyShopsyLayoutTransform();
+        this.scale.on("resize", this.applyShopsyLayoutTransform, this);
+        this.events.once("shutdown", () => this.scale.off("resize", this.applyShopsyLayoutTransform, this));
+        this.events.once("destroy", () => this.scale.off("resize", this.applyShopsyLayoutTransform, this));
 
-        this.pauseBtnNode = configureButton(this.pause_btn ?? this.pauseButton, "pause");
-        this.startBtnNode = this.start_btn ? configureButton(this.start_btn, "start") : undefined;
-        this.pauseRestartBtnNode = configureButton(this.resume_btn ?? this.pauseRestartButton, "resume");
-        this.pauseMapBtnNode = configureButton(this.abandon_btn ?? this.pauseMapButton, "abandon");
-        this.pauseCloseBtnNode = this.pauseCloseButton ? configureButton(this.pauseCloseButton, "close") : undefined;
-        this.endRestartBtnNode = configureButton(this.restart_btn ?? this.endRestartButton, "restart");
-        this.endMapBtnNode = this.endMapButton ? configureButton(this.endMapButton, "map") : undefined;
-        this.endNextBtnNode = this.endNextButton ? configureButton(this.endNextButton, "next") : undefined;
-        this.shareBtnNode = this.share_btn ? configureButton(this.share_btn, "share") : undefined;
-        this.exitBtnNode = this.exit_btn ? configureButton(this.exit_btn, "exit") : undefined;
+        this.pauseBtnNode = this.pause_btn ?? this.pauseButton;
+        this.startBtnNode = this.start_btn;
+        this.pauseRestartBtnNode = this.resume_btn ?? this.pauseRestartButton;
+        this.pauseMapBtnNode = this.abandon_btn ?? this.pauseMapButton;
+        this.pauseCloseBtnNode = this.pauseCloseButton;
+        this.endRestartBtnNode = this.restart_btn ?? this.endRestartButton;
+        this.endMapBtnNode = this.endMapButton;
+        this.endNextBtnNode = this.endNextButton;
+        this.shareBtnNode = this.share_btn;
+        this.exitBtnNode = this.exit_btn;
 
         this.setupPanels();
         this.loadSounds();
@@ -1124,45 +1107,65 @@ export default class Level extends Phaser.Scene {
     }
 
     private setupManagers(): void {
-        const errorContainer = this.children.getByName("error_panel_container");
-        if (errorContainer && errorContainer instanceof Phaser.GameObjects.Container) {
-            this.errorPanelContainer = errorContainer;
-            this.errorPopupManager = new ErrorPopupManager(this);
-            this.errorPopupManager.init();
-        }
+        this.errorPanelContainer = this.error_panel_container;
+        this.errorPopupManager = new ErrorPopupManager(this);
+        this.errorPopupManager.init();
 
-        const shareContainer = this.children.getByName("share_panel_container");
-        if (shareContainer && shareContainer instanceof Phaser.GameObjects.Container) {
-            this.share_panel_container = shareContainer;
-            this.shareManager = new ShareManager(this as any);
-            this.shareManager.init();
-        }
+        this.shareManager = new ShareManager(this as any);
+        this.shareManager.init();
     }
 
     private setupShopsyUiBindings(): void {
-        this.game_start_panel_container = this.getSceneObject<Phaser.GameObjects.Container>("game_start_panel_container");
-        this.pause_panel_container = this.getSceneObject<Phaser.GameObjects.Container>("pause_panel_container");
-        this.game_over_panel_container = this.getSceneObject<Phaser.GameObjects.Container>("game_over_panel_container");
-        this.game_over_win_panel_container = this.getSceneObject<Phaser.GameObjects.Container>("game_over_win_panel_container");
-        this.game_over_lose_panel_container = this.getSceneObject<Phaser.GameObjects.Container>("game_over_lose_panel_container");
-        this.errorPanelContainer = this.errorPanelContainer ?? this.getSceneObject<Phaser.GameObjects.Container>("error_panel_container");
-        this.share_panel_container = this.share_panel_container ?? this.getSceneObject<Phaser.GameObjects.Container>("share_panel_container");
-        this.top_ui_container = this.getSceneObject<Phaser.GameObjects.Container>("top_ui_container");
-        this.game_elements_container = this.getSceneObject<Phaser.GameObjects.Container>("game_elements_container");
+        this.errorPanelContainer = this.error_panel_container;
+    }
 
-        this.start_btn = this.getSceneObject<Phaser.GameObjects.GameObject>("start_btn");
-        this.pause_btn = this.getSceneObject<Phaser.GameObjects.GameObject>("pause_btn");
-        this.resume_btn = this.getSceneObject<Phaser.GameObjects.GameObject>("resume_btn");
-        this.abandon_btn = this.getSceneObject<Phaser.GameObjects.GameObject>("abandon_btn");
-        this.restart_btn = this.getSceneObject<Phaser.GameObjects.GameObject>("restart_btn");
-        this.share_btn = this.getSceneObject<Phaser.GameObjects.GameObject>("share_btn");
-        this.exit_btn = this.getSceneObject<Phaser.GameObjects.GameObject>("exit_btn");
-        this.exit_back_button = this.getSceneObject<Phaser.GameObjects.GameObject>("exit_back_button");
+    private captureShopsyLayoutRoots(): void {
+        this.shopsyLayoutRoots = [
+            this.game_start_panel_container,
+            this.pause_panel_container,
+            this.game_over_panel_container,
+            this.game_over_win_panel_container,
+            this.game_over_lose_panel_container,
+            this.share_panel_container,
+            this.errorPanelContainer,
+            this.top_ui_container,
+            this.game_elements_container,
+            this.exit_back_button,
+            this.exit_btn
+        ].filter((obj): obj is Phaser.GameObjects.GameObject => Boolean(obj));
+    }
 
-        this.high_score = this.getSceneObject<Phaser.GameObjects.Text>("high_score");
-        this.high_score_1 = this.getSceneObject<Phaser.GameObjects.Text>("high_score_1");
-        this.low_score = this.getSceneObject<Phaser.GameObjects.Text>("low_score");
-        this.time_spend = this.getSceneObject<Phaser.GameObjects.Text>("Time_spend");
+    private applyShopsyLayoutTransform(): void {
+        if (!this.shopsyLayoutRoots.length) {
+            return;
+        }
+
+        const gameWidth = this.scale.gameSize.width;
+        const gameHeight = this.scale.gameSize.height;
+        const scale = Math.min(gameWidth / this.shopsyDesignWidth, gameHeight / this.shopsyDesignHeight);
+        const offsetX = (gameWidth - this.shopsyDesignWidth * scale) * 0.5;
+        const offsetY = (gameHeight - this.shopsyDesignHeight * scale) * 0.5;
+
+        if (!this.shopsyLayoutCaptured) {
+            this.shopsyLayoutRoots.forEach((child) => {
+                const transform = child as unknown as Phaser.GameObjects.Components.Transform;
+                this.shopsyLayout.set(child, {
+                    x: transform.x ?? 0,
+                    y: transform.y ?? 0,
+                    scaleX: transform.scaleX ?? 1,
+                    scaleY: transform.scaleY ?? 1
+                });
+            });
+            this.shopsyLayoutCaptured = true;
+        }
+
+        this.shopsyLayout.forEach((base, child) => {
+            const transform = child as unknown as Phaser.GameObjects.Components.Transform;
+            transform.x = base.x * scale + offsetX;
+            transform.y = base.y * scale + offsetY;
+            transform.scaleX = base.scaleX * scale;
+            transform.scaleY = base.scaleY * scale;
+        });
     }
 
     private loadSounds(): void {
@@ -1413,6 +1416,8 @@ export default class Level extends Phaser.Scene {
 
     private setupInteractions(): void {
         this.tapIfPresent(this.exitBtnNode, () => shopsyBridge.exitGame());
+        this.tapIfPresent(this.exit_back_button, () => shopsyBridge.exitGame());
+        this.tapIfPresent(this.back_button1, () => shopsyBridge.exitGame());
         this.tapIfPresent(this.startBtnNode, () => this.changeGameState(GAME_STATE.START));
         this.tapIfPresent(this.pauseBtnNode, () => this.changeGameState(GAME_STATE.PAUSED));
         this.tapIfPresent(this.pauseCloseBtnNode, () => this.changeGameState(GAME_STATE.RESUMED));
@@ -1619,6 +1624,10 @@ export default class Level extends Phaser.Scene {
             this.children.bringToTop(panelItem);
         });
 
+        const showGameplayWorld = this.currentPanel !== GAME_PANEL.START_PANEL;
+        this.gameplayContainer.setVisible(showGameplayWorld);
+        this.fxContainer.setVisible(showGameplayWorld);
+
         if (this.popupDark.visible) {
             this.popupDark.alpha = 0;
             this.tweens.add({ targets: this.popupDark, alpha: 0.5, duration: 200 });
@@ -1824,8 +1833,26 @@ export default class Level extends Phaser.Scene {
     }
 
     private getSceneObject<T extends Phaser.GameObjects.GameObject>(name: string): T | undefined {
-        const obj = this.children.getByName(name);
+        const obj = this.findByNameDeep(this.children.list as Phaser.GameObjects.GameObject[], name);
         return obj ? obj as T : undefined;
+    }
+
+    private findByNameDeep(
+        list: Phaser.GameObjects.GameObject[],
+        name: string
+    ): Phaser.GameObjects.GameObject | undefined {
+        for (const obj of list) {
+            if (obj.name === name) {
+                return obj;
+            }
+            if (obj instanceof Phaser.GameObjects.Container) {
+                const nested = this.findByNameDeep(obj.list as Phaser.GameObjects.GameObject[], name);
+                if (nested) {
+                    return nested;
+                }
+            }
+        }
+        return undefined;
     }
 
     private goToLevelSelect(): void {

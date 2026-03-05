@@ -193,17 +193,6 @@
                     "fontFamily": "bebas",
                     "fontSize": "35px",
                     "color": "#23b84b"
-                },
-                {
-                    "type": "Sprite",
-                    "id": "f3668ccf-1a2e-44be-afe5-02190994366d",
-                    "label": "pauseButton",
-                    "scope": "CLASS",
-                    "texture": {
-                        "key": "btn-pause"
-                    },
-                    "x": 650,
-                    "y": 70
                 }
             ]
         },
@@ -1535,7 +1524,7 @@
                     "id": "0e032575-d8be-4999-8fab-64c427c79b4b",
                     "label": "naz_new_screen",
                     "texture": {
-                        "key": "naz-new-screen"
+                        "key": "start-panel"
                     },
                     "x": 12,
                     "y": 42
@@ -1580,7 +1569,7 @@
                     "originX": 0.5,
                     "originY": 0.64,
                     "text": "Pop Nazars & Earn SuperCoins",
-                    "fontFamily": "font-1",
+                    "fontFamily": "bebas",
                     "fontSize": "42px",
                     "color": "#ecff3bff",
                     "stroke": "#600080ff",
@@ -1593,7 +1582,7 @@
                     "useGameObjectName": true,
                     "scope": "CLASS",
                     "texture": {
-                        "key": "start-button"
+                        "key": "start-btn"
                     },
                     "x": 12,
                     "y": 857
@@ -1646,7 +1635,7 @@
                     "displayName": "title_1",
                     "useGameObjectName": true,
                     "texture": {
-                        "key": "title"
+                        "key": "game-title"
                     },
                     "x": 12,
                     "y": -788

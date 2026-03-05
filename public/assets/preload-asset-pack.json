@@ -2,6 +2,13 @@
     "section1": {
         "files": [
             {
+                "url": "assets/fonts/bebas.ttf",
+                "format": "truetype",
+                "descriptors": {},
+                "type": "font",
+                "key": "bebas"
+            },
+            {
                 "url": "assets/images/loading/error-box-preload.png",
                 "type": "image",
                 "key": "error-box-preload"

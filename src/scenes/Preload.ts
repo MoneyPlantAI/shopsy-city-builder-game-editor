@@ -99,10 +99,18 @@ export default class Preload extends Phaser.Scene {
 
 	private loadingText!: Phaser.GameObjects.Text;
 	private fullWidth!: number;
+	private readonly preloadDesignWidth = 1080;
+	private readonly preloadDesignHeight = 1920;
+	private baseLayoutCaptured = false;
+	private baseLayout = new Map<Phaser.GameObjects.GameObject, { x: number; y: number; scaleX: number; scaleY: number }>();
 
 	preload() {
 
 		this.editorCreate();
+		this.applyPreloadLayoutTransform();
+		this.scale.on("resize", this.applyPreloadLayoutTransform, this);
+		this.events.once("shutdown", () => this.scale.off("resize", this.applyPreloadLayoutTransform, this));
+		this.events.once("destroy", () => this.scale.off("resize", this.applyPreloadLayoutTransform, this));
 
 		// Load Start time 
 		this.registry.set("loadStartTime", performance.now());
@@ -262,6 +270,38 @@ export default class Preload extends Phaser.Scene {
 			shopsyBridge.exitGame();
 		});
 
+	}
+
+	private applyPreloadLayoutTransform(): void {
+		const gameWidth = this.scale.gameSize.width;
+		const gameHeight = this.scale.gameSize.height;
+		const scale = Math.min(gameWidth / this.preloadDesignWidth, gameHeight / this.preloadDesignHeight);
+		const offsetX = (gameWidth - this.preloadDesignWidth * scale) * 0.5;
+		const offsetY = (gameHeight - this.preloadDesignHeight * scale) * 0.5;
+
+		if (!this.baseLayoutCaptured) {
+			this.children.list.forEach((child) => {
+				if (!(child instanceof Phaser.GameObjects.GameObject)) {
+					return;
+				}
+				const transform = child as unknown as Phaser.GameObjects.Components.Transform;
+				this.baseLayout.set(child, {
+					x: transform.x ?? 0,
+					y: transform.y ?? 0,
+					scaleX: transform.scaleX ?? 1,
+					scaleY: transform.scaleY ?? 1
+				});
+			});
+			this.baseLayoutCaptured = true;
+		}
+
+		this.baseLayout.forEach((base, child) => {
+			const transform = child as unknown as Phaser.GameObjects.Components.Transform;
+			transform.x = base.x * scale + offsetX;
+			transform.y = base.y * scale + offsetY;
+			transform.scaleX = base.scaleX * scale;
+			transform.scaleY = base.scaleY * scale;
+		});
 	}
 	/* END-USER-CODE */
 }
