@@ -4,14 +4,17 @@
 
 /* START-USER-IMPORTS */
 import { playSound } from "../core/audio";
-import { gameState, setCurrentLevel, resetBlockRunState, DroppedBlockSprite, gameplayConfig } from "../core/state";
+import { applyGameplayConfig, gameState, setCurrentLevel, resetBlockRunState, DroppedBlockSprite, gameplayConfig } from "../core/state";
 import { configureButton } from "../core/ui-factory";
 import { LEVELS } from "../data/levels";
 import { GAME_PANEL } from "../game-core/GamePanel";
 import { GAME_STATE } from "../game-core/GameState";
+import { ErrorPopupManager, ErrorType } from "../managers/ErrorManager";
 import UserProfileManager from "../shopsystan/UserProfileManager";
 import { ShopsyAnalytics } from "../shopsystan/shopsyAnalytics";
-import { shopsyBridge, ShopsyMessageAction } from "../shopsystan/shopsyBridge";
+import { initShopsyBridge, shopsyBridge, ShopsyMessageAction } from "../shopsystan/shopsyBridge";
+import { ShareManager } from "../share/ShareManager";
+import { GAME_ID, GAME_NAME } from "../utils/config";
 import { PlayerPrefs } from "../utils/PlayerPrefs";
 /* END-USER-IMPORTS */
 
@@ -164,6 +167,10 @@ export default class Level extends Phaser.Scene {
     private endRestartBtnNode!: Phaser.GameObjects.Sprite;
     private endMapBtnNode!: Phaser.GameObjects.Sprite;
     private endNextBtnNode!: Phaser.GameObjects.Sprite;
+    private errorPanelContainer?: Phaser.GameObjects.Container;
+    public share_panel_container?: Phaser.GameObjects.Container;
+    private errorPopupManager?: ErrorPopupManager;
+    private shareManager?: ShareManager;
 
     private bridgeUnsubscribers: Array<() => void> = [];
 
@@ -211,9 +218,12 @@ export default class Level extends Phaser.Scene {
         this.endMapBtnNode = configureButton(this.endMapButton, "map");
         this.endNextBtnNode = configureButton(this.endNextButton, "next");
 
+        this.setupManagers();
         this.setupPanels();
+        this.loadSounds();
         this.setupBridgeListeners();
         this.setupInteractions();
+        this.setupShopsy();
 
         this.setupGameplayCore();
 
@@ -256,6 +266,27 @@ export default class Level extends Phaser.Scene {
         });
 
         this.setupDropHandling();
+    }
+
+    private setupManagers(): void {
+        const errorContainer = this.children.getByName("error_panel_container");
+        if (errorContainer && errorContainer instanceof Phaser.GameObjects.Container) {
+            this.errorPanelContainer = errorContainer;
+            this.errorPopupManager = new ErrorPopupManager(this);
+            this.errorPopupManager.init();
+        }
+
+        const shareContainer = this.children.getByName("share_panel_container");
+        if (shareContainer && shareContainer instanceof Phaser.GameObjects.Container) {
+            this.share_panel_container = shareContainer;
+            this.shareManager = new ShareManager(this as any);
+            this.shareManager.init();
+        }
+    }
+
+    private loadSounds(): void {
+        // Lifecycle placeholder for template parity.
+        // City Builder currently relies on core playSound(...) utility for SFX.
     }
 
     private setupDropHandling(): void {
@@ -524,6 +555,72 @@ export default class Level extends Phaser.Scene {
         );
     }
 
+    private setupShopsy(): void {
+        const bridgeInitialized = this.registry.get("bridgeInitialized");
+        if (!bridgeInitialized) {
+            console.warn(`[${GAME_NAME}] Bridge not pre-initialized, initializing now...`);
+            initShopsyBridge();
+            this.registry.set("bridgeInitialized", true);
+            shopsyBridge.requestProfile();
+            shopsyBridge.requestGameConfig(GAME_ID);
+        }
+
+        shopsyBridge.gameLoaded();
+        shopsyBridge.startGame();
+
+        const loadDurationMs = this.registry.get("loadDurationMs");
+        if (loadDurationMs != null) {
+            ShopsyAnalytics.sendGameLoadedEvent(loadDurationMs);
+        }
+
+        if (PlayerPrefs.isNewDay) {
+            PlayerPrefs.gamesPlayedToday = 0;
+            PlayerPrefs.lastLoginDate = new Date().toISOString();
+        }
+
+        this.bridgeUnsubscribers.push(
+            shopsyBridge.on(ShopsyMessageAction.UPDATE_PROFILE, (data) => {
+                const source: "cache" | "server" = data?.source || "cache";
+                const profileData = data?.profile || data;
+                if (source !== "server" || !profileData) {
+                    return;
+                }
+                UserProfileManager.setProfileData(profileData, source);
+                this.onShopsyProfileLoaded();
+            })
+        );
+
+        this.bridgeUnsubscribers.push(
+            shopsyBridge.on(ShopsyMessageAction.UPDATE_GAME_CONFIG, (config: any) => {
+                this.onShopsyGameConfigLoaded(config?.gameConfig ?? config);
+            })
+        );
+
+        const pauseAudio = () => this.sound.pauseAll();
+        const resumeAudio = () => this.sound.resumeAll();
+        document.addEventListener("visibilitychange", () => {
+            document.hidden ? pauseAudio() : resumeAudio();
+        });
+        this.game.events.on(Phaser.Core.Events.BLUR, pauseAudio);
+        this.game.events.on(Phaser.Core.Events.FOCUS, resumeAudio);
+    }
+
+    private onShopsyProfileLoaded(): void {
+        // City Builder currently has no profile text label in gameplay HUD.
+        // Reserved for template parity and future profile UI.
+    }
+
+    private onShopsyGameConfigLoaded(gameConfig: any): void {
+        applyGameplayConfig({
+            maxToleranceX: gameConfig?.maxToleranceX,
+            targetYIncrement: gameConfig?.targetYIncrement,
+            dropDurationHit: gameConfig?.dropDurationHit,
+            dropDurationMiss: gameConfig?.dropDurationMiss,
+            scrollDuration: gameConfig?.scrollDuration,
+            oscillatingBreakpoints: gameConfig?.oscillatingBreakpoints
+        });
+    }
+
     private cleanupBridgeListeners(): void {
         this.bridgeUnsubscribers.forEach((unsubscribe) => unsubscribe());
         this.bridgeUnsubscribers = [];
@@ -551,6 +648,16 @@ export default class Level extends Phaser.Scene {
                 break;
             case GAME_PANEL.ERROR_PANEL:
                 panelsToShow = [this.hudContainer];
+                if (this.errorPanelContainer) {
+                    panelsToShow.push(this.errorPanelContainer);
+                }
+                this.popupDark.setVisible(true).setInteractive();
+                break;
+            case GAME_PANEL.SHARE_PANEL:
+                panelsToShow = [this.hudContainer];
+                if (this.share_panel_container) {
+                    panelsToShow.push(this.share_panel_container);
+                }
                 this.popupDark.setVisible(true).setInteractive();
                 break;
             case GAME_PANEL.GAMEPLAY_PANEL:
@@ -734,11 +841,17 @@ export default class Level extends Phaser.Scene {
     }
 
     private shareGame(): void {
-        console.log("[City Builder] shareGame not wired yet");
+        this.changePanel(GAME_PANEL.SHARE_PANEL);
+        if (this.shareManager) {
+            void this.shareManager.ExecuteShareFlow();
+            return;
+        }
+        this.goToLevelSelect();
     }
 
     private showError(): void {
         this.changePanel(GAME_PANEL.ERROR_PANEL);
+        this.errorPopupManager?.showError(ErrorType.FATAL);
     }
 
     private goToLevelSelect(): void {

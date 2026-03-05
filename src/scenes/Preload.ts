@@ -6,7 +6,6 @@
 /* START-USER-IMPORTS */
 import { applyGameplayConfig } from "../core/state";
 import UserProfileManager from "../shopsystan/UserProfileManager";
-import { ShopsyAnalytics } from "../shopsystan/shopsyAnalytics";
 import { initShopsyBridge, shopsyBridge, ShopsyMessageAction } from "../shopsystan/shopsyBridge";
 import { GAME_ID } from "../utils/config";
 import { PlayerPrefs } from "../utils/PlayerPrefs";
@@ -108,11 +107,6 @@ export default class Preload extends Phaser.Scene {
 
 		if (!this.gameConfigLoaded) {
 			shopsyBridge.requestGameConfig(GAME_ID);
-		}
-		shopsyBridge.gameLoaded();
-		shopsyBridge.startGame();
-		if (this.loadDurationMs > 0) {
-			ShopsyAnalytics.sendGameLoadedEvent(this.loadDurationMs);
 		}
 
 		this.scene.start("LevelSelect");
