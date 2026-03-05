@@ -20,127 +20,956 @@ import { PlayerPrefs } from "../utils/PlayerPrefs";
 
 export default class Level extends Phaser.Scene {
 
-    constructor() {
-        super("Level");
+	constructor() {
+		super("Level");
 
-        /* START-USER-CTR-CODE */
+		/* START-USER-CTR-CODE */
         // Write your code here.
         /* END-USER-CTR-CODE */
-    }
+	}
 
-    editorCreate(): void {
-        const gameWorldContainer = this.add.container(0, 0);
-        const bgGame1 = this.add.image(360, 540, "bg-game1");
-        const bgGame2 = this.add.image(360, -540, "bg-game2");
-        const bgGame3a = this.add.image(360, -1620, "bg-game3");
-        const bgGame3b = this.add.image(360, -2700, "bg-game3");
-        const blockBottom = this.add.image(360, 866, "block-bottom");
-        gameWorldContainer.add([bgGame1, bgGame2, bgGame3a, bgGame3b, blockBottom]);
+	editorCreate(): void {
 
-        const gameplayContainer = this.add.container(0, 0);
-        const blockTop = this.add.sprite(160, 120, "block");
-        const claw = this.add.sprite(160, 0, "claw1");
-        gameplayContainer.add([blockTop, claw]);
+		// gameWorldContainer
+		const gameWorldContainer = this.add.container(0, 0);
 
-        const fxContainer = this.add.container(0, 0);
-        const collideFx = this.add.sprite(-300, -300, "anim-collide");
-        collideFx.visible = false;
-        fxContainer.add(collideFx);
+		// bgGame1
+		const bgGame1 = this.add.image(360, 540, "bg-game1");
+		gameWorldContainer.add(bgGame1);
 
-        const hudContainer = this.add.container(0, 0);
-        const barBlocks = this.add.image(20, 60, "bar-blocks").setOrigin(0, 0.5);
-        const barPoints = this.add.image(20, 150, "bar-points").setOrigin(0, 0.5);
-        const txtBlocks = this.add.text(218, 62, "0", { align: "right", fontFamily: "bebas", fontSize: "35px" }).setOrigin(1, 0.5);
-        const txtPoints = this.add.text(218, 152, "0/0", { align: "right", fontFamily: "bebas", fontSize: "35px" }).setOrigin(1, 0.5);
-        const txtPointsAdded = this.add.text(250, 152, "", { align: "left", color: "#23b84b", fontFamily: "bebas", fontSize: "35px" }).setOrigin(0, 0.5);
-        const pauseButton = this.add.sprite(650, 70, "btn-pause");
-        hudContainer.add([barBlocks, barPoints, txtBlocks, txtPoints, txtPointsAdded, pauseButton]);
+		// bgGame2
+		const bgGame2 = this.add.image(360, -540, "bg-game2");
+		gameWorldContainer.add(bgGame2);
 
-        const popupDark = this.add.rectangle(0, 0, 720, 1080, 0x000000, 0.5).setOrigin(0, 0);
-        popupDark.visible = false;
+		// bgGame3a
+		const bgGame3a = this.add.image(360, -1620, "bg-game3");
+		gameWorldContainer.add(bgGame3a);
 
-        const pausePopupContainer = this.add.container(0, 0);
-        const pausePopupBg = this.add.image(360, 540, "popup");
-        const pauseTitle = this.add.text(360, 383, "PAUSED", { align: "center", color: "#FFFFFF", fontFamily: "bebas", fontSize: "40px" }).setOrigin(0.5);
-        const pauseRestartButton = this.add.sprite(360, 585, "btn-restart");
-        const pauseMapButton = this.add.sprite(360, 680, "btn-map");
-        const pauseCloseButton = this.add.sprite(515, 385, "btn-close");
-        pausePopupContainer.add([pausePopupBg, pauseTitle, pauseRestartButton, pauseMapButton, pauseCloseButton]);
-        pausePopupContainer.visible = false;
+		// bgGame3b
+		const bgGame3b = this.add.image(360, -2700, "bg-game3");
+		gameWorldContainer.add(bgGame3b);
 
-        const endPopupContainer = this.add.container(0, 0);
-        const endPopupBg = this.add.image(360, 540, "popup-end");
-        const endTitle = this.add.text(360, 430, "STAGE FAILED!", { align: "center", color: "#FFFFFF", fontFamily: "bebas", fontSize: "40px" }).setOrigin(0.5);
-        const endBlocks = this.add.text(340, 502, "0/0", { align: "right", color: "#FFFFFF", fontFamily: "bebas", fontSize: "30px" }).setOrigin(1, 0.5);
-        const endPoints = this.add.text(480, 502, "0/0", { align: "right", color: "#FFFFFF", fontFamily: "bebas", fontSize: "30px" }).setOrigin(1, 0.5);
-        const endRestartButton = this.add.sprite(360, 585, "btn-restart");
-        const endMapButton = this.add.sprite(360, 680, "btn-map");
-        const endNextButton = this.add.sprite(360, 650, "btn-next");
-        endPopupContainer.add([endPopupBg, endTitle, endBlocks, endPoints, endRestartButton, endMapButton, endNextButton]);
-        endPopupContainer.visible = false;
+		// blockBottom
+		const blockBottom = this.add.image(360, 866, "block-bottom");
+		gameWorldContainer.add(blockBottom);
 
-        this.gameWorldContainer = gameWorldContainer;
-        this.gameplayContainer = gameplayContainer;
-        this.fxContainer = fxContainer;
-        this.bgGame1 = bgGame1;
-        this.bgGame2 = bgGame2;
-        this.bgGame3a = bgGame3a;
-        this.bgGame3b = bgGame3b;
-        this.blockBottom = blockBottom;
-        this.blockTop = blockTop;
-        this.claw = claw;
-        this.collideFx = collideFx;
-        this.hudContainer = hudContainer;
-        this.txtBlocks = txtBlocks;
-        this.txtPoints = txtPoints;
-        this.txtPointsAdded = txtPointsAdded;
-        this.pauseButton = pauseButton;
-        this.popupDark = popupDark;
-        this.pausePopupContainer = pausePopupContainer;
-        this.pauseRestartButton = pauseRestartButton;
-        this.pauseMapButton = pauseMapButton;
-        this.pauseCloseButton = pauseCloseButton;
-        this.endPopupContainer = endPopupContainer;
-        this.endTitle = endTitle;
-        this.endBlocks = endBlocks;
-        this.endPoints = endPoints;
-        this.endRestartButton = endRestartButton;
-        this.endMapButton = endMapButton;
-        this.endNextButton = endNextButton;
+		// gameplayContainer
+		const gameplayContainer = this.add.container(0, 0);
 
-        this.events.emit("scene-awake");
-    }
+		// blockTop
+		const blockTop = this.add.sprite(160, 120, "block");
+		gameplayContainer.add(blockTop);
 
-    private gameWorldContainer!: Phaser.GameObjects.Container;
-    private gameplayContainer!: Phaser.GameObjects.Container;
-    private fxContainer!: Phaser.GameObjects.Container;
-    private bgGame1!: Phaser.GameObjects.Image;
-    private bgGame2!: Phaser.GameObjects.Image;
-    private bgGame3a!: Phaser.GameObjects.Image;
-    private bgGame3b!: Phaser.GameObjects.Image;
-    private blockBottom!: Phaser.GameObjects.Image;
-    private blockTop!: Phaser.GameObjects.Sprite;
-    private claw!: Phaser.GameObjects.Sprite;
-    private collideFx!: Phaser.GameObjects.Sprite;
-    private hudContainer!: Phaser.GameObjects.Container;
-    private txtBlocks!: Phaser.GameObjects.Text;
-    private txtPoints!: Phaser.GameObjects.Text;
-    private txtPointsAdded!: Phaser.GameObjects.Text;
-    private pauseButton!: Phaser.GameObjects.Sprite;
-    private popupDark!: Phaser.GameObjects.Rectangle;
-    private pausePopupContainer!: Phaser.GameObjects.Container;
-    private pauseRestartButton!: Phaser.GameObjects.Sprite;
-    private pauseMapButton!: Phaser.GameObjects.Sprite;
-    private pauseCloseButton!: Phaser.GameObjects.Sprite;
-    private endPopupContainer!: Phaser.GameObjects.Container;
-    private endTitle!: Phaser.GameObjects.Text;
-    private endBlocks!: Phaser.GameObjects.Text;
-    private endPoints!: Phaser.GameObjects.Text;
-    private endRestartButton!: Phaser.GameObjects.Sprite;
-    private endMapButton!: Phaser.GameObjects.Sprite;
-    private endNextButton!: Phaser.GameObjects.Sprite;
+		// claw
+		const claw = this.add.sprite(160, 0, "claw1");
+		gameplayContainer.add(claw);
 
-    /* START-USER-CODE */
+		// fxContainer
+		const fxContainer = this.add.container(0, 0);
+
+		// collideFx
+		const collideFx = this.add.sprite(-300, -300, "anim-collide");
+		collideFx.visible = false;
+		fxContainer.add(collideFx);
+
+		// hudContainer
+		const hudContainer = this.add.container(0, 0);
+
+		// barBlocks
+		const barBlocks = this.add.image(20, 60, "bar-blocks");
+		barBlocks.setOrigin(0, 0.5);
+		hudContainer.add(barBlocks);
+
+		// barPoints
+		const barPoints = this.add.image(20, 150, "bar-points");
+		barPoints.setOrigin(0, 0.5);
+		hudContainer.add(barPoints);
+
+		// txtBlocks
+		const txtBlocks = this.add.text(218, 62, "", {});
+		txtBlocks.setOrigin(1, 0.5);
+		txtBlocks.text = "0";
+		txtBlocks.setStyle({ "align": "right", "fontFamily": "bebas", "fontSize": "35px" });
+		hudContainer.add(txtBlocks);
+
+		// txtPoints
+		const txtPoints = this.add.text(218, 152, "", {});
+		txtPoints.setOrigin(1, 0.5);
+		txtPoints.text = "0/0";
+		txtPoints.setStyle({ "align": "right", "fontFamily": "bebas", "fontSize": "35px" });
+		hudContainer.add(txtPoints);
+
+		// txtPointsAdded
+		const txtPointsAdded = this.add.text(250, 152, "", {});
+		txtPointsAdded.setOrigin(0, 0.5);
+		txtPointsAdded.setStyle({ "color": "#23b84b", "fontFamily": "bebas", "fontSize": "35px" });
+		hudContainer.add(txtPointsAdded);
+
+		// pauseButton
+		const pauseButton = this.add.sprite(650, 70, "btn-pause");
+		hudContainer.add(pauseButton);
+
+		// popupDark
+		const popupDark = this.add.rectangle(0, 0, 720, 1080);
+		popupDark.setOrigin(0, 0);
+		popupDark.visible = false;
+		popupDark.isFilled = true;
+		popupDark.fillColor = 0;
+		popupDark.fillAlpha = 0.5;
+
+		// pausePopupContainer
+		const pausePopupContainer = this.add.container(0, 0);
+		pausePopupContainer.visible = false;
+
+		// pausePopupBg
+		const pausePopupBg = this.add.image(360, 540, "popup");
+		pausePopupContainer.add(pausePopupBg);
+
+		// pauseTitle
+		const pauseTitle = this.add.text(360, 383, "", {});
+		pauseTitle.setOrigin(0.5, 0.5);
+		pauseTitle.text = "PAUSED";
+		pauseTitle.setStyle({ "align": "center", "color": "#FFFFFF", "fontFamily": "bebas", "fontSize": "40px" });
+		pausePopupContainer.add(pauseTitle);
+
+		// pauseRestartButton
+		const pauseRestartButton = this.add.sprite(360, 585, "btn-restart");
+		pausePopupContainer.add(pauseRestartButton);
+
+		// pauseMapButton
+		const pauseMapButton = this.add.sprite(360, 680, "btn-map");
+		pausePopupContainer.add(pauseMapButton);
+
+		// pauseCloseButton
+		const pauseCloseButton = this.add.sprite(515, 385, "btn-close");
+		pausePopupContainer.add(pauseCloseButton);
+
+		// endPopupContainer
+		const endPopupContainer = this.add.container(0, 0);
+		endPopupContainer.visible = false;
+
+		// endPopupBg
+		const endPopupBg = this.add.image(360, 540, "popup-end");
+		endPopupContainer.add(endPopupBg);
+
+		// endTitle
+		const endTitle = this.add.text(360, 430, "", {});
+		endTitle.setOrigin(0.5, 0.5);
+		endTitle.text = "STAGE FAILED!";
+		endTitle.setStyle({ "align": "center", "color": "#FFFFFF", "fontFamily": "bebas", "fontSize": "40px" });
+		endPopupContainer.add(endTitle);
+
+		// endBlocks
+		const endBlocks = this.add.text(340, 502, "", {});
+		endBlocks.setOrigin(1, 0.5);
+		endBlocks.text = "0/0";
+		endBlocks.setStyle({ "align": "right", "color": "#FFFFFF", "fontFamily": "bebas", "fontSize": "30px" });
+		endPopupContainer.add(endBlocks);
+
+		// endPoints
+		const endPoints = this.add.text(480, 502, "", {});
+		endPoints.setOrigin(1, 0.5);
+		endPoints.text = "0/0";
+		endPoints.setStyle({ "align": "right", "color": "#FFFFFF", "fontFamily": "bebas", "fontSize": "30px" });
+		endPopupContainer.add(endPoints);
+
+		// endRestartButton
+		const endRestartButton = this.add.sprite(360, 585, "btn-restart");
+		endPopupContainer.add(endRestartButton);
+
+		// endMapButton
+		const endMapButton = this.add.sprite(360, 680, "btn-map");
+		endPopupContainer.add(endMapButton);
+
+		// endNextButton
+		const endNextButton = this.add.sprite(360, 650, "btn-next");
+		endPopupContainer.add(endNextButton);
+
+		// game_elements_container
+		const game_elements_container = this.add.container(0, 0);
+		game_elements_container.name = "game_elements_container";
+		game_elements_container.visible = false;
+
+		// top_ui_container
+		const top_ui_container = this.add.container(117, 78);
+		top_ui_container.name = "top_ui_container";
+		top_ui_container.visible = false;
+
+		// highScore_Panel
+		const highScore_Panel = this.add.image(412, 48, "high-score-panel");
+		top_ui_container.add(highScore_Panel);
+
+		// gem
+		const gem = this.add.image(342, 68, "gem");
+		gem.name = "gem";
+		gem.scaleX = 0.7;
+		gem.scaleY = 0.7;
+		top_ui_container.add(gem);
+
+		// Gems_collect
+		const gems_collect = this.add.text(384, 65, "", {});
+		gems_collect.name = "Gems_collect";
+		gems_collect.setOrigin(0, 0.5);
+		gems_collect.text = "0";
+		gems_collect.setStyle({ "color": "#ffffffff", "fontFamily": "font-1", "fontSize": "75px", "stroke": "#b548d9ff", "strokeThickness": 10 });
+		top_ui_container.add(gems_collect);
+
+		// text_1
+		const text_1 = this.add.text(411, 0, "", {});
+		text_1.setOrigin(0.5, 0.5);
+		text_1.text = "High Score ";
+		text_1.setStyle({ "color": "#f2ec35ff", "fontFamily": "font-1", "fontSize": "40px", "stroke": "#0e0d0dff", "strokeThickness": 10 });
+		top_ui_container.add(text_1);
+
+		// life_1
+		const life_1 = this.add.image(-63, 167, "life-available");
+		life_1.name = "life_1";
+		life_1.visible = false;
+		top_ui_container.add(life_1);
+
+		// life_2
+		const life_2 = this.add.image(21, 167, "life-available");
+		life_2.name = "life_2";
+		life_2.visible = false;
+		top_ui_container.add(life_2);
+
+		// life_3
+		const life_3 = this.add.image(104, 167, "life-available");
+		life_3.name = "life_3";
+		life_3.visible = false;
+		top_ui_container.add(life_3);
+
+		// back_button1
+		const back_button1 = this.add.image(842, 50, "back-button");
+		back_button1.name = "back_button1";
+		top_ui_container.add(back_button1);
+
+		// pause_btn
+		const pause_btn = this.add.image(838, 43, "back-icon");
+		pause_btn.name = "pause_btn";
+		top_ui_container.add(pause_btn);
+
+		// character_BG_1
+		const character_BG_1 = this.add.image(1, 42, "character-bg");
+		character_BG_1.name = "character_BG_1";
+		top_ui_container.add(character_BG_1);
+
+		// character_Icon_1
+		const character_Icon_1 = this.add.image(1, 42, "character-icon");
+		character_Icon_1.name = "character_Icon_1";
+		top_ui_container.add(character_Icon_1);
+
+		// error_panel_container
+		const error_panel_container = this.add.container(206, 699);
+		error_panel_container.name = "error_panel_container";
+		error_panel_container.visible = false;
+
+		// bg_blur_1
+		const bg_blur_1 = this.add.image(334, 255, "blur-bg");
+		error_panel_container.add(bg_blur_1);
+
+		// Error_box1
+		const error_box1 = this.add.image(338, 157, "error-box1");
+		error_box1.name = "Error_box1";
+		error_panel_container.add(error_box1);
+
+		// Error_box2
+		const error_box2 = this.add.image(338, 157, "error-box2");
+		error_box2.name = "Error_box2";
+		error_panel_container.add(error_box2);
+
+		// button_type_2
+		const button_type_2 = this.add.image(334, 1021, "error-button2");
+		button_type_2.name = "button_type_2";
+		button_type_2.visible = false;
+		error_panel_container.add(button_type_2);
+
+		// button_type_1
+		const button_type_1 = this.add.image(334, 1021, "error-button");
+		button_type_1.name = "button_type_1";
+		button_type_1.visible = false;
+		error_panel_container.add(button_type_1);
+
+		// Error_icon1
+		const error_icon1 = this.add.image(0, 12, "error-icon2");
+		error_icon1.name = "Error_icon1";
+		error_panel_container.add(error_icon1);
+
+		// Error_icon2
+		const error_icon2 = this.add.image(0, 12, "error-icon3");
+		error_icon2.name = "Error_icon2";
+		error_panel_container.add(error_icon2);
+
+		// Error_icon3
+		const error_icon3 = this.add.image(17, 0, "error-icon1");
+		error_icon3.name = "Error_icon3";
+		error_panel_container.add(error_icon3);
+
+		// Error_icon4
+		const error_icon4 = this.add.image(0, 12, "error-icon2");
+		error_icon4.name = "Error_icon4";
+		error_panel_container.add(error_icon4);
+
+		// Error_title1
+		const error_title1 = this.add.text(421, 176, "", {});
+		error_title1.name = "Error_title1";
+		error_title1.setOrigin(0.5, 0.5);
+		error_title1.visible = false;
+		error_title1.text = "No internet!";
+		error_title1.setStyle({ "fontFamily": "font-1", "fontSize": "50px", "stroke": "#000000ff", "strokeThickness": 10 });
+		error_panel_container.add(error_title1);
+
+		// Error_title2
+		const error_title2 = this.add.text(406, 175, "", {});
+		error_title2.name = "Error_title2";
+		error_title2.setOrigin(0.5, 0.5);
+		error_title2.visible = false;
+		error_title2.text = "Adding Rewards!";
+		error_title2.setStyle({ "fontFamily": "font-1", "fontSize": "50px", "stroke": "#000000ff", "strokeThickness": 10 });
+		error_panel_container.add(error_title2);
+
+		// Error_title3
+		const error_title3 = this.add.text(450, 176, "", {});
+		error_title3.name = "Error_title3";
+		error_title3.setOrigin(0.5, 0.5);
+		error_title3.text = "Something went wrong";
+		error_title3.setStyle({ "fontFamily": "font-1", "fontSize": "50px", "stroke": "#000000ff", "strokeThickness": 10 });
+		error_panel_container.add(error_title3);
+
+		// Error_title4
+		const error_title4 = this.add.text(454, 176, "", {});
+		error_title4.name = "Error_title4";
+		error_title4.setOrigin(0.5, 0.5);
+		error_title4.visible = false;
+		error_title4.text = "Device unsupported";
+		error_title4.setStyle({ "fontFamily": "font-1", "fontSize": "50px", "stroke": "#000000ff", "strokeThickness": 10 });
+		error_panel_container.add(error_title4);
+
+		// error_subtitle1
+		const error_subtitle1 = this.add.text(435, 263, "", {});
+		error_subtitle1.name = "error_subtitle1";
+		error_subtitle1.setOrigin(0.5, 0.5);
+		error_subtitle1.visible = false;
+		error_subtitle1.text = "Please connect to the \n   internet and retry";
+		error_subtitle1.setStyle({ "color": "#000000ff", "fontFamily": "font-1", "fontSize": "35px", "stroke": "#000000ff" });
+		error_panel_container.add(error_subtitle1);
+
+		// error_subtitle2
+		const error_subtitle2 = this.add.text(409, 265, "", {});
+		error_subtitle2.name = "error_subtitle2";
+		error_subtitle2.setOrigin(0.5, 0.5);
+		error_subtitle2.visible = false;
+		error_subtitle2.text = "your rewards will be added\n    to your account shortly";
+		error_subtitle2.setStyle({ "color": "#000000ff", "fontFamily": "font-1", "fontSize": "35px", "stroke": "#000000ff" });
+		error_panel_container.add(error_subtitle2);
+
+		// error_subtitle3
+		const error_subtitle3 = this.add.text(444, 265, "", {});
+		error_subtitle3.name = "error_subtitle3";
+		error_subtitle3.setOrigin(0.5, 0.5);
+		error_subtitle3.text = "We're Working on this,\n       please try again";
+		error_subtitle3.setStyle({ "color": "#000000ff", "fontFamily": "font-1", "fontSize": "35px", "stroke": "#000000ff" });
+		error_panel_container.add(error_subtitle3);
+
+		// error_subtitle4
+		const error_subtitle4 = this.add.text(281, 265, "", {});
+		error_subtitle4.name = "error_subtitle4";
+		error_subtitle4.setOrigin(0, 0.5);
+		error_subtitle4.visible = false;
+		error_subtitle4.text = "your device does not\nsupport the graphics";
+		error_subtitle4.setStyle({ "color": "#000000ff", "fontFamily": "font-1", "fontSize": "35px", "stroke": "#000000ff" });
+		error_panel_container.add(error_subtitle4);
+
+		// button_text_1
+		const button_text_1 = this.add.text(334, 1021, "", {});
+		button_text_1.name = "button_text_1";
+		button_text_1.setOrigin(0.5, 0.5);
+		button_text_1.visible = false;
+		button_text_1.text = "Retry";
+		button_text_1.setStyle({ "color": "#ffffffff", "fontFamily": "font-1", "fontSize": "55px", "stroke": "#000000ff", "strokeThickness": 10 });
+		error_panel_container.add(button_text_1);
+
+		// button_text_2
+		const button_text_2 = this.add.text(334, 1021, "", {});
+		button_text_2.name = "button_text_2";
+		button_text_2.setOrigin(0.5, 0.5);
+		button_text_2.visible = false;
+		button_text_2.text = "Okay";
+		button_text_2.setStyle({ "color": "#ffffffff", "fontFamily": "font-1", "fontSize": "55px", "stroke": "#000000ff", "strokeThickness": 10 });
+		error_panel_container.add(button_text_2);
+
+		// button_text_3
+		const button_text_3 = this.add.text(334, 1021, "", {});
+		button_text_3.name = "button_text_3";
+		button_text_3.setOrigin(0.5, 0.5);
+		button_text_3.visible = false;
+		button_text_3.text = "Try Again";
+		button_text_3.setStyle({ "color": "#ffffffff", "fontFamily": "font-1", "fontSize": "55px", "stroke": "#000000ff", "strokeThickness": 10 });
+		error_panel_container.add(button_text_3);
+
+		// button_text_4
+		const button_text_4 = this.add.text(334, 1021, "", {});
+		button_text_4.name = "button_text_4";
+		button_text_4.setOrigin(0.5, 0.5);
+		button_text_4.visible = false;
+		button_text_4.text = "Close";
+		button_text_4.setStyle({ "color": "#ffffffff", "fontFamily": "font-1", "fontSize": "55px", "stroke": "#000000ff", "strokeThickness": 10 });
+		error_panel_container.add(button_text_4);
+
+		// share_panel_container
+		const share_panel_container = this.add.container(0, 0);
+		share_panel_container.name = "share_panel_container";
+		share_panel_container.visible = false;
+
+		// share_bg
+		const share_bg = this.add.image(540, 960, "share-bg");
+		share_panel_container.add(share_bg);
+
+		// sh_large_panel
+		const sh_large_panel = this.add.image(540, 1152, "sh-large-panel");
+		share_panel_container.add(sh_large_panel);
+
+		// sh_panel_1
+		const sh_panel_1 = this.add.image(672, 1041, "title");
+		share_panel_container.add(sh_panel_1);
+
+		// sh_logo
+		const sh_logo = this.add.image(540, 565, "logo-01");
+		share_panel_container.add(sh_logo);
+
+		// sh_panel
+		const sh_panel = this.add.image(540, 761, "sh-panel");
+		share_panel_container.add(sh_panel);
+
+		// share_text1
+		const share_text1 = this.add.image(540, 765, "share-text1");
+		share_panel_container.add(share_text1);
+
+		// sh_charcter
+		const sh_charcter = this.add.image(225, 1141, "sh-character");
+		share_panel_container.add(sh_charcter);
+
+		// final_score
+		const final_score = this.add.text(682, 1261, "", {});
+		final_score.setOrigin(0, 0.5);
+		final_score.text = "0";
+		final_score.setStyle({ "fontFamily": "font-1", "fontSize": "65px", "stroke": "#9802ffff", "strokeThickness": 10 });
+		share_panel_container.add(final_score);
+
+		// game_over_lose_panel_container
+		const game_over_lose_panel_container = this.add.container(0, 0);
+		game_over_lose_panel_container.name = "game_over_lose_panel_container";
+		game_over_lose_panel_container.visible = false;
+
+		// score_panel_2
+		const score_panel_2 = this.add.image(540, 1035, "score-panel");
+		score_panel_2.name = "score_panel_2";
+		game_over_lose_panel_container.add(score_panel_2);
+
+		// low_score
+		const low_score = this.add.text(540, 1010, "", {});
+		low_score.name = "low_score";
+		low_score.setOrigin(0, 0.5);
+		low_score.text = "000";
+		low_score.setStyle({ "color": "#ffffffff", "fontFamily": "font-1", "fontSize": "85PX", "stroke": "#9802ffff", "strokeThickness": 10 });
+		game_over_lose_panel_container.add(low_score);
+
+		// gem_3
+		const gem_3 = this.add.image(460, 1010, "gem");
+		game_over_lose_panel_container.add(gem_3);
+
+		// lowScore_Character_1
+		const lowScore_Character_1 = this.add.image(460, 445, "low-score-character");
+		game_over_lose_panel_container.add(lowScore_Character_1);
+
+		// score_text_1
+		const score_text_1 = this.add.text(540, 770, "", {});
+		score_text_1.name = "score_text_1";
+		score_text_1.setOrigin(0.5, 0.5);
+		score_text_1.text = "Uh Oh!";
+		score_text_1.setStyle({ "color": "#ffef4aff", "fontFamily": "font-1", "fontSize": "80px", "stroke": "#560085ff", "strokeThickness": 10 });
+		game_over_lose_panel_container.add(score_text_1);
+
+		// Bottom_text_1
+		const bottom_text_1 = this.add.text(540, 1225, "", {});
+		bottom_text_1.name = "Bottom_text_1";
+		bottom_text_1.setOrigin(0.5, 0.5);
+		bottom_text_1.text = "Good Luck Coming Soon";
+		bottom_text_1.setStyle({ "color": "#ffffffff", "fontFamily": "font-1", "fontSize": "60PX", "stroke": "#58006bff", "strokeThickness": 10 });
+		game_over_lose_panel_container.add(bottom_text_1);
+
+		// game_over_win_panel_container
+		const game_over_win_panel_container = this.add.container(0, 0);
+		game_over_win_panel_container.name = "game_over_win_panel_container";
+		game_over_win_panel_container.visible = false;
+
+		// score_panel_1
+		const score_panel_1 = this.add.image(534, 1035, "score-panel");
+		score_panel_1.name = "score_panel_1";
+		game_over_win_panel_container.add(score_panel_1);
+
+		// highScore_Character_1
+		const highScore_Character_1 = this.add.image(540, 490, "high-score-character");
+		game_over_win_panel_container.add(highScore_Character_1);
+
+		// high_score_1
+		const high_score_1 = this.add.text(540, 1010, "", {});
+		high_score_1.name = "high_score_1";
+		high_score_1.setOrigin(0, 0.5);
+		high_score_1.text = "000";
+		high_score_1.setStyle({ "color": "#ffffffff", "fontFamily": "font-1", "fontSize": "85PX", "stroke": "#9802ffff", "strokeThickness": 10 });
+		game_over_win_panel_container.add(high_score_1);
+
+		// gem_2
+		const gem_2 = this.add.image(450, 1010, "gem");
+		game_over_win_panel_container.add(gem_2);
+
+		// score_text
+		const score_text = this.add.text(540, 770, "", {});
+		score_text.name = "score_text";
+		score_text.setOrigin(0.5, 0.5);
+		score_text.text = "Nicely Done";
+		score_text.setStyle({ "color": "#ffef4aff", "fontFamily": "font-1", "fontSize": "80px", "stroke": "#560085ff", "strokeThickness": 10 });
+		game_over_win_panel_container.add(score_text);
+
+		// Bottom_text
+		const bottom_text = this.add.text(540, 1225, "", {});
+		bottom_text.name = "Bottom_text";
+		bottom_text.setOrigin(0.5, 0.5);
+		bottom_text.text = "100% Nazar Protection";
+		bottom_text.setStyle({ "color": "#ffffffff", "fontFamily": "font-1", "fontSize": "60PX", "stroke": "#58006bff", "strokeThickness": 10 });
+		game_over_win_panel_container.add(bottom_text);
+
+		// game_over_panel_container
+		const game_over_panel_container = this.add.container(517, 789);
+		game_over_panel_container.name = "game_over_panel_container";
+		game_over_panel_container.visible = false;
+
+		// blur_bg
+		const blur_bg = this.add.image(23, 169, "blur-bg");
+		blur_bg.name = "blur_bg";
+		blur_bg.scaleY = 1.1;
+		game_over_panel_container.add(blur_bg);
+
+		// Time_spend
+		const time_spend = this.add.text(1, 483, "", {});
+		time_spend.name = "Time_spend";
+		time_spend.setOrigin(0.5, 0.5);
+		time_spend.alpha = 0;
+		time_spend.alphaTopLeft = 0;
+		time_spend.alphaTopRight = 0;
+		time_spend.alphaBottomLeft = 0;
+		time_spend.alphaBottomRight = 0;
+		time_spend.text = "0:11";
+		time_spend.setStyle({ "color": "#ffffffff", "fontFamily": "font-1", "fontSize": "75px", "stroke": "#9802ffff", "strokeThickness": 10 });
+		game_over_panel_container.add(time_spend);
+
+		// character_Glow
+		const character_Glow = this.add.image(6, -372, "character-glow");
+		game_over_panel_container.add(character_Glow);
+
+		// score_panel
+		const score_panel = this.add.image(23, 246, "score-panel");
+		score_panel.name = "score_panel";
+		score_panel.alpha = 0;
+		score_panel.alphaTopLeft = 0;
+		score_panel.alphaTopRight = 0;
+		score_panel.alphaBottomLeft = 0;
+		score_panel.alphaBottomRight = 0;
+		game_over_panel_container.add(score_panel);
+
+		// high_score
+		const high_score = this.add.text(5, 220, "", {});
+		high_score.name = "high_score";
+		high_score.setOrigin(0, 0.5);
+		high_score.alpha = 0;
+		high_score.alphaTopLeft = 0;
+		high_score.alphaTopRight = 0;
+		high_score.alphaBottomLeft = 0;
+		high_score.alphaBottomRight = 0;
+		high_score.text = "000";
+		high_score.setStyle({ "color": "#ffffffff", "fontFamily": "font-1", "fontSize": "85PX", "stroke": "#9802ffff", "strokeThickness": 10 });
+		game_over_panel_container.add(high_score);
+
+		// highScore_Character
+		const highScore_Character = this.add.image(0, -297, "high-score-character");
+		highScore_Character.visible = false;
+		highScore_Character.alpha = 0;
+		highScore_Character.alphaTopLeft = 0;
+		highScore_Character.alphaTopRight = 0;
+		highScore_Character.alphaBottomLeft = 0;
+		highScore_Character.alphaBottomRight = 0;
+		game_over_panel_container.add(highScore_Character);
+
+		// lowScore_Character
+		const lowScore_Character = this.add.image(-59, -342, "low-score-character");
+		lowScore_Character.visible = false;
+		lowScore_Character.alpha = 0;
+		lowScore_Character.alphaTopLeft = 0;
+		lowScore_Character.alphaTopRight = 0;
+		lowScore_Character.alphaBottomLeft = 0;
+		lowScore_Character.alphaBottomRight = 0;
+		game_over_panel_container.add(lowScore_Character);
+
+		// gem_1
+		const gem_1 = this.add.image(-61, 220, "gem");
+		gem_1.alpha = 0;
+		gem_1.alphaTopLeft = 0;
+		gem_1.alphaTopRight = 0;
+		gem_1.alphaBottomLeft = 0;
+		gem_1.alphaBottomRight = 0;
+		game_over_panel_container.add(gem_1);
+
+		// share_btn
+		const share_btn = this.add.image(23, 711, "share-btn");
+		share_btn.name = "share_btn";
+		game_over_panel_container.add(share_btn);
+
+		// score_text2
+		const score_text2 = this.add.text(23, -24, "", {});
+		score_text2.name = "score_text2";
+		score_text2.setOrigin(0.5, 0.5);
+		score_text2.alpha = 0;
+		score_text2.alphaTopLeft = 0;
+		score_text2.alphaTopRight = 0;
+		score_text2.alphaBottomLeft = 0;
+		score_text2.alphaBottomRight = 0;
+		score_text2.text = "Uh Oh!";
+		score_text2.setStyle({ "color": "#ffef4aff", "fontFamily": "font-1", "fontSize": "80px", "stroke": "#560085ff", "strokeThickness": 10 });
+		game_over_panel_container.add(score_text2);
+
+		// score_text1
+		const score_text1 = this.add.text(23, -24, "", {});
+		score_text1.name = "score_text1";
+		score_text1.setOrigin(0.5, 0.5);
+		score_text1.alpha = 0;
+		score_text1.alphaTopLeft = 0;
+		score_text1.alphaTopRight = 0;
+		score_text1.alphaBottomLeft = 0;
+		score_text1.alphaBottomRight = 0;
+		score_text1.text = "Nicely Done";
+		score_text1.setStyle({ "color": "#ffef4aff", "fontFamily": "font-1", "fontSize": "80px", "stroke": "#560085ff", "strokeThickness": 10 });
+		game_over_panel_container.add(score_text1);
+
+		// Bottom_text1
+		const bottom_text1 = this.add.text(23, 411, "", {});
+		bottom_text1.name = "Bottom_text1";
+		bottom_text1.setOrigin(0.5, 0.5);
+		bottom_text1.alpha = 0;
+		bottom_text1.alphaTopLeft = 0;
+		bottom_text1.alphaTopRight = 0;
+		bottom_text1.alphaBottomLeft = 0;
+		bottom_text1.alphaBottomRight = 0;
+		bottom_text1.text = "100% Nazar Protection";
+		bottom_text1.setStyle({ "color": "#ffffffff", "fontFamily": "font-1", "fontSize": "60PX", "stroke": "#58006bff", "strokeThickness": 10 });
+		game_over_panel_container.add(bottom_text1);
+
+		// Bottom_text2
+		const bottom_text2 = this.add.text(23, 411, "", {});
+		bottom_text2.name = "Bottom_text2";
+		bottom_text2.setOrigin(0.5, 0.5);
+		bottom_text2.alpha = 0;
+		bottom_text2.alphaTopLeft = 0;
+		bottom_text2.alphaTopRight = 0;
+		bottom_text2.alphaBottomLeft = 0;
+		bottom_text2.alphaBottomRight = 0;
+		bottom_text2.text = "Good Luck Coming Soon";
+		bottom_text2.setStyle({ "color": "#ffffffff", "fontFamily": "font-1", "fontSize": "60PX", "stroke": "#58006bff", "strokeThickness": 10 });
+		game_over_panel_container.add(bottom_text2);
+
+		// restart_btn
+		const restart_btn = this.add.image(23, 929, "green-button");
+		restart_btn.name = "restart_btn";
+		game_over_panel_container.add(restart_btn);
+
+		// character_BG_2
+		const character_BG_2 = this.add.image(-399, -669, "character-bg");
+		character_BG_2.name = "character_BG_2";
+		game_over_panel_container.add(character_BG_2);
+
+		// character_Icon_2
+		const character_Icon_2 = this.add.image(-399, -669, "character-icon");
+		character_Icon_2.name = "character_Icon_2";
+		game_over_panel_container.add(character_Icon_2);
+
+		// profile_text_1
+		const profile_text_1 = this.add.text(-398, -554, "", {});
+		profile_text_1.name = "profile_text_1";
+		profile_text_1.setOrigin(0.5, 0.5);
+		profile_text_1.text = "Guest";
+		profile_text_1.setStyle({ "align": "center", "fixedWidth": 210, "fontFamily": "font-1", "fontSize": "35px", "stroke": "#332f2fff", "strokeThickness": 10 });
+		game_over_panel_container.add(profile_text_1);
+
+		// title_2
+		const title_2 = this.add.image(23, -659, "title");
+		title_2.name = "title_2";
+		game_over_panel_container.add(title_2);
+
+		// pause_panel_container
+		const pause_panel_container = this.add.container(330, 960);
+		pause_panel_container.name = "pause_panel_container";
+		pause_panel_container.visible = false;
+
+		// bg_blur
+		const bg_blur = this.add.image(210, 0, "bg-blur");
+		bg_blur.alpha = 0.6;
+		bg_blur.alphaTopLeft = 0.6;
+		bg_blur.alphaTopRight = 0.6;
+		bg_blur.alphaBottomLeft = 0.6;
+		bg_blur.alphaBottomRight = 0.6;
+		pause_panel_container.add(bg_blur);
+
+		// pause_panel
+		const pause_panel = this.add.image(210, 0, "pause-panel");
+		pause_panel_container.add(pause_panel);
+
+		// resume_btn
+		const resume_btn = this.add.image(409, 190, "cancel-btn");
+		pause_panel_container.add(resume_btn);
+
+		// abandon_btn
+		const abandon_btn = this.add.image(0, 190, "quit-btn");
+		pause_panel_container.add(abandon_btn);
+
+		// quit_game_text
+		const quit_game_text = this.add.text(210, -267, "", {});
+		quit_game_text.name = "quit_game_text";
+		quit_game_text.setOrigin(0.5, 0.5);
+		quit_game_text.text = "Quit Game?";
+		quit_game_text.setStyle({ "color": "#faf844ff", "fontFamily": "font-1", "fontSize": "80px", "stroke": "#5d3193ff", "strokeThickness": 10 });
+		pause_panel_container.add(quit_game_text);
+
+		// game_start_panel_container
+		const game_start_panel_container = this.add.container(528, 918);
+		game_start_panel_container.name = "game_start_panel_container";
+		game_start_panel_container.visible = false;
+
+		// blur_bg_1
+		const blur_bg_1 = this.add.image(8, 0, "blur-bg");
+		blur_bg_1.scaleX = 1.1;
+		blur_bg_1.scaleY = 1.1;
+		game_start_panel_container.add(blur_bg_1);
+
+		// naz_new_screen
+		const naz_new_screen = this.add.image(12, 42, "naz-new-screen");
+		game_start_panel_container.add(naz_new_screen);
+
+		// naz_text3
+		const naz_text3 = this.add.image(29, -362, "naz-text3");
+		naz_text3.name = "naz_text3";
+		game_start_panel_container.add(naz_text3);
+
+		// naz_text1
+		const naz_text1 = this.add.image(32, 361, "naz-text1");
+		game_start_panel_container.add(naz_text1);
+
+		// naz_text2
+		const naz_text2 = this.add.image(59, -101, "naz-text2");
+		game_start_panel_container.add(naz_text2);
+
+		// top_text
+		const top_text = this.add.text(12, -537, "", {});
+		top_text.setOrigin(0.5, 0.64);
+		top_text.text = "Pop Nazars & Earn SuperCoins";
+		top_text.setStyle({ "color": "#ecff3bff", "fontFamily": "font-1", "fontSize": "42px", "stroke": "#600080ff", "strokeThickness": 10 });
+		game_start_panel_container.add(top_text);
+
+		// start_btn
+		const start_btn = this.add.image(12, 857, "start-button");
+		start_btn.name = "start_btn";
+		game_start_panel_container.add(start_btn);
+
+		// character_BG
+		const character_BG = this.add.image(-410, -798, "character-bg");
+		character_BG.name = "character_BG";
+		game_start_panel_container.add(character_BG);
+
+		// character_Icon
+		const character_Icon = this.add.image(-410, -798, "character-icon");
+		character_Icon.name = "character_Icon";
+		game_start_panel_container.add(character_Icon);
+
+		// profile_text
+		const profile_text = this.add.text(-409, -683, "", {});
+		profile_text.name = "profile_text";
+		profile_text.setOrigin(0.5, 0.5);
+		profile_text.text = "Guest";
+		profile_text.setStyle({ "align": "center", "fixedWidth": 210, "fontFamily": "font-1", "fontSize": "35px", "stroke": "#332f2fff", "strokeThickness": 10 });
+		game_start_panel_container.add(profile_text);
+
+		// title_1
+		const title_1 = this.add.image(12, -788, "title");
+		title_1.name = "title_1";
+		game_start_panel_container.add(title_1);
+
+		// exit_back_button
+		const exit_back_button = this.add.image(959, 128, "back-button");
+		exit_back_button.name = "exit_back_button";
+
+		// exit_btn
+		const exit_btn = this.add.image(955, 121, "back-icon");
+		exit_btn.name = "exit_btn";
+
+		this.bgGame1 = bgGame1;
+		this.bgGame2 = bgGame2;
+		this.bgGame3a = bgGame3a;
+		this.bgGame3b = bgGame3b;
+		this.blockBottom = blockBottom;
+		this.gameWorldContainer = gameWorldContainer;
+		this.blockTop = blockTop;
+		this.claw = claw;
+		this.gameplayContainer = gameplayContainer;
+		this.collideFx = collideFx;
+		this.fxContainer = fxContainer;
+		this.barBlocks = barBlocks;
+		this.barPoints = barPoints;
+		this.txtBlocks = txtBlocks;
+		this.txtPoints = txtPoints;
+		this.txtPointsAdded = txtPointsAdded;
+		this.pauseButton = pauseButton;
+		this.hudContainer = hudContainer;
+		this.popupDark = popupDark;
+		this.pausePopupBg = pausePopupBg;
+		this.pauseTitle = pauseTitle;
+		this.pauseRestartButton = pauseRestartButton;
+		this.pauseMapButton = pauseMapButton;
+		this.pauseCloseButton = pauseCloseButton;
+		this.pausePopupContainer = pausePopupContainer;
+		this.endPopupBg = endPopupBg;
+		this.endTitle = endTitle;
+		this.endBlocks = endBlocks;
+		this.endPoints = endPoints;
+		this.endRestartButton = endRestartButton;
+		this.endMapButton = endMapButton;
+		this.endNextButton = endNextButton;
+		this.endPopupContainer = endPopupContainer;
+		this.game_elements_container = game_elements_container;
+		this.gem = gem;
+		this.gems_collect = gems_collect;
+		this.life_1 = life_1;
+		this.life_2 = life_2;
+		this.life_3 = life_3;
+		this.back_button1 = back_button1;
+		this.pause_btn = pause_btn;
+		this.character_BG_1 = character_BG_1;
+		this.top_ui_container = top_ui_container;
+		this.error_panel_container = error_panel_container;
+		this.sh_panel_1 = sh_panel_1;
+		this.sh_logo = sh_logo;
+		this.sh_panel = sh_panel;
+		this.share_text1 = share_text1;
+		this.sh_charcter = sh_charcter;
+		this.final_score = final_score;
+		this.share_panel_container = share_panel_container;
+		this.low_score = low_score;
+		this.lowScore_Character_1 = lowScore_Character_1;
+		this.game_over_lose_panel_container = game_over_lose_panel_container;
+		this.highScore_Character_1 = highScore_Character_1;
+		this.high_score_1 = high_score_1;
+		this.game_over_win_panel_container = game_over_win_panel_container;
+		this.time_spend = time_spend;
+		this.high_score = high_score;
+		this.highScore_Character = highScore_Character;
+		this.lowScore_Character = lowScore_Character;
+		this.share_btn = share_btn;
+		this.restart_btn = restart_btn;
+		this.character_BG_2 = character_BG_2;
+		this.profile_text_1 = profile_text_1;
+		this.game_over_panel_container = game_over_panel_container;
+		this.bg_blur = bg_blur;
+		this.pause_panel = pause_panel;
+		this.resume_btn = resume_btn;
+		this.abandon_btn = abandon_btn;
+		this.pause_panel_container = pause_panel_container;
+		this.start_btn = start_btn;
+		this.character_BG = character_BG;
+		this.profile_text = profile_text;
+		this.game_start_panel_container = game_start_panel_container;
+		this.exit_back_button = exit_back_button;
+		this.exit_btn = exit_btn;
+
+		this.events.emit("scene-awake");
+	}
+
+	private bgGame1!: Phaser.GameObjects.Image;
+	private bgGame2!: Phaser.GameObjects.Image;
+	private bgGame3a!: Phaser.GameObjects.Image;
+	private bgGame3b!: Phaser.GameObjects.Image;
+	private blockBottom!: Phaser.GameObjects.Image;
+	private gameWorldContainer!: Phaser.GameObjects.Container;
+	private blockTop!: Phaser.GameObjects.Sprite;
+	private claw!: Phaser.GameObjects.Sprite;
+	private gameplayContainer!: Phaser.GameObjects.Container;
+	private collideFx!: Phaser.GameObjects.Sprite;
+	private fxContainer!: Phaser.GameObjects.Container;
+	private barBlocks!: Phaser.GameObjects.Image;
+	private barPoints!: Phaser.GameObjects.Image;
+	private txtBlocks!: Phaser.GameObjects.Text;
+	private txtPoints!: Phaser.GameObjects.Text;
+	private txtPointsAdded!: Phaser.GameObjects.Text;
+	private pauseButton!: Phaser.GameObjects.Sprite;
+	private hudContainer!: Phaser.GameObjects.Container;
+	private popupDark!: Phaser.GameObjects.Rectangle;
+	private pausePopupBg!: Phaser.GameObjects.Image;
+	private pauseTitle!: Phaser.GameObjects.Text;
+	private pauseRestartButton!: Phaser.GameObjects.Sprite;
+	private pauseMapButton!: Phaser.GameObjects.Sprite;
+	private pauseCloseButton!: Phaser.GameObjects.Sprite;
+	private pausePopupContainer!: Phaser.GameObjects.Container;
+	private endPopupBg!: Phaser.GameObjects.Image;
+	private endTitle!: Phaser.GameObjects.Text;
+	private endBlocks!: Phaser.GameObjects.Text;
+	private endPoints!: Phaser.GameObjects.Text;
+	private endRestartButton!: Phaser.GameObjects.Sprite;
+	private endMapButton!: Phaser.GameObjects.Sprite;
+	private endNextButton!: Phaser.GameObjects.Sprite;
+	private endPopupContainer!: Phaser.GameObjects.Container;
+	private game_elements_container!: Phaser.GameObjects.Container;
+	private gem!: Phaser.GameObjects.Image;
+	private gems_collect!: Phaser.GameObjects.Text;
+	private life_1!: Phaser.GameObjects.Image;
+	private life_2!: Phaser.GameObjects.Image;
+	private life_3!: Phaser.GameObjects.Image;
+	private back_button1!: Phaser.GameObjects.Image;
+	private pause_btn!: Phaser.GameObjects.Image;
+	private character_BG_1!: Phaser.GameObjects.Image;
+	private top_ui_container!: Phaser.GameObjects.Container;
+	private error_panel_container!: Phaser.GameObjects.Container;
+	private sh_panel_1!: Phaser.GameObjects.Image;
+	private sh_logo!: Phaser.GameObjects.Image;
+	private sh_panel!: Phaser.GameObjects.Image;
+	private share_text1!: Phaser.GameObjects.Image;
+	private sh_charcter!: Phaser.GameObjects.Image;
+	private final_score!: Phaser.GameObjects.Text;
+	public share_panel_container!: Phaser.GameObjects.Container;
+	private low_score!: Phaser.GameObjects.Text;
+	private lowScore_Character_1!: Phaser.GameObjects.Image;
+	private game_over_lose_panel_container!: Phaser.GameObjects.Container;
+	private highScore_Character_1!: Phaser.GameObjects.Image;
+	private high_score_1!: Phaser.GameObjects.Text;
+	private game_over_win_panel_container!: Phaser.GameObjects.Container;
+	private time_spend!: Phaser.GameObjects.Text;
+	private high_score!: Phaser.GameObjects.Text;
+	private highScore_Character!: Phaser.GameObjects.Image;
+	private lowScore_Character!: Phaser.GameObjects.Image;
+	private share_btn!: Phaser.GameObjects.Image;
+	private restart_btn!: Phaser.GameObjects.Image;
+	private character_BG_2!: Phaser.GameObjects.Image;
+	private profile_text_1!: Phaser.GameObjects.Text;
+	private game_over_panel_container!: Phaser.GameObjects.Container;
+	private bg_blur!: Phaser.GameObjects.Image;
+	private pause_panel!: Phaser.GameObjects.Image;
+	private resume_btn!: Phaser.GameObjects.Image;
+	private abandon_btn!: Phaser.GameObjects.Image;
+	private pause_panel_container!: Phaser.GameObjects.Container;
+	private start_btn!: Phaser.GameObjects.Image;
+	private character_BG!: Phaser.GameObjects.Image;
+	private profile_text!: Phaser.GameObjects.Text;
+	private game_start_panel_container!: Phaser.GameObjects.Container;
+	private exit_back_button!: Phaser.GameObjects.Image;
+	private exit_btn!: Phaser.GameObjects.Image;
+
+	/* START-USER-CODE */
 
     private allPanels: Phaser.GameObjects.Container[] = [];
     private previousGameState: string = GAME_STATE.NONE;
@@ -160,17 +989,39 @@ export default class Level extends Phaser.Scene {
     private maxBlock = 0;
     private requiredPoints = 0;
 
-    private pauseBtnNode!: Phaser.GameObjects.Sprite;
-    private pauseRestartBtnNode!: Phaser.GameObjects.Sprite;
-    private pauseMapBtnNode!: Phaser.GameObjects.Sprite;
-    private pauseCloseBtnNode!: Phaser.GameObjects.Sprite;
-    private endRestartBtnNode!: Phaser.GameObjects.Sprite;
-    private endMapBtnNode!: Phaser.GameObjects.Sprite;
-    private endNextBtnNode!: Phaser.GameObjects.Sprite;
+    private pauseBtnNode?: Phaser.GameObjects.GameObject;
+    private startBtnNode?: Phaser.GameObjects.GameObject;
+    private pauseRestartBtnNode?: Phaser.GameObjects.GameObject;
+    private pauseMapBtnNode?: Phaser.GameObjects.GameObject;
+    private pauseCloseBtnNode?: Phaser.GameObjects.GameObject;
+    private endRestartBtnNode?: Phaser.GameObjects.GameObject;
+    private endMapBtnNode?: Phaser.GameObjects.GameObject;
+    private endNextBtnNode?: Phaser.GameObjects.GameObject;
+    private shareBtnNode?: Phaser.GameObjects.GameObject;
+    private exitBtnNode?: Phaser.GameObjects.GameObject;
     private errorPanelContainer?: Phaser.GameObjects.Container;
     public share_panel_container?: Phaser.GameObjects.Container;
     private errorPopupManager?: ErrorPopupManager;
     private shareManager?: ShareManager;
+    private game_start_panel_container?: Phaser.GameObjects.Container;
+    private pause_panel_container?: Phaser.GameObjects.Container;
+    private game_over_panel_container?: Phaser.GameObjects.Container;
+    private game_over_win_panel_container?: Phaser.GameObjects.Container;
+    private game_over_lose_panel_container?: Phaser.GameObjects.Container;
+    private top_ui_container?: Phaser.GameObjects.Container;
+    private game_elements_container?: Phaser.GameObjects.Container;
+    private high_score?: Phaser.GameObjects.Text;
+    private high_score_1?: Phaser.GameObjects.Text;
+    private low_score?: Phaser.GameObjects.Text;
+    private time_spend?: Phaser.GameObjects.Text;
+    private start_btn?: Phaser.GameObjects.GameObject;
+    private pause_btn?: Phaser.GameObjects.GameObject;
+    private resume_btn?: Phaser.GameObjects.GameObject;
+    private abandon_btn?: Phaser.GameObjects.GameObject;
+    private restart_btn?: Phaser.GameObjects.GameObject;
+    private share_btn?: Phaser.GameObjects.GameObject;
+    private exit_btn?: Phaser.GameObjects.GameObject;
+    private exit_back_button?: Phaser.GameObjects.GameObject;
 
     private bridgeUnsubscribers: Array<() => void> = [];
 
@@ -210,15 +1061,20 @@ export default class Level extends Phaser.Scene {
         this.pausePopupContainer.setDepth(2200);
         this.endPopupContainer.setDepth(2200);
 
-        this.pauseBtnNode = configureButton(this.pauseButton, "pause");
-        this.pauseRestartBtnNode = configureButton(this.pauseRestartButton, "restart");
-        this.pauseMapBtnNode = configureButton(this.pauseMapButton, "map");
-        this.pauseCloseBtnNode = configureButton(this.pauseCloseButton, "close");
-        this.endRestartBtnNode = configureButton(this.endRestartButton, "restart");
-        this.endMapBtnNode = configureButton(this.endMapButton, "map");
-        this.endNextBtnNode = configureButton(this.endNextButton, "next");
-
         this.setupManagers();
+        this.setupShopsyUiBindings();
+
+        this.pauseBtnNode = configureButton(this.pause_btn ?? this.pauseButton, "pause");
+        this.startBtnNode = this.start_btn ? configureButton(this.start_btn, "start") : undefined;
+        this.pauseRestartBtnNode = configureButton(this.resume_btn ?? this.pauseRestartButton, "resume");
+        this.pauseMapBtnNode = configureButton(this.abandon_btn ?? this.pauseMapButton, "abandon");
+        this.pauseCloseBtnNode = this.pauseCloseButton ? configureButton(this.pauseCloseButton, "close") : undefined;
+        this.endRestartBtnNode = configureButton(this.restart_btn ?? this.endRestartButton, "restart");
+        this.endMapBtnNode = this.endMapButton ? configureButton(this.endMapButton, "map") : undefined;
+        this.endNextBtnNode = this.endNextButton ? configureButton(this.endNextButton, "next") : undefined;
+        this.shareBtnNode = this.share_btn ? configureButton(this.share_btn, "share") : undefined;
+        this.exitBtnNode = this.exit_btn ? configureButton(this.exit_btn, "exit") : undefined;
+
         this.setupPanels();
         this.loadSounds();
         this.setupBridgeListeners();
@@ -228,7 +1084,6 @@ export default class Level extends Phaser.Scene {
         this.setupGameplayCore();
 
         this.changeGameState(GAME_STATE.PRE_GAME);
-        this.changeGameState(GAME_STATE.START);
 
         this.events.once("shutdown", () => this.cleanupBridgeListeners());
         this.events.once("destroy", () => this.cleanupBridgeListeners());
@@ -282,6 +1137,32 @@ export default class Level extends Phaser.Scene {
             this.shareManager = new ShareManager(this as any);
             this.shareManager.init();
         }
+    }
+
+    private setupShopsyUiBindings(): void {
+        this.game_start_panel_container = this.getSceneObject<Phaser.GameObjects.Container>("game_start_panel_container");
+        this.pause_panel_container = this.getSceneObject<Phaser.GameObjects.Container>("pause_panel_container");
+        this.game_over_panel_container = this.getSceneObject<Phaser.GameObjects.Container>("game_over_panel_container");
+        this.game_over_win_panel_container = this.getSceneObject<Phaser.GameObjects.Container>("game_over_win_panel_container");
+        this.game_over_lose_panel_container = this.getSceneObject<Phaser.GameObjects.Container>("game_over_lose_panel_container");
+        this.errorPanelContainer = this.errorPanelContainer ?? this.getSceneObject<Phaser.GameObjects.Container>("error_panel_container");
+        this.share_panel_container = this.share_panel_container ?? this.getSceneObject<Phaser.GameObjects.Container>("share_panel_container");
+        this.top_ui_container = this.getSceneObject<Phaser.GameObjects.Container>("top_ui_container");
+        this.game_elements_container = this.getSceneObject<Phaser.GameObjects.Container>("game_elements_container");
+
+        this.start_btn = this.getSceneObject<Phaser.GameObjects.GameObject>("start_btn");
+        this.pause_btn = this.getSceneObject<Phaser.GameObjects.GameObject>("pause_btn");
+        this.resume_btn = this.getSceneObject<Phaser.GameObjects.GameObject>("resume_btn");
+        this.abandon_btn = this.getSceneObject<Phaser.GameObjects.GameObject>("abandon_btn");
+        this.restart_btn = this.getSceneObject<Phaser.GameObjects.GameObject>("restart_btn");
+        this.share_btn = this.getSceneObject<Phaser.GameObjects.GameObject>("share_btn");
+        this.exit_btn = this.getSceneObject<Phaser.GameObjects.GameObject>("exit_btn");
+        this.exit_back_button = this.getSceneObject<Phaser.GameObjects.GameObject>("exit_back_button");
+
+        this.high_score = this.getSceneObject<Phaser.GameObjects.Text>("high_score");
+        this.high_score_1 = this.getSceneObject<Phaser.GameObjects.Text>("high_score_1");
+        this.low_score = this.getSceneObject<Phaser.GameObjects.Text>("low_score");
+        this.time_spend = this.getSceneObject<Phaser.GameObjects.Text>("Time_spend");
     }
 
     private loadSounds(): void {
@@ -510,20 +1391,44 @@ export default class Level extends Phaser.Scene {
     }
 
     private setupPanels(): void {
-        this.allPanels = [this.hudContainer, this.pausePopupContainer, this.endPopupContainer];
+        this.allPanels = [
+            this.game_start_panel_container,
+            this.pause_panel_container,
+            this.game_over_panel_container,
+            this.game_over_win_panel_container,
+            this.game_over_lose_panel_container,
+            this.share_panel_container,
+            this.errorPanelContainer,
+            this.top_ui_container,
+            this.game_elements_container,
+            this.hudContainer,
+            this.pausePopupContainer,
+            this.endPopupContainer
+        ].filter((panel): panel is Phaser.GameObjects.Container => Boolean(panel));
+
         this.popupDark.setVisible(false).disableInteractive();
         this.pausePopupContainer.setVisible(false);
         this.endPopupContainer.setVisible(false);
     }
 
     private setupInteractions(): void {
-        this.tapInteractionHelper(this.pauseBtnNode, () => this.changeGameState(GAME_STATE.PAUSED));
-        this.tapInteractionHelper(this.pauseCloseBtnNode, () => this.changeGameState(GAME_STATE.RESUMED));
-        this.tapInteractionHelper(this.pauseRestartBtnNode, () => this.changeGameState(GAME_STATE.RESTART));
-        this.tapInteractionHelper(this.pauseMapBtnNode, () => this.changeGameState(GAME_STATE.ABANDONED));
-        this.tapInteractionHelper(this.endRestartBtnNode, () => this.changeGameState(GAME_STATE.RESTART));
-        this.tapInteractionHelper(this.endMapBtnNode, () => this.changeGameState(GAME_STATE.ABANDONED));
-        this.tapInteractionHelper(this.endNextBtnNode, () => this.goToLevelSelect());
+        this.tapIfPresent(this.exitBtnNode, () => shopsyBridge.exitGame());
+        this.tapIfPresent(this.startBtnNode, () => this.changeGameState(GAME_STATE.START));
+        this.tapIfPresent(this.pauseBtnNode, () => this.changeGameState(GAME_STATE.PAUSED));
+        this.tapIfPresent(this.pauseCloseBtnNode, () => this.changeGameState(GAME_STATE.RESUMED));
+        this.tapIfPresent(this.pauseRestartBtnNode, () => this.changeGameState(GAME_STATE.RESUMED));
+        this.tapIfPresent(this.pauseMapBtnNode, () => this.changeGameState(GAME_STATE.ABANDONED));
+        this.tapIfPresent(this.endRestartBtnNode, () => this.changeGameState(GAME_STATE.RESTART));
+        this.tapIfPresent(this.endMapBtnNode, () => this.changeGameState(GAME_STATE.ABANDONED));
+        this.tapIfPresent(this.endNextBtnNode, () => this.goToLevelSelect());
+        this.tapIfPresent(this.shareBtnNode, () => this.changeGameState(GAME_STATE.SHARING));
+    }
+
+    private tapIfPresent(button: Phaser.GameObjects.GameObject | undefined, callback: () => void): void {
+        if (!button) {
+            return;
+        }
+        this.tapInteractionHelper(button, callback);
     }
 
     private tapInteractionHelper(button: Phaser.GameObjects.GameObject, callback: () => void): void {
@@ -636,6 +1541,48 @@ export default class Level extends Phaser.Scene {
         let panelsToShow: Phaser.GameObjects.Container[] = [];
         this.popupDark.setVisible(false).disableInteractive();
 
+        if (this.game_start_panel_container) {
+            switch (this.currentPanel) {
+                case GAME_PANEL.START_PANEL:
+                    panelsToShow = [this.game_start_panel_container];
+                    break;
+                case GAME_PANEL.PAUSE_PANEL:
+                    if (this.pause_panel_container) {
+                        panelsToShow = [this.pause_panel_container];
+                    }
+                    break;
+                case GAME_PANEL.GAME_OVER_WIN_PANEL:
+                    if (this.game_over_panel_container && this.game_over_win_panel_container) {
+                        panelsToShow = [this.game_over_panel_container, this.game_over_win_panel_container];
+                    }
+                    break;
+                case GAME_PANEL.GAME_OVER_LOSE_PANEL:
+                    if (this.game_over_panel_container && this.game_over_lose_panel_container) {
+                        panelsToShow = [this.game_over_panel_container, this.game_over_lose_panel_container];
+                    }
+                    break;
+                case GAME_PANEL.SHARE_PANEL:
+                    if (this.share_panel_container) {
+                        panelsToShow = [this.share_panel_container];
+                    }
+                    break;
+                case GAME_PANEL.ERROR_PANEL:
+                    if (this.errorPanelContainer) {
+                        panelsToShow = [this.errorPanelContainer];
+                    }
+                    break;
+                case GAME_PANEL.GAMEPLAY_PANEL:
+                default:
+                    if (this.top_ui_container) {
+                        panelsToShow.push(this.top_ui_container);
+                    }
+                    if (this.game_elements_container) {
+                        panelsToShow.push(this.game_elements_container);
+                    }
+                    panelsToShow.push(this.hudContainer);
+                    break;
+            }
+        } else {
         switch (this.currentPanel) {
             case GAME_PANEL.PAUSE_PANEL:
                 panelsToShow = [this.hudContainer, this.pausePopupContainer];
@@ -664,6 +1611,7 @@ export default class Level extends Phaser.Scene {
             default:
                 panelsToShow = [this.hudContainer];
                 break;
+        }
         }
 
         this.allPanels.forEach((panelItem) => {
@@ -728,7 +1676,7 @@ export default class Level extends Phaser.Scene {
         this.score = 0;
         this.txtPoints.setColor("#FFFFFF");
         this.txtPointsAdded.setText("");
-        this.changePanel(GAME_PANEL.GAMEPLAY_PANEL);
+        this.changePanel(this.game_start_panel_container ? GAME_PANEL.START_PANEL : GAME_PANEL.GAMEPLAY_PANEL);
     }
 
     private startGame(): void {
@@ -798,24 +1746,38 @@ export default class Level extends Phaser.Scene {
     private onGameLost(): void {
         playSound(this, "gameover");
         this.onGameOver("lost");
-        this.endTitle.setText("STAGE FAILED!");
-        this.endBlocks.setText(`${gameState.totalStackedBlocks}/${this.maxBlock}`);
-        this.endPoints.setText(`${this.currentPoints}/${this.requiredPoints}`);
-        this.endRestartButton.setVisible(true);
-        this.endMapButton.setVisible(true);
-        this.endNextButton.setVisible(false);
+        if (this.game_over_panel_container) {
+            this.high_score?.setText(String(this.currentPoints));
+            this.high_score_1?.setText(String(this.currentPoints));
+            this.low_score?.setText(String(this.currentPoints));
+            this.time_spend?.setText(this.formatTime(this.timePlayedMs));
+        } else {
+            this.endTitle.setText("STAGE FAILED!");
+            this.endBlocks.setText(`${gameState.totalStackedBlocks}/${this.maxBlock}`);
+            this.endPoints.setText(`${this.currentPoints}/${this.requiredPoints}`);
+            this.endRestartButton.setVisible(true);
+            this.endMapButton.setVisible(true);
+            this.endNextButton.setVisible(false);
+        }
         this.changePanel(GAME_PANEL.GAME_OVER_LOSE_PANEL);
     }
 
     private onGameWon(): void {
         playSound(this, "completed");
         this.onGameOver("win");
-        this.endTitle.setText("COMPLETED!");
-        this.endBlocks.setText(`${gameState.totalStackedBlocks}/${this.maxBlock}`);
-        this.endPoints.setText(`${this.currentPoints}/${this.requiredPoints}`);
-        this.endRestartButton.setVisible(false);
-        this.endMapButton.setVisible(false);
-        this.endNextButton.setVisible(true);
+        if (this.game_over_panel_container) {
+            this.high_score?.setText(String(this.currentPoints));
+            this.high_score_1?.setText(String(this.currentPoints));
+            this.low_score?.setText(String(this.currentPoints));
+            this.time_spend?.setText(this.formatTime(this.timePlayedMs));
+        } else {
+            this.endTitle.setText("COMPLETED!");
+            this.endBlocks.setText(`${gameState.totalStackedBlocks}/${this.maxBlock}`);
+            this.endPoints.setText(`${this.currentPoints}/${this.requiredPoints}`);
+            this.endRestartButton.setVisible(false);
+            this.endMapButton.setVisible(false);
+            this.endNextButton.setVisible(true);
+        }
         this.changePanel(GAME_PANEL.GAME_OVER_WIN_PANEL);
     }
 
@@ -852,6 +1814,18 @@ export default class Level extends Phaser.Scene {
     private showError(): void {
         this.changePanel(GAME_PANEL.ERROR_PANEL);
         this.errorPopupManager?.showError(ErrorType.FATAL);
+    }
+
+    private formatTime(timeMs: number): string {
+        const totalSeconds = Math.max(0, Math.floor(timeMs / 1000));
+        const minutes = Math.floor(totalSeconds / 60);
+        const seconds = totalSeconds % 60;
+        return `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+    }
+
+    private getSceneObject<T extends Phaser.GameObjects.GameObject>(name: string): T | undefined {
+        const obj = this.children.getByName(name);
+        return obj ? obj as T : undefined;
     }
 
     private goToLevelSelect(): void {

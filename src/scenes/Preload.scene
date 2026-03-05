@@ -9,47 +9,156 @@
         "createMethodName": "editorCreate",
         "sceneKey": "Preload",
         "compilerOutputLanguage": "TYPE_SCRIPT",
-        "borderWidth": 720,
-        "borderHeight": 1080
+        "borderWidth": 1080,
+        "borderHeight": 1920
     },
     "displayList": [
         {
-            "type": "Rectangle",
-            "id": "845d4ca6-7417-44fc-97e3-a3bb2fbbdd03",
-            "label": "progressBar",
-            "scope": "CLASS",
-            "x": 553.0120849609375,
-            "y": 361,
-            "originX": 0,
-            "originY": 0,
-            "isFilled": true,
-            "fillColor": "#e0e0e0",
-            "width": 256,
-            "height": 20
+            "type": "Image",
+            "id": "07013112-fcb6-4bf0-b1ee-f2f17f99b414",
+            "label": "Loading_BG-min",
+            "texture": {
+                "key": "loading-bg-min"
+            },
+            "x": 540,
+            "y": 960
         },
         {
-            "type": "Rectangle",
-            "id": "10e175a4-81b6-449e-9561-6d8ba54d3812",
-            "label": "progressBarBg",
-            "x": 553.0120849609375,
-            "y": 361,
-            "originX": 0,
-            "originY": 0,
-            "fillColor": "#e0e0e0",
-            "isStroked": true,
-            "width": 256,
-            "height": 20
+            "type": "Image",
+            "id": "467dc467-a0c4-4a18-b564-9264e2dc6e01",
+            "label": "LoadingBar_BG-min",
+            "displayName": "LoadingBar_BG-min",
+            "texture": {
+                "key": "loading-bar-bg-min"
+            },
+            "x": 540,
+            "y": 1832
+        },
+        {
+            "type": "Image",
+            "id": "7a05c405-4727-41c3-b9a5-ada20d5ad3cc",
+            "label": "loadingBarFg",
+            "displayName": "loadingBarFg",
+            "scope": "CLASS",
+            "texture": {
+                "key": "loading-bar-fg-min"
+            },
+            "x": 64,
+            "y": 1832,
+            "originX": 0
+        },
+        {
+            "type": "Image",
+            "id": "fab5942e-7fe0-40f7-9fce-61ca525f7953",
+            "label": "Loading_Text-min",
+            "texture": {
+                "key": "loading-text-min"
+            },
+            "x": 208,
+            "y": 1743
         },
         {
             "type": "Text",
             "id": "c4092661-6339-47cf-9fea-8abff3a46e0c",
-            "label": "loadingText",
-            "x": 552.0120849609375,
-            "y": 329,
-            "text": "Loading...",
-            "fontFamily": "arial",
-            "fontSize": "20px",
-            "color": "#e0e0e0"
+            "label": "text_1",
+            "displayName": "text_1",
+            "useGameObjectName": true,
+            "x": 844,
+            "y": 1699,
+            "text": "100%",
+            "fontFamily": "bebas",
+            "fontSize": "60px",
+            "color": "#28ff62ff",
+            "stroke": "#2a0509",
+            "strokeThickness": 12
+        },
+        {
+            "type": "Container",
+            "id": "d8a75c63-2d62-4d33-a7a5-ea7e4440d517",
+            "label": "error_container",
+            "displayName": "error_container",
+            "scope": "CLASS",
+            "visible": false,
+            "list": [
+                {
+                    "type": "Rectangle",
+                    "id": "61cc8c30-2f72-4a9c-8a6e-0521b880ddbc",
+                    "label": "shadowbox",
+                    "x": 540,
+                    "y": 960,
+                    "isFilled": true,
+                    "fillColor": "#331818",
+                    "fillAlpha": 0.5,
+                    "width": 2048,
+                    "height": 2048
+                },
+                {
+                    "type": "Image",
+                    "id": "9a60d089-2628-4534-bc08-7ddd7e5c6b92",
+                    "label": "error_box_preload",
+                    "texture": {
+                        "key": "error-box-preload"
+                    },
+                    "x": 540,
+                    "y": 960
+                },
+                {
+                    "type": "Image",
+                    "id": "0c46bb72-cdcf-4b25-b8e4-81351c49d47f",
+                    "label": "preload_error_btn",
+                    "displayName": "preload_error_btn",
+                    "scope": "CLASS",
+                    "texture": {
+                        "key": "error-button-preload"
+                    },
+                    "x": 540,
+                    "y": 1474
+                },
+                {
+                    "type": "Image",
+                    "id": "ea577c18-257f-4251-9c95-74ee7b43311e",
+                    "label": "error_box_preload_2",
+                    "texture": {
+                        "key": "error-char-preload"
+                    },
+                    "x": 170,
+                    "y": 811
+                },
+                {
+                    "type": "Text",
+                    "id": "efddd09f-8dfe-400d-9068-2238cb881243",
+                    "label": "text",
+                    "displayName": "text_1",
+                    "useGameObjectName": true,
+                    "x": 382,
+                    "y": 877,
+                    "text": "Oops! Unable to login,\nPlease try later",
+                    "align": "center",
+                    "fontFamily": "bebas",
+                    "fontSize": "50px",
+                    "color": "#ffffffff",
+                    "stroke": "#2a0509",
+                    "strokeThickness": 12
+                },
+                {
+                    "type": "Text",
+                    "id": "37eb15c5-184c-4a44-b39c-321a52250214",
+                    "label": "text_2",
+                    "displayName": "text_1",
+                    "useGameObjectName": true,
+                    "x": 540,
+                    "y": 1476,
+                    "originX": 0.5,
+                    "originY": 0.5,
+                    "text": "Close",
+                    "align": "center",
+                    "fontFamily": "bebas",
+                    "fontSize": "60px",
+                    "color": "#ffffffff",
+                    "stroke": "#2a0509",
+                    "strokeThickness": 12
+                }
+            ]
         }
     ],
     "plainObjects": [],

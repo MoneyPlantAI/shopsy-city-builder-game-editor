@@ -23,29 +23,73 @@ export default class Preload extends Phaser.Scene {
 
 	editorCreate(): void {
 
-		// progressBar
-		const progressBar = this.add.rectangle(553.0120849609375, 361, 256, 20);
-		progressBar.setOrigin(0, 0);
-		progressBar.isFilled = true;
-		progressBar.fillColor = 14737632;
+		// Loading_BG-min
+		this.add.image(540, 960, "loading-bg-min");
 
-		// progressBarBg
-		const progressBarBg = this.add.rectangle(553.0120849609375, 361, 256, 20);
-		progressBarBg.setOrigin(0, 0);
-		progressBarBg.fillColor = 14737632;
-		progressBarBg.isStroked = true;
+		// LoadingBar_BG-min
+		this.add.image(540, 1832, "loading-bar-bg-min");
 
-		// loadingText
-		const loadingText = this.add.text(552.0120849609375, 329, "", {});
-		loadingText.text = "Loading...";
-		loadingText.setStyle({ "color": "#e0e0e0", "fontFamily": "arial", "fontSize": "20px" });
+		// loadingBarFg
+		const loadingBarFg = this.add.image(64, 1832, "loading-bar-fg-min");
+		loadingBarFg.setOrigin(0, 0.5);
 
-		this.progressBar = progressBar;
+		// Loading_Text-min
+		this.add.image(208, 1743, "loading-text-min");
+
+		// text_1
+		const text_1 = this.add.text(844, 1699, "", {});
+		text_1.name = "text_1";
+		text_1.text = "100%";
+		text_1.setStyle({ "color": "#28ff62ff", "fontFamily": "bebas", "fontSize": "60px", "stroke": "#2a0509", "strokeThickness": 12 });
+
+		// error_container
+		const error_container = this.add.container(0, 0);
+		error_container.visible = false;
+
+		// shadowbox
+		const shadowbox = this.add.rectangle(540, 960, 2048, 2048);
+		shadowbox.isFilled = true;
+		shadowbox.fillColor = 3348504;
+		shadowbox.fillAlpha = 0.5;
+		error_container.add(shadowbox);
+
+		// error_box_preload
+		const error_box_preload = this.add.image(540, 960, "error-box-preload");
+		error_container.add(error_box_preload);
+
+		// preload_error_btn
+		const preload_error_btn = this.add.image(540, 1474, "error-button-preload");
+		error_container.add(preload_error_btn);
+
+		// error_box_preload_2
+		const error_box_preload_2 = this.add.image(170, 811, "error-char-preload");
+		error_container.add(error_box_preload_2);
+
+		// text
+		const text = this.add.text(382, 877, "", {});
+		text.name = "text";
+		text.text = "Oops! Unable to login,\nPlease try later";
+		text.setStyle({ "align": "center", "color": "#ffffffff", "fontFamily": "bebas", "fontSize": "50px", "stroke": "#2a0509", "strokeThickness": 12 });
+		error_container.add(text);
+
+		// text_2
+		const text_2 = this.add.text(540, 1476, "", {});
+		text_2.name = "text_2";
+		text_2.setOrigin(0.5, 0.5);
+		text_2.text = "Close";
+		text_2.setStyle({ "align": "center", "color": "#ffffffff", "fontFamily": "bebas", "fontSize": "60px", "stroke": "#2a0509", "strokeThickness": 12 });
+		error_container.add(text_2);
+
+		this.loadingBarFg = loadingBarFg;
+		this.preload_error_btn = preload_error_btn;
+		this.error_container = error_container;
 
 		this.events.emit("scene-awake");
 	}
 
-	private progressBar!: Phaser.GameObjects.Rectangle;
+	private loadingBarFg!: Phaser.GameObjects.Image;
+	private preload_error_btn!: Phaser.GameObjects.Image;
+	private error_container!: Phaser.GameObjects.Container;
 
 	/* START-USER-CODE */
 
@@ -53,26 +97,32 @@ export default class Preload extends Phaser.Scene {
 	private bridgeListenersReady = false;
 	private gameConfigLoaded = false;
 
+	private loadingText!: Phaser.GameObjects.Text;
+	private fullWidth!: number;
+
 	preload() {
 
 		this.editorCreate();
+
+		// Load Start time 
 		this.registry.set("loadStartTime", performance.now());
 
-		this.load.pack("asset-pack", "assets/asset-pack.json");
-
-		const width = this.progressBar.width;
+		this.fullWidth = this.loadingBarFg.width;
+		this.loadingText = this.children.getByName("text_1") as Phaser.GameObjects.Text;
 
 		this.load.on("progress", (value: number) => {
-
-			this.progressBar.width = width * value;
+			this.loadingText.setText(`${Math.round(value * 100)}%`);
+			this.loadingBarFg.setCrop(0, 0, this.fullWidth * value, this.loadingBarFg.height);
 		});
 
 		this.load.on("complete", () => {
 			const start = this.registry.get("loadStartTime");
 			const durationMs = performance.now() - start;
-			this.loadDurationMs = durationMs;
+
 			this.registry.set("loadDurationMs", durationMs);
 		});
+
+		this.load.pack("asset-pack", "assets/asset-pack.json");
 	}
 
 	create() {
@@ -205,12 +255,14 @@ export default class Preload extends Phaser.Scene {
 	}
 
 	private showProfileError(): void {
-		const shouldExit = window.confirm("Unable to login. Close game?");
-		if (shouldExit) {
+		console.error('[Preload] Profile unavailable or invalid. Blocking Game launch.');
+		this.error_container.setVisible(true);
+		this.preload_error_btn.setInteractive({ useHandCursor: true, pixelPerfect: true });
+		this.preload_error_btn.on('pointerdown', () => {
 			shopsyBridge.exitGame();
-		}
-	}
+		});
 
+	}
 	/* END-USER-CODE */
 }
 

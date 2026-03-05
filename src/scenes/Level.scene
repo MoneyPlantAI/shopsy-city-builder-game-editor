@@ -17,15 +17,15 @@
             "id": "a1b2cb02-fe5a-4f2e-b8f7-8f2f04c66f3f",
             "label": "gameWorldContainer",
             "scope": "CLASS",
-            "x": 0,
-            "y": 0,
             "list": [
                 {
                     "type": "Image",
                     "id": "7e5f2f09-e4ac-4fd9-b8f1-c0f4b18f68c5",
                     "label": "bgGame1",
                     "scope": "CLASS",
-                    "texture": { "key": "bg-game1" },
+                    "texture": {
+                        "key": "bg-game1"
+                    },
                     "x": 360,
                     "y": 540
                 },
@@ -34,7 +34,9 @@
                     "id": "a973e218-c4f8-4d0d-b9f4-6a0bcc5b27e8",
                     "label": "bgGame2",
                     "scope": "CLASS",
-                    "texture": { "key": "bg-game2" },
+                    "texture": {
+                        "key": "bg-game2"
+                    },
                     "x": 360,
                     "y": -540
                 },
@@ -43,7 +45,9 @@
                     "id": "d5d6da00-b00c-41d7-b060-1933eaf34d4c",
                     "label": "bgGame3a",
                     "scope": "CLASS",
-                    "texture": { "key": "bg-game3" },
+                    "texture": {
+                        "key": "bg-game3"
+                    },
                     "x": 360,
                     "y": -1620
                 },
@@ -52,7 +56,9 @@
                     "id": "e210d799-ec29-48f7-b69c-bfa5ec25be6f",
                     "label": "bgGame3b",
                     "scope": "CLASS",
-                    "texture": { "key": "bg-game3" },
+                    "texture": {
+                        "key": "bg-game3"
+                    },
                     "x": 360,
                     "y": -2700
                 },
@@ -61,7 +67,9 @@
                     "id": "437d9d90-118d-4969-a3fc-e0475f3dceff",
                     "label": "blockBottom",
                     "scope": "CLASS",
-                    "texture": { "key": "block-bottom" },
+                    "texture": {
+                        "key": "block-bottom"
+                    },
                     "x": 360,
                     "y": 866
                 }
@@ -72,15 +80,15 @@
             "id": "e65d2a48-d534-4f7f-b06f-8496bf6f5f26",
             "label": "gameplayContainer",
             "scope": "CLASS",
-            "x": 0,
-            "y": 0,
             "list": [
                 {
                     "type": "Sprite",
                     "id": "7ca64ff4-75e5-443f-bdbd-4c00272542f7",
                     "label": "blockTop",
                     "scope": "CLASS",
-                    "texture": { "key": "block" },
+                    "texture": {
+                        "key": "block"
+                    },
                     "x": 160,
                     "y": 120
                 },
@@ -89,7 +97,9 @@
                     "id": "904486f0-28c8-4a4f-847e-c85e5e0fc350",
                     "label": "claw",
                     "scope": "CLASS",
-                    "texture": { "key": "claw1" },
+                    "texture": {
+                        "key": "claw1"
+                    },
                     "x": 160
                 }
             ]
@@ -99,15 +109,15 @@
             "id": "c11c1d8d-4f89-4f8e-83a5-eb160ea02ecb",
             "label": "fxContainer",
             "scope": "CLASS",
-            "x": 0,
-            "y": 0,
             "list": [
                 {
                     "type": "Sprite",
                     "id": "e01f8876-3944-41eb-a69e-9ca2e7172398",
                     "label": "collideFx",
                     "scope": "CLASS",
-                    "texture": { "key": "anim-collide" },
+                    "texture": {
+                        "key": "anim-collide"
+                    },
                     "x": -300,
                     "y": -300,
                     "visible": false
@@ -119,30 +129,30 @@
             "id": "70d4f27d-7ae9-4f37-8afe-c5b63cbe9f5d",
             "label": "hudContainer",
             "scope": "CLASS",
-            "x": 0,
-            "y": 0,
             "list": [
                 {
                     "type": "Image",
                     "id": "d4b6a7fb-4d58-49de-a77f-32eaa2cb3025",
                     "label": "barBlocks",
                     "scope": "CLASS",
-                    "texture": { "key": "bar-blocks" },
+                    "texture": {
+                        "key": "bar-blocks"
+                    },
                     "x": 20,
                     "y": 60,
-                    "originX": 0,
-                    "originY": 0.5
+                    "originX": 0
                 },
                 {
                     "type": "Image",
                     "id": "63675ea9-5f2c-45c8-94cf-f8ac833fce12",
                     "label": "barPoints",
                     "scope": "CLASS",
-                    "texture": { "key": "bar-points" },
+                    "texture": {
+                        "key": "bar-points"
+                    },
                     "x": 20,
                     "y": 150,
-                    "originX": 0,
-                    "originY": 0.5
+                    "originX": 0
                 },
                 {
                     "type": "Text",
@@ -154,9 +164,9 @@
                     "originX": 1,
                     "originY": 0.5,
                     "text": "0",
+                    "align": "right",
                     "fontFamily": "bebas",
-                    "fontSize": "35px",
-                    "align": "right"
+                    "fontSize": "35px"
                 },
                 {
                     "type": "Text",
@@ -168,9 +178,9 @@
                     "originX": 1,
                     "originY": 0.5,
                     "text": "0/0",
+                    "align": "right",
                     "fontFamily": "bebas",
-                    "fontSize": "35px",
-                    "align": "right"
+                    "fontSize": "35px"
                 },
                 {
                     "type": "Text",
@@ -179,20 +189,19 @@
                     "scope": "CLASS",
                     "x": 250,
                     "y": 152,
-                    "originX": 0,
                     "originY": 0.5,
-                    "text": "",
                     "fontFamily": "bebas",
                     "fontSize": "35px",
-                    "color": "#23b84b",
-                    "align": "left"
+                    "color": "#23b84b"
                 },
                 {
                     "type": "Sprite",
                     "id": "f3668ccf-1a2e-44be-afe5-02190994366d",
                     "label": "pauseButton",
                     "scope": "CLASS",
-                    "texture": { "key": "btn-pause" },
+                    "texture": {
+                        "key": "btn-pause"
+                    },
                     "x": 650,
                     "y": 70
                 }
@@ -203,24 +212,20 @@
             "id": "f3e0d01d-88dc-47e9-81a8-dcf5d7f84d8f",
             "label": "popupDark",
             "scope": "CLASS",
-            "x": 0,
-            "y": 0,
             "originX": 0,
             "originY": 0,
+            "visible": false,
             "isFilled": true,
             "fillColor": "#000000",
             "fillAlpha": 0.5,
             "width": 720,
-            "height": 1080,
-            "visible": false
+            "height": 1080
         },
         {
             "type": "Container",
             "id": "7a3a55cf-047d-4ef9-af58-17688f151539",
             "label": "pausePopupContainer",
             "scope": "CLASS",
-            "x": 0,
-            "y": 0,
             "visible": false,
             "list": [
                 {
@@ -228,7 +233,9 @@
                     "id": "ece9a936-6b35-4af7-b4f9-428de9cf57bf",
                     "label": "pausePopupBg",
                     "scope": "CLASS",
-                    "texture": { "key": "popup" },
+                    "texture": {
+                        "key": "popup"
+                    },
                     "x": 360,
                     "y": 540
                 },
@@ -242,9 +249,9 @@
                     "originX": 0.5,
                     "originY": 0.5,
                     "text": "PAUSED",
+                    "align": "center",
                     "fontFamily": "bebas",
                     "fontSize": "40px",
-                    "align": "center",
                     "color": "#FFFFFF"
                 },
                 {
@@ -252,7 +259,9 @@
                     "id": "061ab037-af00-479f-b6ff-8721a90bb413",
                     "label": "pauseRestartButton",
                     "scope": "CLASS",
-                    "texture": { "key": "btn-restart" },
+                    "texture": {
+                        "key": "btn-restart"
+                    },
                     "x": 360,
                     "y": 585
                 },
@@ -261,7 +270,9 @@
                     "id": "f1a2a25c-d2a7-4b20-9f26-dd4b74d14c03",
                     "label": "pauseMapButton",
                     "scope": "CLASS",
-                    "texture": { "key": "btn-map" },
+                    "texture": {
+                        "key": "btn-map"
+                    },
                     "x": 360,
                     "y": 680
                 },
@@ -270,7 +281,9 @@
                     "id": "7419c98e-61d4-49a4-8ac8-6655e93b1d79",
                     "label": "pauseCloseButton",
                     "scope": "CLASS",
-                    "texture": { "key": "btn-close" },
+                    "texture": {
+                        "key": "btn-close"
+                    },
                     "x": 515,
                     "y": 385
                 }
@@ -281,8 +294,6 @@
             "id": "318e971f-7cf8-4cab-bff4-2f7f4db23a9a",
             "label": "endPopupContainer",
             "scope": "CLASS",
-            "x": 0,
-            "y": 0,
             "visible": false,
             "list": [
                 {
@@ -290,7 +301,9 @@
                     "id": "0f1e888b-a323-4438-8d60-7a874ec2fd29",
                     "label": "endPopupBg",
                     "scope": "CLASS",
-                    "texture": { "key": "popup-end" },
+                    "texture": {
+                        "key": "popup-end"
+                    },
                     "x": 360,
                     "y": 540
                 },
@@ -304,9 +317,9 @@
                     "originX": 0.5,
                     "originY": 0.5,
                     "text": "STAGE FAILED!",
+                    "align": "center",
                     "fontFamily": "bebas",
                     "fontSize": "40px",
-                    "align": "center",
                     "color": "#FFFFFF"
                 },
                 {
@@ -319,9 +332,9 @@
                     "originX": 1,
                     "originY": 0.5,
                     "text": "0/0",
+                    "align": "right",
                     "fontFamily": "bebas",
                     "fontSize": "30px",
-                    "align": "right",
                     "color": "#FFFFFF"
                 },
                 {
@@ -334,9 +347,9 @@
                     "originX": 1,
                     "originY": 0.5,
                     "text": "0/0",
+                    "align": "right",
                     "fontFamily": "bebas",
                     "fontSize": "30px",
-                    "align": "right",
                     "color": "#FFFFFF"
                 },
                 {
@@ -344,7 +357,9 @@
                     "id": "2cbd5a0b-1828-430e-a4a8-f68849f57c30",
                     "label": "endRestartButton",
                     "scope": "CLASS",
-                    "texture": { "key": "btn-restart" },
+                    "texture": {
+                        "key": "btn-restart"
+                    },
                     "x": 360,
                     "y": 585
                 },
@@ -353,7 +368,9 @@
                     "id": "6ec3a05b-4c6d-41c1-bf72-c96f22677fc4",
                     "label": "endMapButton",
                     "scope": "CLASS",
-                    "texture": { "key": "btn-map" },
+                    "texture": {
+                        "key": "btn-map"
+                    },
                     "x": 360,
                     "y": 680
                 },
@@ -362,11 +379,1304 @@
                     "id": "9f718ba8-96ac-4494-b403-f1b16fdc84cc",
                     "label": "endNextButton",
                     "scope": "CLASS",
-                    "texture": { "key": "btn-next" },
+                    "texture": {
+                        "key": "btn-next"
+                    },
                     "x": 360,
                     "y": 650
                 }
             ]
+        },
+        {
+            "type": "Container",
+            "id": "5e135c35-755a-41ef-981c-1b386090fc0d",
+            "label": "game_elements_container",
+            "useGameObjectName": true,
+            "scope": "CLASS",
+            "visible": false
+        },
+        {
+            "type": "Container",
+            "id": "a6a18181-89be-4634-a43c-ac9fa46e0d96",
+            "label": "top_ui_container",
+            "useGameObjectName": true,
+            "scope": "CLASS",
+            "x": 117,
+            "y": 78,
+            "visible": false,
+            "list": [
+                {
+                    "type": "Image",
+                    "id": "5e8dd1ae-8f95-4566-93ee-77b5cc621580",
+                    "label": "highScore_Panel",
+                    "texture": {
+                        "key": "high-score-panel"
+                    },
+                    "x": 412,
+                    "y": 48
+                },
+                {
+                    "type": "Image",
+                    "id": "84c00697-f4ec-42ff-8f6e-48e0476f7cfd",
+                    "label": "gem",
+                    "useGameObjectName": true,
+                    "scope": "CLASS",
+                    "texture": {
+                        "key": "gem"
+                    },
+                    "x": 342,
+                    "y": 68,
+                    "scaleX": 0.7,
+                    "scaleY": 0.7
+                },
+                {
+                    "type": "Text",
+                    "id": "ff176330-c1e3-446c-9288-648a1901f693",
+                    "label": "Gems_collect",
+                    "useGameObjectName": true,
+                    "scope": "CLASS",
+                    "x": 384,
+                    "y": 65,
+                    "originY": 0.5,
+                    "text": "0",
+                    "fontFamily": "font-1",
+                    "fontSize": "75px",
+                    "color": "#ffffffff",
+                    "stroke": "#b548d9ff",
+                    "strokeThickness": 10
+                },
+                {
+                    "type": "Text",
+                    "id": "1519516c-83b2-42d3-bf7c-ea809602fc74",
+                    "label": "text_1",
+                    "x": 411,
+                    "originX": 0.5,
+                    "originY": 0.5,
+                    "text": "High Score ",
+                    "fontFamily": "font-1",
+                    "fontSize": "40px",
+                    "color": "#f2ec35ff",
+                    "stroke": "#0e0d0dff",
+                    "strokeThickness": 10
+                },
+                {
+                    "type": "Image",
+                    "id": "12970150-b874-4c0d-be72-680723237886",
+                    "label": "life_1",
+                    "useGameObjectName": true,
+                    "scope": "CLASS",
+                    "texture": {
+                        "key": "life-available"
+                    },
+                    "x": -63,
+                    "y": 167,
+                    "visible": false
+                },
+                {
+                    "type": "Image",
+                    "id": "e539bd6e-7a31-4e4c-8005-65dd931eba43",
+                    "label": "life_2",
+                    "useGameObjectName": true,
+                    "scope": "CLASS",
+                    "texture": {
+                        "key": "life-available"
+                    },
+                    "x": 21,
+                    "y": 167,
+                    "visible": false
+                },
+                {
+                    "type": "Image",
+                    "id": "dc89d3d9-f31d-4d29-bbe8-42a0feca131c",
+                    "label": "life_3",
+                    "useGameObjectName": true,
+                    "scope": "CLASS",
+                    "texture": {
+                        "key": "life-available"
+                    },
+                    "x": 104,
+                    "y": 167,
+                    "visible": false
+                },
+                {
+                    "type": "Image",
+                    "id": "f20247d6-f92f-467b-83cb-2e894497a01e",
+                    "label": "back_button1",
+                    "displayName": "back_button1",
+                    "useGameObjectName": true,
+                    "scope": "CLASS",
+                    "texture": {
+                        "key": "back-button"
+                    },
+                    "x": 842,
+                    "y": 50
+                },
+                {
+                    "type": "Image",
+                    "id": "e9537a36-035f-4c1a-852d-a7c99b87d964",
+                    "label": "pause_btn",
+                    "displayName": "pause_btn",
+                    "useGameObjectName": true,
+                    "scope": "CLASS",
+                    "texture": {
+                        "key": "back-icon"
+                    },
+                    "x": 838,
+                    "y": 43
+                },
+                {
+                    "type": "Image",
+                    "id": "681b1efd-e88f-48b1-a465-a5e7a0eb89d3",
+                    "label": "character_BG_1",
+                    "useGameObjectName": true,
+                    "scope": "CLASS",
+                    "texture": {
+                        "key": "character-bg"
+                    },
+                    "x": 1,
+                    "y": 42
+                },
+                {
+                    "type": "Image",
+                    "id": "ad936889-9142-4c69-8eda-945212fbecf0",
+                    "label": "character_Icon_1",
+                    "useGameObjectName": true,
+                    "texture": {
+                        "key": "character-icon"
+                    },
+                    "x": 1,
+                    "y": 42
+                }
+            ]
+        },
+        {
+            "type": "Container",
+            "id": "42906b4d-8110-4011-b49b-f57b823456ff",
+            "label": "error_panel_container",
+            "useGameObjectName": true,
+            "scope": "CLASS",
+            "x": 206,
+            "y": 699,
+            "visible": false,
+            "list": [
+                {
+                    "type": "Image",
+                    "id": "707f1ffd-397b-49e3-87a6-7ba257e83b8c",
+                    "label": "bg_blur_1",
+                    "texture": {
+                        "key": "blur-bg"
+                    },
+                    "x": 334,
+                    "y": 255
+                },
+                {
+                    "type": "Image",
+                    "id": "72089b00-14a5-4b20-9b82-57c72bea612a",
+                    "label": "Error_box1",
+                    "displayName": "Error_box1",
+                    "useGameObjectName": true,
+                    "texture": {
+                        "key": "error-box1"
+                    },
+                    "x": 338,
+                    "y": 157
+                },
+                {
+                    "type": "Image",
+                    "id": "09f266a6-f464-4ef7-ac1d-aee2d58ac0fb",
+                    "label": "Error_box2",
+                    "displayName": "Error_box2",
+                    "useGameObjectName": true,
+                    "texture": {
+                        "key": "error-box2"
+                    },
+                    "x": 338,
+                    "y": 157
+                },
+                {
+                    "type": "Image",
+                    "id": "4af5005c-f7c7-4629-b659-9427689344e5",
+                    "label": "button_type_2",
+                    "useGameObjectName": true,
+                    "texture": {
+                        "key": "error-button2"
+                    },
+                    "x": 334,
+                    "y": 1021,
+                    "visible": false
+                },
+                {
+                    "type": "Image",
+                    "id": "084b05cb-bc0f-4a4e-816e-222134cdb7a1",
+                    "label": "button_type_1",
+                    "useGameObjectName": true,
+                    "texture": {
+                        "key": "error-button"
+                    },
+                    "x": 334,
+                    "y": 1021,
+                    "visible": false
+                },
+                {
+                    "type": "Image",
+                    "id": "15a6fa40-664c-4baf-9ee7-563378ac4a06",
+                    "label": "Error_icon1",
+                    "useGameObjectName": true,
+                    "texture": {
+                        "key": "error-icon2"
+                    },
+                    "y": 12
+                },
+                {
+                    "type": "Image",
+                    "id": "18acfd60-c680-4ffe-a78c-7d5776691c7d",
+                    "label": "Error_icon2",
+                    "useGameObjectName": true,
+                    "texture": {
+                        "key": "error-icon3"
+                    },
+                    "y": 12
+                },
+                {
+                    "type": "Image",
+                    "id": "6516b2c9-67d1-4eea-98bd-5acf4309c4ee",
+                    "label": "Error_icon3",
+                    "useGameObjectName": true,
+                    "texture": {
+                        "key": "error-icon1"
+                    },
+                    "x": 17
+                },
+                {
+                    "type": "Image",
+                    "id": "a7afa52f-d7de-4881-a366-f660606a5d41",
+                    "label": "Error_icon4",
+                    "useGameObjectName": true,
+                    "texture": {
+                        "key": "error-icon2"
+                    },
+                    "y": 12
+                },
+                {
+                    "type": "Text",
+                    "id": "e945adfa-f7d1-42a9-af66-74aff44ecbc4",
+                    "label": "Error_title1",
+                    "useGameObjectName": true,
+                    "x": 421,
+                    "y": 176,
+                    "originX": 0.5,
+                    "originY": 0.5,
+                    "visible": false,
+                    "text": "No internet!",
+                    "fontFamily": "font-1",
+                    "fontSize": "50px",
+                    "stroke": "#000000ff",
+                    "strokeThickness": 10
+                },
+                {
+                    "type": "Text",
+                    "id": "dff4a0a1-b0a2-4402-8dc4-1185fcc75c3b",
+                    "label": "Error_title2",
+                    "useGameObjectName": true,
+                    "x": 406,
+                    "y": 175,
+                    "originX": 0.5,
+                    "originY": 0.5,
+                    "visible": false,
+                    "text": "Adding Rewards!",
+                    "fontFamily": "font-1",
+                    "fontSize": "50px",
+                    "stroke": "#000000ff",
+                    "strokeThickness": 10
+                },
+                {
+                    "type": "Text",
+                    "id": "0afc69f0-b206-448f-8b8a-80d34ea3fb42",
+                    "label": "Error_title3",
+                    "useGameObjectName": true,
+                    "x": 450,
+                    "y": 176,
+                    "originX": 0.5,
+                    "originY": 0.5,
+                    "text": "Something went wrong",
+                    "fontFamily": "font-1",
+                    "fontSize": "50px",
+                    "stroke": "#000000ff",
+                    "strokeThickness": 10
+                },
+                {
+                    "type": "Text",
+                    "id": "26a6b476-f0f7-40ca-8397-464c2797254b",
+                    "label": "Error_title4",
+                    "useGameObjectName": true,
+                    "x": 454,
+                    "y": 176,
+                    "originX": 0.5,
+                    "originY": 0.5,
+                    "visible": false,
+                    "text": "Device unsupported",
+                    "fontFamily": "font-1",
+                    "fontSize": "50px",
+                    "stroke": "#000000ff",
+                    "strokeThickness": 10
+                },
+                {
+                    "type": "Text",
+                    "id": "7b6e12ed-daf5-4a84-af7d-adb0497a1c27",
+                    "label": "error_subtitle1",
+                    "useGameObjectName": true,
+                    "x": 435,
+                    "y": 263,
+                    "originX": 0.5,
+                    "originY": 0.5,
+                    "visible": false,
+                    "text": "Please connect to the \n   internet and retry",
+                    "fontFamily": "font-1",
+                    "fontSize": "35px",
+                    "color": "#000000ff",
+                    "stroke": "#000000ff"
+                },
+                {
+                    "type": "Text",
+                    "id": "3d86af41-98e9-44aa-9bd4-6e00b4ecb3ba",
+                    "label": "error_subtitle2",
+                    "useGameObjectName": true,
+                    "x": 409,
+                    "y": 265,
+                    "originX": 0.5,
+                    "originY": 0.5,
+                    "visible": false,
+                    "text": "your rewards will be added\n    to your account shortly",
+                    "fontFamily": "font-1",
+                    "fontSize": "35px",
+                    "color": "#000000ff",
+                    "stroke": "#000000ff"
+                },
+                {
+                    "type": "Text",
+                    "id": "2409acb0-0c36-49a3-83a0-c624b03c38a6",
+                    "label": "error_subtitle3",
+                    "useGameObjectName": true,
+                    "x": 444,
+                    "y": 265,
+                    "originX": 0.5,
+                    "originY": 0.5,
+                    "text": "We're Working on this,\n       please try again",
+                    "fontFamily": "font-1",
+                    "fontSize": "35px",
+                    "color": "#000000ff",
+                    "stroke": "#000000ff"
+                },
+                {
+                    "type": "Text",
+                    "id": "1215d4c0-9c30-40a1-a348-7d55e5849048",
+                    "label": "error_subtitle4",
+                    "useGameObjectName": true,
+                    "x": 281,
+                    "y": 265,
+                    "originY": 0.5,
+                    "visible": false,
+                    "text": "your device does not\nsupport the graphics",
+                    "fontFamily": "font-1",
+                    "fontSize": "35px",
+                    "color": "#000000ff",
+                    "stroke": "#000000ff"
+                },
+                {
+                    "type": "Text",
+                    "id": "23aa3360-68e1-4e74-9ccb-2b3770fc622c",
+                    "label": "button_text_1",
+                    "useGameObjectName": true,
+                    "x": 334,
+                    "y": 1021,
+                    "originX": 0.5,
+                    "originY": 0.5,
+                    "visible": false,
+                    "text": "Retry",
+                    "fontFamily": "font-1",
+                    "fontSize": "55px",
+                    "color": "#ffffffff",
+                    "stroke": "#000000ff",
+                    "strokeThickness": 10
+                },
+                {
+                    "type": "Text",
+                    "id": "5b0943ff-b63e-4ed7-bce6-f087d7129ac8",
+                    "label": "button_text_2",
+                    "useGameObjectName": true,
+                    "x": 334,
+                    "y": 1021,
+                    "originX": 0.5,
+                    "originY": 0.5,
+                    "visible": false,
+                    "text": "Okay",
+                    "fontFamily": "font-1",
+                    "fontSize": "55px",
+                    "color": "#ffffffff",
+                    "stroke": "#000000ff",
+                    "strokeThickness": 10
+                },
+                {
+                    "type": "Text",
+                    "id": "3a5fae9d-d614-4935-8f38-e92a1bf968d0",
+                    "label": "button_text_3",
+                    "useGameObjectName": true,
+                    "x": 334,
+                    "y": 1021,
+                    "originX": 0.5,
+                    "originY": 0.5,
+                    "visible": false,
+                    "text": "Try Again",
+                    "fontFamily": "font-1",
+                    "fontSize": "55px",
+                    "color": "#ffffffff",
+                    "stroke": "#000000ff",
+                    "strokeThickness": 10
+                },
+                {
+                    "type": "Text",
+                    "id": "cb165580-c637-41df-a52e-bc72fc516c7d",
+                    "label": "button_text_4",
+                    "useGameObjectName": true,
+                    "x": 334,
+                    "y": 1021,
+                    "originX": 0.5,
+                    "originY": 0.5,
+                    "visible": false,
+                    "text": "Close",
+                    "fontFamily": "font-1",
+                    "fontSize": "55px",
+                    "color": "#ffffffff",
+                    "stroke": "#000000ff",
+                    "strokeThickness": 10
+                }
+            ]
+        },
+        {
+            "type": "Container",
+            "id": "f23c03a5-d0fa-45f3-96cb-dd0d5bcec4a2",
+            "label": "share_panel_container",
+            "useGameObjectName": true,
+            "scope": "PUBLIC",
+            "visible": false,
+            "list": [
+                {
+                    "type": "Image",
+                    "id": "14219985-77d6-44b4-8975-80f1283b7d5f",
+                    "label": "share_bg",
+                    "texture": {
+                        "key": "share-bg"
+                    },
+                    "x": 540,
+                    "y": 960
+                },
+                {
+                    "type": "Image",
+                    "id": "281882f6-eaa8-4347-b247-21ec23ebe29a",
+                    "label": "sh_large_panel",
+                    "texture": {
+                        "key": "sh-large-panel"
+                    },
+                    "x": 540,
+                    "y": 1152
+                },
+                {
+                    "type": "Image",
+                    "id": "93ad3c49-fb61-4061-8ccd-a42dc5bd868d",
+                    "label": "sh_panel_1",
+                    "scope": "CLASS",
+                    "texture": {
+                        "key": "title"
+                    },
+                    "x": 672,
+                    "y": 1041
+                },
+                {
+                    "type": "Image",
+                    "id": "44570f2b-979f-4c32-9914-029fe5512312",
+                    "label": "sh_logo",
+                    "scope": "CLASS",
+                    "texture": {
+                        "key": "logo-01"
+                    },
+                    "x": 540,
+                    "y": 565
+                },
+                {
+                    "type": "Image",
+                    "id": "decf55da-9ddb-4872-b865-7628c219116b",
+                    "label": "sh_panel",
+                    "scope": "CLASS",
+                    "texture": {
+                        "key": "sh-panel"
+                    },
+                    "x": 540,
+                    "y": 761
+                },
+                {
+                    "type": "Image",
+                    "id": "d78f424c-0fb3-4a66-a763-8c6a86f65968",
+                    "label": "share_text1",
+                    "scope": "CLASS",
+                    "texture": {
+                        "key": "share-text1"
+                    },
+                    "x": 540,
+                    "y": 765
+                },
+                {
+                    "type": "Image",
+                    "id": "1aaf5bca-47e2-4f2a-be55-ea587983c857",
+                    "label": "sh_charcter",
+                    "scope": "CLASS",
+                    "texture": {
+                        "key": "sh-character"
+                    },
+                    "x": 225,
+                    "y": 1141
+                },
+                {
+                    "type": "Text",
+                    "id": "20823b4c-0159-45e2-9cea-73175534b149",
+                    "label": "final_score",
+                    "scope": "CLASS",
+                    "x": 682,
+                    "y": 1261,
+                    "originY": 0.5,
+                    "text": "0",
+                    "fontFamily": "font-1",
+                    "fontSize": "65px",
+                    "stroke": "#9802ffff",
+                    "strokeThickness": 10
+                }
+            ]
+        },
+        {
+            "type": "Container",
+            "id": "c81de534-175c-431b-aec5-b8f4341defd1",
+            "label": "game_over_lose_panel_container",
+            "displayName": "game_over_lose_panel_container",
+            "useGameObjectName": true,
+            "scope": "CLASS",
+            "visible": false,
+            "list": [
+                {
+                    "type": "Image",
+                    "id": "c34eb247-bb7a-4d10-8a13-643e8fc61a03",
+                    "label": "score_panel_2",
+                    "useGameObjectName": true,
+                    "texture": {
+                        "key": "score-panel"
+                    },
+                    "x": 540,
+                    "y": 1035
+                },
+                {
+                    "type": "Text",
+                    "id": "ee078947-c7b6-45d1-82f9-99f6937d2e81",
+                    "label": "low_score",
+                    "useGameObjectName": true,
+                    "scope": "CLASS",
+                    "x": 540,
+                    "y": 1010,
+                    "originY": 0.5,
+                    "text": "000",
+                    "fontFamily": "font-1",
+                    "fontSize": "85PX",
+                    "color": "#ffffffff",
+                    "stroke": "#9802ffff",
+                    "strokeThickness": 10
+                },
+                {
+                    "type": "Image",
+                    "id": "2a2ff2c0-22fd-4c63-8277-9c2e30b30e80",
+                    "label": "gem_3",
+                    "texture": {
+                        "key": "gem"
+                    },
+                    "x": 460,
+                    "y": 1010
+                },
+                {
+                    "type": "Image",
+                    "id": "2b439023-b555-41f3-bf46-f9c865888436",
+                    "label": "lowScore_Character_1",
+                    "scope": "CLASS",
+                    "texture": {
+                        "key": "low-score-character"
+                    },
+                    "x": 460,
+                    "y": 445
+                },
+                {
+                    "type": "Text",
+                    "id": "e3465a69-7430-4b30-bda2-97d903fff866",
+                    "label": "score_text_1",
+                    "useGameObjectName": true,
+                    "x": 540,
+                    "y": 770,
+                    "originX": 0.5,
+                    "originY": 0.5,
+                    "text": "Uh Oh!",
+                    "fontFamily": "font-1",
+                    "fontSize": "80px",
+                    "color": "#ffef4aff",
+                    "stroke": "#560085ff",
+                    "strokeThickness": 10
+                },
+                {
+                    "type": "Text",
+                    "id": "c544a3af-8bae-4d91-96b5-a68ee1736b40",
+                    "label": "Bottom_text_1",
+                    "useGameObjectName": true,
+                    "x": 540,
+                    "y": 1225,
+                    "originX": 0.5,
+                    "originY": 0.5,
+                    "text": "Good Luck Coming Soon",
+                    "fontFamily": "font-1",
+                    "fontSize": "60PX",
+                    "color": "#ffffffff",
+                    "stroke": "#58006bff",
+                    "strokeThickness": 10
+                }
+            ]
+        },
+        {
+            "type": "Container",
+            "id": "6200e8ec-9bac-4f29-bc8d-d3edf0df7c8b",
+            "label": "game_over_win_panel_container",
+            "displayName": "game_over_win_panel_container",
+            "useGameObjectName": true,
+            "scope": "CLASS",
+            "visible": false,
+            "list": [
+                {
+                    "type": "Image",
+                    "id": "13325e54-aa74-435a-9eea-546fcd5b49a4",
+                    "label": "score_panel_1",
+                    "useGameObjectName": true,
+                    "texture": {
+                        "key": "score-panel"
+                    },
+                    "x": 534,
+                    "y": 1035
+                },
+                {
+                    "type": "Image",
+                    "id": "05a1912b-bdd6-4e37-a94f-ed5e4a09a8d6",
+                    "label": "highScore_Character_1",
+                    "scope": "CLASS",
+                    "texture": {
+                        "key": "high-score-character"
+                    },
+                    "x": 540,
+                    "y": 490
+                },
+                {
+                    "type": "Text",
+                    "id": "d6149de0-05c3-4643-88cb-ab9d4d18d6fc",
+                    "label": "high_score_1",
+                    "useGameObjectName": true,
+                    "scope": "CLASS",
+                    "x": 540,
+                    "y": 1010,
+                    "originY": 0.5,
+                    "text": "000",
+                    "fontFamily": "font-1",
+                    "fontSize": "85PX",
+                    "color": "#ffffffff",
+                    "stroke": "#9802ffff",
+                    "strokeThickness": 10
+                },
+                {
+                    "type": "Image",
+                    "id": "4ec6cb57-3651-4292-a54c-9869a5d8c1e3",
+                    "label": "gem_2",
+                    "texture": {
+                        "key": "gem"
+                    },
+                    "x": 450,
+                    "y": 1010
+                },
+                {
+                    "type": "Text",
+                    "id": "856c1bbd-c7ae-40ed-8832-c3f5c97e5d9a",
+                    "label": "score_text",
+                    "useGameObjectName": true,
+                    "x": 540,
+                    "y": 770,
+                    "originX": 0.5,
+                    "originY": 0.5,
+                    "text": "Nicely Done",
+                    "fontFamily": "font-1",
+                    "fontSize": "80px",
+                    "color": "#ffef4aff",
+                    "stroke": "#560085ff",
+                    "strokeThickness": 10
+                },
+                {
+                    "type": "Text",
+                    "id": "3a8811e3-6c1d-4d28-925f-f964ca21a8f9",
+                    "label": "Bottom_text",
+                    "useGameObjectName": true,
+                    "x": 540,
+                    "y": 1225,
+                    "originX": 0.5,
+                    "originY": 0.5,
+                    "text": "100% Nazar Protection",
+                    "fontFamily": "font-1",
+                    "fontSize": "60PX",
+                    "color": "#ffffffff",
+                    "stroke": "#58006bff",
+                    "strokeThickness": 10
+                }
+            ]
+        },
+        {
+            "type": "Container",
+            "id": "fd29405d-dfe3-4b4a-8c15-3a1d04944428",
+            "label": "game_over_panel_container",
+            "useGameObjectName": true,
+            "scope": "CLASS",
+            "x": 517,
+            "y": 789,
+            "visible": false,
+            "list": [
+                {
+                    "type": "Image",
+                    "id": "f6b1b433-df61-455e-8e9d-c239480f67fd",
+                    "label": "blur_bg",
+                    "useGameObjectName": true,
+                    "texture": {
+                        "key": "blur-bg"
+                    },
+                    "x": 23,
+                    "y": 169,
+                    "scaleY": 1.1
+                },
+                {
+                    "type": "Text",
+                    "id": "dc7aa2ac-2097-45c5-9948-4ccbf49747fa",
+                    "label": "Time_spend",
+                    "useGameObjectName": true,
+                    "scope": "CLASS",
+                    "x": 1,
+                    "y": 483,
+                    "originX": 0.5,
+                    "originY": 0.5,
+                    "alpha": 0,
+                    "alphaTopLeft": 0,
+                    "alphaTopRight": 0,
+                    "alphaBottomLeft": 0,
+                    "alphaBottomRight": 0,
+                    "text": "0:11",
+                    "fontFamily": "font-1",
+                    "fontSize": "75px",
+                    "color": "#ffffffff",
+                    "stroke": "#9802ffff",
+                    "strokeThickness": 10
+                },
+                {
+                    "type": "Image",
+                    "id": "c10f52d2-c850-42c4-a397-943d128833a8",
+                    "label": "character_Glow",
+                    "texture": {
+                        "key": "character-glow"
+                    },
+                    "x": 6,
+                    "y": -372
+                },
+                {
+                    "type": "Image",
+                    "id": "7ecc7cff-8d0a-408e-bc6c-e3b60ac6f135",
+                    "label": "score_panel",
+                    "useGameObjectName": true,
+                    "texture": {
+                        "key": "score-panel"
+                    },
+                    "x": 23,
+                    "y": 246,
+                    "alpha": 0,
+                    "alphaTopLeft": 0,
+                    "alphaTopRight": 0,
+                    "alphaBottomLeft": 0,
+                    "alphaBottomRight": 0
+                },
+                {
+                    "type": "Text",
+                    "id": "88d0341d-b88f-4ca0-ad66-34411deb2a41",
+                    "label": "high_score",
+                    "useGameObjectName": true,
+                    "scope": "CLASS",
+                    "x": 5,
+                    "y": 220,
+                    "originY": 0.5,
+                    "alpha": 0,
+                    "alphaTopLeft": 0,
+                    "alphaTopRight": 0,
+                    "alphaBottomLeft": 0,
+                    "alphaBottomRight": 0,
+                    "text": "000",
+                    "fontFamily": "font-1",
+                    "fontSize": "85PX",
+                    "color": "#ffffffff",
+                    "stroke": "#9802ffff",
+                    "strokeThickness": 10
+                },
+                {
+                    "type": "Image",
+                    "id": "95cfc0d9-334b-4222-9ce7-5db2c4a0877d",
+                    "label": "highScore_Character",
+                    "scope": "CLASS",
+                    "texture": {
+                        "key": "high-score-character"
+                    },
+                    "y": -297,
+                    "visible": false,
+                    "alpha": 0,
+                    "alphaTopLeft": 0,
+                    "alphaTopRight": 0,
+                    "alphaBottomLeft": 0,
+                    "alphaBottomRight": 0
+                },
+                {
+                    "type": "Image",
+                    "id": "09d63365-31ca-486c-868a-7d656bca3c7c",
+                    "label": "lowScore_Character",
+                    "scope": "CLASS",
+                    "texture": {
+                        "key": "low-score-character"
+                    },
+                    "x": -59,
+                    "y": -342,
+                    "visible": false,
+                    "alpha": 0,
+                    "alphaTopLeft": 0,
+                    "alphaTopRight": 0,
+                    "alphaBottomLeft": 0,
+                    "alphaBottomRight": 0
+                },
+                {
+                    "type": "Image",
+                    "id": "a7211d00-1650-4712-848c-95b721e01638",
+                    "label": "gem_1",
+                    "texture": {
+                        "key": "gem"
+                    },
+                    "x": -61,
+                    "y": 220,
+                    "alpha": 0,
+                    "alphaTopLeft": 0,
+                    "alphaTopRight": 0,
+                    "alphaBottomLeft": 0,
+                    "alphaBottomRight": 0
+                },
+                {
+                    "type": "Image",
+                    "id": "aa449e1b-04a7-4794-8e4d-abf78a2e0867",
+                    "label": "share_btn",
+                    "useGameObjectName": true,
+                    "scope": "CLASS",
+                    "texture": {
+                        "key": "share-btn"
+                    },
+                    "x": 23,
+                    "y": 711
+                },
+                {
+                    "type": "Text",
+                    "id": "85bb6883-9328-40c4-a45c-a62f825eb5b6",
+                    "label": "score_text2",
+                    "useGameObjectName": true,
+                    "x": 23,
+                    "y": -24,
+                    "originX": 0.5,
+                    "originY": 0.5,
+                    "alpha": 0,
+                    "alphaTopLeft": 0,
+                    "alphaTopRight": 0,
+                    "alphaBottomLeft": 0,
+                    "alphaBottomRight": 0,
+                    "text": "Uh Oh!",
+                    "fontFamily": "font-1",
+                    "fontSize": "80px",
+                    "color": "#ffef4aff",
+                    "stroke": "#560085ff",
+                    "strokeThickness": 10
+                },
+                {
+                    "type": "Text",
+                    "id": "72f85df5-5e8a-4004-8d49-f691d35f327f",
+                    "label": "score_text1",
+                    "useGameObjectName": true,
+                    "x": 23,
+                    "y": -24,
+                    "originX": 0.5,
+                    "originY": 0.5,
+                    "alpha": 0,
+                    "alphaTopLeft": 0,
+                    "alphaTopRight": 0,
+                    "alphaBottomLeft": 0,
+                    "alphaBottomRight": 0,
+                    "text": "Nicely Done",
+                    "fontFamily": "font-1",
+                    "fontSize": "80px",
+                    "color": "#ffef4aff",
+                    "stroke": "#560085ff",
+                    "strokeThickness": 10
+                },
+                {
+                    "type": "Text",
+                    "id": "8183326f-c7e5-45c0-8dde-8d29851ce76f",
+                    "label": "Bottom_text1",
+                    "useGameObjectName": true,
+                    "x": 23,
+                    "y": 411,
+                    "originX": 0.5,
+                    "originY": 0.5,
+                    "alpha": 0,
+                    "alphaTopLeft": 0,
+                    "alphaTopRight": 0,
+                    "alphaBottomLeft": 0,
+                    "alphaBottomRight": 0,
+                    "text": "100% Nazar Protection",
+                    "fontFamily": "font-1",
+                    "fontSize": "60PX",
+                    "color": "#ffffffff",
+                    "stroke": "#58006bff",
+                    "strokeThickness": 10
+                },
+                {
+                    "type": "Text",
+                    "id": "671e6e1e-03ab-4fb7-861f-62591c89876a",
+                    "label": "Bottom_text2",
+                    "useGameObjectName": true,
+                    "x": 23,
+                    "y": 411,
+                    "originX": 0.5,
+                    "originY": 0.5,
+                    "alpha": 0,
+                    "alphaTopLeft": 0,
+                    "alphaTopRight": 0,
+                    "alphaBottomLeft": 0,
+                    "alphaBottomRight": 0,
+                    "text": "Good Luck Coming Soon",
+                    "fontFamily": "font-1",
+                    "fontSize": "60PX",
+                    "color": "#ffffffff",
+                    "stroke": "#58006bff",
+                    "strokeThickness": 10
+                },
+                {
+                    "type": "Image",
+                    "id": "ac1ba02a-4b4e-4f6c-ade8-e969d0f37b99",
+                    "label": "restart_btn",
+                    "useGameObjectName": true,
+                    "scope": "CLASS",
+                    "texture": {
+                        "key": "green-button"
+                    },
+                    "x": 23,
+                    "y": 929
+                },
+                {
+                    "type": "Image",
+                    "id": "60de0884-b06d-411d-8287-72766f76c53a",
+                    "label": "character_BG_2",
+                    "useGameObjectName": true,
+                    "scope": "CLASS",
+                    "texture": {
+                        "key": "character-bg"
+                    },
+                    "x": -399,
+                    "y": -669
+                },
+                {
+                    "type": "Image",
+                    "id": "cd731562-3f6a-4745-8b9a-b666e09e6524",
+                    "label": "character_Icon_2",
+                    "useGameObjectName": true,
+                    "texture": {
+                        "key": "character-icon"
+                    },
+                    "x": -399,
+                    "y": -669
+                },
+                {
+                    "type": "Text",
+                    "id": "6722911b-a0a9-432c-afc3-321ed5c4479a",
+                    "label": "profile_text_1",
+                    "useGameObjectName": true,
+                    "scope": "CLASS",
+                    "x": -398,
+                    "y": -554,
+                    "originX": 0.5,
+                    "originY": 0.5,
+                    "text": "Guest",
+                    "fixedWidth": 210,
+                    "align": "center",
+                    "fontFamily": "font-1",
+                    "fontSize": "35px",
+                    "stroke": "#332f2fff",
+                    "strokeThickness": 10
+                },
+                {
+                    "type": "Image",
+                    "id": "bdb480cc-d61b-4849-a246-14f5a859ca08",
+                    "label": "title_2",
+                    "displayName": "title_2",
+                    "useGameObjectName": true,
+                    "texture": {
+                        "key": "title"
+                    },
+                    "x": 23,
+                    "y": -659
+                }
+            ]
+        },
+        {
+            "type": "Container",
+            "id": "1cc1ca0e-b10f-4b25-8aec-893137c5e437",
+            "label": "pause_panel_container",
+            "useGameObjectName": true,
+            "scope": "CLASS",
+            "x": 330,
+            "y": 960,
+            "visible": false,
+            "list": [
+                {
+                    "type": "Image",
+                    "id": "01fd232f-876e-4fa3-9dfd-a5ae0eb176a4",
+                    "label": "bg_blur",
+                    "scope": "CLASS",
+                    "texture": {
+                        "key": "bg-blur"
+                    },
+                    "x": 210,
+                    "alpha": 0.6,
+                    "alphaTopLeft": 0.6,
+                    "alphaTopRight": 0.6,
+                    "alphaBottomLeft": 0.6,
+                    "alphaBottomRight": 0.6
+                },
+                {
+                    "type": "Image",
+                    "id": "37a3fcd7-68ed-4527-8942-4a2d001a4550",
+                    "label": "pause_panel",
+                    "scope": "CLASS",
+                    "texture": {
+                        "key": "pause-panel"
+                    },
+                    "x": 210
+                },
+                {
+                    "type": "Image",
+                    "id": "760e3711-2e0b-44df-8b9f-9ae0f8fd6499",
+                    "label": "resume_btn",
+                    "scope": "CLASS",
+                    "texture": {
+                        "key": "cancel-btn"
+                    },
+                    "x": 409,
+                    "y": 190
+                },
+                {
+                    "type": "Image",
+                    "id": "92b35f68-86f3-4a94-90aa-e368867bc477",
+                    "label": "abandon_btn",
+                    "scope": "CLASS",
+                    "texture": {
+                        "key": "quit-btn"
+                    },
+                    "y": 190
+                },
+                {
+                    "type": "Text",
+                    "id": "91a45a20-d24b-48e1-8e3e-792f1346bde8",
+                    "label": "quit_game_text",
+                    "useGameObjectName": true,
+                    "x": 210,
+                    "y": -267,
+                    "originX": 0.5,
+                    "originY": 0.5,
+                    "text": "Quit Game?",
+                    "fontFamily": "font-1",
+                    "fontSize": "80px",
+                    "color": "#faf844ff",
+                    "stroke": "#5d3193ff",
+                    "strokeThickness": 10
+                }
+            ]
+        },
+        {
+            "type": "Container",
+            "id": "00d882b5-2778-4ebe-9ffe-da028e86376d",
+            "label": "game_start_panel_container",
+            "useGameObjectName": true,
+            "scope": "CLASS",
+            "x": 528,
+            "y": 918,
+            "visible": false,
+            "list": [
+                {
+                    "type": "Image",
+                    "id": "f545599b-8539-4a3c-9a3a-e03055263d27",
+                    "label": "blur_bg_1",
+                    "texture": {
+                        "key": "blur-bg"
+                    },
+                    "x": 8,
+                    "scaleX": 1.1,
+                    "scaleY": 1.1
+                },
+                {
+                    "type": "Image",
+                    "id": "0e032575-d8be-4999-8fab-64c427c79b4b",
+                    "label": "naz_new_screen",
+                    "texture": {
+                        "key": "naz-new-screen"
+                    },
+                    "x": 12,
+                    "y": 42
+                },
+                {
+                    "type": "Image",
+                    "id": "aea9d82a-f431-4946-8240-34c2a6f46b3c",
+                    "label": "naz_text3",
+                    "useGameObjectName": true,
+                    "texture": {
+                        "key": "naz-text3"
+                    },
+                    "x": 29,
+                    "y": -362
+                },
+                {
+                    "type": "Image",
+                    "id": "c00398e1-545a-4a08-8615-3a54c4d103ad",
+                    "label": "naz_text1",
+                    "texture": {
+                        "key": "naz-text1"
+                    },
+                    "x": 32,
+                    "y": 361
+                },
+                {
+                    "type": "Image",
+                    "id": "e7b3ac8e-b2e6-4961-8a36-39a97e3b2932",
+                    "label": "naz_text2",
+                    "texture": {
+                        "key": "naz-text2"
+                    },
+                    "x": 59,
+                    "y": -101
+                },
+                {
+                    "type": "Text",
+                    "id": "03fd6349-828d-41de-baa9-20ace3c3c31f",
+                    "label": "top_text",
+                    "x": 12,
+                    "y": -537,
+                    "originX": 0.5,
+                    "originY": 0.64,
+                    "text": "Pop Nazars & Earn SuperCoins",
+                    "fontFamily": "font-1",
+                    "fontSize": "42px",
+                    "color": "#ecff3bff",
+                    "stroke": "#600080ff",
+                    "strokeThickness": 10
+                },
+                {
+                    "type": "Image",
+                    "id": "7d366e58-ac12-4ed6-9376-e4483a14817a",
+                    "label": "start_btn",
+                    "useGameObjectName": true,
+                    "scope": "CLASS",
+                    "texture": {
+                        "key": "start-button"
+                    },
+                    "x": 12,
+                    "y": 857
+                },
+                {
+                    "type": "Image",
+                    "id": "3a584653-57ba-47a7-9616-d9ab004fa1eb",
+                    "label": "character_BG",
+                    "useGameObjectName": true,
+                    "scope": "CLASS",
+                    "texture": {
+                        "key": "character-bg"
+                    },
+                    "x": -410,
+                    "y": -798
+                },
+                {
+                    "type": "Image",
+                    "id": "01e1e5e2-5f64-476d-9a51-6e19053fa9c9",
+                    "label": "character_Icon",
+                    "useGameObjectName": true,
+                    "texture": {
+                        "key": "character-icon"
+                    },
+                    "x": -410,
+                    "y": -798
+                },
+                {
+                    "type": "Text",
+                    "id": "ee07c4ff-0fa1-4213-b6de-4065286f21f9",
+                    "label": "profile_text",
+                    "useGameObjectName": true,
+                    "scope": "CLASS",
+                    "x": -409,
+                    "y": -683,
+                    "originX": 0.5,
+                    "originY": 0.5,
+                    "text": "Guest",
+                    "fixedWidth": 210,
+                    "align": "center",
+                    "fontFamily": "font-1",
+                    "fontSize": "35px",
+                    "stroke": "#332f2fff",
+                    "strokeThickness": 10
+                },
+                {
+                    "type": "Image",
+                    "id": "4391bcf8-1604-47af-8ebf-066f6b53aa8b",
+                    "label": "title_1",
+                    "displayName": "title_1",
+                    "useGameObjectName": true,
+                    "texture": {
+                        "key": "title"
+                    },
+                    "x": 12,
+                    "y": -788
+                }
+            ]
+        },
+        {
+            "type": "Image",
+            "id": "b61693c1-9ef9-4e8e-80ca-cb54a7a1aace",
+            "label": "exit_back_button",
+            "displayName": "exit_back_button",
+            "useGameObjectName": true,
+            "scope": "CLASS",
+            "texture": {
+                "key": "back-button"
+            },
+            "x": 959,
+            "y": 128
+        },
+        {
+            "type": "Image",
+            "id": "4fd2d07d-0dbe-4b0a-8e6f-64857bfe0ef6",
+            "label": "exit_btn",
+            "useGameObjectName": true,
+            "scope": "CLASS",
+            "texture": {
+                "key": "back-icon"
+            },
+            "x": 955,
+            "y": 121
         }
     ],
     "plainObjects": [],
