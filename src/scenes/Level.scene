@@ -1,5 +1,5 @@
 {
-    "id": "67e7e175-b1ce-4966-b945-86d7aaf5010c",
+    "id": "159a4798-a72a-4bf0-b15e-b5f7fb8ab3dd",
     "sceneType": "SCENE",
     "settings": {
         "exportClass": true,
@@ -14,162 +14,357 @@
     "displayList": [
         {
             "type": "Container",
-            "id": "14ea8970-9db0-4bf0-95f6-7708e68b7b60",
-            "label": "mapWorldContainer",
+            "id": "a1b2cb02-fe5a-4f2e-b8f7-8f2f04c66f3f",
+            "label": "gameWorldContainer",
             "scope": "CLASS",
+            "x": 0,
+            "y": 0,
             "list": [
                 {
                     "type": "Image",
-                    "id": "b89aa4f0-d846-423f-a5b5-83fa4191111a",
-                    "label": "bgMap",
+                    "id": "7e5f2f09-e4ac-4fd9-b8f1-c0f4b18f68c5",
+                    "label": "bgGame1",
                     "scope": "CLASS",
-                    "texture": {
-                        "key": "bg-map"
-                    },
+                    "texture": { "key": "bg-game1" },
                     "x": 360,
                     "y": 540
+                },
+                {
+                    "type": "Image",
+                    "id": "a973e218-c4f8-4d0d-b9f4-6a0bcc5b27e8",
+                    "label": "bgGame2",
+                    "scope": "CLASS",
+                    "texture": { "key": "bg-game2" },
+                    "x": 360,
+                    "y": -540
+                },
+                {
+                    "type": "Image",
+                    "id": "d5d6da00-b00c-41d7-b060-1933eaf34d4c",
+                    "label": "bgGame3a",
+                    "scope": "CLASS",
+                    "texture": { "key": "bg-game3" },
+                    "x": 360,
+                    "y": -1620
+                },
+                {
+                    "type": "Image",
+                    "id": "e210d799-ec29-48f7-b69c-bfa5ec25be6f",
+                    "label": "bgGame3b",
+                    "scope": "CLASS",
+                    "texture": { "key": "bg-game3" },
+                    "x": 360,
+                    "y": -2700
+                },
+                {
+                    "type": "Image",
+                    "id": "437d9d90-118d-4969-a3fc-e0475f3dceff",
+                    "label": "blockBottom",
+                    "scope": "CLASS",
+                    "texture": { "key": "block-bottom" },
+                    "x": 360,
+                    "y": 866
                 }
             ]
         },
         {
             "type": "Container",
-            "id": "eae94be9-7846-4637-a4c2-d5ed2359f5d0",
-            "label": "mapUiContainer",
+            "id": "e65d2a48-d534-4f7f-b06f-8496bf6f5f26",
+            "label": "gameplayContainer",
             "scope": "CLASS",
+            "x": 0,
+            "y": 0,
             "list": [
                 {
                     "type": "Sprite",
-                    "id": "a0cb5132-ec2f-4687-9009-3f5bfb53f8ba",
-                    "label": "homeButton",
+                    "id": "7ca64ff4-75e5-443f-bdbd-4c00272542f7",
+                    "label": "blockTop",
                     "scope": "CLASS",
-                    "texture": {
-                        "key": "btn-home"
-                    },
-                    "x": 70,
-                    "y": 70
+                    "texture": { "key": "block" },
+                    "x": 160,
+                    "y": 120
                 },
                 {
                     "type": "Sprite",
-                    "id": "1cc8f050-5fb2-4113-ad7b-a62256f35fc9",
-                    "label": "startLevelButton",
+                    "id": "904486f0-28c8-4a4f-847e-c85e5e0fc350",
+                    "label": "claw",
                     "scope": "CLASS",
-                    "texture": {
-                        "key": "btn-start-level"
-                    },
-                    "x": 361,
-                    "y": 813
+                    "texture": { "key": "claw1" },
+                    "x": 160
+                }
+            ]
+        },
+        {
+            "type": "Container",
+            "id": "c11c1d8d-4f89-4f8e-83a5-eb160ea02ecb",
+            "label": "fxContainer",
+            "scope": "CLASS",
+            "x": 0,
+            "y": 0,
+            "list": [
+                {
+                    "type": "Sprite",
+                    "id": "e01f8876-3944-41eb-a69e-9ca2e7172398",
+                    "label": "collideFx",
+                    "scope": "CLASS",
+                    "texture": { "key": "anim-collide" },
+                    "x": -300,
+                    "y": -300,
+                    "visible": false
+                }
+            ]
+        },
+        {
+            "type": "Container",
+            "id": "70d4f27d-7ae9-4f37-8afe-c5b63cbe9f5d",
+            "label": "hudContainer",
+            "scope": "CLASS",
+            "x": 0,
+            "y": 0,
+            "list": [
+                {
+                    "type": "Image",
+                    "id": "d4b6a7fb-4d58-49de-a77f-32eaa2cb3025",
+                    "label": "barBlocks",
+                    "scope": "CLASS",
+                    "texture": { "key": "bar-blocks" },
+                    "x": 20,
+                    "y": 60,
+                    "originX": 0,
+                    "originY": 0.5
                 },
                 {
                     "type": "Image",
-                    "id": "f8e4ac95-6ec5-4ede-9e1a-a3d94350ea7a",
-                    "label": "locationMarker",
+                    "id": "63675ea9-5f2c-45c8-94cf-f8ac833fce12",
+                    "label": "barPoints",
                     "scope": "CLASS",
-                    "texture": {
-                        "key": "location-marker"
-                    },
-                    "x": 361,
-                    "y": 763
+                    "texture": { "key": "bar-points" },
+                    "x": 20,
+                    "y": 150,
+                    "originX": 0,
+                    "originY": 0.5
+                },
+                {
+                    "type": "Text",
+                    "id": "512d8d57-68d1-4e2e-8c40-a7dbd1b75280",
+                    "label": "txtBlocks",
+                    "scope": "CLASS",
+                    "x": 218,
+                    "y": 62,
+                    "originX": 1,
+                    "originY": 0.5,
+                    "text": "0",
+                    "fontFamily": "bebas",
+                    "fontSize": "35px",
+                    "align": "right"
+                },
+                {
+                    "type": "Text",
+                    "id": "6a8b2eb0-a00d-410f-a7bc-7fac9f3c06ed",
+                    "label": "txtPoints",
+                    "scope": "CLASS",
+                    "x": 218,
+                    "y": 152,
+                    "originX": 1,
+                    "originY": 0.5,
+                    "text": "0/0",
+                    "fontFamily": "bebas",
+                    "fontSize": "35px",
+                    "align": "right"
+                },
+                {
+                    "type": "Text",
+                    "id": "f715f58e-f4d9-49ef-b74f-fb8389f2f863",
+                    "label": "txtPointsAdded",
+                    "scope": "CLASS",
+                    "x": 250,
+                    "y": 152,
+                    "originX": 0,
+                    "originY": 0.5,
+                    "text": "",
+                    "fontFamily": "bebas",
+                    "fontSize": "35px",
+                    "color": "#23b84b",
+                    "align": "left"
+                },
+                {
+                    "type": "Sprite",
+                    "id": "f3668ccf-1a2e-44be-afe5-02190994366d",
+                    "label": "pauseButton",
+                    "scope": "CLASS",
+                    "texture": { "key": "btn-pause" },
+                    "x": 650,
+                    "y": 70
                 }
             ]
         },
         {
             "type": "Rectangle",
-            "id": "0f195736-2fbb-487c-b1de-eaf7722f78ee",
+            "id": "f3e0d01d-88dc-47e9-81a8-dcf5d7f84d8f",
             "label": "popupDark",
             "scope": "CLASS",
+            "x": 0,
+            "y": 0,
             "originX": 0,
             "originY": 0,
-            "visible": false,
             "isFilled": true,
             "fillColor": "#000000",
             "fillAlpha": 0.5,
             "width": 720,
-            "height": 1080
+            "height": 1080,
+            "visible": false
         },
         {
             "type": "Container",
-            "id": "1b908dca-b0a2-4ff9-be80-2e5a82eaefea",
-            "label": "playPopupContainer",
+            "id": "7a3a55cf-047d-4ef9-af58-17688f151539",
+            "label": "pausePopupContainer",
             "scope": "CLASS",
+            "x": 0,
+            "y": 0,
             "visible": false,
             "list": [
                 {
                     "type": "Image",
-                    "id": "52631eee-8c20-474d-b80e-4316f6ee2754",
-                    "label": "popupBg",
+                    "id": "ece9a936-6b35-4af7-b4f9-428de9cf57bf",
+                    "label": "pausePopupBg",
                     "scope": "CLASS",
-                    "texture": {
-                        "key": "popup-play"
-                    },
+                    "texture": { "key": "popup" },
                     "x": 360,
                     "y": 540
                 },
                 {
-                    "type": "Sprite",
-                    "id": "9eb4f6df-6f17-4928-9da3-1fb901ea80b4",
-                    "label": "popupPlayButton",
-                    "scope": "CLASS",
-                    "texture": {
-                        "key": "btn-play"
-                    },
-                    "x": 360,
-                    "y": 650
-                },
-                {
-                    "type": "Sprite",
-                    "id": "e5db35ff-9984-473e-a9cb-c8ca4f88da2a",
-                    "label": "popupCloseButton",
-                    "scope": "CLASS",
-                    "texture": {
-                        "key": "btn-close"
-                    },
-                    "x": 515,
-                    "y": 385
-                },
-                {
                     "type": "Text",
-                    "id": "f19317f9-25d9-43aa-87f3-4c4d6d1d3c12",
-                    "label": "popupTitle",
+                    "id": "ef66ca50-3d7c-4dc3-a4af-0cbceceaf1bc",
+                    "label": "pauseTitle",
                     "scope": "CLASS",
                     "x": 360,
                     "y": 383,
                     "originX": 0.5,
                     "originY": 0.5,
-                    "text": "Building 1",
-                    "align": "center",
+                    "text": "PAUSED",
                     "fontFamily": "bebas",
                     "fontSize": "40px",
+                    "align": "center",
+                    "color": "#FFFFFF"
+                },
+                {
+                    "type": "Sprite",
+                    "id": "061ab037-af00-479f-b6ff-8721a90bb413",
+                    "label": "pauseRestartButton",
+                    "scope": "CLASS",
+                    "texture": { "key": "btn-restart" },
+                    "x": 360,
+                    "y": 585
+                },
+                {
+                    "type": "Sprite",
+                    "id": "f1a2a25c-d2a7-4b20-9f26-dd4b74d14c03",
+                    "label": "pauseMapButton",
+                    "scope": "CLASS",
+                    "texture": { "key": "btn-map" },
+                    "x": 360,
+                    "y": 680
+                },
+                {
+                    "type": "Sprite",
+                    "id": "7419c98e-61d4-49a4-8ac8-6655e93b1d79",
+                    "label": "pauseCloseButton",
+                    "scope": "CLASS",
+                    "texture": { "key": "btn-close" },
+                    "x": 515,
+                    "y": 385
+                }
+            ]
+        },
+        {
+            "type": "Container",
+            "id": "318e971f-7cf8-4cab-bff4-2f7f4db23a9a",
+            "label": "endPopupContainer",
+            "scope": "CLASS",
+            "x": 0,
+            "y": 0,
+            "visible": false,
+            "list": [
+                {
+                    "type": "Image",
+                    "id": "0f1e888b-a323-4438-8d60-7a874ec2fd29",
+                    "label": "endPopupBg",
+                    "scope": "CLASS",
+                    "texture": { "key": "popup-end" },
+                    "x": 360,
+                    "y": 540
+                },
+                {
+                    "type": "Text",
+                    "id": "f74ca353-517b-4a67-a4e7-d60f594bc815",
+                    "label": "endTitle",
+                    "scope": "CLASS",
+                    "x": 360,
+                    "y": 430,
+                    "originX": 0.5,
+                    "originY": 0.5,
+                    "text": "STAGE FAILED!",
+                    "fontFamily": "bebas",
+                    "fontSize": "40px",
+                    "align": "center",
                     "color": "#FFFFFF"
                 },
                 {
                     "type": "Text",
-                    "id": "dd47b21e-f474-46fe-8a56-7405f6ec2f6d",
-                    "label": "popupBlocks",
+                    "id": "95412e8b-7ce4-4930-80b8-6356f6e7c9a2",
+                    "label": "endBlocks",
                     "scope": "CLASS",
                     "x": 340,
                     "y": 502,
                     "originX": 1,
                     "originY": 0.5,
-                    "text": "0",
-                    "align": "right",
+                    "text": "0/0",
                     "fontFamily": "bebas",
                     "fontSize": "30px",
+                    "align": "right",
                     "color": "#FFFFFF"
                 },
                 {
                     "type": "Text",
-                    "id": "e4792911-3fb0-4430-b7e9-81a865f3f1ad",
-                    "label": "popupPoints",
+                    "id": "14bc79f4-ff5e-4c04-ae8d-c553d38e12d4",
+                    "label": "endPoints",
                     "scope": "CLASS",
                     "x": 480,
                     "y": 502,
                     "originX": 1,
                     "originY": 0.5,
-                    "text": "0",
-                    "align": "right",
+                    "text": "0/0",
                     "fontFamily": "bebas",
                     "fontSize": "30px",
+                    "align": "right",
                     "color": "#FFFFFF"
+                },
+                {
+                    "type": "Sprite",
+                    "id": "2cbd5a0b-1828-430e-a4a8-f68849f57c30",
+                    "label": "endRestartButton",
+                    "scope": "CLASS",
+                    "texture": { "key": "btn-restart" },
+                    "x": 360,
+                    "y": 585
+                },
+                {
+                    "type": "Sprite",
+                    "id": "6ec3a05b-4c6d-41c1-bf72-c96f22677fc4",
+                    "label": "endMapButton",
+                    "scope": "CLASS",
+                    "texture": { "key": "btn-map" },
+                    "x": 360,
+                    "y": 680
+                },
+                {
+                    "type": "Sprite",
+                    "id": "9f718ba8-96ac-4494-b403-f1b16fdc84cc",
+                    "label": "endNextButton",
+                    "scope": "CLASS",
+                    "texture": { "key": "btn-next" },
+                    "x": 360,
+                    "y": 650
                 }
             ]
         }

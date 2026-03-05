@@ -12,6 +12,29 @@ export const gameState = {
     totalStackedBlocks: 0
 };
 
+export interface GameplayConfig {
+    maxToleranceX: number;
+    targetYIncrement: number;
+    dropDurationHit: number;
+    dropDurationMiss: number;
+    scrollDuration: number;
+    oscillatingBreakpoints: Array<[number, number]>;
+}
+
+export const gameplayConfig: GameplayConfig = {
+    maxToleranceX: 80,
+    targetYIncrement: 94,
+    dropDurationHit: 600,
+    dropDurationMiss: 900,
+    scrollDuration: 300,
+    oscillatingBreakpoints: [
+        [10, 0.2],
+        [20, 0.4],
+        [30, 0.8],
+        [36, 1.2]
+    ]
+};
+
 export function initializeGameState(): void {
     const saved = getData(storageKey);
     if (!saved) {
@@ -31,4 +54,20 @@ export function setCurrentLevel(level: number): void {
 export function resetBlockRunState(): void {
     gameState.blocks = [];
     gameState.totalStackedBlocks = 0;
+}
+
+export function applyGameplayConfig(config: Partial<GameplayConfig> | null | undefined): void {
+    if (!config) {
+        return;
+    }
+
+    gameplayConfig.maxToleranceX = config.maxToleranceX ?? gameplayConfig.maxToleranceX;
+    gameplayConfig.targetYIncrement = config.targetYIncrement ?? gameplayConfig.targetYIncrement;
+    gameplayConfig.dropDurationHit = config.dropDurationHit ?? gameplayConfig.dropDurationHit;
+    gameplayConfig.dropDurationMiss = config.dropDurationMiss ?? gameplayConfig.dropDurationMiss;
+    gameplayConfig.scrollDuration = config.scrollDuration ?? gameplayConfig.scrollDuration;
+
+    if (Array.isArray(config.oscillatingBreakpoints) && config.oscillatingBreakpoints.length > 0) {
+        gameplayConfig.oscillatingBreakpoints = config.oscillatingBreakpoints;
+    }
 }

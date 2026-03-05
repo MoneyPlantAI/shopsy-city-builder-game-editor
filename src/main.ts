@@ -1,9 +1,7 @@
 import Phaser from "phaser";
-import Home from "./scenes/Home";
-import Game from "./scenes/Game";
+import LevelSelect from "./scenes/LevelSelect";
 import Level from "./scenes/Level";
 import Preload from "./scenes/Preload";
-import Ui from "./scenes/Ui";
 import { SpinePlugin } from "@esotericsoftware/spine-phaser";
 import { initializeGameState } from "./core/state";
 
@@ -47,7 +45,7 @@ window.addEventListener('load', function () {
 				{ key: "SpinePlugin", plugin: SpinePlugin, mapping: "spine" }
 			]
 		},
-		scene: [Boot, Preload, Home, Level, Game, Ui]
+		scene: [Boot, Preload, LevelSelect, Level]
 	});
 
 	game.scene.start("Boot");
