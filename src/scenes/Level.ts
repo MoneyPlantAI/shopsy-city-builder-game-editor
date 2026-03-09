@@ -23,14 +23,16 @@ export default class Level extends Phaser.Scene {
 		super("Level");
 
 		/* START-USER-CTR-CODE */
-        // Write your code here.
-        /* END-USER-CTR-CODE */
+		// Write your code here.
+		/* END-USER-CTR-CODE */
 	}
 
 	editorCreate(): void {
 
 		// gameWorldContainer
-		const gameWorldContainer = this.add.container(0, 0);
+		const gameWorldContainer = this.add.container(0, 302);
+		gameWorldContainer.scaleX = 1.5;
+		gameWorldContainer.scaleY = 1.5;
 
 		// bgGame1
 		const bgGame1 = this.add.image(360, 540, "bg-game1");
@@ -53,7 +55,9 @@ export default class Level extends Phaser.Scene {
 		gameWorldContainer.add(blockBottom);
 
 		// gameplayContainer
-		const gameplayContainer = this.add.container(0, 0);
+		const gameplayContainer = this.add.container(-26, 73);
+		gameplayContainer.scaleX = 1.5;
+		gameplayContainer.scaleY = 1.5;
 
 		// blockTop
 		const blockTop = this.add.sprite(160, 120, "block");
@@ -64,7 +68,9 @@ export default class Level extends Phaser.Scene {
 		gameplayContainer.add(claw);
 
 		// fxContainer
-		const fxContainer = this.add.container(0, 0);
+		const fxContainer = this.add.container(-2, 120);
+		fxContainer.scaleX = 1.5;
+		fxContainer.scaleY = 1.5;
 
 		// collideFx
 		const collideFx = this.add.sprite(-300, -300, "anim-collide");
@@ -964,902 +970,979 @@ export default class Level extends Phaser.Scene {
 
 	/* START-USER-CODE */
 
-    private allPanels: Phaser.GameObjects.Container[] = [];
-    private previousGameState: string = GAME_STATE.NONE;
-    private currentGameState: string = GAME_STATE.NONE;
-    private previousPanel: string = GAME_PANEL.NONE;
-    private currentPanel: string = GAME_PANEL.NONE;
-
-    private moveTo: "left" | "right" = "left";
-    private val = 0;
-    private oscillating = 0;
-    private isGameplayPaused = false;
-    private isMaxGameBonusEarned = false;
-    private gameStartTime = 0;
-    public timePlayedMs = 0;
-    public score = 0;
-    private currentPoints = 0;
-    private maxBlock = 0;
-    private requiredPoints = 0;
-
-    private pauseBtnNode?: Phaser.GameObjects.GameObject;
-    private startBtnNode?: Phaser.GameObjects.GameObject;
-    private pauseRestartBtnNode?: Phaser.GameObjects.GameObject;
-    private pauseMapBtnNode?: Phaser.GameObjects.GameObject;
-    private pauseCloseBtnNode?: Phaser.GameObjects.GameObject;
-    private endRestartBtnNode?: Phaser.GameObjects.GameObject;
-    private endMapBtnNode?: Phaser.GameObjects.GameObject;
-    private endNextBtnNode?: Phaser.GameObjects.GameObject;
-    private shareBtnNode?: Phaser.GameObjects.GameObject;
-    private exitBtnNode?: Phaser.GameObjects.GameObject;
-    private errorPanelContainer?: Phaser.GameObjects.Container;
-    private errorPopupManager?: ErrorPopupManager;
-    private shareManager?: ShareManager;
-    private readonly shopsyDesignWidth = 1080;
-    private readonly shopsyDesignHeight = 1920;
-    private shopsyLayoutCaptured = false;
-    private shopsyLayout = new Map<Phaser.GameObjects.GameObject, { x: number; y: number; scaleX: number; scaleY: number }>();
-    private shopsyLayoutRoots: Phaser.GameObjects.GameObject[] = [];
-
-    private bridgeUnsubscribers: Array<() => void> = [];
-
-    update(): void {
-        if (this.isGameplayPaused || this.currentGameState !== GAME_STATE.PLAYING) {
-            return;
-        }
-
-        if (this.moveTo === "left") {
-            if (this.val > -20) {
-                this.val -= 1;
-            } else {
-                this.moveTo = "right";
-            }
-        } else if (this.val < 20) {
-            this.val += 1;
-        } else {
-            this.moveTo = "left";
-        }
-
-        gameState.blocks.forEach((block) => {
-            if (!block.dropped) {
-                return;
-            }
-            block.x += this.moveTo === "left" ? -this.oscillating : this.oscillating;
-        });
-    }
-
-    create(): void {
-        this.editorCreate();
-
-        this.gameWorldContainer.setDepth(0);
-        this.gameplayContainer.setDepth(1000);
-        this.fxContainer.setDepth(1100);
-        this.hudContainer.setDepth(2000);
-        this.popupDark.setDepth(2100);
-        this.pausePopupContainer.setDepth(2200);
-        this.endPopupContainer.setDepth(2200);
-
-        this.setupManagers();
-        this.setupShopsyUiBindings();
-        this.captureShopsyLayoutRoots();
-        this.applyShopsyLayoutTransform();
-        this.scale.on("resize", this.applyShopsyLayoutTransform, this);
-        this.events.once("shutdown", () => this.scale.off("resize", this.applyShopsyLayoutTransform, this));
-        this.events.once("destroy", () => this.scale.off("resize", this.applyShopsyLayoutTransform, this));
-
-        this.pauseBtnNode = this.pause_btn ?? this.pauseButton;
-        this.startBtnNode = this.start_btn;
-        this.pauseRestartBtnNode = this.resume_btn ?? this.pauseRestartButton;
-        this.pauseMapBtnNode = this.abandon_btn ?? this.pauseMapButton;
-        this.pauseCloseBtnNode = this.pauseCloseButton;
-        this.endRestartBtnNode = this.restart_btn ?? this.endRestartButton;
-        this.endMapBtnNode = this.endMapButton;
-        this.endNextBtnNode = this.endNextButton;
-        this.shareBtnNode = this.share_btn;
-        this.exitBtnNode = this.exit_btn;
-
-        this.setupPanels();
-        this.loadSounds();
-        this.setupBridgeListeners();
-        this.setupInteractions();
-        this.setupShopsy();
-
-        this.setupGameplayCore();
-
-        this.changeGameState(GAME_STATE.PRE_GAME);
-
-        this.events.once("shutdown", () => this.cleanupBridgeListeners());
-        this.events.once("destroy", () => this.cleanupBridgeListeners());
-    }
-
-    private setupGameplayCore(): void {
-        resetBlockRunState();
-
-        this.oscillating = 0;
-        this.claw.setDepth(1);
-
-        this.maxBlock = LEVELS[gameState.currentLevel].blockAmount;
-        this.requiredPoints = LEVELS[gameState.currentLevel].pointRequired;
-        this.txtBlocks.setText(String(this.maxBlock));
-        this.txtPoints.setText(`0/${this.requiredPoints}`);
-
-        if (!this.anims.exists("collide")) {
-            this.anims.create({
-                key: "collide",
-                frames: this.anims.generateFrameNumbers("anim-collide"),
-                frameRate: 10
-            });
-        }
-
-        this.tweens.add({
-            targets: this.blockTop,
-            x: this.blockTop.x + 400,
-            duration: 1500,
-            ease: "Sine.easeInOut",
-            yoyo: true,
-            onUpdate: () => {
-                this.claw.x = this.blockTop.x;
-            },
-            repeat: -1
-        });
-
-        this.setupDropHandling();
-    }
-
-    private setupManagers(): void {
-        this.errorPanelContainer = this.error_panel_container;
-        this.errorPopupManager = new ErrorPopupManager(this);
-        this.errorPopupManager.init();
-
-        this.shareManager = new ShareManager(this as any);
-        this.shareManager.init();
-    }
-
-    private setupShopsyUiBindings(): void {
-        this.errorPanelContainer = this.error_panel_container;
-    }
-
-    private captureShopsyLayoutRoots(): void {
-        this.shopsyLayoutRoots = [
-            this.game_start_panel_container,
-            this.pause_panel_container,
-            this.game_over_panel_container,
-            this.game_over_win_panel_container,
-            this.game_over_lose_panel_container,
-            this.share_panel_container,
-            this.errorPanelContainer,
-            this.top_ui_container,
-            this.game_elements_container,
-            this.exit_back_button,
-            this.exit_btn
-        ].filter((obj): obj is Phaser.GameObjects.GameObject => Boolean(obj));
-    }
-
-    private applyShopsyLayoutTransform(): void {
-        if (!this.shopsyLayoutRoots.length) {
-            return;
-        }
-
-        const gameWidth = this.scale.gameSize.width;
-        const gameHeight = this.scale.gameSize.height;
-        const scale = Math.min(gameWidth / this.shopsyDesignWidth, gameHeight / this.shopsyDesignHeight);
-        const offsetX = (gameWidth - this.shopsyDesignWidth * scale) * 0.5;
-        const offsetY = (gameHeight - this.shopsyDesignHeight * scale) * 0.5;
-
-        if (!this.shopsyLayoutCaptured) {
-            this.shopsyLayoutRoots.forEach((child) => {
-                const transform = child as unknown as Phaser.GameObjects.Components.Transform;
-                this.shopsyLayout.set(child, {
-                    x: transform.x ?? 0,
-                    y: transform.y ?? 0,
-                    scaleX: transform.scaleX ?? 1,
-                    scaleY: transform.scaleY ?? 1
-                });
-            });
-            this.shopsyLayoutCaptured = true;
-        }
-
-        this.shopsyLayout.forEach((base, child) => {
-            const transform = child as unknown as Phaser.GameObjects.Components.Transform;
-            transform.x = base.x * scale + offsetX;
-            transform.y = base.y * scale + offsetY;
-            transform.scaleX = base.scaleX * scale;
-            transform.scaleY = base.scaleY * scale;
-        });
-    }
-
-    private loadSounds(): void {
-        // Lifecycle placeholder for template parity.
-        // City Builder currently relies on core playSound(...) utility for SFX.
-    }
-
-    private setupDropHandling(): void {
-        let targetDropY = 726;
-        const targetYIncrement = gameplayConfig.targetYIncrement;
-        const maxToleranceX = gameplayConfig.maxToleranceX;
-        let lastBlock = false;
-
-        let spineGood: any;
-        let spinePerfect: any;
-
-        const spineFactory = this.add as Phaser.GameObjects.GameObjectFactory & {
-            spine: (x: number, y: number, dataKey: string, atlasKey: string) => any;
-        };
-
-        const ensureSpine = (type: "good" | "perfect"): any => {
-            if (type === "good") {
-                if (!spineGood) {
-                    spineGood = spineFactory.spine(-400, -400, "good", "good-atlas");
-                    spineGood.setVisible(false);
-                    this.fxContainer.add(spineGood);
-                }
-                return spineGood;
-            }
-
-            if (!spinePerfect) {
-                spinePerfect = spineFactory.spine(-400, -400, "perfect", "perfect-atlas");
-                spinePerfect.setVisible(false);
-                this.fxContainer.add(spinePerfect);
-            }
-            return spinePerfect;
-        };
-
-        this.input.off("pointerdown");
-        this.input.on("pointerdown", () => {
-            if (this.currentGameState !== GAME_STATE.PLAYING || this.isGameplayPaused || !this.blockTop.visible) {
-                return;
-            }
-            this.blockTop.setVisible(false);
-            this.claw.setTexture("claw2");
-            dropTheBlock();
-        });
-
-        const dropTheBlock = (): void => {
-            const key = gameState.blocks.length >= this.maxBlock - 1 ? "block-top" : "block";
-            lastBlock = key === "block-top";
-
-            const block = this.add.sprite(this.blockTop.x, this.blockTop.y, key) as DroppedBlockSprite;
-            this.gameplayContainer.add(block);
-
-            if (!isColliding()) {
-                targetDropY = this.blockTop.y + 1080 + 200;
-                this.tweens.add({
-                    targets: block,
-                    y: targetDropY,
-                    duration: gameplayConfig.dropDurationMiss,
-                    ease: "Sine.easeIn",
-                    onComplete: () => this.changeGameState(GAME_STATE.GAME_OVER_LOSE)
-                });
-                return;
-            }
-
-            gameState.blocks.push(block);
-            this.tweens.add({
-                targets: block,
-                y: targetDropY,
-                duration: gameplayConfig.dropDurationHit,
-                ease: "Sine.easeIn",
-                onComplete: () => {
-                    playSound(this, "hit");
-                    this.cameras.main.shake(150, 0.004);
-                    gameState.totalStackedBlocks++;
-
-                    const distance = getXDistance();
-                    if (distance !== null && distance <= maxToleranceX) {
-                        showCollideAnimation(block.x, block.y + 60);
-                        if (lastBlock) {
-                            playSound(this, "positive");
-                            this.time.delayedCall(2000, () => buildingFinish());
-                        } else {
-                            targetDropY -= targetYIncrement;
-                            scrollUp();
-                        }
-
-                        block.dropped = true;
-                        getDropScore();
-
-                        gameplayConfig.oscillatingBreakpoints.forEach(([count, amount]) => {
-                            if (gameState.blocks.length === count) {
-                                this.oscillating = amount;
-                            }
-                        });
-                    } else {
-                        blockToppling();
-                    }
-
-                    this.onBlockAmountUpdated(this.maxBlock - gameState.blocks.length);
-                }
-            });
-        };
-
-        const isColliding = (): boolean => {
-            if (gameState.blocks.length < 2) {
-                return true;
-            }
-            const distance = getXDistance();
-            return distance !== null && distance < this.blockTop.displayWidth - 5;
-        };
-
-        const scrollUp = (): void => {
-            let minusY = targetYIncrement;
-            const latest = gameState.blocks[gameState.blocks.length - 1];
-            if (latest && latest.y - this.blockTop.y > 500) {
-                minusY = 0;
-            }
-
-            this.tweens.add({
-                targets: this.claw,
-                y: this.claw.y - minusY,
-                duration: gameplayConfig.scrollDuration,
-                ease: "Sine.easeInOut"
-            });
-
-            this.tweens.add({
-                targets: this.cameras.main,
-                scrollY: this.cameras.main.scrollY - minusY,
-                duration: gameplayConfig.scrollDuration,
-                ease: "Sine.easeInOut",
-                onComplete: () => {
-                    this.blockTop.y -= minusY;
-                    this.blockTop.setVisible(true);
-                    if (LEVELS[gameState.currentLevel].blockAmount - gameState.totalStackedBlocks === 1) {
-                        this.blockTop.setTexture("block-top");
-                    }
-                    this.claw.setTexture("claw1");
-                }
-            });
-        };
-
-        const getXDistance = (): number | null => {
-            if (gameState.blocks.length === 0) {
-                return null;
-            }
-            if (gameState.blocks.length >= 2) {
-                const prev = gameState.blocks[gameState.blocks.length - 2];
-                const cur = gameState.blocks[gameState.blocks.length - 1];
-                return Phaser.Math.Distance.Between(prev.x, 0, cur.x, 0);
-            }
-            const cur = gameState.blocks[gameState.blocks.length - 1];
-            return Phaser.Math.Distance.Between(360, 0, cur.x, 0);
-        };
-
-        const getDropScore = (): void => {
-            const distance = getXDistance();
-            if (distance === null || distance > maxToleranceX) {
-                return;
-            }
-
-            const calculatedScore = Math.ceil((1 - distance / maxToleranceX) * 50);
-            this.onScoreUpdated(calculatedScore);
-
-            if (distance <= 3) {
-                showQualityTxt("perfect");
-            } else if (distance <= 10) {
-                showQualityTxt("good");
-            }
-        };
-
-        const blockToppling = (): void => {
-            playSound(this, "fall");
-            const previousX = gameState.blocks.length >= 2
-                ? gameState.blocks[gameState.blocks.length - 2].x
-                : 360;
-            const current = gameState.blocks[gameState.blocks.length - 1];
-
-            this.tweens.add({
-                targets: current,
-                y: this.cameras.main.scrollY + 1080 + 200,
-                duration: 1200,
-                ease: "Sine.easeIn",
-                onComplete: () => this.changeGameState(GAME_STATE.GAME_OVER_LOSE)
-            });
-
-            const rotateLeft = current.x < previousX;
-            this.tweens.add({
-                targets: current,
-                rotation: rotateLeft ? -3 : 3,
-                x: current.x + (rotateLeft ? -180 : 180),
-                duration: 1200,
-                ease: "Sine.easeOut"
-            });
-        };
-
-        const showCollideAnimation = (x: number, y: number): void => {
-            this.collideFx.setVisible(true);
-            this.collideFx.setPosition(x, y);
-            this.collideFx.play("collide");
-        };
-
-        const showQualityTxt = (type: "good" | "perfect"): void => {
-            playSound(this, type);
-            const spine = ensureSpine(type);
-            spine.setVisible(true);
-            spine.x = 360;
-            spine.y = this.cameras.main.scrollY + 540;
-            if (spine.animationState?.setAnimation) {
-                spine.animationState.setAnimation(0, "animation", false);
-            }
-        };
-
-        const buildingFinish = (): void => {
-            if (this.currentPoints >= this.requiredPoints) {
-                if (gameState.currentLevel < LEVELS.length - 1) {
-                    setCurrentLevel(gameState.currentLevel + 1);
-                }
-                this.changeGameState(GAME_STATE.GAME_OVER_WIN);
-            } else {
-                this.changeGameState(GAME_STATE.GAME_OVER_LOSE);
-            }
-        };
-    }
-
-    private setupPanels(): void {
-        this.allPanels = [
-            this.game_start_panel_container,
-            this.pause_panel_container,
-            this.game_over_panel_container,
-            this.game_over_win_panel_container,
-            this.game_over_lose_panel_container,
-            this.share_panel_container,
-            this.errorPanelContainer,
-            this.top_ui_container,
-            this.game_elements_container,
-            this.hudContainer,
-            this.pausePopupContainer,
-            this.endPopupContainer
-        ].filter((panel): panel is Phaser.GameObjects.Container => Boolean(panel));
-
-        this.popupDark.setVisible(false).disableInteractive();
-        this.pausePopupContainer.setVisible(false);
-        this.endPopupContainer.setVisible(false);
-    }
-
-    private setupInteractions(): void {
-        this.tapIfPresent(this.exitBtnNode, () => shopsyBridge.exitGame());
-        this.tapIfPresent(this.exit_back_button, () => shopsyBridge.exitGame());
-        this.tapIfPresent(this.back_button1, () => shopsyBridge.exitGame());
-        this.tapIfPresent(this.startBtnNode, () => this.changeGameState(GAME_STATE.START));
-        this.tapIfPresent(this.pauseBtnNode, () => this.changeGameState(GAME_STATE.PAUSED));
-        this.tapIfPresent(this.pauseCloseBtnNode, () => this.changeGameState(GAME_STATE.RESUMED));
-        this.tapIfPresent(this.pauseRestartBtnNode, () => this.changeGameState(GAME_STATE.RESUMED));
-        this.tapIfPresent(this.pauseMapBtnNode, () => this.changeGameState(GAME_STATE.ABANDONED));
-        this.tapIfPresent(this.endRestartBtnNode, () => this.changeGameState(GAME_STATE.RESTART));
-        this.tapIfPresent(this.endMapBtnNode, () => this.changeGameState(GAME_STATE.ABANDONED));
-        this.tapIfPresent(this.endNextBtnNode, () => this.goToLevelSelect());
-        this.tapIfPresent(this.shareBtnNode, () => this.changeGameState(GAME_STATE.SHARING));
-    }
-
-    private tapIfPresent(button: Phaser.GameObjects.GameObject | undefined, callback: () => void): void {
-        if (!button) {
-            return;
-        }
-        this.tapInteractionHelper(button, callback);
-    }
-
-    private tapInteractionHelper(button: Phaser.GameObjects.GameObject, callback: () => void): void {
-        button.setInteractive({ useHandCursor: true });
-        button.on("pointerdown", () => {
-            playSound(this, "click");
-            this.tweens.add({
-                targets: button,
-                scaleX: 0.9,
-                scaleY: 0.9,
-                yoyo: true,
-                ease: "Linear",
-                duration: 100,
-                onComplete: callback
-            });
-        });
-    }
-
-    private setupBridgeListeners(): void {
-        this.bridgeUnsubscribers.push(
-            shopsyBridge.on(ShopsyMessageAction.GAME_STARTED_ACK, (data) => {
-                this.isMaxGameBonusEarned = data?.isMaxGameBonusEarned ?? false;
-            })
-        );
-        this.bridgeUnsubscribers.push(
-            shopsyBridge.on(ShopsyMessageAction.GAME_COMPLETED_ACK, (data) => {
-                console.log("[City Builder] Game completed ack", data);
-            })
-        );
-    }
-
-    private setupShopsy(): void {
-        const bridgeInitialized = this.registry.get("bridgeInitialized");
-        if (!bridgeInitialized) {
-            console.warn(`[${GAME_NAME}] Bridge not pre-initialized, initializing now...`);
-            initShopsyBridge();
-            this.registry.set("bridgeInitialized", true);
-            shopsyBridge.requestProfile();
-            shopsyBridge.requestGameConfig(GAME_ID);
-        }
-
-        shopsyBridge.gameLoaded();
-        shopsyBridge.startGame();
-
-        const loadDurationMs = this.registry.get("loadDurationMs");
-        if (loadDurationMs != null) {
-            ShopsyAnalytics.sendGameLoadedEvent(loadDurationMs);
-        }
-
-        if (PlayerPrefs.isNewDay) {
-            PlayerPrefs.gamesPlayedToday = 0;
-            PlayerPrefs.lastLoginDate = new Date().toISOString();
-        }
-
-        this.bridgeUnsubscribers.push(
-            shopsyBridge.on(ShopsyMessageAction.UPDATE_PROFILE, (data) => {
-                const source: "cache" | "server" = data?.source || "cache";
-                const profileData = data?.profile || data;
-                if (source !== "server" || !profileData) {
-                    return;
-                }
-                UserProfileManager.setProfileData(profileData, source);
-                this.onShopsyProfileLoaded();
-            })
-        );
-
-        this.bridgeUnsubscribers.push(
-            shopsyBridge.on(ShopsyMessageAction.UPDATE_GAME_CONFIG, (config: any) => {
-                this.onShopsyGameConfigLoaded(config?.gameConfig ?? config);
-            })
-        );
-
-        const pauseAudio = () => this.sound.pauseAll();
-        const resumeAudio = () => this.sound.resumeAll();
-        document.addEventListener("visibilitychange", () => {
-            document.hidden ? pauseAudio() : resumeAudio();
-        });
-        this.game.events.on(Phaser.Core.Events.BLUR, pauseAudio);
-        this.game.events.on(Phaser.Core.Events.FOCUS, resumeAudio);
-    }
-
-    private onShopsyProfileLoaded(): void {
-        // City Builder currently has no profile text label in gameplay HUD.
-        // Reserved for template parity and future profile UI.
-    }
-
-    private onShopsyGameConfigLoaded(gameConfig: any): void {
-        applyGameplayConfig({
-            maxToleranceX: gameConfig?.maxToleranceX,
-            targetYIncrement: gameConfig?.targetYIncrement,
-            dropDurationHit: gameConfig?.dropDurationHit,
-            dropDurationMiss: gameConfig?.dropDurationMiss,
-            scrollDuration: gameConfig?.scrollDuration,
-            oscillatingBreakpoints: gameConfig?.oscillatingBreakpoints
-        });
-    }
-
-    private cleanupBridgeListeners(): void {
-        this.bridgeUnsubscribers.forEach((unsubscribe) => unsubscribe());
-        this.bridgeUnsubscribers = [];
-    }
-
-    private changePanel(panel: string): void {
-        if (this.currentPanel === panel) {
-            return;
-        }
-        this.previousPanel = this.currentPanel;
-        this.currentPanel = panel;
-
-        let panelsToShow: Phaser.GameObjects.Container[] = [];
-        this.popupDark.setVisible(false).disableInteractive();
-
-        if (this.game_start_panel_container) {
-            switch (this.currentPanel) {
-                case GAME_PANEL.START_PANEL:
-                    panelsToShow = [this.game_start_panel_container];
-                    break;
-                case GAME_PANEL.PAUSE_PANEL:
-                    if (this.pause_panel_container) {
-                        panelsToShow = [this.pause_panel_container];
-                    }
-                    break;
-                case GAME_PANEL.GAME_OVER_WIN_PANEL:
-                    if (this.game_over_panel_container && this.game_over_win_panel_container) {
-                        panelsToShow = [this.game_over_panel_container, this.game_over_win_panel_container];
-                    }
-                    break;
-                case GAME_PANEL.GAME_OVER_LOSE_PANEL:
-                    if (this.game_over_panel_container && this.game_over_lose_panel_container) {
-                        panelsToShow = [this.game_over_panel_container, this.game_over_lose_panel_container];
-                    }
-                    break;
-                case GAME_PANEL.SHARE_PANEL:
-                    if (this.share_panel_container) {
-                        panelsToShow = [this.share_panel_container];
-                    }
-                    break;
-                case GAME_PANEL.ERROR_PANEL:
-                    if (this.errorPanelContainer) {
-                        panelsToShow = [this.errorPanelContainer];
-                    }
-                    break;
-                case GAME_PANEL.GAMEPLAY_PANEL:
-                default:
-                    if (this.top_ui_container) {
-                        panelsToShow.push(this.top_ui_container);
-                    }
-                    if (this.game_elements_container) {
-                        panelsToShow.push(this.game_elements_container);
-                    }
-                    panelsToShow.push(this.hudContainer);
-                    break;
-            }
-        } else {
-        switch (this.currentPanel) {
-            case GAME_PANEL.PAUSE_PANEL:
-                panelsToShow = [this.hudContainer, this.pausePopupContainer];
-                this.popupDark.setVisible(true).setInteractive();
-                break;
-            case GAME_PANEL.GAME_OVER_WIN_PANEL:
-            case GAME_PANEL.GAME_OVER_LOSE_PANEL:
-                panelsToShow = [this.hudContainer, this.endPopupContainer];
-                this.popupDark.setVisible(true).setInteractive();
-                break;
-            case GAME_PANEL.ERROR_PANEL:
-                panelsToShow = [this.hudContainer];
-                if (this.errorPanelContainer) {
-                    panelsToShow.push(this.errorPanelContainer);
-                }
-                this.popupDark.setVisible(true).setInteractive();
-                break;
-            case GAME_PANEL.SHARE_PANEL:
-                panelsToShow = [this.hudContainer];
-                if (this.share_panel_container) {
-                    panelsToShow.push(this.share_panel_container);
-                }
-                this.popupDark.setVisible(true).setInteractive();
-                break;
-            case GAME_PANEL.GAMEPLAY_PANEL:
-            default:
-                panelsToShow = [this.hudContainer];
-                break;
-        }
-        }
-
-        this.allPanels.forEach((panelItem) => {
-            panelItem.setVisible(panelsToShow.includes(panelItem));
-            this.children.bringToTop(panelItem);
-        });
-
-        const showGameplayWorld = this.currentPanel !== GAME_PANEL.START_PANEL;
-        this.gameplayContainer.setVisible(showGameplayWorld);
-        this.fxContainer.setVisible(showGameplayWorld);
-
-        if (this.popupDark.visible) {
-            this.popupDark.alpha = 0;
-            this.tweens.add({ targets: this.popupDark, alpha: 0.5, duration: 200 });
-            this.children.bringToTop(this.popupDark);
-            panelsToShow.forEach((panelItem) => this.children.bringToTop(panelItem));
-        }
-    }
-
-    private changeGameState(state: string): void {
-        if (this.currentGameState === state) {
-            return;
-        }
-        this.previousGameState = this.currentGameState;
-        this.currentGameState = state;
-
-        switch (this.currentGameState) {
-            case GAME_STATE.PRE_GAME:
-                this.preGame();
-                break;
-            case GAME_STATE.START:
-                this.startGame();
-                break;
-            case GAME_STATE.PAUSED:
-                this.pauseGame();
-                break;
-            case GAME_STATE.RESUMED:
-                this.resumeGame();
-                break;
-            case GAME_STATE.GAME_OVER_WIN:
-                this.onGameWon();
-                break;
-            case GAME_STATE.GAME_OVER_LOSE:
-                this.onGameLost();
-                break;
-            case GAME_STATE.RESTART:
-                this.restartGame();
-                break;
-            case GAME_STATE.SHARING:
-                this.shareGame();
-                break;
-            case GAME_STATE.ERROR:
-                this.showError();
-                break;
-            case GAME_STATE.ABANDONED:
-                this.abandonGame();
-                break;
-            case GAME_STATE.PLAYING:
-            default:
-                break;
-        }
-    }
-
-    private preGame(): void {
-        this.currentPoints = 0;
-        this.score = 0;
-        this.txtPoints.setColor("#FFFFFF");
-        this.txtPointsAdded.setText("");
-        this.changePanel(this.game_start_panel_container ? GAME_PANEL.START_PANEL : GAME_PANEL.GAMEPLAY_PANEL);
-    }
-
-    private startGame(): void {
-        this.gameStartTime = this.time.now;
-        this.timePlayedMs = 0;
-        this.currentPoints = 0;
-        this.score = 0;
-        this.isMaxGameBonusEarned = false;
-        this.isGameplayPaused = false;
-
-        shopsyBridge.roundStarted();
-        PlayerPrefs.gamesPlayedToday++;
-        PlayerPrefs.gamesPlayedTotal++;
-        ShopsyAnalytics.sendGameStartedEvent();
-
-        this.changeGameState(GAME_STATE.PLAYING);
-        this.changePanel(GAME_PANEL.GAMEPLAY_PANEL);
-    }
-
-    private pauseGame(): void {
-        if (this.previousGameState === GAME_STATE.PLAYING) {
-            this.isGameplayPaused = true;
-            this.tweens.pauseAll();
-        }
-        this.changePanel(GAME_PANEL.PAUSE_PANEL);
-    }
-
-    private resumeGame(): void {
-        this.isGameplayPaused = false;
-        this.tweens.resumeAll();
-        this.changeGameState(GAME_STATE.PLAYING);
-        this.changePanel(GAME_PANEL.GAMEPLAY_PANEL);
-    }
-
-    private onScoreUpdated(addedScore: number): void {
-        this.currentPoints += addedScore;
-        this.score = this.currentPoints;
-        this.txtPoints.setText(`${this.currentPoints}/${this.requiredPoints}`);
-        if (this.currentPoints > this.requiredPoints) {
-            this.txtPoints.setColor("#54ff82");
-        }
-        this.txtPointsAdded.setText(`+${addedScore}`);
-        this.time.delayedCall(1000, () => this.txtPointsAdded.setText(""));
-    }
-
-    private onBlockAmountUpdated(value: number): void {
-        this.txtBlocks.setText(String(value));
-    }
-
-    private onGameOver(result: "win" | "lost"): void {
-        this.timePlayedMs = this.time.now - this.gameStartTime;
-        this.score = this.currentPoints;
-
-        shopsyBridge.gameCompleted({
-            gems: this.score,
-            playTimeInSec: Math.floor(this.timePlayedMs / 1000)
-        });
-
-        const coinsWon = this.isMaxGameBonusEarned
-            ? 0
-            : UserProfileManager.getProfileData()?.claimableRewards?.perGameRewardCoinsForToday || 0;
-
-        ShopsyAnalytics.sendGameFinishedEvent(this.score, coinsWon, result, this.timePlayedMs);
-        ShopsyAnalytics.sendCoinsEarnedEvent(coinsWon);
-    }
-
-    private onGameLost(): void {
-        playSound(this, "gameover");
-        this.onGameOver("lost");
-        if (this.game_over_panel_container) {
-            this.high_score?.setText(String(this.currentPoints));
-            this.high_score_1?.setText(String(this.currentPoints));
-            this.low_score?.setText(String(this.currentPoints));
-            this.time_spend?.setText(this.formatTime(this.timePlayedMs));
-        } else {
-            this.endTitle.setText("STAGE FAILED!");
-            this.endBlocks.setText(`${gameState.totalStackedBlocks}/${this.maxBlock}`);
-            this.endPoints.setText(`${this.currentPoints}/${this.requiredPoints}`);
-            this.endRestartButton.setVisible(true);
-            this.endMapButton.setVisible(true);
-            this.endNextButton.setVisible(false);
-        }
-        this.changePanel(GAME_PANEL.GAME_OVER_LOSE_PANEL);
-    }
-
-    private onGameWon(): void {
-        playSound(this, "completed");
-        this.onGameOver("win");
-        if (this.game_over_panel_container) {
-            this.high_score?.setText(String(this.currentPoints));
-            this.high_score_1?.setText(String(this.currentPoints));
-            this.low_score?.setText(String(this.currentPoints));
-            this.time_spend?.setText(this.formatTime(this.timePlayedMs));
-        } else {
-            this.endTitle.setText("COMPLETED!");
-            this.endBlocks.setText(`${gameState.totalStackedBlocks}/${this.maxBlock}`);
-            this.endPoints.setText(`${this.currentPoints}/${this.requiredPoints}`);
-            this.endRestartButton.setVisible(false);
-            this.endMapButton.setVisible(false);
-            this.endNextButton.setVisible(true);
-        }
-        this.changePanel(GAME_PANEL.GAME_OVER_WIN_PANEL);
-    }
-
-    private restartGame(): void {
-        this.scene.restart();
-    }
-
-    private abandonGame(): void {
-        this.timePlayedMs = this.time.now - this.gameStartTime;
-        ShopsyAnalytics.sendGameAbandonedEvent(this.currentPoints, this.timePlayedMs);
-
-        const coinsWon = this.isMaxGameBonusEarned
-            ? 0
-            : UserProfileManager.getProfileData()?.claimableRewards?.perGameRewardCoinsForToday || 0;
-        ShopsyAnalytics.sendCoinsEarnedEvent(coinsWon);
-
-        if (shopsyBridge.isNative) {
-            shopsyBridge.exitGame();
-            return;
-        }
-
-        this.goToLevelSelect();
-    }
-
-    private shareGame(): void {
-        this.changePanel(GAME_PANEL.SHARE_PANEL);
-        if (this.shareManager) {
-            void this.shareManager.ExecuteShareFlow();
-            return;
-        }
-        this.goToLevelSelect();
-    }
-
-    private showError(): void {
-        this.changePanel(GAME_PANEL.ERROR_PANEL);
-        this.errorPopupManager?.showError(ErrorType.FATAL);
-    }
-
-    private formatTime(timeMs: number): string {
-        const totalSeconds = Math.max(0, Math.floor(timeMs / 1000));
-        const minutes = Math.floor(totalSeconds / 60);
-        const seconds = totalSeconds % 60;
-        return `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
-    }
-
-    private getSceneObject<T extends Phaser.GameObjects.GameObject>(name: string): T | undefined {
-        const obj = this.findByNameDeep(this.children.list as Phaser.GameObjects.GameObject[], name);
-        return obj ? obj as T : undefined;
-    }
-
-    private findByNameDeep(
-        list: Phaser.GameObjects.GameObject[],
-        name: string
-    ): Phaser.GameObjects.GameObject | undefined {
-        for (const obj of list) {
-            if (obj.name === name) {
-                return obj;
-            }
-            if (obj instanceof Phaser.GameObjects.Container) {
-                const nested = this.findByNameDeep(obj.list as Phaser.GameObjects.GameObject[], name);
-                if (nested) {
-                    return nested;
-                }
-            }
-        }
-        return undefined;
-    }
-
-    private goToLevelSelect(): void {
-        this.scene.start("LevelSelect");
-    }
-
-    /* END-USER-CODE */
+	private allPanels: Phaser.GameObjects.Container[] = [];
+	private previousGameState: string = GAME_STATE.NONE;
+	private currentGameState: string = GAME_STATE.NONE;
+	private previousPanel: string = GAME_PANEL.NONE;
+	private currentPanel: string = GAME_PANEL.NONE;
+
+	private moveTo: "left" | "right" = "left";
+	private val = 0;
+	private oscillating = 0;
+	private isGameplayPaused = false;
+	private isMaxGameBonusEarned = false;
+	private gameStartTime = 0;
+	public timePlayedMs = 0;
+	public score = 0;
+	private currentPoints = 0;
+	private maxBlock = 0;
+	private requiredPoints = 0;
+
+	private pauseBtnNode?: Phaser.GameObjects.GameObject;
+	private startBtnNode?: Phaser.GameObjects.GameObject;
+	private pauseRestartBtnNode?: Phaser.GameObjects.GameObject;
+	private pauseMapBtnNode?: Phaser.GameObjects.GameObject;
+	private pauseCloseBtnNode?: Phaser.GameObjects.GameObject;
+	private endRestartBtnNode?: Phaser.GameObjects.GameObject;
+	private endMapBtnNode?: Phaser.GameObjects.GameObject;
+	private endNextBtnNode?: Phaser.GameObjects.GameObject;
+	private shareBtnNode?: Phaser.GameObjects.GameObject;
+	private playAgainBtnNode?: Phaser.GameObjects.GameObject;
+	private exitBtnNode?: Phaser.GameObjects.GameObject;
+	private errorPanelContainer?: Phaser.GameObjects.Container;
+	private errorPopupManager?: ErrorPopupManager;
+	private shareManager?: ShareManager;
+	private readonly shopsyDesignWidth = 1080;
+	private readonly shopsyDesignHeight = 1920;
+	private shopsyLayoutCaptured = false;
+	private shopsyLayout = new Map<Phaser.GameObjects.GameObject, { x: number; y: number; scaleX: number; scaleY: number }>();
+	private shopsyLayoutRoots: Phaser.GameObjects.GameObject[] = [];
+
+	private bridgeUnsubscribers: Array<() => void> = [];
+
+	update(): void {
+		if (this.isGameplayPaused || this.currentGameState !== GAME_STATE.PLAYING) {
+			return;
+		}
+
+		if (this.moveTo === "left") {
+			if (this.val > -20) {
+				this.val -= 1;
+			} else {
+				this.moveTo = "right";
+			}
+		} else if (this.val < 20) {
+			this.val += 1;
+		} else {
+			this.moveTo = "left";
+		}
+
+		gameState.blocks.forEach((block) => {
+			if (!block.dropped) {
+				return;
+			}
+			block.x += this.moveTo === "left" ? -this.oscillating : this.oscillating;
+		});
+	}
+
+	create(): void {
+		this.editorCreate();
+		// Ensure camera is reset to initial state at the start of the scene
+		this.cameras.main.setZoom(1);
+		this.cameras.main.setScroll(0, 0);
+		// Always recapture layout on scene start to avoid double-scaling
+		this.shopsyLayoutCaptured = false;
+
+		this.gameWorldContainer.setDepth(0);
+		this.gameplayContainer.setDepth(1000);
+		// Ensure top_ui_container is above gameplayContainer
+		if (this.top_ui_container) {
+			this.top_ui_container.setDepth(1001);
+		}
+		this.fxContainer.setDepth(1100);
+		this.hudContainer.setDepth(2000);
+		this.popupDark.setDepth(2100);
+		this.pausePopupContainer.setDepth(2200);
+		this.endPopupContainer.setDepth(2200);
+
+		this.setupManagers();
+		this.setupShopsyUiBindings();
+		this.captureShopsyLayoutRoots();
+		this.applyShopsyLayoutTransform();
+		// On every resize, recapture layout and reapply transform
+		this.scale.on("resize", () => {
+			this.shopsyLayoutCaptured = false;
+			this.applyShopsyLayoutTransform();
+		}, this);
+		this.events.once("shutdown", () => this.scale.off("resize", this.applyShopsyLayoutTransform, this));
+		this.events.once("destroy", () => this.scale.off("resize", this.applyShopsyLayoutTransform, this));
+
+		this.pauseBtnNode = this.pause_btn;//?? this.pauseButton;
+		this.startBtnNode = this.start_btn;
+		this.pauseRestartBtnNode = this.resume_btn ?? this.pauseRestartButton;
+		this.pauseMapBtnNode = this.abandon_btn ?? this.pauseMapButton;
+		this.pauseCloseBtnNode = this.pauseCloseButton;
+		this.endRestartBtnNode = this.restart_btn ?? this.endRestartButton;
+		this.endMapBtnNode = this.endMapButton;
+		this.endNextBtnNode = (this as any).btn_next;
+		this.shareBtnNode = this.share_btn;
+		this.playAgainBtnNode = this.restart_btn;
+		this.exitBtnNode = this.exit_btn;
+
+		this.setupPanels();
+		this.loadSounds();
+		this.setupBridgeListeners();
+		this.setupInteractions();
+		this.setupShopsy();
+
+		this.setupGameplayCore();
+
+		this.changeGameState(GAME_STATE.PRE_GAME);
+
+		this.events.once("shutdown", () => this.cleanupBridgeListeners());
+		this.events.once("destroy", () => this.cleanupBridgeListeners());
+	}
+
+	private setupGameplayCore(): void {
+		resetBlockRunState();
+
+		this.oscillating = 0;
+		this.claw.setDepth(1);
+
+		this.maxBlock = LEVELS[gameState.currentLevel].blockAmount;
+		this.requiredPoints = LEVELS[gameState.currentLevel].pointRequired;
+		this.txtBlocks.setText(String(this.maxBlock));
+		this.txtPoints.setText(`0/${this.requiredPoints}`);
+
+		if (!this.anims.exists("collide")) {
+			this.anims.create({
+				key: "collide",
+				frames: this.anims.generateFrameNumbers("anim-collide"),
+				frameRate: 10
+			});
+		}
+
+		this.tweens.add({
+			targets: this.blockTop,
+			x: this.blockTop.x + 200,
+			duration: 1500,
+			ease: "Sine.easeInOut",
+			yoyo: true,
+			onUpdate: () => {
+				this.claw.x = this.blockTop.x;
+			},
+			repeat: -1
+		});
+
+		this.setupDropHandling();
+	}
+
+	private setupManagers(): void {
+		this.errorPanelContainer = this.error_panel_container;
+		this.errorPopupManager = new ErrorPopupManager(this);
+		this.errorPopupManager.init();
+
+		this.shareManager = new ShareManager(this as any);
+		this.shareManager.init();
+	}
+
+	private setupShopsyUiBindings(): void {
+		this.errorPanelContainer = this.error_panel_container;
+	}
+
+	private captureShopsyLayoutRoots(): void {
+		this.shopsyLayoutRoots = [
+			this.game_start_panel_container,
+			this.pause_panel_container,
+			this.game_over_panel_container,
+			this.game_over_win_panel_container,
+			this.game_over_lose_panel_container,
+			this.share_panel_container,
+			this.errorPanelContainer,
+			this.top_ui_container,
+			this.game_elements_container,
+			this.exit_back_button,
+			this.exit_btn
+		].filter((obj): obj is Phaser.GameObjects.GameObject => Boolean(obj));
+	}
+
+	private applyShopsyLayoutTransform(): void {
+		if (!this.shopsyLayoutRoots.length) {
+			return;
+		}
+
+		const gameWidth = this.scale.gameSize.width;
+		const gameHeight = this.scale.gameSize.height;
+		const scale = Math.min(gameWidth / this.shopsyDesignWidth, gameHeight / this.shopsyDesignHeight);
+		const offsetX = (gameWidth - this.shopsyDesignWidth * scale) * 0.5;
+		const offsetY = (gameHeight - this.shopsyDesignHeight * scale) * 0.5;
+
+		if (!this.shopsyLayoutCaptured) {
+			this.shopsyLayoutRoots.forEach((child) => {
+				const transform = child as unknown as Phaser.GameObjects.Components.Transform;
+				this.shopsyLayout.set(child, {
+					x: transform.x ?? 0,
+					y: transform.y ?? 0,
+					scaleX: transform.scaleX ?? 1,
+					scaleY: transform.scaleY ?? 1
+				});
+			});
+			this.shopsyLayoutCaptured = true;
+		}
+
+		this.shopsyLayout.forEach((base, child) => {
+			const transform = child as unknown as Phaser.GameObjects.Components.Transform;
+			transform.x = base.x * scale + offsetX;
+			transform.y = base.y * scale + offsetY;
+			transform.scaleX = base.scaleX * scale;
+			transform.scaleY = base.scaleY * scale;
+		});
+	}
+
+	private loadSounds(): void {
+		// Lifecycle placeholder for template parity.
+		// City Builder currently relies on core playSound(...) utility for SFX.
+	}
+
+	private setupDropHandling(): void {
+		let targetDropY = 879;
+		const targetYIncrement = gameplayConfig.targetYIncrement;
+		const maxToleranceX = gameplayConfig.maxToleranceX;
+		let lastBlock = false;
+
+		let spineGood: any;
+		let spinePerfect: any;
+
+		const spineFactory = this.add as Phaser.GameObjects.GameObjectFactory & {
+			spine: (x: number, y: number, dataKey: string, atlasKey: string) => any;
+		};
+
+		const ensureSpine = (type: "good" | "perfect"): any => {
+			if (type === "good") {
+				if (!spineGood) {
+					spineGood = spineFactory.spine(-400, -400, "good", "good-atlas");
+					spineGood.setVisible(false);
+					this.fxContainer.add(spineGood);
+				}
+				return spineGood;
+			}
+
+			if (!spinePerfect) {
+				spinePerfect = spineFactory.spine(-400, -400, "perfect", "perfect-atlas");
+				spinePerfect.setVisible(false);
+				this.fxContainer.add(spinePerfect);
+			}
+			return spinePerfect;
+		};
+
+		this.input.off("pointerdown");
+		this.input.on("pointerdown", () => {
+			if (this.currentGameState !== GAME_STATE.PLAYING || this.isGameplayPaused || !this.blockTop.visible) {
+				return;
+			}
+			this.blockTop.setVisible(false);
+			this.claw.setTexture("claw2");
+			dropTheBlock();
+		});
+
+		const dropTheBlock = (): void => {
+			const key = gameState.blocks.length >= this.maxBlock - 1 ? "block-top" : "block";
+			lastBlock = key === "block-top";
+
+			const block = this.add.sprite(this.blockTop.x, this.blockTop.y, key) as DroppedBlockSprite;
+			this.gameplayContainer.add(block);
+
+			if (!isColliding()) {
+				targetDropY = this.blockTop.y + 1080 + 200;
+				this.tweens.add({
+					targets: block,
+					y: targetDropY,
+					duration: gameplayConfig.dropDurationMiss,
+					ease: "Sine.easeIn",
+					onComplete: () => this.changeGameState(GAME_STATE.GAME_OVER_LOSE)
+				});
+				return;
+			}
+
+			gameState.blocks.push(block);
+			this.tweens.add({
+				targets: block,
+				y: targetDropY,
+				duration: gameplayConfig.dropDurationHit,
+				ease: "Sine.easeIn",
+				onComplete: () => {
+					playSound(this, "hit");
+					this.cameras.main.shake(150, 0.004);
+					gameState.totalStackedBlocks++;
+
+					const distance = getXDistance();
+					if (distance !== null && distance <= maxToleranceX) {
+						showCollideAnimation(block.x, block.y + 60);
+						if (lastBlock) {
+							playSound(this, "positive");
+							this.time.delayedCall(2000, () => buildingFinish());
+						} else {
+							targetDropY -= targetYIncrement;
+							scrollUp();
+						}
+
+						block.dropped = true;
+						getDropScore(block);
+
+						gameplayConfig.oscillatingBreakpoints.forEach(([count, amount]) => {
+							if (gameState.blocks.length === count) {
+								this.oscillating = amount;
+							}
+						});
+					} else {
+						blockToppling();
+					}
+
+					this.onBlockAmountUpdated(this.maxBlock - gameState.blocks.length);
+				}
+			});
+		};
+
+		const isColliding = (): boolean => {
+			if (gameState.blocks.length < 2) {
+				return true;
+			}
+			const distance = getXDistance();
+			return distance !== null && distance < this.blockTop.displayWidth - 5;
+		};
+
+		const scrollUp = (): void => {
+			let minusY = targetYIncrement;
+			const latest = gameState.blocks[gameState.blocks.length - 1];
+			if (latest && latest.y - this.blockTop.y > 500) {
+				minusY = 0;
+			}
+
+			this.tweens.add({
+				targets: this.claw,
+				y: this.claw.y - (minusY / 1.5),
+				duration: gameplayConfig.scrollDuration,
+				ease: "Sine.easeInOut"
+			});
+
+			this.tweens.add({
+				targets: this.cameras.main,
+				scrollY: this.cameras.main.scrollY - minusY,
+				duration: gameplayConfig.scrollDuration,
+				ease: "Sine.easeInOut",
+				onComplete: () => {
+					this.blockTop.y -= (minusY / 1.5);
+					this.blockTop.setVisible(true);
+					if (LEVELS[gameState.currentLevel].blockAmount - gameState.totalStackedBlocks === 1) {
+						this.blockTop.setTexture("block-top");
+					}
+					this.claw.setTexture("claw1");
+				}
+			});
+		};
+
+		const getXDistance = (): number | null => {
+			if (gameState.blocks.length === 0) {
+				return null;
+			}
+			if (gameState.blocks.length >= 2) {
+				const prev = gameState.blocks[gameState.blocks.length - 2];
+				const cur = gameState.blocks[gameState.blocks.length - 1];
+				return Phaser.Math.Distance.Between(prev.x, 0, cur.x, 0);
+			}
+			const cur = gameState.blocks[gameState.blocks.length - 1];
+			return Phaser.Math.Distance.Between(360, 0, cur.x, 0);
+		};
+
+		const getDropScore = (block: DroppedBlockSprite): void => {
+			const distance = getXDistance();
+			if (distance === null || distance > maxToleranceX) {
+				return;
+			}
+
+			const calculatedScore = Math.ceil((1 - distance / maxToleranceX) * 50);
+			this.onScoreUpdated(calculatedScore);
+
+			if (distance <= 3) {
+				showQualityTxt("perfect", block);
+			} else if (distance <= 10) {
+				showQualityTxt("good", block);
+			}
+		};
+
+		const blockToppling = (): void => {
+			playSound(this, "fall");
+			const previousX = gameState.blocks.length >= 2
+				? gameState.blocks[gameState.blocks.length - 2].x
+				: 360;
+			const current = gameState.blocks[gameState.blocks.length - 1];
+
+			this.tweens.add({
+				targets: current,
+				y: this.cameras.main.scrollY + 1080 + 200,
+				duration: 1200,
+				ease: "Sine.easeIn",
+				onComplete: () => this.changeGameState(GAME_STATE.GAME_OVER_LOSE)
+			});
+
+			const rotateLeft = current.x < previousX;
+			this.tweens.add({
+				targets: current,
+				rotation: rotateLeft ? -3 : 3,
+				x: current.x + (rotateLeft ? -180 : 180),
+				duration: 1200,
+				ease: "Sine.easeOut"
+			});
+		};
+
+		const showCollideAnimation = (x: number, y: number): void => {
+			this.collideFx.setVisible(true);
+			this.collideFx.setPosition(x, y);
+			this.collideFx.play("collide");
+		};
+
+		const showQualityTxt = (type: "good" | "perfect", block: DroppedBlockSprite): void => {
+			playSound(this, type);
+			const spine = ensureSpine(type);
+			spine.setVisible(true);
+			spine.x = block.x;
+			spine.y = block.y;
+			if (spine.animationState?.setAnimation) {
+				spine.animationState.setAnimation(0, "animation", false);
+			}
+		};
+
+		const buildingFinish = (): void => {
+			if (this.currentPoints >= this.requiredPoints) {
+				if (gameState.currentLevel < LEVELS.length - 1) {
+					setCurrentLevel(gameState.currentLevel + 1);
+				}
+				this.changeGameState(GAME_STATE.GAME_OVER_WIN);
+			} else {
+				this.changeGameState(GAME_STATE.GAME_OVER_LOSE);
+			}
+		};
+	}
+
+	private setupPanels(): void {
+		this.allPanels = [
+			this.game_start_panel_container,
+			this.pause_panel_container,
+			this.game_over_panel_container,
+			this.game_over_win_panel_container,
+			this.game_over_lose_panel_container,
+			this.share_panel_container,
+			this.errorPanelContainer,
+			this.top_ui_container,
+			this.game_elements_container,
+			this.hudContainer,
+			this.pausePopupContainer,
+			this.endPopupContainer
+		].filter((panel): panel is Phaser.GameObjects.Container => Boolean(panel));
+
+		// Make all UI panels fixed to the camera (not affected by camera scroll)
+		const setScrollFactorRecursively = (obj: any): void => {
+			if (obj && typeof obj.setScrollFactor === 'function') {
+				obj.setScrollFactor(0);
+			}
+			if (obj && obj.list) {
+				obj.list.forEach((child: any) => setScrollFactorRecursively(child));
+			}
+		};
+
+		this.allPanels.forEach(panel => setScrollFactorRecursively(panel));
+
+		this.popupDark.setVisible(false).disableInteractive();
+		this.pausePopupContainer.setVisible(false);
+		this.endPopupContainer.setVisible(false);
+		this.top_ui_container.setVisible(false);
+		this.hudContainer.setVisible(false);
+	}
+
+	private setupInteractions(): void {
+
+		this.tapIfPresent(this.exitBtnNode, () => shopsyBridge.exitGame());
+		this.tapIfPresent(this.exit_back_button, () => shopsyBridge.exitGame());
+		this.tapIfPresent(this.back_button1, () => shopsyBridge.exitGame());
+		this.tapIfPresent(this.startBtnNode, () => this.changeGameState(GAME_STATE.START));
+		this.tapIfPresent(this.pauseBtnNode, () => this.changeGameState(GAME_STATE.PAUSED));
+		this.tapIfPresent(this.pauseCloseBtnNode, () => this.changeGameState(GAME_STATE.RESUMED));
+		this.tapIfPresent(this.pauseRestartBtnNode, () => this.changeGameState(GAME_STATE.RESUMED));
+		this.tapIfPresent(this.pauseMapBtnNode, () => this.changeGameState(GAME_STATE.ABANDONED));
+		this.tapIfPresent(this.endRestartBtnNode, () => this.changeGameState(GAME_STATE.RESTART));
+		this.tapIfPresent(this.endMapBtnNode, () => this.changeGameState(GAME_STATE.ABANDONED));
+		this.tapIfPresent(this.btn_next, () => this.goToLevelSelect());
+		this.tapIfPresent(this.win_btn, () => this.onGameWon());
+		this.tapIfPresent(this.los_btn, () => this.onGameLost());
+		this.tapIfPresent(this.shareBtnNode, () => this.changeGameState(GAME_STATE.SHARING));
+		this.tapIfPresent(this.playAgainBtnNode, () => this.changeGameState(GAME_STATE.RESTART));
+	}
+
+	private tapIfPresent(button: Phaser.GameObjects.GameObject | undefined, callback: () => void): void {
+		if (!button) {
+			console.warn("Button not found for interaction:", callback);
+			return;
+		}
+
+
+		this.tapInteractionHelper(button, callback);
+	}
+
+	private tapInteractionHelper(button: Phaser.GameObjects.GameObject, callback: () => void): void {
+		console.log("Setting up tap interaction for button:", button.name);
+		button.setInteractive({ useHandCursor: true });
+		button.on("pointerdown", () => {
+			playSound(this, "click");
+			//for win lose shorcut
+			if (button === this.win_btn) {
+
+				this.blockTop.destroy();
+				setCurrentLevel(gameState.currentLevel + 1);
+			}
+			else if (button === this.los_btn) {
+				this.blockTop.destroy();
+
+			}
+			this.tweens.add({
+				targets: button,
+				scaleX: 0.9,
+				scaleY: 0.9,
+				yoyo: true,
+				ease: "Linear",
+				duration: 100,
+				onComplete: callback
+			});
+		});
+	}
+
+	private setupBridgeListeners(): void {
+		this.bridgeUnsubscribers.push(
+			shopsyBridge.on(ShopsyMessageAction.GAME_STARTED_ACK, (data) => {
+				this.isMaxGameBonusEarned = data?.isMaxGameBonusEarned ?? false;
+			})
+		);
+		this.bridgeUnsubscribers.push(
+			shopsyBridge.on(ShopsyMessageAction.GAME_COMPLETED_ACK, (data) => {
+				console.log("[City Builder] Game completed ack", data);
+			})
+		);
+	}
+
+	private setupShopsy(): void {
+		const bridgeInitialized = this.registry.get("bridgeInitialized");
+		if (!bridgeInitialized) {
+			console.warn(`[${GAME_NAME}] Bridge not pre-initialized, initializing now...`);
+			initShopsyBridge();
+			this.registry.set("bridgeInitialized", true);
+			shopsyBridge.requestProfile();
+			shopsyBridge.requestGameConfig(GAME_ID);
+		}
+
+		shopsyBridge.gameLoaded();
+		shopsyBridge.startGame();
+
+		const loadDurationMs = this.registry.get("loadDurationMs");
+		if (loadDurationMs != null) {
+			ShopsyAnalytics.sendGameLoadedEvent(loadDurationMs);
+		}
+
+		if (PlayerPrefs.isNewDay) {
+			PlayerPrefs.gamesPlayedToday = 0;
+			PlayerPrefs.lastLoginDate = new Date().toISOString();
+		}
+
+		this.bridgeUnsubscribers.push(
+			shopsyBridge.on(ShopsyMessageAction.UPDATE_PROFILE, (data) => {
+				const source: "cache" | "server" = data?.source || "cache";
+				const profileData = data?.profile || data;
+				if (source !== "server" || !profileData) {
+					return;
+				}
+				UserProfileManager.setProfileData(profileData, source);
+				this.onShopsyProfileLoaded();
+			})
+		);
+
+		this.bridgeUnsubscribers.push(
+			shopsyBridge.on(ShopsyMessageAction.UPDATE_GAME_CONFIG, (config: any) => {
+				this.onShopsyGameConfigLoaded(config?.gameConfig ?? config);
+			})
+		);
+
+		const pauseAudio = () => this.sound.pauseAll();
+		const resumeAudio = () => this.sound.resumeAll();
+		document.addEventListener("visibilitychange", () => {
+			document.hidden ? pauseAudio() : resumeAudio();
+		});
+		this.game.events.on(Phaser.Core.Events.BLUR, pauseAudio);
+		this.game.events.on(Phaser.Core.Events.FOCUS, resumeAudio);
+	}
+
+	private onShopsyProfileLoaded(): void {
+		// City Builder currently has no profile text label in gameplay HUD.
+		// Reserved for template parity and future profile UI.
+	}
+
+	private onShopsyGameConfigLoaded(gameConfig: any): void {
+		applyGameplayConfig({
+			maxToleranceX: gameConfig?.maxToleranceX,
+			targetYIncrement: gameConfig?.targetYIncrement,
+			dropDurationHit: gameConfig?.dropDurationHit,
+			dropDurationMiss: gameConfig?.dropDurationMiss,
+			scrollDuration: gameConfig?.scrollDuration,
+			oscillatingBreakpoints: gameConfig?.oscillatingBreakpoints
+		});
+	}
+
+	private cleanupBridgeListeners(): void {
+		this.bridgeUnsubscribers.forEach((unsubscribe) => unsubscribe());
+		this.bridgeUnsubscribers = [];
+	}
+
+	private setPanelScrollFactorAndInteractivity(panel: Phaser.GameObjects.Container) {
+		if (panel && typeof panel.setScrollFactor === 'function') {
+			panel.setScrollFactor(0);
+		}
+		if (panel && panel.list) {
+			panel.list.forEach(child => {
+				if (typeof child.setScrollFactor === 'function') {
+					child.setScrollFactor(0);
+				}
+				if (typeof child.setInteractive === 'function' && child.input === undefined) {
+					child.setInteractive({ useHandCursor: true });
+				}
+			});
+		}
+	}
+
+	private changePanel(panel: string): void {
+		if (this.currentPanel === panel) {
+			return;
+		}
+		this.previousPanel = this.currentPanel;
+		this.currentPanel = panel;
+
+		let panelsToShow: Phaser.GameObjects.Container[] = [];
+		this.popupDark.setVisible(false).disableInteractive();
+
+		if (this.game_start_panel_container) {
+			switch (this.currentPanel) {
+				case GAME_PANEL.START_PANEL:
+					panelsToShow = [this.game_start_panel_container];
+					break;
+				case GAME_PANEL.PAUSE_PANEL:
+					if (this.pause_panel_container) {
+						panelsToShow = [this.pause_panel_container];
+					}
+					break;
+				case GAME_PANEL.GAME_OVER_WIN_PANEL:
+					console.log("Switching to GAME_OVER_WIN_PANEL");
+
+					if (this.game_over_panel_container && this.game_over_win_panel_container) {
+						// panelsToShow = [this.game_over_panel_container, this.game_over_win_panel_container];
+						panelsToShow = [this.game_over_win_panel_container];
+
+					}
+					break;
+				case GAME_PANEL.GAME_OVER_LOSE_PANEL:
+					console.log("Switching to GAME_OVER_LOSE_PANEL");
+					if (this.game_over_panel_container && this.game_over_lose_panel_container) {
+						panelsToShow = [this.game_over_panel_container, this.game_over_lose_panel_container];
+					}
+					break;
+				case GAME_PANEL.SHARE_PANEL:
+					if (this.share_panel_container) {
+						panelsToShow = [this.share_panel_container];
+					}
+					break;
+				case GAME_PANEL.ERROR_PANEL:
+					if (this.errorPanelContainer) {
+						panelsToShow = [this.errorPanelContainer];
+					}
+					break;
+				case GAME_PANEL.GAMEPLAY_PANEL:
+				default:
+					if (this.top_ui_container) {
+						panelsToShow.push(this.top_ui_container);
+					}
+					if (this.game_elements_container) {
+						panelsToShow.push(this.game_elements_container);
+					}
+					//panelsToShow.push(this.hudContainer);
+					break;
+			}
+		} else {
+			switch (this.currentPanel) {
+				case GAME_PANEL.PAUSE_PANEL:
+					panelsToShow = [this.hudContainer, this.pausePopupContainer];
+					this.popupDark.setVisible(true).setInteractive();
+					break;
+				case GAME_PANEL.GAME_OVER_WIN_PANEL:
+				case GAME_PANEL.GAME_OVER_LOSE_PANEL:
+					panelsToShow = [this.hudContainer, this.endPopupContainer];
+					this.popupDark.setVisible(true).setInteractive();
+					break;
+				case GAME_PANEL.ERROR_PANEL:
+					panelsToShow = [this.hudContainer];
+					if (this.errorPanelContainer) {
+						panelsToShow.push(this.errorPanelContainer);
+					}
+					this.popupDark.setVisible(true).setInteractive();
+					break;
+				case GAME_PANEL.SHARE_PANEL:
+					panelsToShow = [this.hudContainer];
+					if (this.share_panel_container) {
+						panelsToShow.push(this.share_panel_container);
+					}
+					this.popupDark.setVisible(true).setInteractive();
+					break;
+				case GAME_PANEL.GAMEPLAY_PANEL:
+				default:
+					panelsToShow = [this.hudContainer];
+					break;
+			}
+		}
+
+		this.allPanels.forEach((panelItem) => {
+			panelItem.setVisible(panelsToShow.includes(panelItem));
+			if (panelsToShow.includes(panelItem)) {
+				this.setPanelScrollFactorAndInteractivity(panelItem);
+			}
+			this.children.bringToTop(panelItem);
+		});
+
+		const showGameplayWorld = this.currentPanel !== GAME_PANEL.START_PANEL;
+		this.gameplayContainer.setVisible(showGameplayWorld);
+		this.fxContainer.setVisible(showGameplayWorld);
+
+		if (this.popupDark.visible) {
+			this.popupDark.alpha = 0;
+			this.tweens.add({ targets: this.popupDark, alpha: 0.5, duration: 200 });
+			this.children.bringToTop(this.popupDark);
+			panelsToShow.forEach((panelItem) => this.children.bringToTop(panelItem));
+		}
+	}
+
+	private changeGameState(state: string): void {
+		if (this.currentGameState === state) {
+			return;
+		}
+		this.previousGameState = this.currentGameState;
+		this.currentGameState = state;
+
+		switch (this.currentGameState) {
+			case GAME_STATE.PRE_GAME:
+				this.preGame();
+				break;
+			case GAME_STATE.START:
+				this.startGame();
+				break;
+			case GAME_STATE.PAUSED:
+				this.pauseGame();
+				break;
+			case GAME_STATE.RESUMED:
+				this.resumeGame();
+				break;
+			case GAME_STATE.GAME_OVER_WIN:
+				this.onGameWon();
+				break;
+			case GAME_STATE.GAME_OVER_LOSE:
+				this.onGameLost();
+				break;
+			case GAME_STATE.RESTART:
+				this.restartGame();
+				break;
+			case GAME_STATE.SHARING:
+				this.shareGame();
+				break;
+			case GAME_STATE.ERROR:
+				this.showError();
+				break;
+			case GAME_STATE.ABANDONED:
+				this.abandonGame();
+				break;
+			case GAME_STATE.PLAYING:
+			default:
+				break;
+		}
+	}
+
+	private preGame(): void {
+		this.currentPoints = 0;
+		this.score = 0;
+		this.txtPoints.setColor("#FFFFFF");
+		this.txtPointsAdded.setText("");
+		this.changePanel(this.game_start_panel_container ? GAME_PANEL.START_PANEL : GAME_PANEL.GAMEPLAY_PANEL);
+	}
+
+	private startGame(): void {
+		this.gameStartTime = this.time.now;
+		this.timePlayedMs = 0;
+		this.currentPoints = 0;
+		this.score = 0;
+		this.isMaxGameBonusEarned = false;
+		this.isGameplayPaused = false;
+
+		shopsyBridge.roundStarted();
+		PlayerPrefs.gamesPlayedToday++;
+		PlayerPrefs.gamesPlayedTotal++;
+		ShopsyAnalytics.sendGameStartedEvent();
+
+		this.changeGameState(GAME_STATE.PLAYING);
+		this.changePanel(GAME_PANEL.GAMEPLAY_PANEL);
+	}
+
+	private pauseGame(): void {
+		if (this.previousGameState === GAME_STATE.PLAYING) {
+			this.isGameplayPaused = true;
+			this.tweens.pauseAll();
+		}
+		this.changePanel(GAME_PANEL.PAUSE_PANEL);
+	}
+
+	private resumeGame(): void {
+		this.isGameplayPaused = false;
+		this.tweens.resumeAll();
+		this.changeGameState(GAME_STATE.PLAYING);
+		this.changePanel(GAME_PANEL.GAMEPLAY_PANEL);
+	}
+
+	private onScoreUpdated(addedScore: number): void {
+		this.currentPoints += addedScore;
+		this.score = this.currentPoints;
+		this.txtPoints.setText(`${this.currentPoints}/${this.requiredPoints}`);
+		if (this.currentPoints > this.requiredPoints) {
+			this.txtPoints.setColor("#54ff82");
+		}
+		this.txtPointsAdded.setText(`+${addedScore}`);
+		this.time.delayedCall(1000, () => this.txtPointsAdded.setText(""));
+	}
+
+	private onBlockAmountUpdated(value: number): void {
+		this.txtBlocks.setText(String(value));
+		this.gems_collect.setText(`${gameState.totalStackedBlocks}`);
+	}
+
+	private onGameOver(result: "win" | "lost"): void {
+		this.timePlayedMs = this.time.now - this.gameStartTime;
+		this.score = this.currentPoints;
+
+		shopsyBridge.gameCompleted({
+			gems: this.score,
+			playTimeInSec: Math.floor(this.timePlayedMs / 1000)
+		});
+
+		const coinsWon = this.isMaxGameBonusEarned
+			? 0
+			: UserProfileManager.getProfileData()?.claimableRewards?.perGameRewardCoinsForToday || 0;
+
+		ShopsyAnalytics.sendGameFinishedEvent(this.score, coinsWon, result, this.timePlayedMs);
+		ShopsyAnalytics.sendCoinsEarnedEvent(coinsWon);
+	}
+
+	private onGameLost(): void {
+		playSound(this, "gameover");
+		this.onGameOver("lost");
+
+		if (this.game_over_panel_container) {
+			this.high_score?.setText(String(this.currentPoints));
+			this.high_score_1?.setText(String(this.currentPoints));
+			this.low_score?.setText(String(this.currentPoints));
+			this.time_spend?.setText(this.formatTime(this.timePlayedMs));
+		} else {
+			this.endTitle.setText("STAGE FAILED!");
+			this.endBlocks.setText(`${gameState.totalStackedBlocks}/${this.maxBlock}`);
+			this.endPoints.setText(`${this.currentPoints}/${this.requiredPoints}`);
+			this.endRestartButton.setVisible(true);
+			this.endMapButton.setVisible(true);
+		}
+		this.changePanel(GAME_PANEL.GAME_OVER_LOSE_PANEL);
+	}
+
+	private onGameWon(): void {
+		playSound(this, "completed");
+		this.onGameOver("win");
+		if (this.game_over_panel_container) {
+			this.high_score?.setText(String(this.currentPoints));
+			this.high_score_1?.setText(String(this.currentPoints));
+			this.low_score?.setText(String(this.currentPoints));
+			this.time_spend?.setText(this.formatTime(this.timePlayedMs));
+		} else {
+			this.endTitle.setText("COMPLETED!");
+			this.endBlocks.setText(`${gameState.totalStackedBlocks}/${this.maxBlock}`);
+			this.endPoints.setText(`${this.currentPoints}/${this.requiredPoints}`);
+			this.endRestartButton.setVisible(false);
+			this.endMapButton.setVisible(false);
+		}
+		this.tapIfPresent(this.btn_next, () => this.goToLevelSelect());
+
+		this.changePanel(GAME_PANEL.GAME_OVER_WIN_PANEL);
+	}
+
+	private restartGame(): void {
+		// Reset camera to initial state before restarting
+		this.cameras.main.setZoom(1);
+		this.cameras.main.setScroll(0, 0);
+		this.scene.start("LevelSelect");
+	}
+
+	private abandonGame(): void {
+		this.timePlayedMs = this.time.now - this.gameStartTime;
+		ShopsyAnalytics.sendGameAbandonedEvent(this.currentPoints, this.timePlayedMs);
+
+		const coinsWon = this.isMaxGameBonusEarned
+			? 0
+			: UserProfileManager.getProfileData()?.claimableRewards?.perGameRewardCoinsForToday || 0;
+		ShopsyAnalytics.sendCoinsEarnedEvent(coinsWon);
+
+		if (shopsyBridge.isNative) {
+			shopsyBridge.exitGame();
+			return;
+		}
+
+		this.goToLevelSelect();
+	}
+
+	private shareGame(): void {
+		this.changePanel(GAME_PANEL.SHARE_PANEL);
+		if (this.shareManager) {
+			void this.shareManager.ExecuteShareFlow();
+			return;
+		}
+		this.goToLevelSelect();
+	}
+
+	private showError(): void {
+		this.changePanel(GAME_PANEL.ERROR_PANEL);
+		this.errorPopupManager?.showError(ErrorType.FATAL);
+	}
+
+	private formatTime(timeMs: number): string {
+		const totalSeconds = Math.max(0, Math.floor(timeMs / 1000));
+		const minutes = Math.floor(totalSeconds / 60);
+		const seconds = totalSeconds % 60;
+		return `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+	}
+
+	private getSceneObject<T extends Phaser.GameObjects.GameObject>(name: string): T | undefined {
+		const obj = this.findByNameDeep(this.children.list as Phaser.GameObjects.GameObject[], name);
+		return obj ? obj as T : undefined;
+	}
+
+	private findByNameDeep(
+		list: Phaser.GameObjects.GameObject[],
+		name: string
+	): Phaser.GameObjects.GameObject | undefined {
+		for (const obj of list) {
+			if (obj.name === name) {
+				return obj;
+			}
+			if (obj instanceof Phaser.GameObjects.Container) {
+				const nested = this.findByNameDeep(obj.list as Phaser.GameObjects.GameObject[], name);
+				if (nested) {
+					return nested;
+				}
+			}
+		}
+		return undefined;
+	}
+
+	private goToLevelSelect(): void {
+		console.log("Navigating to Level Select");
+		this.scene.start("Preload");
+	}
+
+	/* END-USER-CODE */
 }
 
 /* END OF COMPILED CODE */

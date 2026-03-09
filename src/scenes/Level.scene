@@ -8,8 +8,8 @@
         "createMethodName": "editorCreate",
         "sceneKey": "Level",
         "compilerOutputLanguage": "TYPE_SCRIPT",
-        "borderWidth": 720,
-        "borderHeight": 1080
+        "borderWidth": 1080,
+        "borderHeight": 1920
     },
     "displayList": [
         {
@@ -17,6 +17,9 @@
             "id": "a1b2cb02-fe5a-4f2e-b8f7-8f2f04c66f3f",
             "label": "gameWorldContainer",
             "scope": "CLASS",
+            "y": 302,
+            "scaleX": 1.5,
+            "scaleY": 1.5,
             "list": [
                 {
                     "type": "Image",
@@ -80,6 +83,10 @@
             "id": "e65d2a48-d534-4f7f-b06f-8496bf6f5f26",
             "label": "gameplayContainer",
             "scope": "CLASS",
+            "x": -26,
+            "y": 73,
+            "scaleX": 1.5,
+            "scaleY": 1.5,
             "list": [
                 {
                     "type": "Sprite",
@@ -109,6 +116,10 @@
             "id": "c11c1d8d-4f89-4f8e-83a5-eb160ea02ecb",
             "label": "fxContainer",
             "scope": "CLASS",
+            "x": -2,
+            "y": 120,
+            "scaleX": 1.5,
+            "scaleY": 1.5,
             "list": [
                 {
                     "type": "Sprite",

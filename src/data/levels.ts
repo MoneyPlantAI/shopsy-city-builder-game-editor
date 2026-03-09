@@ -8,7 +8,7 @@ export interface LevelDefinition {
 
 // Keep values aligned with the original Phaser 3 implementation.
 export const LEVELS: LevelDefinition[] = [
-    { x: 330, y: 372, pointRequired: 200, blockAmount: 7, building: "building1" },
+    { x: 711, y: 524, pointRequired: 200, blockAmount: 7, building: "building1" },
     { x: 210, y: 724, pointRequired: 560, blockAmount: 15, building: "building2" },
     { x: 361, y: 813, pointRequired: 800, blockAmount: 20, building: "building3" },
     { x: 573, y: 513, pointRequired: 1050, blockAmount: 25, building: "building4" },
