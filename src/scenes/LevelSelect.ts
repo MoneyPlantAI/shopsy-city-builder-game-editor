@@ -41,7 +41,7 @@ export default class LevelSelect extends Phaser.Scene {
 		mapUiContainer.add(homeButton);
 
 		// startLevelButton
-		const startLevelButton = this.add.sprite(711, 524, "btn-start-level");
+		const startLevelButton = this.add.sprite(710, 526, "btn-start-level");
 		startLevelButton.scaleX = 2.0119550776095387;
 		startLevelButton.scaleY = 2.0119550776095387;
 		mapUiContainer.add(startLevelButton);
@@ -66,6 +66,7 @@ export default class LevelSelect extends Phaser.Scene {
 		const playPopupContainer = this.add.container(-48, 116);
 		playPopupContainer.scaleX = 1.6663067937480376;
 		playPopupContainer.scaleY = 1.6663067937480376;
+		playPopupContainer.visible = false;
 
 		// popupBg
 		const popupBg = this.add.image(360, 540, "popup-play");
@@ -275,6 +276,8 @@ export default class LevelSelect extends Phaser.Scene {
         LEVELS.forEach((data, index) => {
             if (index < gameState.currentLevel) {
                 const building = this.add.image(data.x, data.y + LEVEL_BUILDING_OFFSET_Y, data.building).setOrigin(0.5, 1);
+                building.scaleX = 1.8;
+                building.scaleY = 1.8;
                 this.mapWorldContainer.add(building);
                 this.completedBuildings.push(building);
             }

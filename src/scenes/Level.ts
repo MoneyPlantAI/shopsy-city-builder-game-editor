@@ -78,31 +78,21 @@ export default class Level extends Phaser.Scene {
 		fxContainer.add(collideFx);
 
 		// hudContainer
-		const hudContainer = this.add.container(0, 0);
+		const hudContainer = this.add.container(0, 189);
 
 		// barBlocks
 		const barBlocks = this.add.image(20, 60, "bar-blocks");
 		barBlocks.setOrigin(0, 0.5);
+		barBlocks.visible = false;
 		hudContainer.add(barBlocks);
-
-		// barPoints
-		const barPoints = this.add.image(20, 150, "bar-points");
-		barPoints.setOrigin(0, 0.5);
-		hudContainer.add(barPoints);
 
 		// txtBlocks
 		const txtBlocks = this.add.text(218, 62, "", {});
 		txtBlocks.setOrigin(1, 0.5);
+		txtBlocks.visible = false;
 		txtBlocks.text = "0";
 		txtBlocks.setStyle({ "align": "right", "fontFamily": "bebas", "fontSize": "35px" });
 		hudContainer.add(txtBlocks);
-
-		// txtPoints
-		const txtPoints = this.add.text(218, 152, "", {});
-		txtPoints.setOrigin(1, 0.5);
-		txtPoints.text = "0/0";
-		txtPoints.setStyle({ "align": "right", "fontFamily": "bebas", "fontSize": "35px" });
-		hudContainer.add(txtPoints);
 
 		// txtPointsAdded
 		const txtPointsAdded = this.add.text(250, 152, "", {});
@@ -112,6 +102,8 @@ export default class Level extends Phaser.Scene {
 
 		// popupDark
 		const popupDark = this.add.rectangle(0, 0, 720, 1080);
+		popupDark.scaleX = 1.5;
+		popupDark.scaleY = 1.8;
 		popupDark.setOrigin(0, 0);
 		popupDark.visible = false;
 		popupDark.isFilled = true;
@@ -194,23 +186,17 @@ export default class Level extends Phaser.Scene {
 		// top_ui_container
 		const top_ui_container = this.add.container(117, 78);
 		top_ui_container.name = "top_ui_container";
-		top_ui_container.visible = false;
 
 		// highScore_Panel
 		const highScore_Panel = this.add.image(412, 48, "high-score-panel");
+		highScore_Panel.visible = false;
 		top_ui_container.add(highScore_Panel);
-
-		// gem
-		const gem = this.add.image(342, 68, "gem");
-		gem.name = "gem";
-		gem.scaleX = 0.7;
-		gem.scaleY = 0.7;
-		top_ui_container.add(gem);
 
 		// Gems_collect
 		const gems_collect = this.add.text(384, 65, "", {});
 		gems_collect.name = "Gems_collect";
 		gems_collect.setOrigin(0, 0.5);
+		gems_collect.visible = false;
 		gems_collect.text = "0";
 		gems_collect.setStyle({ "color": "#ffffffff", "fontFamily": "font-1", "fontSize": "75px", "stroke": "#b548d9ff", "strokeThickness": 10 });
 		top_ui_container.add(gems_collect);
@@ -218,6 +204,7 @@ export default class Level extends Phaser.Scene {
 		// text_1
 		const text_1 = this.add.text(411, 0, "", {});
 		text_1.setOrigin(0.5, 0.5);
+		text_1.visible = false;
 		text_1.text = "High Score ";
 		text_1.setStyle({ "color": "#f2ec35ff", "fontFamily": "font-1", "fontSize": "40px", "stroke": "#0e0d0dff", "strokeThickness": 10 });
 		top_ui_container.add(text_1);
@@ -243,11 +230,15 @@ export default class Level extends Phaser.Scene {
 		// back_button1
 		const back_button1 = this.add.image(842, 50, "back-button");
 		back_button1.name = "back_button1";
+		back_button1.scaleX = 0.732618405831841;
+		back_button1.scaleY = 0.732618405831841;
 		top_ui_container.add(back_button1);
 
 		// pause_btn
-		const pause_btn = this.add.image(838, 43, "back-icon");
+		const pause_btn = this.add.image(844, 48, "back-icon");
 		pause_btn.name = "pause_btn";
+		pause_btn.scaleX = 0.74;
+		pause_btn.scaleY = 0.74;
 		top_ui_container.add(pause_btn);
 
 		// character_BG_1
@@ -259,6 +250,58 @@ export default class Level extends Phaser.Scene {
 		const character_Icon_1 = this.add.image(1, 42, "character-icon");
 		character_Icon_1.name = "character_Icon_1";
 		top_ui_container.add(character_Icon_1);
+
+		// barPoints
+		const barPoints = this.add.image(-66, 222, "bar-points");
+		barPoints.setOrigin(0, 0.5);
+		top_ui_container.add(barPoints);
+
+		// txtPoints
+		const txtPoints = this.add.text(76, 224, "", {});
+		txtPoints.setOrigin(0.5, 0.5);
+		txtPoints.text = "0/0";
+		txtPoints.setStyle({ "align": "right", "fontFamily": "CarterOne-Regular", "fontSize": "35px" });
+		top_ui_container.add(txtPoints);
+
+		// gem
+		const gem = this.add.image(-43, 220, "gem");
+		gem.name = "gem";
+		gem.scaleX = 0.7;
+		gem.scaleY = 0.7;
+		top_ui_container.add(gem);
+
+		// lose_btn
+		const lose_btn = this.add.image(848, 293, "character-bg");
+		lose_btn.scaleX = 0.67;
+		lose_btn.scaleY = 0.36196435725133197;
+		top_ui_container.add(lose_btn);
+
+		// text_2
+		const text_2 = this.add.text(848, 291, "", {});
+		text_2.scaleX = 2.765128216532846;
+		text_2.scaleY = 2.765128216532846;
+		text_2.setOrigin(0.5, 0.5);
+		text_2.text = "lose";
+		text_2.setStyle({ "fontFamily": "CarterOne-Regular" });
+		top_ui_container.add(text_2);
+
+		// win_btn
+		const win_btn = this.add.image(854, 197, "character-bg");
+		win_btn.scaleX = 0.57;
+		win_btn.scaleY = 0.36196435725133197;
+		win_btn.tintTopLeft = 14668032;
+		win_btn.tintTopRight = 14668032;
+		win_btn.tintBottomLeft = 14668032;
+		win_btn.tintBottomRight = 14668032;
+		top_ui_container.add(win_btn);
+
+		// win_txt
+		const win_txt = this.add.text(814, 166, "", {});
+		win_txt.scaleX = 2.765128216532846;
+		win_txt.scaleY = 2.765128216532846;
+		win_txt.text = "Win";
+		win_txt.setStyle({ "fontFamily": "CarterOneRegular" });
+		top_ui_container.add(win_txt);
 
 		// error_panel_container
 		const error_panel_container = this.add.container(206, 699);
@@ -330,11 +373,11 @@ export default class Level extends Phaser.Scene {
 		error_panel_container.add(error_title2);
 
 		// Error_title3
-		const error_title3 = this.add.text(450, 176, "", {});
+		const error_title3 = this.add.text(460, 176, "", {});
 		error_title3.name = "Error_title3";
 		error_title3.setOrigin(0.5, 0.5);
 		error_title3.text = "Something went wrong";
-		error_title3.setStyle({ "fontFamily": "font-1", "fontSize": "50px", "stroke": "#000000ff", "strokeThickness": 10 });
+		error_title3.setStyle({ "fontFamily": "CarterOne-Regular", "fontSize": "50px", "stroke": "#000000ff", "strokeThickness": 10 });
 		error_panel_container.add(error_title3);
 
 		// Error_title4
@@ -369,7 +412,7 @@ export default class Level extends Phaser.Scene {
 		error_subtitle3.name = "error_subtitle3";
 		error_subtitle3.setOrigin(0.5, 0.5);
 		error_subtitle3.text = "We're Working on this,\n       please try again";
-		error_subtitle3.setStyle({ "color": "#000000ff", "fontFamily": "font-1", "fontSize": "35px", "stroke": "#000000ff" });
+		error_subtitle3.setStyle({ "color": "#000000ff", "fontFamily": "CarterOne-Regular", "fontSize": "35px", "stroke": "#000000ff" });
 		error_panel_container.add(error_subtitle3);
 
 		// error_subtitle4
@@ -468,15 +511,15 @@ export default class Level extends Phaser.Scene {
 		game_over_lose_panel_container.add(score_panel_2);
 
 		// low_score
-		const low_score = this.add.text(540, 1010, "", {});
+		const low_score = this.add.text(545, 1010, "", {});
 		low_score.name = "low_score";
-		low_score.setOrigin(0, 0.5);
+		low_score.setOrigin(0.5, 0.5);
 		low_score.text = "000";
-		low_score.setStyle({ "color": "#ffffffff", "fontFamily": "font-1", "fontSize": "85PX", "stroke": "#9802ffff", "strokeThickness": 10 });
+		low_score.setStyle({ "align": "center", "color": "#ffffffff", "fontFamily": "CarterOne-Regular", "fontSize": "85PX", "stroke": "#9802ffff", "strokeThickness": 10 });
 		game_over_lose_panel_container.add(low_score);
 
 		// gem_3
-		const gem_3 = this.add.image(460, 1010, "gem");
+		const gem_3 = this.add.image(367, 1010, "gem");
 		game_over_lose_panel_container.add(gem_3);
 
 		// lowScore_Character_1
@@ -488,7 +531,7 @@ export default class Level extends Phaser.Scene {
 		score_text_1.name = "score_text_1";
 		score_text_1.setOrigin(0.5, 0.5);
 		score_text_1.text = "Uh Oh!";
-		score_text_1.setStyle({ "color": "#ffef4aff", "fontFamily": "font-1", "fontSize": "80px", "stroke": "#560085ff", "strokeThickness": 10 });
+		score_text_1.setStyle({ "color": "#ffef4aff", "fontFamily": "CarterOne-Regular", "fontSize": "80px", "stroke": "#560085ff", "strokeThickness": 10 });
 		game_over_lose_panel_container.add(score_text_1);
 
 		// Bottom_text_1
@@ -496,8 +539,12 @@ export default class Level extends Phaser.Scene {
 		bottom_text_1.name = "Bottom_text_1";
 		bottom_text_1.setOrigin(0.5, 0.5);
 		bottom_text_1.text = "Good Luck Coming Soon";
-		bottom_text_1.setStyle({ "color": "#ffffffff", "fontFamily": "font-1", "fontSize": "60PX", "stroke": "#58006bff", "strokeThickness": 10 });
+		bottom_text_1.setStyle({ "color": "#ffffffff", "fontFamily": "CarterOne-Regular", "fontSize": "60PX", "stroke": "#58006bff", "strokeThickness": 10 });
 		game_over_lose_panel_container.add(bottom_text_1);
+
+		// play_again_btn
+		const play_again_btn = this.add.image(562, 1719, "play-again-btn");
+		game_over_lose_panel_container.add(play_again_btn);
 
 		// game_over_win_panel_container
 		const game_over_win_panel_container = this.add.container(0, 0);
@@ -514,15 +561,15 @@ export default class Level extends Phaser.Scene {
 		game_over_win_panel_container.add(highScore_Character_1);
 
 		// high_score_1
-		const high_score_1 = this.add.text(540, 1010, "", {});
+		const high_score_1 = this.add.text(528, 1010, "", {});
 		high_score_1.name = "high_score_1";
-		high_score_1.setOrigin(0, 0.5);
+		high_score_1.setOrigin(0.5, 0.5);
 		high_score_1.text = "000";
-		high_score_1.setStyle({ "color": "#ffffffff", "fontFamily": "font-1", "fontSize": "85PX", "stroke": "#9802ffff", "strokeThickness": 10 });
+		high_score_1.setStyle({ "align": "center", "color": "#ffffffff", "fontFamily": "CarterOne-Regular", "fontSize": "85PX", "stroke": "#9802ffff", "strokeThickness": 10 });
 		game_over_win_panel_container.add(high_score_1);
 
 		// gem_2
-		const gem_2 = this.add.image(450, 1010, "gem");
+		const gem_2 = this.add.image(360, 1010, "gem");
 		game_over_win_panel_container.add(gem_2);
 
 		// score_text
@@ -530,7 +577,7 @@ export default class Level extends Phaser.Scene {
 		score_text.name = "score_text";
 		score_text.setOrigin(0.5, 0.5);
 		score_text.text = "Nicely Done";
-		score_text.setStyle({ "color": "#ffef4aff", "fontFamily": "font-1", "fontSize": "80px", "stroke": "#560085ff", "strokeThickness": 10 });
+		score_text.setStyle({ "color": "#ffef4aff", "fontFamily": "CarterOne-Regular", "fontSize": "80px", "stroke": "#560085ff", "strokeThickness": 10 });
 		game_over_win_panel_container.add(score_text);
 
 		// Bottom_text
@@ -538,7 +585,7 @@ export default class Level extends Phaser.Scene {
 		bottom_text.name = "Bottom_text";
 		bottom_text.setOrigin(0.5, 0.5);
 		bottom_text.text = "100% Nazar Protection";
-		bottom_text.setStyle({ "color": "#ffffffff", "fontFamily": "font-1", "fontSize": "60PX", "stroke": "#58006bff", "strokeThickness": 10 });
+		bottom_text.setStyle({ "color": "#ffffffff", "fontFamily": "CarterOne-Regular", "fontSize": "60PX", "stroke": "#58006bff", "strokeThickness": 10 });
 		game_over_win_panel_container.add(bottom_text);
 
 		// btn_next 
@@ -701,11 +748,6 @@ export default class Level extends Phaser.Scene {
 		bottom_text2.setStyle({ "color": "#ffffffff", "fontFamily": "font-1", "fontSize": "60PX", "stroke": "#58006bff", "strokeThickness": 10 });
 		game_over_panel_container.add(bottom_text2);
 
-		// restart_btn
-		const restart_btn = this.add.image(23, 929, "green-button");
-		restart_btn.name = "restart_btn";
-		game_over_panel_container.add(restart_btn);
-
 		// character_BG_2
 		const character_BG_2 = this.add.image(-399, -669, "character-bg");
 		character_BG_2.name = "character_BG_2";
@@ -723,11 +765,6 @@ export default class Level extends Phaser.Scene {
 		profile_text_1.text = "Guest";
 		profile_text_1.setStyle({ "align": "center", "fixedWidth": 210, "fontFamily": "font-1", "fontSize": "35px", "stroke": "#332f2fff", "strokeThickness": 10 });
 		game_over_panel_container.add(profile_text_1);
-
-		// title_2
-		const title_2 = this.add.image(23, -659, "title");
-		title_2.name = "title_2";
-		game_over_panel_container.add(title_2);
 
 		// pause_panel_container
 		const pause_panel_container = this.add.container(330, 960);
@@ -760,7 +797,7 @@ export default class Level extends Phaser.Scene {
 		quit_game_text.name = "quit_game_text";
 		quit_game_text.setOrigin(0.5, 0.5);
 		quit_game_text.text = "Quit Game?";
-		quit_game_text.setStyle({ "color": "#faf844ff", "fontFamily": "font-1", "fontSize": "80px", "stroke": "#5d3193ff", "strokeThickness": 10 });
+		quit_game_text.setStyle({ "color": "#faf844ff", "fontFamily": "CarterOne-Regular", "fontSize": "80px", "stroke": "#5d3193ff", "strokeThickness": 10 });
 		pause_panel_container.add(quit_game_text);
 
 		// game_start_panel_container
@@ -826,14 +863,6 @@ export default class Level extends Phaser.Scene {
 		title_1.name = "title_1";
 		game_start_panel_container.add(title_1);
 
-		// exit_back_button
-		const exit_back_button = this.add.image(959, 128, "back-button");
-		exit_back_button.name = "exit_back_button";
-
-		// exit_btn
-		const exit_btn = this.add.image(955, 121, "back-icon");
-		exit_btn.name = "exit_btn";
-
 		this.bgGame1 = bgGame1;
 		this.bgGame2 = bgGame2;
 		this.bgGame3a = bgGame3a;
@@ -846,9 +875,7 @@ export default class Level extends Phaser.Scene {
 		this.collideFx = collideFx;
 		this.fxContainer = fxContainer;
 		this.barBlocks = barBlocks;
-		this.barPoints = barPoints;
 		this.txtBlocks = txtBlocks;
-		this.txtPoints = txtPoints;
 		this.txtPointsAdded = txtPointsAdded;
 		this.hudContainer = hudContainer;
 		this.popupDark = popupDark;
@@ -867,7 +894,6 @@ export default class Level extends Phaser.Scene {
 		this.endNextButton = endNextButton;
 		this.endPopupContainer = endPopupContainer;
 		this.game_elements_container = game_elements_container;
-		this.gem = gem;
 		this.gems_collect = gems_collect;
 		this.life_1 = life_1;
 		this.life_2 = life_2;
@@ -875,6 +901,13 @@ export default class Level extends Phaser.Scene {
 		this.back_button1 = back_button1;
 		this.pause_btn = pause_btn;
 		this.character_BG_1 = character_BG_1;
+		this.barPoints = barPoints;
+		this.txtPoints = txtPoints;
+		this.gem = gem;
+		this.lose_btn = lose_btn;
+		this.text_2 = text_2;
+		this.win_btn = win_btn;
+		this.win_txt = win_txt;
 		this.top_ui_container = top_ui_container;
 		this.error_panel_container = error_panel_container;
 		this.sh_panel_1 = sh_panel_1;
@@ -886,16 +919,19 @@ export default class Level extends Phaser.Scene {
 		this.share_panel_container = share_panel_container;
 		this.low_score = low_score;
 		this.lowScore_Character_1 = lowScore_Character_1;
+		this.play_again_btn = play_again_btn;
 		this.game_over_lose_panel_container = game_over_lose_panel_container;
 		this.highScore_Character_1 = highScore_Character_1;
 		this.high_score_1 = high_score_1;
+		this.btn_next_ = btn_next_;
+		this.next_btn1 = next_btn1;
+		this.next_btn = next_btn;
 		this.game_over_win_panel_container = game_over_win_panel_container;
 		this.time_spend = time_spend;
 		this.high_score = high_score;
 		this.highScore_Character = highScore_Character;
 		this.lowScore_Character = lowScore_Character;
 		this.share_btn = share_btn;
-		this.restart_btn = restart_btn;
 		this.character_BG_2 = character_BG_2;
 		this.profile_text_1 = profile_text_1;
 		this.game_over_panel_container = game_over_panel_container;
@@ -908,8 +944,6 @@ export default class Level extends Phaser.Scene {
 		this.character_BG = character_BG;
 		this.profile_text = profile_text;
 		this.game_start_panel_container = game_start_panel_container;
-		this.exit_back_button = exit_back_button;
-		this.exit_btn = exit_btn;
 
 		this.events.emit("scene-awake");
 	}
@@ -926,9 +960,7 @@ export default class Level extends Phaser.Scene {
 	private collideFx!: Phaser.GameObjects.Sprite;
 	private fxContainer!: Phaser.GameObjects.Container;
 	private barBlocks!: Phaser.GameObjects.Image;
-	private barPoints!: Phaser.GameObjects.Image;
 	private txtBlocks!: Phaser.GameObjects.Text;
-	private txtPoints!: Phaser.GameObjects.Text;
 	private txtPointsAdded!: Phaser.GameObjects.Text;
 	private hudContainer!: Phaser.GameObjects.Container;
 	private popupDark!: Phaser.GameObjects.Rectangle;
@@ -947,7 +979,6 @@ export default class Level extends Phaser.Scene {
 	private endNextButton!: Phaser.GameObjects.Sprite;
 	private endPopupContainer!: Phaser.GameObjects.Container;
 	private game_elements_container!: Phaser.GameObjects.Container;
-	private gem!: Phaser.GameObjects.Image;
 	private gems_collect!: Phaser.GameObjects.Text;
 	private life_1!: Phaser.GameObjects.Image;
 	private life_2!: Phaser.GameObjects.Image;
@@ -955,6 +986,13 @@ export default class Level extends Phaser.Scene {
 	private back_button1!: Phaser.GameObjects.Image;
 	private pause_btn!: Phaser.GameObjects.Image;
 	private character_BG_1!: Phaser.GameObjects.Image;
+	private barPoints!: Phaser.GameObjects.Image;
+	private txtPoints!: Phaser.GameObjects.Text;
+	private gem!: Phaser.GameObjects.Image;
+	private lose_btn!: Phaser.GameObjects.Image;
+	private text_2!: Phaser.GameObjects.Text;
+	private win_btn!: Phaser.GameObjects.Image;
+	private win_txt!: Phaser.GameObjects.Text;
 	private top_ui_container!: Phaser.GameObjects.Container;
 	private error_panel_container!: Phaser.GameObjects.Container;
 	private sh_panel_1!: Phaser.GameObjects.Image;
@@ -966,16 +1004,19 @@ export default class Level extends Phaser.Scene {
 	public share_panel_container!: Phaser.GameObjects.Container;
 	private low_score!: Phaser.GameObjects.Text;
 	private lowScore_Character_1!: Phaser.GameObjects.Image;
+	private play_again_btn!: Phaser.GameObjects.Image;
 	private game_over_lose_panel_container!: Phaser.GameObjects.Container;
 	private highScore_Character_1!: Phaser.GameObjects.Image;
 	private high_score_1!: Phaser.GameObjects.Text;
+	private btn_next_!: Phaser.GameObjects.Image;
+	private next_btn1!: Phaser.GameObjects.Text;
+	private next_btn!: Phaser.GameObjects.Image;
 	private game_over_win_panel_container!: Phaser.GameObjects.Container;
 	private time_spend!: Phaser.GameObjects.Text;
 	private high_score!: Phaser.GameObjects.Text;
 	private highScore_Character!: Phaser.GameObjects.Image;
 	private lowScore_Character!: Phaser.GameObjects.Image;
 	private share_btn!: Phaser.GameObjects.Image;
-	private restart_btn!: Phaser.GameObjects.Image;
 	private character_BG_2!: Phaser.GameObjects.Image;
 	private profile_text_1!: Phaser.GameObjects.Text;
 	private game_over_panel_container!: Phaser.GameObjects.Container;
@@ -988,8 +1029,6 @@ export default class Level extends Phaser.Scene {
 	private character_BG!: Phaser.GameObjects.Image;
 	private profile_text!: Phaser.GameObjects.Text;
 	private game_start_panel_container!: Phaser.GameObjects.Container;
-	private exit_back_button!: Phaser.GameObjects.Image;
-	private exit_btn!: Phaser.GameObjects.Image;
 
 	/* START-USER-CODE */
 
@@ -1095,12 +1134,14 @@ export default class Level extends Phaser.Scene {
 		this.pauseRestartBtnNode = this.resume_btn ?? this.pauseRestartButton;
 		this.pauseMapBtnNode = this.abandon_btn ?? this.pauseMapButton;
 		this.pauseCloseBtnNode = this.pauseCloseButton;
-		this.endRestartBtnNode = this.restart_btn ?? this.endRestartButton;
+		//this.endRestartBtnNode = this.restart_btn ?? this.endRestartButton;
 		this.endMapBtnNode = this.endMapButton;
 		this.endNextBtnNode = (this as any).btn_next;
 		this.shareBtnNode = this.share_btn;
-		this.playAgainBtnNode = this.restart_btn;
-		this.exitBtnNode = this.exit_btn;
+		//this.playAgainBtnNode = this.restart_btn;
+		//this.next_btnNode = this.next_btn;
+		this.next_btn = this.next_btn;
+		//this.exitBtnNode = this.exit_btn;
 
 		this.setupPanels();
 		this.loadSounds();
@@ -1137,7 +1178,7 @@ export default class Level extends Phaser.Scene {
 
 		this.tweens.add({
 			targets: this.blockTop,
-			x: this.blockTop.x + 200,
+			x: this.blockTop.x + 400,
 			duration: 1500,
 			ease: "Sine.easeInOut",
 			yoyo: true,
@@ -1174,6 +1215,10 @@ export default class Level extends Phaser.Scene {
 			this.errorPanelContainer,
 			this.top_ui_container,
 			this.game_elements_container,
+			this.gameWorldContainer,
+			this.gameplayContainer,
+			this.fxContainer,
+			this.hudContainer,
 			this.exit_back_button,
 			this.exit_btn
 		].filter((obj): obj is Phaser.GameObjects.GameObject => Boolean(obj));
@@ -1475,7 +1520,7 @@ export default class Level extends Phaser.Scene {
 	private setupInteractions(): void {
 
 		this.tapIfPresent(this.exitBtnNode, () => shopsyBridge.exitGame());
-		this.tapIfPresent(this.exit_back_button, () => shopsyBridge.exitGame());
+		this.tapIfPresent(this.pause_btn, () => shopsyBridge.exitGame());
 		this.tapIfPresent(this.back_button1, () => shopsyBridge.exitGame());
 		this.tapIfPresent(this.startBtnNode, () => this.changeGameState(GAME_STATE.START));
 		this.tapIfPresent(this.pauseBtnNode, () => this.changeGameState(GAME_STATE.PAUSED));
@@ -1484,11 +1529,28 @@ export default class Level extends Phaser.Scene {
 		this.tapIfPresent(this.pauseMapBtnNode, () => this.changeGameState(GAME_STATE.ABANDONED));
 		this.tapIfPresent(this.endRestartBtnNode, () => this.changeGameState(GAME_STATE.RESTART));
 		this.tapIfPresent(this.endMapBtnNode, () => this.changeGameState(GAME_STATE.ABANDONED));
-		this.tapIfPresent(this.btn_next, () => this.goToLevelSelect());
+		this.tapIfPresent(this.next_btn, () => this.changeGameState(GAME_STATE.RESTART));
 		this.tapIfPresent(this.win_btn, () => this.onGameWon());
-		this.tapIfPresent(this.los_btn, () => this.onGameLost());
+		this.tapIfPresent(this.lose_btn, () => this.onGameLost());
+		this.tapIfPresent(this.resume_btn, () => this.changeGameState(GAME_STATE.RESUMED));
+		//this.tapIfPresent(this.win_txt, () => this.onGameWon());
+		//this.tapIfPresent(this.win_btn1, () => this.onLoseButtonClicked());
+		//this.tapIfPresent(this.text_2, () => this.changeGameState(GAME_STATE.RESTART));
+		//this.tapIfPresent(this.text, () => this.changeGameState(GAME_STATE.RESTART));
 		this.tapIfPresent(this.shareBtnNode, () => this.changeGameState(GAME_STATE.SHARING));
 		this.tapIfPresent(this.playAgainBtnNode, () => this.changeGameState(GAME_STATE.RESTART));
+		this.tapIfPresent(this.next_btn1, () => this.changeGameState(GAME_STATE.RESTART));
+		this.tapIfPresent(this.next_btn, () => this.changeGameState(GAME_STATE.RESTART));
+		this.tapIfPresent(this.play_again_btn, () => this.changeGameState(GAME_STATE.RESTART));
+		this.tapIfPresent(this.endNextButton, () => {
+			setCurrentLevel(gameState.currentLevel + 1);
+			this.scene.start("LevelSelection");
+		});
+	}
+
+
+	onLoseButtonClicked(): void {
+		this.changeGameState(GAME_STATE.GAME_OVER_LOSE);
 	}
 
 	private tapIfPresent(button: Phaser.GameObjects.GameObject | undefined, callback: () => void): void {
@@ -1506,13 +1568,14 @@ export default class Level extends Phaser.Scene {
 		button.setInteractive({ useHandCursor: true });
 		button.on("pointerdown", () => {
 			playSound(this, "click");
+			console.log("Button clicked:", button.name);
 			//for win lose shorcut
 			if (button === this.win_btn) {
 
 				this.blockTop.destroy();
 				setCurrentLevel(gameState.currentLevel + 1);
 			}
-			else if (button === this.los_btn) {
+			else if (button === this.lose_btn|| button === this.pauseBtnNode) {
 				this.blockTop.destroy();
 
 			}
@@ -1652,8 +1715,8 @@ export default class Level extends Phaser.Scene {
 					console.log("Switching to GAME_OVER_WIN_PANEL");
 
 					if (this.game_over_panel_container && this.game_over_win_panel_container) {
-						// panelsToShow = [this.game_over_panel_container, this.game_over_win_panel_container];
-						panelsToShow = [this.game_over_win_panel_container];
+						 panelsToShow = [this.game_over_panel_container, this.game_over_win_panel_container];
+						//panelsToShow = [this.game_over_win_panel_container];
 
 					}
 					break;
@@ -1806,18 +1869,20 @@ export default class Level extends Phaser.Scene {
 	}
 
 	private pauseGame(): void {
+		this.blockTop.destroy();
 		if (this.previousGameState === GAME_STATE.PLAYING) {
 			this.isGameplayPaused = true;
-			this.tweens.pauseAll();
+			//this.tweens.pauseAll();
 		}
 		this.changePanel(GAME_PANEL.PAUSE_PANEL);
 	}
 
 	private resumeGame(): void {
 		this.isGameplayPaused = false;
-		this.tweens.resumeAll();
-		this.changeGameState(GAME_STATE.PLAYING);
-		this.changePanel(GAME_PANEL.GAMEPLAY_PANEL);
+		//this.tweens.resumeAll();
+		//this.changeGameState(GAME_STATE.PLAYING);
+		//this.changePanel(GAME_PANEL.GAMEPLAY_PANEL);
+		this.scene.start("Level");
 	}
 
 	private onScoreUpdated(addedScore: number): void {
@@ -1859,8 +1924,8 @@ export default class Level extends Phaser.Scene {
 
 		if (this.game_over_panel_container) {
 			this.high_score?.setText(String(this.currentPoints));
-			this.high_score_1?.setText(String(this.currentPoints));
-			this.low_score?.setText(String(this.currentPoints));
+			this.high_score_1?.setText(`${this.currentPoints}/${this.requiredPoints}`);
+			this.low_score?.setText(`${this.currentPoints}/${this.requiredPoints}`);
 			this.time_spend?.setText(this.formatTime(this.timePlayedMs));
 		} else {
 			this.endTitle.setText("STAGE FAILED!");
@@ -1887,15 +1952,13 @@ export default class Level extends Phaser.Scene {
 			this.endRestartButton.setVisible(false);
 			this.endMapButton.setVisible(false);
 		}
-		this.tapIfPresent(this.btn_next, () => this.goToLevelSelect());
 
 		this.changePanel(GAME_PANEL.GAME_OVER_WIN_PANEL);
+		//this.tapIfPresent(this.next_btn, () => this.goToLevelSelect());
 	}
 
 	private restartGame(): void {
-		// Reset camera to initial state before restarting
-		this.cameras.main.setZoom(1);
-		this.cameras.main.setScroll(0, 0);
+	
 		this.scene.start("LevelSelect");
 	}
 
