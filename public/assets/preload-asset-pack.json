@@ -9,6 +9,20 @@
                 "key": "bebas"
             },
             {
+                "url": "assets/fonts/CarterOne-Regular.ttf",
+                "format": "truetype",
+                "descriptors": {},
+                "type": "font",
+                "key": "CarterOne-Regular"
+            },
+            {
+                "url": "assets/fonts/CarterOne-Regular.ttf",
+                "format": "truetype",
+                "descriptors": {},
+                "type": "font",
+                "key": "CarterOneRegular"
+            },
+            {
                 "url": "assets/images/loading/error-box-preload.png",
                 "type": "image",
                 "key": "error-box-preload"

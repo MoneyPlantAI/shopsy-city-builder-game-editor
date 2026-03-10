@@ -541,6 +541,29 @@ export default class Level extends Phaser.Scene {
 		bottom_text.setStyle({ "color": "#ffffffff", "fontFamily": "font-1", "fontSize": "60PX", "stroke": "#58006bff", "strokeThickness": 10 });
 		game_over_win_panel_container.add(bottom_text);
 
+		// btn_next 
+		const btn_next_ = this.add.image(535, 1653, "error-box2");
+		btn_next_.scaleX = 0.6548420953969265;
+		btn_next_.scaleY = 0.6265270536305909;
+		btn_next_.visible = false;
+		game_over_win_panel_container.add(btn_next_);
+
+		// next_btn1
+		const next_btn1 = this.add.text(536, 1699, "", {});
+		next_btn1.scaleX = 4.6373135970651385;
+		next_btn1.scaleY = 4.6373135970651385;
+		next_btn1.setOrigin(0.5, 0.5);
+		next_btn1.visible = false;
+		next_btn1.text = "Next";
+		next_btn1.setStyle({ "align": "center", "fontFamily": "CarterOne-Regular", "stroke": "#000000ff", "strokeThickness": 5 });
+		game_over_win_panel_container.add(next_btn1);
+
+		// next_btn
+		const next_btn = this.add.image(541, 1703, "btn-next");
+		next_btn.scaleX = 2.0098835874090186;
+		next_btn.scaleY = 2.0098835874090186;
+		game_over_win_panel_container.add(next_btn);
+
 		// game_over_panel_container
 		const game_over_panel_container = this.add.container(517, 789);
 		game_over_panel_container.name = "game_over_panel_container";

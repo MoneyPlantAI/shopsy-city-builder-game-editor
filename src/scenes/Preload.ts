@@ -167,7 +167,42 @@ export default class Preload extends Phaser.Scene {
 			shopsyBridge.requestGameConfig(GAME_ID);
 		}
 
+		await this.waitForCriticalFonts();
+
 		this.scene.start("LevelSelect");
+	}
+
+	private async waitForCriticalFonts(): Promise<void> {
+		if (typeof document === "undefined" || !("fonts" in document)) {
+			return;
+		}
+
+		const fontFaces = [
+			{ family: "bebas", file: "bebas.ttf" },
+			{ family: "CarterOne-Regular", file: "CarterOne-Regular.ttf" },
+			{ family: "CarterOneRegular", file: "CarterOne-Regular.ttf" }
+		];
+
+		const baseUrl = `${import.meta.env.BASE_URL}assets/fonts/`;
+
+		try {
+			for (const { family, file } of fontFaces) {
+				if (document.fonts.check(`16px "${family}"`)) {
+					continue;
+				}
+
+				const face = new FontFace(family, `url(${baseUrl}${file})`);
+				await face.load();
+				document.fonts.add(face);
+			}
+
+			await Promise.race([
+				Promise.all(fontFaces.map(({ family }) => document.fonts.load(`16px "${family}"`))),
+				new Promise<void>((resolve) => setTimeout(resolve, 2000))
+			]);
+		} catch (error) {
+			console.warn("[Preload] Font readiness fallback:", error);
+		}
 	}
 
 	private async initializeBridge(): Promise<void> {
