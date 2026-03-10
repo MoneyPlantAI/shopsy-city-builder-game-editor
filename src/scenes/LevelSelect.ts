@@ -28,7 +28,9 @@ export default class LevelSelect extends Phaser.Scene {
 		const mapWorldContainer = this.add.container(0, 0);
 
 		// bgMap
-		const bgMap = this.add.image(360, 540, "bg-map");
+		const bgMap = this.add.image(540, 960, "bg-map");
+		bgMap.scaleX = 1.8;
+		bgMap.scaleY = 1.8;
 		mapWorldContainer.add(bgMap);
 
 		// mapUiContainer
@@ -39,15 +41,21 @@ export default class LevelSelect extends Phaser.Scene {
 		mapUiContainer.add(homeButton);
 
 		// startLevelButton
-		const startLevelButton = this.add.sprite(361, 813, "btn-start-level");
+		const startLevelButton = this.add.sprite(710, 526, "btn-start-level");
+		startLevelButton.scaleX = 2.0119550776095387;
+		startLevelButton.scaleY = 2.0119550776095387;
 		mapUiContainer.add(startLevelButton);
 
 		// locationMarker
-		const locationMarker = this.add.image(361, 763, "location-marker");
+		const locationMarker = this.add.image(696, 405, "location-marker");
+		locationMarker.scaleX = 1.9499397018284805;
+		locationMarker.scaleY = 1.9499397018284805;
 		mapUiContainer.add(locationMarker);
 
 		// popupDark
 		const popupDark = this.add.rectangle(0, 0, 720, 1080);
+		popupDark.scaleX = 1.505657351827596;
+		popupDark.scaleY = 1.7835825412908684;
 		popupDark.setOrigin(0, 0);
 		popupDark.visible = false;
 		popupDark.isFilled = true;
@@ -55,7 +63,9 @@ export default class LevelSelect extends Phaser.Scene {
 		popupDark.fillAlpha = 0.5;
 
 		// playPopupContainer
-		const playPopupContainer = this.add.container(0, 0);
+		const playPopupContainer = this.add.container(-48, 116);
+		playPopupContainer.scaleX = 1.6663067937480376;
+		playPopupContainer.scaleY = 1.6663067937480376;
 		playPopupContainer.visible = false;
 
 		// popupBg
@@ -266,6 +276,8 @@ export default class LevelSelect extends Phaser.Scene {
         LEVELS.forEach((data, index) => {
             if (index < gameState.currentLevel) {
                 const building = this.add.image(data.x, data.y + LEVEL_BUILDING_OFFSET_Y, data.building).setOrigin(0.5, 1);
+                building.scaleX = 1.8;
+                building.scaleY = 1.8;
                 this.mapWorldContainer.add(building);
                 this.completedBuildings.push(building);
             }
@@ -273,12 +285,12 @@ export default class LevelSelect extends Phaser.Scene {
 
         const current = LEVELS[gameState.currentLevel] ?? LEVELS[LEVELS.length - 1];
         this.startLevelButton.setPosition(current.x, current.y);
-        this.locationMarker.setPosition(current.x, current.y - 50);
+        this.locationMarker.setPosition(current.x, current.y - 120);
 
         this.tweens.killTweensOf(this.locationMarker);
         this.tweens.add({
             targets: this.locationMarker,
-            y: this.locationMarker.y - 20,
+            y: this.locationMarker.y - 80,
             duration: 600,
             ease: "Sine.easeInOut",
             yoyo: true,

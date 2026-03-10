@@ -8,8 +8,8 @@
         "createMethodName": "editorCreate",
         "sceneKey": "Level",
         "compilerOutputLanguage": "TYPE_SCRIPT",
-        "borderWidth": 720,
-        "borderHeight": 1080
+        "borderWidth": 1080,
+        "borderHeight": 1920
     },
     "displayList": [
         {
@@ -17,6 +17,9 @@
             "id": "a1b2cb02-fe5a-4f2e-b8f7-8f2f04c66f3f",
             "label": "gameWorldContainer",
             "scope": "CLASS",
+            "y": 302,
+            "scaleX": 1.5,
+            "scaleY": 1.5,
             "list": [
                 {
                     "type": "Image",
@@ -80,6 +83,10 @@
             "id": "e65d2a48-d534-4f7f-b06f-8496bf6f5f26",
             "label": "gameplayContainer",
             "scope": "CLASS",
+            "x": -26,
+            "y": 73,
+            "scaleX": 1.5,
+            "scaleY": 1.5,
             "list": [
                 {
                     "type": "Sprite",
@@ -109,6 +116,10 @@
             "id": "c11c1d8d-4f89-4f8e-83a5-eb160ea02ecb",
             "label": "fxContainer",
             "scope": "CLASS",
+            "x": -2,
+            "y": 120,
+            "scaleX": 1.5,
+            "scaleY": 1.5,
             "list": [
                 {
                     "type": "Sprite",
@@ -129,6 +140,7 @@
             "id": "70d4f27d-7ae9-4f37-8afe-c5b63cbe9f5d",
             "label": "hudContainer",
             "scope": "CLASS",
+            "y": 189,
             "list": [
                 {
                     "type": "Image",
@@ -140,59 +152,8 @@
                     },
                     "x": 20,
                     "y": 60,
-                    "originX": 0
-                },
-                {
-                    "type": "Image",
-                    "id": "63675ea9-5f2c-45c8-94cf-f8ac833fce12",
-                    "label": "barPoints",
-                    "scope": "CLASS",
-                    "texture": {
-                        "key": "bar-points"
-                    },
-                    "x": 20,
-                    "y": 150,
-                    "originX": 0
-                },
-                {
-                    "type": "Text",
-                    "id": "512d8d57-68d1-4e2e-8c40-a7dbd1b75280",
-                    "label": "txtBlocks",
-                    "scope": "CLASS",
-                    "x": 218,
-                    "y": 62,
-                    "originX": 1,
-                    "originY": 0.5,
-                    "text": "0",
-                    "align": "right",
-                    "fontFamily": "bebas",
-                    "fontSize": "35px"
-                },
-                {
-                    "type": "Text",
-                    "id": "6a8b2eb0-a00d-410f-a7bc-7fac9f3c06ed",
-                    "label": "txtPoints",
-                    "scope": "CLASS",
-                    "x": 218,
-                    "y": 152,
-                    "originX": 1,
-                    "originY": 0.5,
-                    "text": "0/0",
-                    "align": "right",
-                    "fontFamily": "bebas",
-                    "fontSize": "35px"
-                },
-                {
-                    "type": "Text",
-                    "id": "f715f58e-f4d9-49ef-b74f-fb8389f2f863",
-                    "label": "txtPointsAdded",
-                    "scope": "CLASS",
-                    "x": 250,
-                    "y": 152,
-                    "originY": 0.5,
-                    "fontFamily": "bebas",
-                    "fontSize": "35px",
-                    "color": "#23b84b"
+                    "originX": 0,
+                    "visible": false
                 }
             ]
         },
@@ -201,6 +162,8 @@
             "id": "f3e0d01d-88dc-47e9-81a8-dcf5d7f84d8f",
             "label": "popupDark",
             "scope": "CLASS",
+            "scaleX": 1.5,
+            "scaleY": 1.8,
             "originX": 0,
             "originY": 0,
             "visible": false,
@@ -392,7 +355,6 @@
             "scope": "CLASS",
             "x": 117,
             "y": 78,
-            "visible": false,
             "list": [
                 {
                     "type": "Image",
@@ -402,21 +364,8 @@
                         "key": "high-score-panel"
                     },
                     "x": 412,
-                    "y": 48
-                },
-                {
-                    "type": "Image",
-                    "id": "84c00697-f4ec-42ff-8f6e-48e0476f7cfd",
-                    "label": "gem",
-                    "useGameObjectName": true,
-                    "scope": "CLASS",
-                    "texture": {
-                        "key": "gem"
-                    },
-                    "x": 342,
-                    "y": 68,
-                    "scaleX": 0.7,
-                    "scaleY": 0.7
+                    "y": 48,
+                    "visible": false
                 },
                 {
                     "type": "Text",
@@ -427,6 +376,7 @@
                     "x": 384,
                     "y": 65,
                     "originY": 0.5,
+                    "visible": false,
                     "text": "0",
                     "fontFamily": "font-1",
                     "fontSize": "75px",
@@ -441,6 +391,7 @@
                     "x": 411,
                     "originX": 0.5,
                     "originY": 0.5,
+                    "visible": false,
                     "text": "High Score ",
                     "fontFamily": "font-1",
                     "fontSize": "40px",
@@ -497,8 +448,10 @@
                     "texture": {
                         "key": "back-button"
                     },
-                    "x": 842,
-                    "y": 50
+                    "x": 874,
+                    "y": 6,
+                    "scaleX": 0.5780706990775125,
+                    "scaleY": 0.5780706990775125
                 },
                 {
                     "type": "Image",
@@ -510,8 +463,10 @@
                     "texture": {
                         "key": "back-icon"
                     },
-                    "x": 838,
-                    "y": 43
+                    "x": 875,
+                    "y": 4,
+                    "scaleX": 0.6468326147050893,
+                    "scaleY": 0.6468326147050893
                 },
                 {
                     "type": "Image",
@@ -535,6 +490,169 @@
                     },
                     "x": 1,
                     "y": 42
+                },
+                {
+                    "type": "Image",
+                    "id": "15806414-07cc-47dd-a636-23fd4cd11e48",
+                    "label": "barPoints",
+                    "scope": "CLASS",
+                    "texture": {
+                        "key": "bar-points"
+                    },
+                    "x": -66,
+                    "y": 222,
+                    "originX": 0,
+                    "visible": false
+                },
+                {
+                    "type": "Image",
+                    "id": "00167f03-9f76-4904-8f54-32370af3e239",
+                    "label": "lose_btn",
+                    "scope": "CLASS",
+                    "texture": {
+                        "key": "character-bg"
+                    },
+                    "x": 848,
+                    "y": 293,
+                    "scaleX": 0.67,
+                    "scaleY": 0.36196435725133197,
+                    "visible": false
+                },
+                {
+                    "type": "Text",
+                    "id": "4d868537-bc04-4233-ae9e-c722d2d1eeb4",
+                    "label": "text_2",
+                    "scope": "CLASS",
+                    "x": 848,
+                    "y": 291,
+                    "scaleX": 2.765128216532846,
+                    "scaleY": 2.765128216532846,
+                    "originX": 0.5,
+                    "originY": 0.5,
+                    "visible": false,
+                    "text": "lose",
+                    "fontFamily": "CarterOne-Regular"
+                },
+                {
+                    "type": "Image",
+                    "id": "3a3c7292-8509-4a66-994f-3105be4aea04",
+                    "label": "win_btn",
+                    "scope": "CLASS",
+                    "texture": {
+                        "key": "character-bg"
+                    },
+                    "x": 854,
+                    "y": 197,
+                    "scaleX": 0.57,
+                    "scaleY": 0.36196435725133197,
+                    "visible": false,
+                    "tintTopLeft": "#dfd100",
+                    "tintTopRight": "#dfd100",
+                    "tintBottomLeft": "#dfd100",
+                    "tintBottomRight": "#dfd100"
+                },
+                {
+                    "type": "Text",
+                    "id": "a17bfe5a-d7eb-47f6-b415-b555f7027fb1",
+                    "label": "win_txt",
+                    "scope": "CLASS",
+                    "x": 814,
+                    "y": 166,
+                    "scaleX": 2.765128216532846,
+                    "scaleY": 2.765128216532846,
+                    "visible": false,
+                    "text": "Win",
+                    "fontFamily": "CarterOneRegular"
+                },
+                {
+                    "type": "Image",
+                    "id": "5fb54c66-8571-44e6-a47a-e2fd724aacc8",
+                    "label": "highScore_Panel_1",
+                    "texture": {
+                        "key": "HighScore_Panel"
+                    },
+                    "x": 52,
+                    "y": 189,
+                    "scaleX": 0.5277238860700069,
+                    "scaleY": 0.48707597170862665
+                },
+                {
+                    "type": "Image",
+                    "id": "2683ee55-37f8-4aa0-8da6-56901c03081d",
+                    "label": "gem",
+                    "useGameObjectName": true,
+                    "scope": "CLASS",
+                    "texture": {
+                        "key": "gem"
+                    },
+                    "x": -43,
+                    "y": 190,
+                    "scaleX": 0.7,
+                    "scaleY": 0.7
+                },
+                {
+                    "type": "Text",
+                    "id": "518fbb90-102c-4e7f-a5e2-d1f05befed5e",
+                    "label": "txtPoints",
+                    "scope": "CLASS",
+                    "x": 81,
+                    "y": 190,
+                    "originX": 0.5,
+                    "originY": 0.5,
+                    "text": "0/0",
+                    "align": "right",
+                    "fontFamily": "CarterOne-Regular",
+                    "fontSize": "35px"
+                },
+                {
+                    "type": "Image",
+                    "id": "07f75257-2b2b-4b90-be07-7946586b7454",
+                    "label": "highScore_Panel_2",
+                    "texture": {
+                        "key": "HighScore_Panel"
+                    },
+                    "x": 18,
+                    "y": 303,
+                    "scaleX": 0.38648749134631477,
+                    "scaleY": 0.48707597170862665
+                },
+                {
+                    "type": "Image",
+                    "id": "b52f425d-5fe8-490b-9256-565abbac20e5",
+                    "label": "block",
+                    "texture": {
+                        "key": "block"
+                    },
+                    "x": -30,
+                    "y": 303,
+                    "scaleX": 0.3250328368857309,
+                    "scaleY": 0.3250328368857309
+                },
+                {
+                    "type": "Text",
+                    "id": "f374fb5f-478c-4422-820d-ffe5639de534",
+                    "label": "txtBlocks",
+                    "scope": "CLASS",
+                    "x": 68,
+                    "y": 304,
+                    "originX": 1,
+                    "originY": 0.5,
+                    "text": "0",
+                    "align": "right",
+                    "fontFamily": "CarterOne-Regular",
+                    "fontSize": "35px"
+                },
+                {
+                    "type": "Text",
+                    "id": "f953f390-00a7-41c0-a6be-c8747e1c171d",
+                    "label": "txtPointsAdded",
+                    "scope": "CLASS",
+                    "x": 200,
+                    "y": 186,
+                    "originY": 0.5,
+                    "fontFamily": "CarterOne-Regular",
+                    "fontSize": "35px",
+                    "color": "#23b84b"
                 }
             ]
         },
@@ -683,12 +801,12 @@
                     "id": "0afc69f0-b206-448f-8b8a-80d34ea3fb42",
                     "label": "Error_title3",
                     "useGameObjectName": true,
-                    "x": 450,
+                    "x": 460,
                     "y": 176,
                     "originX": 0.5,
                     "originY": 0.5,
                     "text": "Something went wrong",
-                    "fontFamily": "font-1",
+                    "fontFamily": "CarterOne-Regular",
                     "fontSize": "50px",
                     "stroke": "#000000ff",
                     "strokeThickness": 10
@@ -751,7 +869,7 @@
                     "originX": 0.5,
                     "originY": 0.5,
                     "text": "We're Working on this,\n       please try again",
-                    "fontFamily": "font-1",
+                    "fontFamily": "CarterOne-Regular",
                     "fontSize": "35px",
                     "color": "#000000ff",
                     "stroke": "#000000ff"
@@ -961,32 +1079,6 @@
                     "y": 1035
                 },
                 {
-                    "type": "Text",
-                    "id": "ee078947-c7b6-45d1-82f9-99f6937d2e81",
-                    "label": "low_score",
-                    "useGameObjectName": true,
-                    "scope": "CLASS",
-                    "x": 540,
-                    "y": 1010,
-                    "originY": 0.5,
-                    "text": "000",
-                    "fontFamily": "font-1",
-                    "fontSize": "85PX",
-                    "color": "#ffffffff",
-                    "stroke": "#9802ffff",
-                    "strokeThickness": 10
-                },
-                {
-                    "type": "Image",
-                    "id": "2a2ff2c0-22fd-4c63-8277-9c2e30b30e80",
-                    "label": "gem_3",
-                    "texture": {
-                        "key": "gem"
-                    },
-                    "x": 460,
-                    "y": 1010
-                },
-                {
                     "type": "Image",
                     "id": "2b439023-b555-41f3-bf46-f9c865888436",
                     "label": "lowScore_Character_1",
@@ -1007,7 +1099,7 @@
                     "originX": 0.5,
                     "originY": 0.5,
                     "text": "Uh Oh!",
-                    "fontFamily": "font-1",
+                    "fontFamily": "CarterOne-Regular",
                     "fontSize": "80px",
                     "color": "#ffef4aff",
                     "stroke": "#560085ff",
@@ -1023,11 +1115,72 @@
                     "originX": 0.5,
                     "originY": 0.5,
                     "text": "Good Luck Coming Soon",
-                    "fontFamily": "font-1",
+                    "fontFamily": "CarterOne-Regular",
                     "fontSize": "60PX",
                     "color": "#ffffffff",
                     "stroke": "#58006bff",
                     "strokeThickness": 10
+                },
+                {
+                    "type": "Image",
+                    "id": "fb71db6e-874b-4061-bfd0-73fb04baf001",
+                    "label": "play_again_btn",
+                    "scope": "CLASS",
+                    "texture": {
+                        "key": "play-again-btn"
+                    },
+                    "x": 562,
+                    "y": 1719
+                },
+                {
+                    "type": "Image",
+                    "id": "c2f7c58d-3fe5-48b4-a63c-6f68214efdb5",
+                    "label": "high_score_bg_1",
+                    "texture": {
+                        "key": "high-score-bg"
+                    },
+                    "x": 539,
+                    "y": 982
+                },
+                {
+                    "type": "Text",
+                    "id": "0b426f43-8474-45cc-bafe-2ac00d7702ff",
+                    "label": "text",
+                    "x": 454,
+                    "y": 891,
+                    "text": "SCORE",
+                    "fontFamily": "CarterOne-Regular",
+                    "fontSize": "50PX",
+                    "stroke": "#5b009aff",
+                    "strokeThickness": 10
+                },
+                {
+                    "type": "Text",
+                    "id": "c60a5dea-97a2-46af-8e98-a4a872dfffe2",
+                    "label": "low_score",
+                    "useGameObjectName": true,
+                    "scope": "CLASS",
+                    "x": 560,
+                    "y": 1006,
+                    "originX": 0.5,
+                    "originY": 0.5,
+                    "text": "000",
+                    "align": "center",
+                    "fontFamily": "CarterOne-Regular",
+                    "fontSize": "65PX",
+                    "color": "#ffffffff",
+                    "stroke": "#9802ffff",
+                    "strokeThickness": 10
+                },
+                {
+                    "type": "Image",
+                    "id": "035a1eaf-7513-492a-b183-bc233a7dced1",
+                    "label": "gem_3",
+                    "texture": {
+                        "key": "gem"
+                    },
+                    "x": 369,
+                    "y": 1006
                 }
             ]
         },
@@ -1064,32 +1217,6 @@
                 },
                 {
                     "type": "Text",
-                    "id": "d6149de0-05c3-4643-88cb-ab9d4d18d6fc",
-                    "label": "high_score_1",
-                    "useGameObjectName": true,
-                    "scope": "CLASS",
-                    "x": 540,
-                    "y": 1010,
-                    "originY": 0.5,
-                    "text": "000",
-                    "fontFamily": "font-1",
-                    "fontSize": "85PX",
-                    "color": "#ffffffff",
-                    "stroke": "#9802ffff",
-                    "strokeThickness": 10
-                },
-                {
-                    "type": "Image",
-                    "id": "4ec6cb57-3651-4292-a54c-9869a5d8c1e3",
-                    "label": "gem_2",
-                    "texture": {
-                        "key": "gem"
-                    },
-                    "x": 450,
-                    "y": 1010
-                },
-                {
-                    "type": "Text",
                     "id": "856c1bbd-c7ae-40ed-8832-c3f5c97e5d9a",
                     "label": "score_text",
                     "useGameObjectName": true,
@@ -1098,7 +1225,7 @@
                     "originX": 0.5,
                     "originY": 0.5,
                     "text": "Nicely Done",
-                    "fontFamily": "font-1",
+                    "fontFamily": "CarterOne-Regular",
                     "fontSize": "80px",
                     "color": "#ffef4aff",
                     "stroke": "#560085ff",
@@ -1114,11 +1241,106 @@
                     "originX": 0.5,
                     "originY": 0.5,
                     "text": "100% Nazar Protection",
-                    "fontFamily": "font-1",
+                    "fontFamily": "CarterOne-Regular",
                     "fontSize": "60PX",
                     "color": "#ffffffff",
                     "stroke": "#58006bff",
                     "strokeThickness": 10
+                },
+                {
+                    "type": "Image",
+                    "id": "182938a4-f3e7-429d-bf89-b7b4caac379c",
+                    "label": "btn_next ",
+                    "scope": "CLASS",
+                    "texture": {
+                        "key": "error-box2"
+                    },
+                    "x": 535,
+                    "y": 1653,
+                    "scaleX": 0.6548420953969265,
+                    "scaleY": 0.6265270536305909,
+                    "visible": false
+                },
+                {
+                    "type": "Text",
+                    "id": "197da3ac-3973-4f69-9169-8b26c7e0b808",
+                    "label": "next_btn1",
+                    "scope": "CLASS",
+                    "x": 536,
+                    "y": 1699,
+                    "scaleX": 4.6373135970651385,
+                    "scaleY": 4.6373135970651385,
+                    "originX": 0.5,
+                    "originY": 0.5,
+                    "visible": false,
+                    "text": "Next",
+                    "align": "center",
+                    "fontFamily": "CarterOne-Regular",
+                    "stroke": "#000000ff",
+                    "strokeThickness": 5
+                },
+                {
+                    "type": "Image",
+                    "id": "f67eaf4b-a950-4301-81ae-a5a2ae388983",
+                    "label": "next_btn",
+                    "scope": "CLASS",
+                    "texture": {
+                        "key": "btn-next"
+                    },
+                    "x": 541,
+                    "y": 1703,
+                    "scaleX": 2.0098835874090186,
+                    "scaleY": 2.0098835874090186
+                },
+                {
+                    "type": "Image",
+                    "id": "b4764c62-0594-4327-9610-4e4162de9e51",
+                    "label": "high_score_bg",
+                    "texture": {
+                        "key": "high-score-bg"
+                    },
+                    "x": 532,
+                    "y": 981
+                },
+                {
+                    "type": "Text",
+                    "id": "d8658904-49cd-483b-adca-6c2a580dbcbf",
+                    "label": "text_3",
+                    "x": 447,
+                    "y": 890,
+                    "text": "SCORE",
+                    "fontFamily": "CarterOne-Regular",
+                    "fontSize": "50PX",
+                    "stroke": "#5b009aff",
+                    "strokeThickness": 10
+                },
+                {
+                    "type": "Text",
+                    "id": "f2a8fee6-8f60-4013-969f-c59a88899a67",
+                    "label": "high_score_1",
+                    "useGameObjectName": true,
+                    "scope": "CLASS",
+                    "x": 573,
+                    "y": 1001,
+                    "originX": 0.5,
+                    "originY": 0.5,
+                    "text": "000",
+                    "align": "center",
+                    "fontFamily": "CarterOne-Regular",
+                    "fontSize": "85PX",
+                    "color": "#ffffffff",
+                    "stroke": "#9802ffff",
+                    "strokeThickness": 10
+                },
+                {
+                    "type": "Image",
+                    "id": "9bf87ee0-64a3-4c53-a7f2-cd8821fb4d1b",
+                    "label": "gem_2",
+                    "texture": {
+                        "key": "gem"
+                    },
+                    "x": 405,
+                    "y": 1001
                 }
             ]
         },
@@ -1359,18 +1581,6 @@
                 },
                 {
                     "type": "Image",
-                    "id": "ac1ba02a-4b4e-4f6c-ade8-e969d0f37b99",
-                    "label": "restart_btn",
-                    "useGameObjectName": true,
-                    "scope": "CLASS",
-                    "texture": {
-                        "key": "green-button"
-                    },
-                    "x": 23,
-                    "y": 929
-                },
-                {
-                    "type": "Image",
                     "id": "60de0884-b06d-411d-8287-72766f76c53a",
                     "label": "character_BG_2",
                     "useGameObjectName": true,
@@ -1409,18 +1619,6 @@
                     "fontSize": "35px",
                     "stroke": "#332f2fff",
                     "strokeThickness": 10
-                },
-                {
-                    "type": "Image",
-                    "id": "bdb480cc-d61b-4849-a246-14f5a859ca08",
-                    "label": "title_2",
-                    "displayName": "title_2",
-                    "useGameObjectName": true,
-                    "texture": {
-                        "key": "title"
-                    },
-                    "x": 23,
-                    "y": -659
                 }
             ]
         },
@@ -1490,7 +1688,7 @@
                     "originX": 0.5,
                     "originY": 0.5,
                     "text": "Quit Game?",
-                    "fontFamily": "font-1",
+                    "fontFamily": "CarterOne-Regular",
                     "fontSize": "80px",
                     "color": "#faf844ff",
                     "stroke": "#5d3193ff",
@@ -1641,31 +1839,6 @@
                     "y": -788
                 }
             ]
-        },
-        {
-            "type": "Image",
-            "id": "b61693c1-9ef9-4e8e-80ca-cb54a7a1aace",
-            "label": "exit_back_button",
-            "displayName": "exit_back_button",
-            "useGameObjectName": true,
-            "scope": "CLASS",
-            "texture": {
-                "key": "back-button"
-            },
-            "x": 959,
-            "y": 128
-        },
-        {
-            "type": "Image",
-            "id": "4fd2d07d-0dbe-4b0a-8e6f-64857bfe0ef6",
-            "label": "exit_btn",
-            "useGameObjectName": true,
-            "scope": "CLASS",
-            "texture": {
-                "key": "back-icon"
-            },
-            "x": 955,
-            "y": 121
         }
     ],
     "plainObjects": [],

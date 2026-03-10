@@ -1,3 +1,24 @@
+@font-face {
+    font-family: "bebas";
+    src: url("/assets/fonts/bebas.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "CarterOne-Regular";
+    src: url("assets/fonts/CarterOne-Regular.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "CarterOneRegular";
+    src: url("assets/fonts/CarterOne-Regular.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
 body {
     margin: 0;
     padding: 0;

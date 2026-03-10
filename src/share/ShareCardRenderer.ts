@@ -43,9 +43,11 @@ export const ensureShareFontsLoaded = async (): Promise<void> => {
     return;
   }
 
+  const fontUrl = `${import.meta.env.BASE_URL}assets/fonts/CarterOne-Regular.ttf`;
+
   const font = new FontFace(
     'CarterOne-Regular',
-    'url(/assets/fonts/carterone-regular.ttf)'
+    `url(${fontUrl})`
   );
 
   await font.load();
@@ -149,7 +151,7 @@ export const resolveImagePath = (textureKey: string): string => {
       return tempPath + 'assets/images/common/logo-01.png';
 
     case 'title':
-      return tempPath + 'assets/images/common/title.png';
+      return tempPath + 'assets/images/gameplay/game-title.png';
 
     case 'sh-large-panel':
       return tempPath + 'assets/images/share/sh-large-panel.png';

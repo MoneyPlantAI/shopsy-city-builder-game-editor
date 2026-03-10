@@ -171,6 +171,13 @@
                 "key": "cancel-btn_1"
             },
             {
+                "url": "assets/fonts/CarterOne-Regular.ttf",
+                "format": "truetype",
+                "descriptors": {},
+                "type": "font",
+                "key": "CarterOne-Regular"
+            },
+            {
                 "url": "assets/images/ui-assets/character-bg.png",
                 "type": "image",
                 "key": "character-bg"
@@ -310,6 +317,11 @@
                 "url": "assets/images/game-end/high-score-character.png",
                 "type": "image",
                 "key": "high-score-character"
+            },
+            {
+                "url": "assets/images/gameplay/HighScore_Panel.png",
+                "type": "image",
+                "key": "HighScore_Panel"
             },
             {
                 "url": [
@@ -474,6 +486,14 @@
                 "key": "start-panel"
             },
             {
+<<<<<<< HEAD
+=======
+                "url": "assets/images/gameplay/game-title.png",
+                "type": "image",
+                "key": "title"
+            },
+            {
+>>>>>>> yr/dev
                 "url": "assets/images/gameplay/txt-good.png",
                 "type": "image",
                 "key": "txt-good"
