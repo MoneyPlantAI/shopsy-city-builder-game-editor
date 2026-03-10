@@ -474,11 +474,6 @@
                 "key": "start-panel"
             },
             {
-                "url": "assets/images/common/title.png",
-                "type": "image",
-                "key": "title"
-            },
-            {
                 "url": "assets/images/gameplay/txt-good.png",
                 "type": "image",
                 "key": "txt-good"
