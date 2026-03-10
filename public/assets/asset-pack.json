@@ -319,6 +319,11 @@
                 "key": "high-score-character"
             },
             {
+                "url": "assets/images/gameplay/HighScore_Panel.png",
+                "type": "image",
+                "key": "HighScore_Panel"
+            },
+            {
                 "url": [
                     "assets/audio/hit.mp3"
                 ],
@@ -481,7 +486,7 @@
                 "key": "start-panel"
             },
             {
-                "url": "assets/images/common/title.png",
+                "url": "assets/images/gameplay/game-title.png",
                 "type": "image",
                 "key": "title"
             },

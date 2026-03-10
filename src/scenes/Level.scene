@@ -154,33 +154,6 @@
                     "y": 60,
                     "originX": 0,
                     "visible": false
-                },
-                {
-                    "type": "Text",
-                    "id": "512d8d57-68d1-4e2e-8c40-a7dbd1b75280",
-                    "label": "txtBlocks",
-                    "scope": "CLASS",
-                    "x": 218,
-                    "y": 62,
-                    "originX": 1,
-                    "originY": 0.5,
-                    "visible": false,
-                    "text": "0",
-                    "align": "right",
-                    "fontFamily": "bebas",
-                    "fontSize": "35px"
-                },
-                {
-                    "type": "Text",
-                    "id": "f715f58e-f4d9-49ef-b74f-fb8389f2f863",
-                    "label": "txtPointsAdded",
-                    "scope": "CLASS",
-                    "x": 250,
-                    "y": 152,
-                    "originY": 0.5,
-                    "fontFamily": "bebas",
-                    "fontSize": "35px",
-                    "color": "#23b84b"
                 }
             ]
         },
@@ -475,10 +448,10 @@
                     "texture": {
                         "key": "back-button"
                     },
-                    "x": 842,
-                    "y": 50,
-                    "scaleX": 0.732618405831841,
-                    "scaleY": 0.732618405831841
+                    "x": 874,
+                    "y": 6,
+                    "scaleX": 0.5780706990775125,
+                    "scaleY": 0.5780706990775125
                 },
                 {
                     "type": "Image",
@@ -490,10 +463,10 @@
                     "texture": {
                         "key": "back-icon"
                     },
-                    "x": 844,
-                    "y": 48,
-                    "scaleX": 0.7486837742427886,
-                    "scaleY": 0.7486837742427886
+                    "x": 875,
+                    "y": 4,
+                    "scaleX": 0.6468326147050893,
+                    "scaleY": 0.6468326147050893
                 },
                 {
                     "type": "Image",
@@ -528,35 +501,8 @@
                     },
                     "x": -66,
                     "y": 222,
-                    "originX": 0
-                },
-                {
-                    "type": "Text",
-                    "id": "6079acdf-b52c-48a8-9a03-eb8dc257c405",
-                    "label": "txtPoints",
-                    "scope": "CLASS",
-                    "x": 76,
-                    "y": 224,
-                    "originX": 0.5,
-                    "originY": 0.5,
-                    "text": "0/0",
-                    "align": "right",
-                    "fontFamily": "CarterOne-Regular",
-                    "fontSize": "35px"
-                },
-                {
-                    "type": "Image",
-                    "id": "0275750e-43d9-44da-a96c-49ed6e65af40",
-                    "label": "gem",
-                    "useGameObjectName": true,
-                    "scope": "CLASS",
-                    "texture": {
-                        "key": "gem"
-                    },
-                    "x": -43,
-                    "y": 220,
-                    "scaleX": 0.7,
-                    "scaleY": 0.7
+                    "originX": 0,
+                    "visible": false
                 },
                 {
                     "type": "Image",
@@ -569,7 +515,8 @@
                     "x": 848,
                     "y": 293,
                     "scaleX": 0.67,
-                    "scaleY": 0.36196435725133197
+                    "scaleY": 0.36196435725133197,
+                    "visible": false
                 },
                 {
                     "type": "Text",
@@ -582,6 +529,7 @@
                     "scaleY": 2.765128216532846,
                     "originX": 0.5,
                     "originY": 0.5,
+                    "visible": false,
                     "text": "lose",
                     "fontFamily": "CarterOne-Regular"
                 },
@@ -597,6 +545,7 @@
                     "y": 197,
                     "scaleX": 0.57,
                     "scaleY": 0.36196435725133197,
+                    "visible": false,
                     "tintTopLeft": "#dfd100",
                     "tintTopRight": "#dfd100",
                     "tintBottomLeft": "#dfd100",
@@ -611,8 +560,99 @@
                     "y": 166,
                     "scaleX": 2.765128216532846,
                     "scaleY": 2.765128216532846,
+                    "visible": false,
                     "text": "Win",
                     "fontFamily": "CarterOneRegular"
+                },
+                {
+                    "type": "Image",
+                    "id": "5fb54c66-8571-44e6-a47a-e2fd724aacc8",
+                    "label": "highScore_Panel_1",
+                    "texture": {
+                        "key": "HighScore_Panel"
+                    },
+                    "x": 52,
+                    "y": 189,
+                    "scaleX": 0.5277238860700069,
+                    "scaleY": 0.48707597170862665
+                },
+                {
+                    "type": "Image",
+                    "id": "2683ee55-37f8-4aa0-8da6-56901c03081d",
+                    "label": "gem",
+                    "useGameObjectName": true,
+                    "scope": "CLASS",
+                    "texture": {
+                        "key": "gem"
+                    },
+                    "x": -43,
+                    "y": 190,
+                    "scaleX": 0.7,
+                    "scaleY": 0.7
+                },
+                {
+                    "type": "Text",
+                    "id": "518fbb90-102c-4e7f-a5e2-d1f05befed5e",
+                    "label": "txtPoints",
+                    "scope": "CLASS",
+                    "x": 81,
+                    "y": 190,
+                    "originX": 0.5,
+                    "originY": 0.5,
+                    "text": "0/0",
+                    "align": "right",
+                    "fontFamily": "CarterOne-Regular",
+                    "fontSize": "35px"
+                },
+                {
+                    "type": "Image",
+                    "id": "07f75257-2b2b-4b90-be07-7946586b7454",
+                    "label": "highScore_Panel_2",
+                    "texture": {
+                        "key": "HighScore_Panel"
+                    },
+                    "x": 18,
+                    "y": 303,
+                    "scaleX": 0.38648749134631477,
+                    "scaleY": 0.48707597170862665
+                },
+                {
+                    "type": "Image",
+                    "id": "b52f425d-5fe8-490b-9256-565abbac20e5",
+                    "label": "block",
+                    "texture": {
+                        "key": "block"
+                    },
+                    "x": -30,
+                    "y": 303,
+                    "scaleX": 0.3250328368857309,
+                    "scaleY": 0.3250328368857309
+                },
+                {
+                    "type": "Text",
+                    "id": "f374fb5f-478c-4422-820d-ffe5639de534",
+                    "label": "txtBlocks",
+                    "scope": "CLASS",
+                    "x": 68,
+                    "y": 304,
+                    "originX": 1,
+                    "originY": 0.5,
+                    "text": "0",
+                    "align": "right",
+                    "fontFamily": "CarterOne-Regular",
+                    "fontSize": "35px"
+                },
+                {
+                    "type": "Text",
+                    "id": "f953f390-00a7-41c0-a6be-c8747e1c171d",
+                    "label": "txtPointsAdded",
+                    "scope": "CLASS",
+                    "x": 200,
+                    "y": 186,
+                    "originY": 0.5,
+                    "fontFamily": "CarterOne-Regular",
+                    "fontSize": "35px",
+                    "color": "#23b84b"
                 }
             ]
         },
@@ -1039,34 +1079,6 @@
                     "y": 1035
                 },
                 {
-                    "type": "Text",
-                    "id": "ee078947-c7b6-45d1-82f9-99f6937d2e81",
-                    "label": "low_score",
-                    "useGameObjectName": true,
-                    "scope": "CLASS",
-                    "x": 545,
-                    "y": 1010,
-                    "originX": 0.5,
-                    "originY": 0.5,
-                    "text": "000",
-                    "align": "center",
-                    "fontFamily": "CarterOne-Regular",
-                    "fontSize": "85PX",
-                    "color": "#ffffffff",
-                    "stroke": "#9802ffff",
-                    "strokeThickness": 10
-                },
-                {
-                    "type": "Image",
-                    "id": "2a2ff2c0-22fd-4c63-8277-9c2e30b30e80",
-                    "label": "gem_3",
-                    "texture": {
-                        "key": "gem"
-                    },
-                    "x": 367,
-                    "y": 1010
-                },
-                {
                     "type": "Image",
                     "id": "2b439023-b555-41f3-bf46-f9c865888436",
                     "label": "lowScore_Character_1",
@@ -1119,6 +1131,56 @@
                     },
                     "x": 562,
                     "y": 1719
+                },
+                {
+                    "type": "Image",
+                    "id": "c2f7c58d-3fe5-48b4-a63c-6f68214efdb5",
+                    "label": "high_score_bg_1",
+                    "texture": {
+                        "key": "high-score-bg"
+                    },
+                    "x": 539,
+                    "y": 982
+                },
+                {
+                    "type": "Text",
+                    "id": "0b426f43-8474-45cc-bafe-2ac00d7702ff",
+                    "label": "text",
+                    "x": 454,
+                    "y": 891,
+                    "text": "SCORE",
+                    "fontFamily": "CarterOne-Regular",
+                    "fontSize": "50PX",
+                    "stroke": "#5b009aff",
+                    "strokeThickness": 10
+                },
+                {
+                    "type": "Text",
+                    "id": "c60a5dea-97a2-46af-8e98-a4a872dfffe2",
+                    "label": "low_score",
+                    "useGameObjectName": true,
+                    "scope": "CLASS",
+                    "x": 560,
+                    "y": 1006,
+                    "originX": 0.5,
+                    "originY": 0.5,
+                    "text": "000",
+                    "align": "center",
+                    "fontFamily": "CarterOne-Regular",
+                    "fontSize": "65PX",
+                    "color": "#ffffffff",
+                    "stroke": "#9802ffff",
+                    "strokeThickness": 10
+                },
+                {
+                    "type": "Image",
+                    "id": "035a1eaf-7513-492a-b183-bc233a7dced1",
+                    "label": "gem_3",
+                    "texture": {
+                        "key": "gem"
+                    },
+                    "x": 369,
+                    "y": 1006
                 }
             ]
         },
@@ -1152,34 +1214,6 @@
                     },
                     "x": 540,
                     "y": 490
-                },
-                {
-                    "type": "Text",
-                    "id": "d6149de0-05c3-4643-88cb-ab9d4d18d6fc",
-                    "label": "high_score_1",
-                    "useGameObjectName": true,
-                    "scope": "CLASS",
-                    "x": 528,
-                    "y": 1010,
-                    "originX": 0.5,
-                    "originY": 0.5,
-                    "text": "000",
-                    "align": "center",
-                    "fontFamily": "CarterOne-Regular",
-                    "fontSize": "85PX",
-                    "color": "#ffffffff",
-                    "stroke": "#9802ffff",
-                    "strokeThickness": 10
-                },
-                {
-                    "type": "Image",
-                    "id": "4ec6cb57-3651-4292-a54c-9869a5d8c1e3",
-                    "label": "gem_2",
-                    "texture": {
-                        "key": "gem"
-                    },
-                    "x": 360,
-                    "y": 1010
                 },
                 {
                     "type": "Text",
@@ -1257,6 +1291,56 @@
                     "y": 1703,
                     "scaleX": 2.0098835874090186,
                     "scaleY": 2.0098835874090186
+                },
+                {
+                    "type": "Image",
+                    "id": "b4764c62-0594-4327-9610-4e4162de9e51",
+                    "label": "high_score_bg",
+                    "texture": {
+                        "key": "high-score-bg"
+                    },
+                    "x": 532,
+                    "y": 981
+                },
+                {
+                    "type": "Text",
+                    "id": "d8658904-49cd-483b-adca-6c2a580dbcbf",
+                    "label": "text_3",
+                    "x": 447,
+                    "y": 890,
+                    "text": "SCORE",
+                    "fontFamily": "CarterOne-Regular",
+                    "fontSize": "50PX",
+                    "stroke": "#5b009aff",
+                    "strokeThickness": 10
+                },
+                {
+                    "type": "Text",
+                    "id": "f2a8fee6-8f60-4013-969f-c59a88899a67",
+                    "label": "high_score_1",
+                    "useGameObjectName": true,
+                    "scope": "CLASS",
+                    "x": 573,
+                    "y": 1001,
+                    "originX": 0.5,
+                    "originY": 0.5,
+                    "text": "000",
+                    "align": "center",
+                    "fontFamily": "CarterOne-Regular",
+                    "fontSize": "85PX",
+                    "color": "#ffffffff",
+                    "stroke": "#9802ffff",
+                    "strokeThickness": 10
+                },
+                {
+                    "type": "Image",
+                    "id": "9bf87ee0-64a3-4c53-a7f2-cd8821fb4d1b",
+                    "label": "gem_2",
+                    "texture": {
+                        "key": "gem"
+                    },
+                    "x": 405,
+                    "y": 1001
                 }
             ]
         },
