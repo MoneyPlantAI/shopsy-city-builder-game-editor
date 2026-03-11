@@ -1071,6 +1071,8 @@ export default class Level extends Phaser.Scene {
 	private character_BG!: Phaser.GameObjects.Image;
 	private profile_text!: Phaser.GameObjects.Text;
 	private game_start_panel_container!: Phaser.GameObjects.Container;
+	private exit_back_button!: Phaser.GameObjects.Image;
+	private exit_btn!: Phaser.GameObjects.Image;
 
 	/* START-USER-CODE */
 
@@ -1260,10 +1262,10 @@ export default class Level extends Phaser.Scene {
 			this.gameWorldContainer,
 			this.gameplayContainer,
 			this.fxContainer,
-			this.hudContainer
-			// this.exit_back_button,
-			// this.exit_btn
-		].filter((obj): obj is Phaser.GameObjects.GameObject => Boolean(obj));
+			this.hudContainer,
+			this.exit_back_button,
+			this.exit_btn
+		].filter((obj): obj is Phaser.GameObjects.Container | Phaser.GameObjects.Image => Boolean(obj));
 	}
 
 	private applyShopsyLayoutTransform(): void {
@@ -1414,7 +1416,7 @@ export default class Level extends Phaser.Scene {
 		const scrollUp = (): void => {
 			let minusY = targetYIncrement;
 			const latest = gameState.blocks[gameState.blocks.length - 1];
-			if (latest && latest.y - this.blockTop.y > 500) {
+			if (latest && latest.y - this.blockTop.y > 1200) {
 				minusY = 0;
 			}
 
@@ -1721,9 +1723,9 @@ export default class Level extends Phaser.Scene {
 		}
 		if (panel && panel.list) {
 			panel.list.forEach(child => {
-				if (typeof child.setScrollFactor === 'function') {
-					child.setScrollFactor(0);
-				}
+				// if (typeof child.setScrollFactor === 'function') {
+				// 	child.setScrollFactor(0);
+				// }
 				if (typeof child.setInteractive === 'function' && child.input === undefined) {
 					child.setInteractive({ useHandCursor: true });
 				}
