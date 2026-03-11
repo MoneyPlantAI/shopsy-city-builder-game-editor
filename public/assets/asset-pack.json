@@ -486,14 +486,11 @@
                 "key": "start-panel"
             },
             {
-<<<<<<< HEAD
-=======
                 "url": "assets/images/gameplay/game-title.png",
                 "type": "image",
                 "key": "title"
             },
             {
->>>>>>> yr/dev
                 "url": "assets/images/gameplay/txt-good.png",
                 "type": "image",
                 "key": "txt-good"
