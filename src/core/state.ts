@@ -23,7 +23,7 @@ export interface GameplayConfig {
 
 export const gameplayConfig: GameplayConfig = {
     maxToleranceX: 80,
-    targetYIncrement: 94,
+    targetYIncrement: 98,
     dropDurationHit: 600,
     dropDurationMiss: 900,
     scrollDuration: 300,
