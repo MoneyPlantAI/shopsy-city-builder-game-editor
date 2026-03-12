@@ -37,10 +37,10 @@ export default class Preload extends Phaser.Scene {
 		this.add.image(208, 1743, "loading-text-min");
 
 		// text_1
-		const text_1 = this.add.text(844, 1699, "", {});
+		const text_1 = this.add.text(844, 1692, "", {});
 		text_1.name = "text_1";
 		text_1.text = "100%";
-		text_1.setStyle({ "color": "#28ff62ff", "fontFamily": "bebas", "fontSize": "60px", "stroke": "#2a0509", "strokeThickness": 12 });
+		text_1.setStyle({ "color": "#28ff62ff", "fontFamily": "CarterOne-Regular", "fontSize": "60px", "stroke": "#2a0509", "strokeThickness": 12 });
 
 		// error_container
 		const error_container = this.add.container(0, 0);
