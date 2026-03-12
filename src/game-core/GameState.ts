@@ -7,6 +7,7 @@ export const GAME_STATE = {
     RESUMED: "RESUMED" as const,
     GAME_OVER_WIN: "GAME_OVER_WIN" as const,
     GAME_OVER_LOSE: "GAME_OVER_LOSE" as const,
+    WAITING_FOR_GAME_RESPONSE: "WAITING_FOR_GAME_RESPONSE" as const,
     RESTART: "RESTART" as const,
     SHARING: "SHARING" as const,
     ERROR: "ERROR" as const,

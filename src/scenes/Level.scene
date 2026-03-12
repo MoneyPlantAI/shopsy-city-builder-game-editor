@@ -1047,13 +1047,29 @@
                     "id": "20823b4c-0159-45e2-9cea-73175534b149",
                     "label": "final_score",
                     "scope": "CLASS",
-                    "x": 682,
+                    "x": 786,
                     "y": 1261,
                     "originY": 0.5,
                     "text": "0",
-                    "fontFamily": "font-1",
+                    "fontFamily": "CarterOne-Regular",
                     "fontSize": "65px",
                     "stroke": "#9802ffff",
+                    "strokeThickness": 10
+                },
+                {
+                    "type": "Text",
+                    "id": "81c6c9a1-c287-4cf4-8d87-70c7a3516268",
+                    "label": "Supercoin_text_1",
+                    "scope": "CLASS",
+                    "x": 477,
+                    "y": 1258,
+                    "originX": 0.5,
+                    "originY": 0.5,
+                    "text": "0",
+                    "align": "center",
+                    "fontFamily": "CarterOne-Regular",
+                    "fontSize": "65px",
+                    "stroke": "#a77203ff",
                     "strokeThickness": 10
                 }
             ]
@@ -1129,7 +1145,7 @@
                     "texture": {
                         "key": "play-again-btn"
                     },
-                    "x": 562,
+                    "x": 540,
                     "y": 1719
                 },
                 {
@@ -1140,7 +1156,8 @@
                         "key": "high-score-bg"
                     },
                     "x": 539,
-                    "y": 982
+                    "y": 982,
+                    "visible": false
                 },
                 {
                     "type": "Text",
@@ -1148,6 +1165,7 @@
                     "label": "text",
                     "x": 454,
                     "y": 891,
+                    "visible": false,
                     "text": "SCORE",
                     "fontFamily": "CarterOne-Regular",
                     "fontSize": "50PX",
@@ -1160,8 +1178,8 @@
                     "label": "low_score",
                     "useGameObjectName": true,
                     "scope": "CLASS",
-                    "x": 560,
-                    "y": 1006,
+                    "x": 826,
+                    "y": 1042,
                     "originX": 0.5,
                     "originY": 0.5,
                     "text": "000",
@@ -1169,7 +1187,7 @@
                     "fontFamily": "CarterOne-Regular",
                     "fontSize": "65PX",
                     "color": "#ffffffff",
-                    "stroke": "#9802ffff",
+                    "stroke": "#028fffff",
                     "strokeThickness": 10
                 },
                 {
@@ -1179,8 +1197,26 @@
                     "texture": {
                         "key": "gem"
                     },
-                    "x": 369,
-                    "y": 1006
+                    "x": 684,
+                    "y": 1048,
+                    "scaleX": 1.181837427563718,
+                    "scaleY": 1.181837427563718
+                },
+                {
+                    "type": "Text",
+                    "id": "1968b574-bf80-4e72-9927-a912a62c6908",
+                    "label": "Supercoin_text",
+                    "scope": "CLASS",
+                    "x": 438,
+                    "y": 1044,
+                    "originX": 0.5,
+                    "originY": 0.5,
+                    "text": "0",
+                    "align": "center",
+                    "fontFamily": "CarterOne-Regular",
+                    "fontSize": "85px",
+                    "stroke": "#a77203ff",
+                    "strokeThickness": 10
                 }
             ]
         },
@@ -1262,35 +1298,17 @@
                     "visible": false
                 },
                 {
-                    "type": "Text",
-                    "id": "197da3ac-3973-4f69-9169-8b26c7e0b808",
-                    "label": "next_btn1",
-                    "scope": "CLASS",
-                    "x": 536,
-                    "y": 1699,
-                    "scaleX": 4.6373135970651385,
-                    "scaleY": 4.6373135970651385,
-                    "originX": 0.5,
-                    "originY": 0.5,
-                    "visible": false,
-                    "text": "Next",
-                    "align": "center",
-                    "fontFamily": "CarterOne-Regular",
-                    "stroke": "#000000ff",
-                    "strokeThickness": 5
-                },
-                {
                     "type": "Image",
                     "id": "f67eaf4b-a950-4301-81ae-a5a2ae388983",
                     "label": "next_btn",
                     "scope": "CLASS",
                     "texture": {
-                        "key": "btn-next"
+                        "key": "Green-btn"
                     },
-                    "x": 541,
-                    "y": 1703,
-                    "scaleX": 2.0098835874090186,
-                    "scaleY": 2.0098835874090186
+                    "x": 540,
+                    "y": 1721,
+                    "scaleX": 1.01,
+                    "scaleY": 1.01
                 },
                 {
                     "type": "Image",
@@ -1300,7 +1318,8 @@
                         "key": "high-score-bg"
                     },
                     "x": 532,
-                    "y": 981
+                    "y": 981,
+                    "visible": false
                 },
                 {
                     "type": "Text",
@@ -1308,6 +1327,7 @@
                     "label": "text_3",
                     "x": 447,
                     "y": 890,
+                    "visible": false,
                     "text": "SCORE",
                     "fontFamily": "CarterOne-Regular",
                     "fontSize": "50PX",
@@ -1320,8 +1340,8 @@
                     "label": "high_score_1",
                     "useGameObjectName": true,
                     "scope": "CLASS",
-                    "x": 573,
-                    "y": 1001,
+                    "x": 842,
+                    "y": 1047,
                     "originX": 0.5,
                     "originY": 0.5,
                     "text": "000",
@@ -1329,7 +1349,7 @@
                     "fontFamily": "CarterOne-Regular",
                     "fontSize": "85PX",
                     "color": "#ffffffff",
-                    "stroke": "#9802ffff",
+                    "stroke": "#028fffff",
                     "strokeThickness": 10
                 },
                 {
@@ -1339,8 +1359,43 @@
                     "texture": {
                         "key": "gem"
                     },
-                    "x": 405,
-                    "y": 1001
+                    "x": 674,
+                    "y": 1047,
+                    "scaleX": 1.1889856074071514,
+                    "scaleY": 1.1889856074071514
+                },
+                {
+                    "type": "Text",
+                    "id": "ff51657d-5d51-4bed-9abf-75eea8d5935f",
+                    "label": "Bottom_text_2",
+                    "useGameObjectName": true,
+                    "scope": "CLASS",
+                    "x": 543,
+                    "y": 1709,
+                    "originX": 0.5,
+                    "originY": 0.5,
+                    "text": "Next",
+                    "fontFamily": "CarterOne-Regular",
+                    "fontSize": "70PX",
+                    "color": "#ffffffff",
+                    "stroke": "#0d6b00ff",
+                    "strokeThickness": 12
+                },
+                {
+                    "type": "Text",
+                    "id": "849a01f5-719e-4a2b-ad89-c366900b203f",
+                    "label": "Supercoin_text1",
+                    "scope": "CLASS",
+                    "x": 441,
+                    "y": 1050,
+                    "originX": 0.5,
+                    "originY": 0.5,
+                    "text": "0",
+                    "align": "center",
+                    "fontFamily": "CarterOne-Regular",
+                    "fontSize": "85px",
+                    "stroke": "#a77203ff",
+                    "strokeThickness": 10
                 }
             ]
         },
@@ -1837,6 +1892,55 @@
                     },
                     "x": 12,
                     "y": -788
+                }
+            ]
+        },
+        {
+            "type": "Container",
+            "id": "a7ed2b74-4b58-47f6-a725-628ce0829a48",
+            "label": "waiting_for_game_response_panel_container",
+            "scope": "CLASS",
+            "visible": false,
+            "list": [
+                {
+                    "type": "Image",
+                    "id": "70efd7a2-bd4e-40e3-9404-192e94edaf2c",
+                    "label": "image_1",
+                    "texture": {
+                        "key": "blur-bg"
+                    },
+                    "x": 540,
+                    "y": 960
+                },
+                {
+                    "type": "Image",
+                    "id": "d6775721-2c20-4a6d-8354-2e97d381e264",
+                    "label": "image",
+                    "texture": {
+                        "key": "bg-blur"
+                    },
+                    "x": 540,
+                    "y": 960,
+                    "alpha": 0.6,
+                    "alphaTopLeft": 0.6,
+                    "alphaTopRight": 0.6,
+                    "alphaBottomLeft": 0.6,
+                    "alphaBottomRight": 0.6
+                },
+                {
+                    "type": "Text",
+                    "id": "da09a8ed-1680-4e47-9763-259158950854",
+                    "label": "text_4",
+                    "scope": "CLASS",
+                    "x": 546,
+                    "y": 960,
+                    "originX": 0.5,
+                    "originY": 0.5,
+                    "text": "Please Wait...",
+                    "fontFamily": "CarterOne-Regular",
+                    "fontSize": "70px",
+                    "stroke": "#332f2fff",
+                    "strokeThickness": 10
                 }
             ]
         }

@@ -31,6 +31,11 @@
                 "key": "bar-points"
             },
             {
+                "url": "assets/images/loading/bg-blur.png",
+                "type": "image",
+                "key": "bg-blur"
+            },
+            {
                 "url": "assets/images/gameplay/bg-game1.png",
                 "type": "image",
                 "key": "bg-game1"
@@ -307,6 +312,11 @@
                 "type": "spineAtlas",
                 "key": "good-atlas",
                 "url": "assets/spine/good.atlas"
+            },
+            {
+                "url": "assets/images/game-end/Green-btn.png",
+                "type": "image",
+                "key": "Green-btn"
             },
             {
                 "url": "assets/images/game-end/high-score-bg.png",
