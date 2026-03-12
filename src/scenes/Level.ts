@@ -1564,8 +1564,8 @@ export default class Level extends Phaser.Scene {
 	private setupInteractions(): void {
 
 		//this.tapIfPresent(this.exitBtnNode, () => shopsyBridge.exitGame());
-		this.tapIfPresent(this.pause_btn, () => shopsyBridge.exitGame());
-		this.tapIfPresent(this.back_button1, () => shopsyBridge.exitGame());
+		this.tapIfPresent(this.pause_btn, () => this.changeGameState(GAME_STATE.PAUSED));
+		this.tapIfPresent(this.back_button1, () => this.changeGameState(GAME_STATE.PAUSED));
 		this.tapIfPresent(this.startBtnNode, () => this.changeGameState(GAME_STATE.START));
 		this.tapIfPresent(this.pauseBtnNode, () => this.changeGameState(GAME_STATE.PAUSED));
 		this.tapIfPresent(this.pauseCloseBtnNode, () => this.changeGameState(GAME_STATE.RESUMED));
