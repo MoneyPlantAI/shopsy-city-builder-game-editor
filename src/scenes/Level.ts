@@ -1814,6 +1814,10 @@ export default class Level extends Phaser.Scene {
 		}
 	}
 
+	public goToPreviousPanel() {
+		this.changePanel(this.previousPanel);
+	}
+
 	private changePanel(panel: string): void {
 		if (this.currentPanel === panel) {
 			return;
