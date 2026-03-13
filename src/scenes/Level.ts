@@ -18,7 +18,6 @@ import { PlayerPrefs } from "../utils/PlayerPrefs";
 /* END-USER-IMPORTS */
 
 export default class Level extends Phaser.Scene {
-
 	constructor() {
 		super("Level");
 
@@ -1130,6 +1129,7 @@ export default class Level extends Phaser.Scene {
 	private waiting_for_game_response_panel_container!: Phaser.GameObjects.Container;
 
 	/* START-USER-CODE */
+	private _gameOverDelayMs = 2000;
 
 	private allPanels: Phaser.GameObjects.Container[] = [];
 	private previousGameState: string = GAME_STATE.NONE;
@@ -2053,11 +2053,13 @@ export default class Level extends Phaser.Scene {
 	}
 
 	   private _gameOverCalled = false;
+	   private _currentScore = 0;
 	   private onGameOver(result: "win" | "lost"): void {
 		   if (this._gameOverCalled) return;
 		   this._gameOverCalled = true;
 		   console.log(`Game over with result: ${result}`);
 		   this.timePlayedMs = this.time.now - this.gameStartTime;
+		   this._currentScore = this.currentPoints;
 		   if(result === "win"){
 			this.currentPoints=100;
 			}else{
@@ -2098,10 +2100,10 @@ export default class Level extends Phaser.Scene {
 			   console.log(UserProfileManager.getProfileData());
 			   //this.superCoinsWonThisRound = UserProfileManager.getProfileData()?.claimableRewards?.perGameRewardCoinsForToday || 0;
 			   console.log("Coins lost this round:", this.superCoinsWonThisRound);
-			   this.high_score?.setText(String(this.currentPoints));
-			   this.high_score_1?.setText(`${this.currentPoints}`);
+			   this.high_score?.setText(String(this._currentScore));
+			   this.high_score_1?.setText(`${this._currentScore}`);
 			   this.supercoin_text?.setText(`${this.superCoinsWonThisRound}`);
-			   this.low_score?.setText(`${this.currentPoints}`);
+			   this.low_score?.setText(`${this._currentScore}`);
 			   this.time_spend?.setText(this.formatTime(this.timePlayedMs));
 		   } else {
 			   this.endTitle.setText("STAGE FAILED!");
@@ -2109,7 +2111,7 @@ export default class Level extends Phaser.Scene {
 			   console.log("Coins lost this round:", this.superCoinsWonThisRound);
 			   this.supercoin_text?.setText(`${this.superCoinsWonThisRound}`);
 			   this.endBlocks.setText(`${gameState.totalStackedBlocks}/${this.maxBlock}`);
-			   this.endPoints.setText(`${this.currentPoints}`);
+			   this.endPoints.setText(`${this._currentScore}`);
 			   this.endRestartButton.setVisible(true);
 			   this.endMapButton.setVisible(true);
 		   }
@@ -2121,15 +2123,16 @@ export default class Level extends Phaser.Scene {
 		   this.superCoinsWonThisRound = UserProfileManager.getProfileData()?.claimableRewards?.perGameRewardCoinsForToday || 0;
 		   if (this.game_over_panel_container) {
 			   console.log("Coins won this round:", this.superCoinsWonThisRound);
-			   this.high_score?.setText(String(this.currentPoints));
-			   this.high_score_1?.setText(String(this.currentPoints));
+			this.final_score?.setText(`${this._currentScore}`);
+			   this.high_score?.setText(String(this._currentScore));
+			   this.high_score_1?.setText(String(this._currentScore));
 			   this.supercoin_text1?.setText(`${this.superCoinsWonThisRound}`);
-			   this.low_score?.setText(String(this.currentPoints));
+			   this.low_score?.setText(String(this._currentScore));
 			   this.time_spend?.setText(this.formatTime(this.timePlayedMs));
 		   } else {
 			   this.endTitle.setText("COMPLETED!");
 			   this.endBlocks.setText(`${gameState.totalStackedBlocks}/${this.maxBlock}`);
-			   this.endPoints.setText(`${this.currentPoints}`);
+			   this.endPoints.setText(`${this._currentScore}`);
 			   this.supercoin_text1?.setText(`${this.superCoinsWonThisRound}`);
 			   this.endRestartButton.setVisible(false);
 			   this.endMapButton.setVisible(false);
