@@ -19,6 +19,8 @@ import { PlayerPrefs } from "../utils/PlayerPrefs";
 
 export default class Level extends Phaser.Scene {
 
+	private _gameOverDelayMs = 2000;
+
 	constructor() {
 		super("Level");
 
@@ -1202,22 +1204,23 @@ export default class Level extends Phaser.Scene {
 		});
 	}
 
-	create(): void {
-		this.editorCreate();
-		// Ensure camera is reset to initial state at the start of the scene
-		this.cameras.main.setZoom(1);
-		this.cameras.main.setScroll(0, 0);
-		// Always recapture layout on scene start to avoid double-scaling
-		this.shopsyLayoutCaptured = false;
+	   create(): void {
+		   this._gameOverCalled = false;
+		   this.editorCreate();
+		   // Ensure camera is reset to initial state at the start of the scene
+		   this.cameras.main.setZoom(1);
+		   this.cameras.main.setScroll(0, 0);
+		   // Always recapture layout on scene start to avoid double-scaling
+		   this.shopsyLayoutCaptured = false;
 
-		this.gameWorldContainer.setDepth(0);
-		this.gameplayContainer.setDepth(1000);
-		// Ensure top_ui_container is above gameplayContainer
-		if (this.top_ui_container) {
-			this.top_ui_container.setDepth(1001);
-		}
-		this.fxContainer.setDepth(1100);
-		this.hudContainer.setDepth(2000);
+		   this.gameWorldContainer.setDepth(0);
+		   this.gameplayContainer.setDepth(1000);
+		   // Ensure top_ui_container is above gameplayContainer
+		   if (this.top_ui_container) {
+			   this.top_ui_container.setDepth(1001);
+		   }
+		   this.fxContainer.setDepth(1100);
+		   this.hudContainer.setDepth(2000);
 		this.popupDark.setDepth(2100);
 		this.pausePopupContainer.setDepth(2200);
 		this.endPopupContainer.setDepth(2200);
@@ -1546,7 +1549,13 @@ export default class Level extends Phaser.Scene {
 				y: this.cameras.main.scrollY + 1080 + 200,
 				duration: 1200,
 				ease: "Sine.easeIn",
-				onComplete: () => this.changeGameState(GAME_STATE.WAITING_FOR_GAME_RESPONSE)
+				onComplete: () => {
+					this.changeGameState(GAME_STATE.WAITING_FOR_GAME_RESPONSE);
+					// Wait, then trigger game over (lose)
+					this.time.delayedCall(this._gameOverDelayMs, () => {
+						this.onGameOver("lost");
+					});
+				}
 			});
 
 			const rotateLeft = current.x < previousX;
@@ -1583,8 +1592,11 @@ export default class Level extends Phaser.Scene {
 					setCurrentLevel(gameState.currentLevel + 1);
 				}
 				this.changeGameState(GAME_STATE.WAITING_FOR_GAME_RESPONSE);
+				
+				this.onGameOver("win");
 			} else {
 				this.changeGameState(GAME_STATE.WAITING_FOR_GAME_RESPONSE);
+				this.onGameOver("lost");
 			}
 		};
 	}
@@ -2028,74 +2040,83 @@ export default class Level extends Phaser.Scene {
 		this.changePanel(GAME_PANEL.WAITING_FOR_GAME_RESPONSE);
 	}
 
-	private onGameOver(result: "win" | "lost"): void {
-		this.timePlayedMs = this.time.now - this.gameStartTime;
-		this.score = this.currentPoints;
-		this.changeGameState(GAME_STATE.WAITING_FOR_GAME_RESPONSE);
-		shopsyBridge.gameCompleted({
-			gems: this.score,
-			playTimeInSec: Math.floor(this.timePlayedMs / 1000)
-		});
+	   private _gameOverCalled = false;
+	   private onGameOver(result: "win" | "lost"): void {
+		   if (this._gameOverCalled) return;
+		   this._gameOverCalled = true;
+		   console.log(`Game over with result: ${result}`);
+		   this.timePlayedMs = this.time.now - this.gameStartTime;
+		   this.score = this.currentPoints;
+		   this.changeGameState(GAME_STATE.WAITING_FOR_GAME_RESPONSE);
+		   shopsyBridge.gameCompleted({
+			   gems: this.score,
+			   playTimeInSec: Math.floor(this.timePlayedMs / 1000)
+		   });
 
-		const coinsWon = this.isMaxGameBonusEarned
-			? 0
-			: UserProfileManager.getProfileData()?.claimableRewards?.perGameRewardCoinsForToday || 0;
-		console.log(`Game over with result: ${result}. Coins won: ${coinsWon}`);
-		this.superCoinsWonThisRound = coinsWon;
-		ShopsyAnalytics.sendGameFinishedEvent(this.score, coinsWon, result, this.timePlayedMs);
-		ShopsyAnalytics.sendCoinsEarnedEvent(coinsWon);
+		   const coinsWon = this.isMaxGameBonusEarned
+			   ? 0
+			   : UserProfileManager.getProfileData()?.claimableRewards?.perGameRewardCoinsForToday || 0;
+		   console.log(`Game over with result: ${result}. Coins won: ${coinsWon}`);
+		   this.superCoinsWonThisRound = coinsWon;
+		   ShopsyAnalytics.sendGameFinishedEvent(this.score, coinsWon, result, this.timePlayedMs);
+		   ShopsyAnalytics.sendCoinsEarnedEvent(coinsWon);
 
-	}
+		   // Wait before showing the game over panel
+		   this.time.delayedCall(this._gameOverDelayMs, () => {
+			   if(result === "win"){
+				   this.onGameWon();
+			   }else{
+				   this.onGameLost();
+			   }
+		   });
+	   }
 
-	private onGameLost(): void {
-		playSound(this, "gameover");
-		this.onGameOver("lost");
+	   private onGameLost(): void {
+		   playSound(this, "gameover");
+		   if (this.game_over_panel_container) {
+			   console.log(UserProfileManager.getProfileData());
+			   //this.superCoinsWonThisRound = UserProfileManager.getProfileData()?.claimableRewards?.perGameRewardCoinsForToday || 0;
+			   console.log("Coins lost this round:", this.superCoinsWonThisRound);
+			   this.high_score?.setText(String(this.currentPoints));
+			   this.high_score_1?.setText(`${this.currentPoints}/${this.requiredPoints}`);
+			   this.supercoin_text?.setText(`${this.superCoinsWonThisRound}`);
+			   this.low_score?.setText(`${this.currentPoints}/${this.requiredPoints}`);
+			   this.time_spend?.setText(this.formatTime(this.timePlayedMs));
+		   } else {
+			   this.endTitle.setText("STAGE FAILED!");
+			   this.superCoinsWonThisRound = UserProfileManager.getProfileData()?.claimableRewards?.perGameRewardCoinsForToday || 0;
+			   console.log("Coins lost this round:", this.superCoinsWonThisRound);
+			   this.supercoin_text?.setText(`${this.superCoinsWonThisRound}`);
+			   this.endBlocks.setText(`${gameState.totalStackedBlocks}/${this.maxBlock}`);
+			   this.endPoints.setText(`${this.currentPoints}/${this.requiredPoints}`);
+			   this.endRestartButton.setVisible(true);
+			   this.endMapButton.setVisible(true);
+		   }
+		   this.changePanel(GAME_PANEL.GAME_OVER_LOSE_PANEL);
+	   }
 
-		if (this.game_over_panel_container) {
-			console.log(UserProfileManager.getProfileData());
-			//this.superCoinsWonThisRound = UserProfileManager.getProfileData()?.claimableRewards?.perGameRewardCoinsForToday || 0;
-			console.log("Coins lost this round:", this.superCoinsWonThisRound);
-			this.high_score?.setText(String(this.currentPoints));
-			this.high_score_1?.setText(`${this.currentPoints}/${this.requiredPoints}`);
-			this.supercoin_text?.setText(`${this.superCoinsWonThisRound}`);
-			this.low_score?.setText(`${this.currentPoints}/${this.requiredPoints}`);
-			this.time_spend?.setText(this.formatTime(this.timePlayedMs));
-		} else {
-			this.endTitle.setText("STAGE FAILED!");
-			this.superCoinsWonThisRound = UserProfileManager.getProfileData()?.claimableRewards?.perGameRewardCoinsForToday || 0;
-			console.log("Coins lost this round:", this.superCoinsWonThisRound);
-			this.supercoin_text?.setText(`${this.superCoinsWonThisRound}`);
-			this.endBlocks.setText(`${gameState.totalStackedBlocks}/${this.maxBlock}`);
-			this.endPoints.setText(`${this.currentPoints}/${this.requiredPoints}`);
-			this.endRestartButton.setVisible(true);
-			this.endMapButton.setVisible(true);
-		}
-		this.changePanel(GAME_PANEL.GAME_OVER_LOSE_PANEL);
-	}
+	   private onGameWon(): void {
+		   playSound(this, "completed");
+		   this.superCoinsWonThisRound = UserProfileManager.getProfileData()?.claimableRewards?.perGameRewardCoinsForToday || 0;
+		   if (this.game_over_panel_container) {
+			   console.log("Coins won this round:", this.superCoinsWonThisRound);
+			   this.high_score?.setText(String(this.currentPoints));
+			   this.high_score_1?.setText(String(this.currentPoints));
+			   this.supercoin_text1?.setText(`${this.superCoinsWonThisRound}`);
+			   this.low_score?.setText(String(this.currentPoints));
+			   this.time_spend?.setText(this.formatTime(this.timePlayedMs));
+		   } else {
+			   this.endTitle.setText("COMPLETED!");
+			   this.endBlocks.setText(`${gameState.totalStackedBlocks}/${this.maxBlock}`);
+			   this.endPoints.setText(`${this.currentPoints}/${this.requiredPoints}`);
+			   this.supercoin_text1?.setText(`${this.superCoinsWonThisRound}`);
+			   this.endRestartButton.setVisible(false);
+			   this.endMapButton.setVisible(false);
+		   }
 
-	private onGameWon(): void {
-		playSound(this, "completed");
-		this.onGameOver("win");
-		this.superCoinsWonThisRound = UserProfileManager.getProfileData()?.claimableRewards?.perGameRewardCoinsForToday || 0;
-		if (this.game_over_panel_container) {
-			console.log("Coins won this round:", this.superCoinsWonThisRound);
-			this.high_score?.setText(String(this.currentPoints));
-			this.high_score_1?.setText(String(this.currentPoints));
-			this.supercoin_text1?.setText(`${this.superCoinsWonThisRound}`);
-			this.low_score?.setText(String(this.currentPoints));
-			this.time_spend?.setText(this.formatTime(this.timePlayedMs));
-		} else {
-			this.endTitle.setText("COMPLETED!");
-			this.endBlocks.setText(`${gameState.totalStackedBlocks}/${this.maxBlock}`);
-			this.endPoints.setText(`${this.currentPoints}/${this.requiredPoints}`);
-			this.supercoin_text1?.setText(`${this.superCoinsWonThisRound}`);
-			this.endRestartButton.setVisible(false);
-			this.endMapButton.setVisible(false);
-		}
-
-		this.changePanel(GAME_PANEL.GAME_OVER_WIN_PANEL);
-		//this.tapIfPresent(this.next_btn, () => this.goToLevelSelect());
-	}
+		   this.changePanel(GAME_PANEL.GAME_OVER_WIN_PANEL);
+		   //this.tapIfPresent(this.next_btn, () => this.goToLevelSelect());
+	   }
 
 	private restartGame(): void {
 
