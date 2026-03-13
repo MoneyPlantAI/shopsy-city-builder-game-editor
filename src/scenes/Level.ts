@@ -1401,7 +1401,11 @@ export default class Level extends Phaser.Scene {
 		};
 
 		this.input.off("pointerdown");
-		this.input.on("pointerdown", () => {
+		this.input.on("pointerdown", (pointer: Phaser.Input.Pointer) => {
+			// If pointer is over pause_btn, do nothing
+			if (this.pause_btn && this.pause_btn.getBounds().contains(pointer.x, pointer.y)) {
+				return;
+			}
 			if (this.currentGameState !== GAME_STATE.PLAYING || this.isGameplayPaused || !this.blockTop.visible) {
 				return;
 			}
@@ -1411,6 +1415,7 @@ export default class Level extends Phaser.Scene {
 		});
 
 		const dropTheBlock = (): void => {
+			if (this.isGameplayPaused) return;
 			const key = gameState.blocks.length >= this.maxBlock - 1 ? "block-top" : "block";
 			lastBlock = key === "block-top";
 
@@ -1536,6 +1541,7 @@ export default class Level extends Phaser.Scene {
 		};
 
 		const blockToppling = (): void => {
+			if (this.isGameplayPaused) return;
 			playSound(this, "fall");
 			const previousX = gameState.blocks.length >= 2
 				? gameState.blocks[gameState.blocks.length - 2].x
@@ -1691,7 +1697,7 @@ export default class Level extends Phaser.Scene {
 				this.blockTop.destroy();
 				setCurrentLevel(gameState.currentLevel + 1);
 			}
-			else if (button === this.lose_btn|| button === this.pauseBtnNode) {
+			else if (button === this.lose_btn) {
 				this.blockTop.destroy();
 
 			}
@@ -1825,7 +1831,7 @@ export default class Level extends Phaser.Scene {
 		let panelsToShow: Phaser.GameObjects.Container[] = [];
 		this.popupDark.setVisible(false).disableInteractive();
 
-		if (this.game_start_panel_container) {
+		if (true) {
 			switch (this.currentPanel) {
 				case GAME_PANEL.START_PANEL:
 					panelsToShow = [this.game_start_panel_container];
@@ -1879,41 +1885,41 @@ export default class Level extends Phaser.Scene {
 					break;
 			}
 		} else {
-			switch (this.currentPanel) {
-				case GAME_PANEL.PAUSE_PANEL:
-					panelsToShow = [this.hudContainer, this.pausePopupContainer];
-					this.popupDark.setVisible(true).setInteractive();
-					break;
-				case GAME_PANEL.WAITING_FOR_GAME_RESPONSE:
-					if (this.waiting_for_game_response_panel_container) {
-						panelsToShow = [this.waiting_for_game_response_panel_container];
-						this.popupDark.setVisible(true).setInteractive();
-					}
-					break;
-				case GAME_PANEL.GAME_OVER_WIN_PANEL:
-				case GAME_PANEL.GAME_OVER_LOSE_PANEL:
-					panelsToShow = [this.hudContainer, this.endPopupContainer];
-					this.popupDark.setVisible(true).setInteractive();
-					break;
-				case GAME_PANEL.ERROR_PANEL:
-					panelsToShow = [this.hudContainer];
-					if (this.errorPanelContainer) {
-						panelsToShow.push(this.errorPanelContainer);
-					}
-					this.popupDark.setVisible(true).setInteractive();
-					break;
-				case GAME_PANEL.SHARE_PANEL:
-					panelsToShow = [this.hudContainer];
-					if (this.share_panel_container) {
-						panelsToShow.push(this.share_panel_container);
-					}
-					this.popupDark.setVisible(true).setInteractive();
-					break;
-				case GAME_PANEL.GAMEPLAY_PANEL:
-				default:
-					panelsToShow = [this.hudContainer];
-					break;
-			}
+			// switch (this.currentPanel) {
+			// 	case GAME_PANEL.PAUSE_PANEL:
+			// 		panelsToShow = [this.hudContainer, this.pausePopupContainer];
+			// 		this.popupDark.setVisible(true).setInteractive();
+			// 		break;
+			// 	case GAME_PANEL.WAITING_FOR_GAME_RESPONSE:
+			// 		if (this.waiting_for_game_response_panel_container) {
+			// 			panelsToShow = [this.waiting_for_game_response_panel_container];
+			// 			this.popupDark.setVisible(true).setInteractive();
+			// 		}
+			// 		break;
+			// 	case GAME_PANEL.GAME_OVER_WIN_PANEL:
+			// 	case GAME_PANEL.GAME_OVER_LOSE_PANEL:
+			// 		panelsToShow = [this.hudContainer, this.endPopupContainer];
+			// 		this.popupDark.setVisible(true).setInteractive();
+			// 		break;
+			// 	case GAME_PANEL.ERROR_PANEL:
+			// 		panelsToShow = [this.hudContainer];
+			// 		if (this.errorPanelContainer) {
+			// 			panelsToShow.push(this.errorPanelContainer);
+			// 		}
+			// 		this.popupDark.setVisible(true).setInteractive();
+			// 		break;
+			// 	case GAME_PANEL.SHARE_PANEL:
+			// 		panelsToShow = [this.hudContainer];
+			// 		if (this.share_panel_container) {
+			// 			panelsToShow.push(this.share_panel_container);
+			// 		}
+			// 		this.popupDark.setVisible(true).setInteractive();
+			// 		break;
+			// 	case GAME_PANEL.GAMEPLAY_PANEL:
+			// 	default:
+			// 		panelsToShow = [this.hudContainer];
+			// 		break;
+			// }
 		}
 
 		this.allPanels.forEach((panelItem) => {
@@ -1989,7 +1995,9 @@ export default class Level extends Phaser.Scene {
 		this.score = 0;
 		this.txtPoints.setColor("#FFFFFF");
 		this.txtPointsAdded.setText("");
-		this.changePanel(this.game_start_panel_container ? GAME_PANEL.START_PANEL : GAME_PANEL.GAMEPLAY_PANEL);
+		this.changePanel(GAME_PANEL.GAMEPLAY_PANEL);
+		this.changeGameState(GAME_STATE.START);
+		//this.changePanel(this.game_start_panel_container ? GAME_PANEL.START_PANEL : GAME_PANEL.GAMEPLAY_PANEL);
 	}
 
 	private startGame(): void {
@@ -2010,7 +2018,7 @@ export default class Level extends Phaser.Scene {
 	}
 
 	private pauseGame(): void {
-		this.blockTop.destroy();
+		//this.blockTop.destroy();
 		if (this.previousGameState === GAME_STATE.PLAYING) {
 			this.isGameplayPaused = true;
 			//this.tweens.pauseAll();
@@ -2021,9 +2029,9 @@ export default class Level extends Phaser.Scene {
 	private resumeGame(): void {
 		this.isGameplayPaused = false;
 		//this.tweens.resumeAll();
-		//this.changeGameState(GAME_STATE.PLAYING);
-		//this.changePanel(GAME_PANEL.GAMEPLAY_PANEL);
-		this.scene.start("Level");
+		this.changeGameState(GAME_STATE.PLAYING);
+		this.changePanel(GAME_PANEL.GAMEPLAY_PANEL);
+		//this.scene.start("Level");
 	}
 
 	private onScoreUpdated(addedScore: number): void {
@@ -2135,7 +2143,7 @@ export default class Level extends Phaser.Scene {
 
 	private restartGame(): void {
 
-		this.scene.start("LevelSelect");
+		this.scene.start("Level");
 	}
 
 	private abandonGame(): void {
