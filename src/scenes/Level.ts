@@ -870,6 +870,7 @@ export default class Level extends Phaser.Scene {
 		// game_start_panel_container
 		const game_start_panel_container = this.add.container(528, 918);
 		game_start_panel_container.name = "game_start_panel_container";
+		game_start_panel_container.visible = false;
 
 		// blur_bg_1
 		const blur_bg_1 = this.add.image(8, 0, "blur-bg");
@@ -1311,7 +1312,7 @@ export default class Level extends Phaser.Scene {
 
 	private captureShopsyLayoutRoots(): void {
 		this.shopsyLayoutRoots = [
-			this.game_start_panel_container,
+			//this.game_start_panel_container,
 			this.pause_panel_container,
 			this.game_over_panel_container,
 			this.game_over_win_panel_container,
@@ -1600,7 +1601,7 @@ export default class Level extends Phaser.Scene {
 
 	private setupPanels(): void {
 		this.allPanels = [
-			this.game_start_panel_container,
+			//this.game_start_panel_container,
 			this.pause_panel_container,
 			this.game_over_panel_container,
 			this.game_over_win_panel_container,
@@ -1639,7 +1640,7 @@ export default class Level extends Phaser.Scene {
 		//this.tapIfPresent(this.exitBtnNode, () => shopsyBridge.exitGame());
 		this.tapIfPresent(this.pause_btn, () => this.changeGameState(GAME_STATE.PAUSED));
 		this.tapIfPresent(this.back_button1, () => this.changeGameState(GAME_STATE.PAUSED));
-		this.tapIfPresent(this.startBtnNode, () => this.changeGameState(GAME_STATE.START));
+		//this.tapIfPresent(this.startBtnNode, () => this.changeGameState(GAME_STATE.START));
 		this.tapIfPresent(this.pauseBtnNode, () => this.changeGameState(GAME_STATE.PAUSED));
 		this.tapIfPresent(this.pauseCloseBtnNode, () => this.changeGameState(GAME_STATE.RESUMED));
 		this.tapIfPresent(this.pauseRestartBtnNode, () => this.changeGameState(GAME_STATE.RESUMED));
