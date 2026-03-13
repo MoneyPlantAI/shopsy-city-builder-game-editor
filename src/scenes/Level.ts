@@ -578,15 +578,15 @@ export default class Level extends Phaser.Scene {
 		game_over_lose_panel_container.add(text);
 
 		// low_score
-		const low_score = this.add.text(826, 1042, "", {});
+		const low_score = this.add.text(816, 1042, "", {});
 		low_score.name = "low_score";
 		low_score.setOrigin(0.5, 0.5);
 		low_score.text = "000";
-		low_score.setStyle({ "align": "center", "color": "#ffffffff", "fontFamily": "CarterOne-Regular", "fontSize": "65PX", "stroke": "#028fffff", "strokeThickness": 10 });
+		low_score.setStyle({ "align": "center", "color": "#ffffffff", "fontFamily": "CarterOne-Regular", "fontSize": "85PX", "stroke": "#028fffff", "strokeThickness": 10 });
 		game_over_lose_panel_container.add(low_score);
 
 		// gem_3
-		const gem_3 = this.add.image(684, 1048, "gem");
+		const gem_3 = this.add.image(661, 1048, "gem");
 		gem_3.scaleX = 1.181837427563718;
 		gem_3.scaleY = 1.181837427563718;
 		game_over_lose_panel_container.add(gem_3);
