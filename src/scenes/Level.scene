@@ -961,6 +961,7 @@
             "label": "share_panel_container",
             "useGameObjectName": true,
             "scope": "PUBLIC",
+            "visible": false,
             "list": [
                 {
                     "type": "Image",

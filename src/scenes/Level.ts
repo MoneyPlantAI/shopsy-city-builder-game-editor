@@ -19,8 +19,6 @@ import { PlayerPrefs } from "../utils/PlayerPrefs";
 
 export default class Level extends Phaser.Scene {
 
-	private _gameOverDelayMs = 2000;
-
 	constructor() {
 		super("Level");
 
@@ -1402,8 +1400,8 @@ export default class Level extends Phaser.Scene {
 
 		this.input.off("pointerdown");
 		this.input.on("pointerdown", (pointer: Phaser.Input.Pointer) => {
-			// If pointer is over pause_btn, do nothing
-			if (this.pause_btn && this.pause_btn.getBounds().contains(pointer.x, pointer.y)) {
+			// If pointer is over pause_btn or back_button1, do nothing
+			if (this.pause_btn && this.pause_btn.getBounds().contains(pointer.x, pointer.y) || this.back_button1 && this.back_button1.getBounds().contains(pointer.x, pointer.y)) {
 				return;
 			}
 			if (this.currentGameState !== GAME_STATE.PLAYING || this.isGameplayPaused || !this.blockTop.visible) {
