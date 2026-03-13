@@ -1775,6 +1775,8 @@ export default class Level extends Phaser.Scene {
 	private onShopsyProfileLoaded(): void {
 		// City Builder currently has no profile text label in gameplay HUD.
 		// Reserved for template parity and future profile UI.
+		this.profile_text.setText(UserProfileManager.getProfileData()?.basic.userName ?? "Player");
+		this.profile_text_1.setText(UserProfileManager.getProfileData()?.basic.userName ?? "Player");
 	}
 
 	private onShopsyGameConfigLoaded(gameConfig: any): void {
