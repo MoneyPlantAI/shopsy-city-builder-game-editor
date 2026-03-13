@@ -101,6 +101,69 @@ export default class LevelSelect extends Phaser.Scene {
 		popupPoints.setStyle({ "align": "right", "color": "#FFFFFF", "fontFamily": "bebas", "fontSize": "30px" });
 		playPopupContainer.add(popupPoints);
 
+		// game_start_panel_container
+		const game_start_panel_container = this.add.container(540, 960);
+		game_start_panel_container.name = "game_start_panel_container";
+		game_start_panel_container.visible = false;
+
+		// blur_bg_1
+		const blur_bg_1 = this.add.image(8, 0, "blur-bg");
+		blur_bg_1.scaleX = 1.1;
+		blur_bg_1.scaleY = 1.1;
+		game_start_panel_container.add(blur_bg_1);
+
+		// naz_new_screen
+		const naz_new_screen = this.add.image(12, 42, "start-panel");
+		game_start_panel_container.add(naz_new_screen);
+
+		// naz_text3
+		const naz_text3 = this.add.image(29, -362, "naz-text3");
+		naz_text3.name = "naz_text3";
+		game_start_panel_container.add(naz_text3);
+
+		// naz_text1
+		const naz_text1 = this.add.image(32, 361, "naz-text1");
+		game_start_panel_container.add(naz_text1);
+
+		// naz_text2
+		const naz_text2 = this.add.image(59, -101, "naz-text2");
+		game_start_panel_container.add(naz_text2);
+
+		// top_text
+		const top_text = this.add.text(12, -537, "", {});
+		top_text.setOrigin(0.5, 0.64);
+		top_text.text = "Pop Nazars & Earn SuperCoins";
+		top_text.setStyle({ "color": "#ecff3bff", "fontFamily": "bebas", "fontSize": "42px", "stroke": "#600080ff", "strokeThickness": 10 });
+		game_start_panel_container.add(top_text);
+
+		// start_btn
+		const start_btn = this.add.image(12, 857, "start-btn");
+		start_btn.name = "start_btn";
+		game_start_panel_container.add(start_btn);
+
+		// character_BG
+		const character_BG = this.add.image(-410, -798, "character-bg");
+		character_BG.name = "character_BG";
+		game_start_panel_container.add(character_BG);
+
+		// character_Icon
+		const character_Icon = this.add.image(-410, -798, "character-icon");
+		character_Icon.name = "character_Icon";
+		game_start_panel_container.add(character_Icon);
+
+		// profile_text
+		const profile_text = this.add.text(-409, -683, "", {});
+		profile_text.name = "profile_text";
+		profile_text.setOrigin(0.5, 0.5);
+		profile_text.text = "Guest";
+		profile_text.setStyle({ "align": "center", "fixedWidth": 210, "fontFamily": "font-1", "fontSize": "35px", "stroke": "#332f2fff", "strokeThickness": 10 });
+		game_start_panel_container.add(profile_text);
+
+		// title_1
+		const title_1 = this.add.image(12, -788, "game-title");
+		title_1.name = "title_1";
+		game_start_panel_container.add(title_1);
+
 		this.bgMap = bgMap;
 		this.mapWorldContainer = mapWorldContainer;
 		this.homeButton = homeButton;
@@ -115,6 +178,10 @@ export default class LevelSelect extends Phaser.Scene {
 		this.popupBlocks = popupBlocks;
 		this.popupPoints = popupPoints;
 		this.playPopupContainer = playPopupContainer;
+		this.start_btn = start_btn;
+		this.character_BG = character_BG;
+		this.profile_text = profile_text;
+		this.game_start_panel_container = game_start_panel_container;
 
 		this.events.emit("scene-awake");
 	}
@@ -133,6 +200,10 @@ export default class LevelSelect extends Phaser.Scene {
 	private popupBlocks!: Phaser.GameObjects.Text;
 	private popupPoints!: Phaser.GameObjects.Text;
 	private playPopupContainer!: Phaser.GameObjects.Container;
+	private start_btn!: Phaser.GameObjects.Image;
+	private character_BG!: Phaser.GameObjects.Image;
+	private profile_text!: Phaser.GameObjects.Text;
+	private game_start_panel_container!: Phaser.GameObjects.Container;
 
 	/* START-USER-CODE */
 
@@ -153,7 +224,10 @@ export default class LevelSelect extends Phaser.Scene {
         this.mapUiContainer.setDepth(1000);
         this.popupDark.setDepth(2000);
         this.playPopupContainer.setDepth(2100);
-
+        if (this.start_btn) {
+            this.start_btn.setInteractive({ useHandCursor: true });
+            this.start_btn.on('pointerdown', () => this.changePanel(GAME_PANEL.GAMEPLAY_PANEL));
+        }
         this.homeBtnNode = configureButton(this.homeButton, "home");
         this.startBtnNode = configureButton(this.startLevelButton, "start-level");
         this.popupPlayBtnNode = configureButton(this.popupPlayButton, "play");
@@ -166,7 +240,7 @@ export default class LevelSelect extends Phaser.Scene {
     }
 
     private setupPanels(): void {
-        this.allPanels = [this.mapUiContainer, this.playPopupContainer];
+        this.allPanels = [this.mapUiContainer, this.playPopupContainer, this.game_start_panel_container];
         this.popupDark.setVisible(false).disableInteractive();
         this.playPopupContainer.setVisible(false);
     }
@@ -174,7 +248,7 @@ export default class LevelSelect extends Phaser.Scene {
     private setupInteractions(): void {
         this.tapInteractionHelper(this.homeBtnNode, () => this.changeGameState(GAME_STATE.ABANDONED));
         this.tapInteractionHelper(this.startBtnNode, () => this.changeGameState(GAME_STATE.START));
-        this.tapInteractionHelper(this.popupCloseBtnNode, () => this.changeGameState(GAME_STATE.PRE_GAME));
+        this.tapInteractionHelper(this.popupCloseBtnNode, () => this.changePanel(GAME_PANEL.GAMEPLAY_PANEL));
         this.tapInteractionHelper(this.popupPlayBtnNode, () => this.changeGameState(GAME_STATE.PLAYING));
     }
 
@@ -200,18 +274,21 @@ export default class LevelSelect extends Phaser.Scene {
         }
         this.previousPanel = this.currentPanel;
         this.currentPanel = panel;
-
+        console.log("Changing panel to ", panel);
         let panelsToShow: Phaser.GameObjects.Container[] = [];
         this.popupDark.setVisible(false).disableInteractive();
-
         switch (this.currentPanel) {
-            case GAME_PANEL.START_PANEL:
-                panelsToShow = [this.mapUiContainer];
+            case GAME_PANEL.LEVEL_SELECT:
+                panelsToShow = [ this.playPopupContainer];
                 this.popupDark.setVisible(true).setInteractive();
+                break;
+            case GAME_PANEL.START_PANEL:
+                panelsToShow = [this.game_start_panel_container];
                 break;
             case GAME_PANEL.GAMEPLAY_PANEL:
             default:
                 panelsToShow = [this.mapUiContainer];
+                this.popupDark.setVisible(false).disableInteractive();
                 break;
         }
 
@@ -219,7 +296,7 @@ export default class LevelSelect extends Phaser.Scene {
             panelItem.setVisible(panelsToShow.includes(panelItem));
             this.children.bringToTop(panelItem);
         });
-        this.playPopupContainer.setVisible(this.currentPanel === GAME_PANEL.START_PANEL);
+        //this.playPopupContainer.setVisible(this.currentPanel === GAME_PANEL.START_PANEL);
     }
 
     private changeGameState(state: string): void {
@@ -248,12 +325,13 @@ export default class LevelSelect extends Phaser.Scene {
     }
 
     private preGame(): void {
-        this.changePanel(GAME_PANEL.GAMEPLAY_PANEL);
+        this.changePanel(GAME_PANEL.START_PANEL);
     }
 
     private startLevelPrompt(): void {
         this.showPlayPopup();
-        this.changePanel(GAME_PANEL.START_PANEL);
+        console.log("Current level is ", gameState.currentLevel);
+        this.changePanel(GAME_PANEL.LEVEL_SELECT);
     }
 
     private startGameplay(): void {

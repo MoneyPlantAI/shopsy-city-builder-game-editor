@@ -184,6 +184,150 @@
                     "color": "#FFFFFF"
                 }
             ]
+        },
+        {
+            "type": "Container",
+            "id": "74758d88-7f46-48ad-8d65-71f8208c8e74",
+            "label": "game_start_panel_container",
+            "useGameObjectName": true,
+            "scope": "CLASS",
+            "x": 540,
+            "y": 960,
+            "visible": false,
+            "list": [
+                {
+                    "type": "Image",
+                    "id": "86485e67-0eb4-42ac-b724-06387a14c294",
+                    "label": "blur_bg_1",
+                    "texture": {
+                        "key": "blur-bg"
+                    },
+                    "x": 8,
+                    "scaleX": 1.1,
+                    "scaleY": 1.1
+                },
+                {
+                    "type": "Image",
+                    "id": "c63822b8-15ea-44db-a58a-ee760223b5ce",
+                    "label": "naz_new_screen",
+                    "texture": {
+                        "key": "start-panel"
+                    },
+                    "x": 12,
+                    "y": 42
+                },
+                {
+                    "type": "Image",
+                    "id": "14d8c246-8cf2-4c5f-962b-eab511712c4b",
+                    "label": "naz_text3",
+                    "useGameObjectName": true,
+                    "texture": {
+                        "key": "naz-text3"
+                    },
+                    "x": 29,
+                    "y": -362
+                },
+                {
+                    "type": "Image",
+                    "id": "f5c968b4-5695-42a6-a6b8-39def09dcb61",
+                    "label": "naz_text1",
+                    "texture": {
+                        "key": "naz-text1"
+                    },
+                    "x": 32,
+                    "y": 361
+                },
+                {
+                    "type": "Image",
+                    "id": "e0da3351-9ada-4616-8ad4-bb52c9c48e7d",
+                    "label": "naz_text2",
+                    "texture": {
+                        "key": "naz-text2"
+                    },
+                    "x": 59,
+                    "y": -101
+                },
+                {
+                    "type": "Text",
+                    "id": "1c66bf82-9018-4bdd-b9e2-6ec75c83ac10",
+                    "label": "top_text",
+                    "x": 12,
+                    "y": -537,
+                    "originX": 0.5,
+                    "originY": 0.64,
+                    "text": "Pop Nazars & Earn SuperCoins",
+                    "fontFamily": "bebas",
+                    "fontSize": "42px",
+                    "color": "#ecff3bff",
+                    "stroke": "#600080ff",
+                    "strokeThickness": 10
+                },
+                {
+                    "type": "Image",
+                    "id": "9fc81c85-e479-471f-a833-667ac9baf32d",
+                    "label": "start_btn",
+                    "useGameObjectName": true,
+                    "scope": "CLASS",
+                    "texture": {
+                        "key": "start-btn"
+                    },
+                    "x": 12,
+                    "y": 857
+                },
+                {
+                    "type": "Image",
+                    "id": "bf8d1f2a-57f7-4b54-b92a-f24d5e6cf7f7",
+                    "label": "character_BG",
+                    "useGameObjectName": true,
+                    "scope": "CLASS",
+                    "texture": {
+                        "key": "character-bg"
+                    },
+                    "x": -410,
+                    "y": -798
+                },
+                {
+                    "type": "Image",
+                    "id": "9bfcf604-2883-4a09-82f8-722f11565661",
+                    "label": "character_Icon",
+                    "useGameObjectName": true,
+                    "texture": {
+                        "key": "character-icon"
+                    },
+                    "x": -410,
+                    "y": -798
+                },
+                {
+                    "type": "Text",
+                    "id": "3949b645-4d30-4bb8-ac33-a1e137dced6e",
+                    "label": "profile_text",
+                    "useGameObjectName": true,
+                    "scope": "CLASS",
+                    "x": -409,
+                    "y": -683,
+                    "originX": 0.5,
+                    "originY": 0.5,
+                    "text": "Guest",
+                    "fixedWidth": 210,
+                    "align": "center",
+                    "fontFamily": "font-1",
+                    "fontSize": "35px",
+                    "stroke": "#332f2fff",
+                    "strokeThickness": 10
+                },
+                {
+                    "type": "Image",
+                    "id": "18af49f2-8386-41c7-9b9e-3cc2a923b3e4",
+                    "label": "title_1",
+                    "displayName": "title_1",
+                    "useGameObjectName": true,
+                    "texture": {
+                        "key": "game-title"
+                    },
+                    "x": 12,
+                    "y": -788
+                }
+            ]
         }
     ],
     "plainObjects": [],

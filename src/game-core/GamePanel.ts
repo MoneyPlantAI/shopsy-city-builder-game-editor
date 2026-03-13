@@ -1,6 +1,9 @@
+import LevelSelect from "../scenes/LevelSelect";
+
 export const GAME_PANEL = {
     NONE: "NONE",
     START_PANEL: "START_PANEL",
+    LEVEL_SELECT: "LEVEL_SELECT",
     PAUSE_PANEL: "PAUSE_PANEL",
     GAME_OVER_WIN_PANEL: "GAME_OVER_WIN_PANEL",
     GAME_OVER_LOSE_PANEL: "GAME_OVER_LOSE_PANEL",
