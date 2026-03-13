@@ -1320,7 +1320,7 @@ export default class Level extends Phaser.Scene {
 			this.game_over_panel_container,
 			this.game_over_win_panel_container,
 			this.game_over_lose_panel_container,
-			this.waiting_for_game_response_panel,
+			this.waiting_for_game_response_panel_container,
 			this.share_panel_container,
 			this.errorPanelContainer,
 			this.top_ui_container,
@@ -1616,7 +1616,7 @@ export default class Level extends Phaser.Scene {
 			this.hudContainer,
 			this.pausePopupContainer,
 			this.endPopupContainer
-	        ,this.waiting_for_game_response_panel
+	        ,this.waiting_for_game_response_panel_container
 		].filter((panel): panel is Phaser.GameObjects.Container => Boolean(panel));
 
 		// Make all UI panels fixed to the camera (not affected by camera scroll)
@@ -1835,9 +1835,9 @@ export default class Level extends Phaser.Scene {
 					}
 					break;
 				case GAME_PANEL.WAITING_FOR_GAME_RESPONSE:
-					console.log("Waiting..."+this.waiting_for_game_response_panel.name);
-					if (this.waiting_for_game_response_panel) {
-						panelsToShow = [this.waiting_for_game_response_panel];
+					console.log("Waiting..."+this.waiting_for_game_response_panel_container.name);
+					if (this.waiting_for_game_response_panel_container) {
+						panelsToShow = [this.waiting_for_game_response_panel_container];
 					}
 					break;
 				case GAME_PANEL.GAME_OVER_WIN_PANEL:
@@ -1884,8 +1884,8 @@ export default class Level extends Phaser.Scene {
 					this.popupDark.setVisible(true).setInteractive();
 					break;
 				case GAME_PANEL.WAITING_FOR_GAME_RESPONSE:
-					if (this.waiting_for_game_response_panel) {
-						panelsToShow = [this.waiting_for_game_response_panel];
+					if (this.waiting_for_game_response_panel_container) {
+						panelsToShow = [this.waiting_for_game_response_panel_container];
 						this.popupDark.setVisible(true).setInteractive();
 					}
 					break;
