@@ -654,7 +654,7 @@ export default class Level extends Phaser.Scene {
 		game_over_win_panel_container.add(text_3);
 
 		// high_score_1
-		const high_score_1 = this.add.text(842, 1047, "", {});
+		const high_score_1 = this.add.text(814, 1047, "", {});
 		high_score_1.name = "high_score_1";
 		high_score_1.setOrigin(0.5, 0.5);
 		high_score_1.text = "000";
@@ -662,7 +662,7 @@ export default class Level extends Phaser.Scene {
 		game_over_win_panel_container.add(high_score_1);
 
 		// gem_2
-		const gem_2 = this.add.image(674, 1047, "gem");
+		const gem_2 = this.add.image(658, 1047, "gem");
 		gem_2.scaleX = 1.1889856074071514;
 		gem_2.scaleY = 1.1889856074071514;
 		game_over_win_panel_container.add(gem_2);
@@ -874,7 +874,6 @@ export default class Level extends Phaser.Scene {
 		// game_start_panel_container
 		const game_start_panel_container = this.add.container(528, 918);
 		game_start_panel_container.name = "game_start_panel_container";
-		game_start_panel_container.visible = false;
 
 		// blur_bg_1
 		const blur_bg_1 = this.add.image(8, 0, "blur-bg");
@@ -1043,7 +1042,7 @@ export default class Level extends Phaser.Scene {
 		this.profile_text = profile_text;
 		this.game_start_panel_container = game_start_panel_container;
 		this.text_4 = text_4;
-		this.waiting_for_game_response_panel = waiting_for_game_response_panel_container;
+		this.waiting_for_game_response_panel_container = waiting_for_game_response_panel_container;
 
 		this.events.emit("scene-awake");
 	}
@@ -1133,7 +1132,7 @@ export default class Level extends Phaser.Scene {
 	private profile_text!: Phaser.GameObjects.Text;
 	private game_start_panel_container!: Phaser.GameObjects.Container;
 	private text_4!: Phaser.GameObjects.Text;
-	private waiting_for_game_response_panel!: Phaser.GameObjects.Container;
+	private waiting_for_game_response_panel_container!: Phaser.GameObjects.Container;
 
 	/* START-USER-CODE */
 
@@ -1263,6 +1262,8 @@ export default class Level extends Phaser.Scene {
 
 		this.events.once("shutdown", () => this.cleanupBridgeListeners());
 		this.events.once("destroy", () => this.cleanupBridgeListeners());
+		this.profile_text.setText(UserProfileManager.getProfileData()?.basic.userName ?? "Player");
+		this.profile_text_1.setText(UserProfileManager.getProfileData()?.basic.userName ?? "Player");
 	}
 
 	private setupGameplayCore(): void {
@@ -1752,6 +1753,7 @@ export default class Level extends Phaser.Scene {
 				if (source !== "server" || !profileData) {
 					return;
 				}
+				console.log(`[${GAME_NAME}] Profile data updated from server:`, profileData);
 				UserProfileManager.setProfileData(profileData, source);
 				this.onShopsyProfileLoaded();
 			})
@@ -1775,6 +1777,7 @@ export default class Level extends Phaser.Scene {
 	private onShopsyProfileLoaded(): void {
 		// City Builder currently has no profile text label in gameplay HUD.
 		// Reserved for template parity and future profile UI.
+		console.log("[City Builder] User profile loaded:", UserProfileManager.getProfileData());
 		this.profile_text.setText(UserProfileManager.getProfileData()?.basic.userName ?? "Player");
 		this.profile_text_1.setText(UserProfileManager.getProfileData()?.basic.userName ?? "Player");
 	}
@@ -2048,6 +2051,11 @@ export default class Level extends Phaser.Scene {
 		   this._gameOverCalled = true;
 		   console.log(`Game over with result: ${result}`);
 		   this.timePlayedMs = this.time.now - this.gameStartTime;
+		   if(result === "win"){
+			this.currentPoints=100;
+			}else{
+				this.currentPoints=0;
+			}
 		   this.score = this.currentPoints;
 		   this.changeGameState(GAME_STATE.WAITING_FOR_GAME_RESPONSE);
 		   shopsyBridge.gameCompleted({
@@ -2078,14 +2086,15 @@ export default class Level extends Phaser.Scene {
 
 	   private onGameLost(): void {
 		   playSound(this, "gameover");
+		   this.share_btn?.setVisible(false);
 		   if (this.game_over_panel_container) {
 			   console.log(UserProfileManager.getProfileData());
 			   //this.superCoinsWonThisRound = UserProfileManager.getProfileData()?.claimableRewards?.perGameRewardCoinsForToday || 0;
 			   console.log("Coins lost this round:", this.superCoinsWonThisRound);
 			   this.high_score?.setText(String(this.currentPoints));
-			   this.high_score_1?.setText(`${this.currentPoints}/${this.requiredPoints}`);
+			   this.high_score_1?.setText(`${this.currentPoints}`);
 			   this.supercoin_text?.setText(`${this.superCoinsWonThisRound}`);
-			   this.low_score?.setText(`${this.currentPoints}/${this.requiredPoints}`);
+			   this.low_score?.setText(`${this.currentPoints}`);
 			   this.time_spend?.setText(this.formatTime(this.timePlayedMs));
 		   } else {
 			   this.endTitle.setText("STAGE FAILED!");
@@ -2093,7 +2102,7 @@ export default class Level extends Phaser.Scene {
 			   console.log("Coins lost this round:", this.superCoinsWonThisRound);
 			   this.supercoin_text?.setText(`${this.superCoinsWonThisRound}`);
 			   this.endBlocks.setText(`${gameState.totalStackedBlocks}/${this.maxBlock}`);
-			   this.endPoints.setText(`${this.currentPoints}/${this.requiredPoints}`);
+			   this.endPoints.setText(`${this.currentPoints}`);
 			   this.endRestartButton.setVisible(true);
 			   this.endMapButton.setVisible(true);
 		   }
@@ -2113,7 +2122,7 @@ export default class Level extends Phaser.Scene {
 		   } else {
 			   this.endTitle.setText("COMPLETED!");
 			   this.endBlocks.setText(`${gameState.totalStackedBlocks}/${this.maxBlock}`);
-			   this.endPoints.setText(`${this.currentPoints}/${this.requiredPoints}`);
+			   this.endPoints.setText(`${this.currentPoints}`);
 			   this.supercoin_text1?.setText(`${this.superCoinsWonThisRound}`);
 			   this.endRestartButton.setVisible(false);
 			   this.endMapButton.setVisible(false);
