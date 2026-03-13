@@ -248,7 +248,7 @@ export default class LevelSelect extends Phaser.Scene {
     private setupInteractions(): void {
         this.tapInteractionHelper(this.homeBtnNode, () => this.changeGameState(GAME_STATE.ABANDONED));
         this.tapInteractionHelper(this.startBtnNode, () => this.changeGameState(GAME_STATE.START));
-        this.tapInteractionHelper(this.popupCloseBtnNode, () => this.changePanel(GAME_PANEL.GAMEPLAY_PANEL));
+        this.tapInteractionHelper(this.popupCloseBtnNode, () => this.changeGameState(GAME_STATE.PRE_GAME));
         this.tapInteractionHelper(this.popupPlayBtnNode, () => this.changeGameState(GAME_STATE.PLAYING));
     }
 
@@ -286,6 +286,8 @@ export default class LevelSelect extends Phaser.Scene {
                 panelsToShow = [this.game_start_panel_container];
                 break;
             case GAME_PANEL.GAMEPLAY_PANEL:
+                panelsToShow = [this.mapUiContainer];
+                break;
             default:
                 panelsToShow = [this.mapUiContainer];
                 this.popupDark.setVisible(false).disableInteractive();
@@ -325,12 +327,12 @@ export default class LevelSelect extends Phaser.Scene {
     }
 
     private preGame(): void {
-        this.changePanel(GAME_PANEL.START_PANEL);
+        this.changePanel(GAME_PANEL.NONE);
     }
 
     private startLevelPrompt(): void {
-        this.showPlayPopup();
         console.log("Current level is ", gameState.currentLevel);
+        this.showPlayPopup();
         this.changePanel(GAME_PANEL.LEVEL_SELECT);
     }
 
@@ -397,6 +399,7 @@ export default class LevelSelect extends Phaser.Scene {
     private hidePlayPopup(): void {
         this.popupDark.setVisible(false).disableInteractive();
         this.playPopupContainer.setVisible(false);
+        this.game_start_panel_container.setVisible(false);
     }
 
     /* END-USER-CODE */
