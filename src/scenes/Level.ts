@@ -830,7 +830,7 @@ export default class Level extends Phaser.Scene {
 		profile_text_1.name = "profile_text_1";
 		profile_text_1.setOrigin(0.5, 0.5);
 		profile_text_1.text = "Guest";
-		profile_text_1.setStyle({ "align": "center", "fixedWidth": 210, "fontFamily": "font-1", "fontSize": "35px", "stroke": "#332f2fff", "strokeThickness": 10 });
+		profile_text_1.setStyle({ "align": "center", "fixedWidth": 210, "fontFamily": "CarterOne-Regular", "fontSize": "35px", "stroke": "#332f2fff", "strokeThickness": 10 });
 		game_over_panel_container.add(profile_text_1);
 
 		// pause_panel_container
