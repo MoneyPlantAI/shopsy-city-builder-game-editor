@@ -448,10 +448,8 @@
                     "texture": {
                         "key": "back-button"
                     },
-                    "x": 874,
-                    "y": 6,
-                    "scaleX": 0.5780706990775125,
-                    "scaleY": 0.5780706990775125
+                    "x": 864,
+                    "y": 36
                 },
                 {
                     "type": "Image",
@@ -463,10 +461,8 @@
                     "texture": {
                         "key": "back-icon"
                     },
-                    "x": 875,
-                    "y": 4,
-                    "scaleX": 0.6468326147050893,
-                    "scaleY": 0.6468326147050893
+                    "x": 864,
+                    "y": 36
                 },
                 {
                     "type": "Image",
@@ -965,7 +961,6 @@
             "label": "share_panel_container",
             "useGameObjectName": true,
             "scope": "PUBLIC",
-            "visible": false,
             "list": [
                 {
                     "type": "Image",
@@ -996,7 +991,7 @@
                         "key": "title"
                     },
                     "x": 672,
-                    "y": 1041
+                    "y": 943
                 },
                 {
                     "type": "Image",
@@ -1007,7 +1002,7 @@
                         "key": "logo-01"
                     },
                     "x": 540,
-                    "y": 565
+                    "y": 545
                 },
                 {
                     "type": "Image",
@@ -1018,7 +1013,7 @@
                         "key": "sh-panel"
                     },
                     "x": 540,
-                    "y": 761
+                    "y": 725
                 },
                 {
                     "type": "Image",
@@ -1029,7 +1024,7 @@
                         "key": "share-text1"
                     },
                     "x": 540,
-                    "y": 765
+                    "y": 729
                 },
                 {
                     "type": "Image",
@@ -1039,7 +1034,7 @@
                     "texture": {
                         "key": "sh-character"
                     },
-                    "x": 225,
+                    "x": 91,
                     "y": 1141
                 },
                 {
@@ -1178,14 +1173,14 @@
                     "label": "low_score",
                     "useGameObjectName": true,
                     "scope": "CLASS",
-                    "x": 826,
+                    "x": 816,
                     "y": 1042,
                     "originX": 0.5,
                     "originY": 0.5,
                     "text": "000",
                     "align": "center",
                     "fontFamily": "CarterOne-Regular",
-                    "fontSize": "65PX",
+                    "fontSize": "85PX",
                     "color": "#ffffffff",
                     "stroke": "#028fffff",
                     "strokeThickness": 10
@@ -1197,7 +1192,7 @@
                     "texture": {
                         "key": "gem"
                     },
-                    "x": 684,
+                    "x": 661,
                     "y": 1048,
                     "scaleX": 1.181837427563718,
                     "scaleY": 1.181837427563718
@@ -1670,7 +1665,7 @@
                     "text": "Guest",
                     "fixedWidth": 210,
                     "align": "center",
-                    "fontFamily": "font-1",
+                    "fontFamily": "CarterOne-Regular",
                     "fontSize": "35px",
                     "stroke": "#332f2fff",
                     "strokeThickness": 10
@@ -1759,6 +1754,7 @@
             "scope": "CLASS",
             "x": 528,
             "y": 918,
+            "visible": false,
             "list": [
                 {
                     "type": "Image",
