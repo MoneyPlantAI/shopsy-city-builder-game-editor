@@ -663,8 +663,8 @@ export default class Level extends Phaser.Scene {
 
 		// gem_2
 		const gem_2 = this.add.image(674, 1047, "gem");
-		gem_2.scaleX = 1.18;
-		gem_2.scaleY = 1.18;
+		gem_2.scaleX = 1.1889856074071514;
+		gem_2.scaleY = 1.1889856074071514;
 		game_over_win_panel_container.add(gem_2);
 
 		// Bottom_text_2
@@ -1592,7 +1592,7 @@ export default class Level extends Phaser.Scene {
 					setCurrentLevel(gameState.currentLevel + 1);
 				}
 				this.changeGameState(GAME_STATE.WAITING_FOR_GAME_RESPONSE);
-				
+
 				this.onGameOver("win");
 			} else {
 				this.changeGameState(GAME_STATE.WAITING_FOR_GAME_RESPONSE);
@@ -2055,9 +2055,12 @@ export default class Level extends Phaser.Scene {
 			   playTimeInSec: Math.floor(this.timePlayedMs / 1000)
 		   });
 
-		   const coinsWon = this.isMaxGameBonusEarned
-			   ? 0
-			   : UserProfileManager.getProfileData()?.claimableRewards?.perGameRewardCoinsForToday || 0;
+		//    const coinsWon = this.isMaxGameBonusEarned
+		// 	   ? 0
+		// 	   : UserProfileManager.getProfileData()?.claimableRewards?.perGameRewardCoinsForToday || 0;
+		   console.log("Max game bonus earned:", this.isMaxGameBonusEarned);
+		   console.log("Profile data at game over:", UserProfileManager.getProfileData());
+		   const coinsWon = UserProfileManager.getProfileData()?.claimableRewards?.perGameRewardCoinsForToday || 0;
 		   console.log(`Game over with result: ${result}. Coins won: ${coinsWon}`);
 		   this.superCoinsWonThisRound = coinsWon;
 		   ShopsyAnalytics.sendGameFinishedEvent(this.score, coinsWon, result, this.timePlayedMs);
