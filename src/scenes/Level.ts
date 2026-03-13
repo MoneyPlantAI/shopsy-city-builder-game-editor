@@ -25,7 +25,7 @@ export default class Level extends Phaser.Scene {
 		// Write your code here.
 		/* END-USER-CTR-CODE */
 	}
-
+	
 	editorCreate(): void {
 
 		// gameWorldContainer
@@ -1172,7 +1172,16 @@ export default class Level extends Phaser.Scene {
 	private exit_back_button?: Phaser.GameObjects.Image;
 	private exit_btn?: Phaser.GameObjects.Image;
 	private bridgeUnsubscribers: Array<() => void> = [];
+	private playingLevelIndex: number = 0;
 
+	init(data: { overrideLevelIndex?: number }): void {
+    this.playingLevelIndex =
+        data?.overrideLevelIndex != null
+            ? data.overrideLevelIndex
+            : gameState.currentLevel;
+ 
+    console.log("[Level] init() — playingLevelIndex:", this.playingLevelIndex);
+}
 	update(): void {
 		if (this.isGameplayPaused || this.currentGameState !== GAME_STATE.PLAYING) {
 			return;
@@ -1267,8 +1276,8 @@ export default class Level extends Phaser.Scene {
 		this.oscillating = 0;
 		this.claw.setDepth(1);
 
-		this.maxBlock = LEVELS[gameState.currentLevel].blockAmount;
-		this.requiredPoints = LEVELS[gameState.currentLevel].pointRequired;
+		 this.maxBlock = LEVELS[this.playingLevelIndex].blockAmount;   
+		 this.requiredPoints = LEVELS[this.playingLevelIndex].pointRequired;
 		this.txtBlocks.setText(String(this.maxBlock));
 		this.txtPoints.setText(`0/${this.requiredPoints}`);
 
@@ -1591,7 +1600,14 @@ export default class Level extends Phaser.Scene {
 
 			if (this.currentPoints >= this.requiredPoints) {
 				if (gameState.currentLevel < LEVELS.length - 1) {
-					setCurrentLevel(gameState.currentLevel + 1);
+					const isReplay = this.playingLevelIndex !== gameState.currentLevel;
+					console.log("[Level] Building finished! — isReplay:", isReplay, "playingLevelIndex:", this.playingLevelIndex, "gameState.currentLevel:", gameState.currentLevel);
+					if(!isReplay)
+					{
+
+						setCurrentLevel(gameState.currentLevel + 1);
+					}
+
 				}
 				this.changeGameState(GAME_STATE.WAITING_FOR_GAME_RESPONSE);
 
@@ -1651,7 +1667,19 @@ export default class Level extends Phaser.Scene {
 		this.tapIfPresent(this.pauseMapBtnNode, () => this.changeGameState(GAME_STATE.ABANDONED));
 		//this.tapIfPresent(this.endRestartBtnNode, () => this.changeGameState(GAME_STATE.RESTART));
 		this.tapIfPresent(this.endMapBtnNode, () => this.changeGameState(GAME_STATE.ABANDONED));
-		this.tapIfPresent(this.next_btn, () => this.changeGameState(GAME_STATE.RESTART));
+		this.tapIfPresent(this.next_btn, () => {
+			  // Was this a replay of an already-completed building?
+		console.log("[Level] Next button clicked — checking replay status... playingLevelIndex:", this.playingLevelIndex, "gameState.currentLevel:", gameState.currentLevel);
+   		 const isReplay = this.playingLevelIndex !== gameState.currentLevel;
+		console.log("[Level] Next button clicked — isReplay:", isReplay, "playingLevelIndex:", this.playingLevelIndex, "gameState.currentLevel:", gameState.currentLevel);
+    	if (isReplay) {
+        // Don't advance level, just go back to the map
+        this.goToLevelSelect();
+   		 } else {
+        // Normal progression — restart into the next level
+        this.changeGameState(GAME_STATE.RESTART);
+   		 }
+		});//this.changeGameState(GAME_STATE.RESTART));
 		this.tapIfPresent(this.win_btn, () => this.onGameWon());
 		this.tapIfPresent(this.lose_btn, () => this.onGameLost());
 		this.tapIfPresent(this.resume_btn, () => this.changeGameState(GAME_STATE.RESUMED));
@@ -1661,8 +1689,20 @@ export default class Level extends Phaser.Scene {
 		//this.tapIfPresent(this.text, () => this.changeGameState(GAME_STATE.RESTART));
 		this.tapIfPresent(this.shareBtnNode, () => this.changeGameState(GAME_STATE.SHARING));
 		//this.tapIfPresent(this.playAgainBtnNode, () => this.changeGameState(GAME_STATE.RESTART));
-		this.tapIfPresent(this.bottom_text_2, () => this.changeGameState(GAME_STATE.RESTART));
-		this.tapIfPresent(this.next_btn, () => this.changeGameState(GAME_STATE.RESTART));
+		this.tapIfPresent(this.bottom_text_2, () => {
+			  // Was this a replay of an already-completed building?
+		console.log("[Level] Next button clicked — checking replay status... playingLevelIndex:", this.playingLevelIndex, "gameState.currentLevel:", gameState.currentLevel);
+   		 const isReplay = this.playingLevelIndex !== gameState.currentLevel;
+		console.log("[Level] Next button clicked — isReplay:", isReplay, "playingLevelIndex:", this.playingLevelIndex, "gameState.currentLevel:", gameState.currentLevel);
+    	if (isReplay) {
+        // Don't advance level, just go back to the map
+        this.goToLevelSelect();
+   		 } else {
+        // Normal progression — restart into the next level
+        this.changeGameState(GAME_STATE.RESTART);
+   		 }
+		});
+		//this.tapIfPresent(this.next_btn, () => this.changeGameState(GAME_STATE.RESTART));
 		this.tapIfPresent(this.play_again_btn, () => this.changeGameState(GAME_STATE.RESTART));
 		this.tapIfPresent(this.endNextButton, () => {
 			setCurrentLevel(gameState.currentLevel + 1);

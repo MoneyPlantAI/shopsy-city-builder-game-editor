@@ -218,16 +218,23 @@ export default class LevelSelect extends Phaser.Scene {
     private popupPlayBtnNode!: Phaser.GameObjects.Sprite;
     private popupCloseBtnNode!: Phaser.GameObjects.Sprite;
 
+    // ── Tracks which level index the player selected from the map ──────────────
+    // -1 means "current level" (the new unlock button); any other value means
+    // a previously completed building was tapped.
+    private selectedLevelIndex: number = -1;
+
     create(): void {
         this.editorCreate();
         this.mapWorldContainer.setDepth(0);
         this.mapUiContainer.setDepth(1000);
         this.popupDark.setDepth(2000);
         this.playPopupContainer.setDepth(2100);
+
         if (this.start_btn) {
             this.start_btn.setInteractive({ useHandCursor: true });
             this.start_btn.on('pointerdown', () => this.changePanel(GAME_PANEL.GAMEPLAY_PANEL));
         }
+
         this.homeBtnNode = configureButton(this.homeButton, "home");
         this.startBtnNode = configureButton(this.startLevelButton, "start-level");
         this.popupPlayBtnNode = configureButton(this.popupPlayButton, "play");
@@ -247,9 +254,47 @@ export default class LevelSelect extends Phaser.Scene {
 
     private setupInteractions(): void {
         this.tapInteractionHelper(this.homeBtnNode, () => this.changeGameState(GAME_STATE.ABANDONED));
-        this.tapInteractionHelper(this.startBtnNode, () => this.changeGameState(GAME_STATE.START));
-        this.tapInteractionHelper(this.popupCloseBtnNode, () => this.changeGameState(GAME_STATE.PRE_GAME));
-        this.tapInteractionHelper(this.popupPlayBtnNode, () => this.changeGameState(GAME_STATE.PLAYING));
+
+        // ── Current-level (new unlock) button ─────────────────────────────────
+        this.tapInteractionHelper(this.startBtnNode, () => {
+            this.openPopupForLevel(gameState.currentLevel);
+        });
+
+        // ── Popup close: hide popup and reset states so re-open always works ──
+        this.tapInteractionHelper(this.popupCloseBtnNode, () => this.closePopupAndReset());
+
+        // ── Popup play button ─────────────────────────────────────────────────
+        // We set this up DIRECTLY on popupPlayButton (not via tapInteractionHelper
+        // which uses a tween onComplete callback — by the time the tween fires,
+        // the closure may have stale state). Instead we snapshot selectedLevelIndex
+        // at the exact moment the finger goes down, before any async step.
+        this.popupPlayButton.setInteractive({ useHandCursor: true });
+        this.popupPlayButton.on("pointerdown", () => {
+            playSound(this, "click");
+
+            // ── Snapshot the level NOW, before any tween or reset can clear it ──
+            const levelToPlay = this.selectedLevelIndex >= 0
+                ? this.selectedLevelIndex
+                : gameState.currentLevel;
+
+            console.log("[LevelSelect] Play pressed — launching level index:", levelToPlay);
+
+            this.tweens.add({
+                targets: this.popupPlayButton,
+                scaleX: 0.9,
+                scaleY: 0.9,
+                yoyo: true,
+                ease: "Linear",
+                duration: 100,
+                onComplete: () => {
+                    // Hide popup visuals
+                    this.popupDark.setVisible(false).disableInteractive();
+                    this.playPopupContainer.setVisible(false);
+                    // Launch Level scene with the snapshotted index
+                    this.scene.start("Level", { overrideLevelIndex: levelToPlay });
+                }
+            });
+        });
     }
 
     private tapInteractionHelper(button: Phaser.GameObjects.GameObject, callback: () => void): void {
@@ -268,26 +313,79 @@ export default class LevelSelect extends Phaser.Scene {
         });
     }
 
+    // ── Opens the play-popup for any level index ──────────────────────────────
+    // Called both by the current-level button AND completed building taps.
+    private openPopupForLevel(levelIndex: number): void {
+        this.selectedLevelIndex = levelIndex;
+
+        const level = LEVELS[levelIndex] ?? LEVELS[LEVELS.length - 1];
+        this.popupTitle.setText(`Building ${levelIndex + 1}`);
+        this.popupBlocks.setText(String(level.blockAmount));
+        this.popupPoints.setText(String(level.pointRequired));
+
+        this.popupDark.setVisible(true).setInteractive();
+        this.popupDark.alpha = 0;
+        this.playPopupContainer.setVisible(true);
+        this.mapUiContainer.setVisible(true);   // keep map UI (home/start btn) visible behind popup
+
+        this.tweens.add({
+            targets: this.popupDark,
+            alpha: 0.5,
+            duration: 200
+        });
+
+        // Update internal state trackers so guards don't block re-opens
+        this.currentPanel = GAME_PANEL.LEVEL_SELECT;
+        this.currentGameState = GAME_STATE.START;
+    }
+
+    // ── Closes the popup and resets state so any button can re-open it ────────
+    private closePopupAndReset(): void {
+        this.popupDark.setVisible(false).disableInteractive();
+        this.playPopupContainer.setVisible(false);
+        this.selectedLevelIndex = -1;
+
+        // Reset both guards so the next tap always works
+        this.currentPanel = GAME_PANEL.GAMEPLAY_PANEL;
+        this.currentGameState = GAME_STATE.NONE;
+
+        this.mapUiContainer.setVisible(true);
+    }
+
+    // ── Launches the Level scene, passing the selected level via scene data ───
+    // If selectedLevelIndex is -1 (no building tapped), we fall back to
+    // gameState.currentLevel which is the normal progression path.
+    private startGameplay(): void {
+        this.popupDark.setVisible(false).disableInteractive();
+        this.playPopupContainer.setVisible(false);
+
+        const levelToPlay = this.selectedLevelIndex >= 0
+            ? this.selectedLevelIndex
+            : gameState.currentLevel;
+
+        // Pass the chosen level to the Level scene via Phaser scene data
+        this.scene.start("Level", { overrideLevelIndex: levelToPlay });
+    }
+
     private changePanel(panel: string): void {
         if (this.currentPanel === panel) {
             return;
         }
         this.previousPanel = this.currentPanel;
         this.currentPanel = panel;
-        console.log("Changing panel to ", panel);
+
         let panelsToShow: Phaser.GameObjects.Container[] = [];
         this.popupDark.setVisible(false).disableInteractive();
+
         switch (this.currentPanel) {
             case GAME_PANEL.LEVEL_SELECT:
-                panelsToShow = [ this.playPopupContainer];
+                panelsToShow = [this.playPopupContainer];
                 this.popupDark.setVisible(true).setInteractive();
                 break;
             case GAME_PANEL.START_PANEL:
                 panelsToShow = [this.game_start_panel_container];
                 break;
             case GAME_PANEL.GAMEPLAY_PANEL:
-                panelsToShow = [this.mapUiContainer];
-                break;
             default:
                 panelsToShow = [this.mapUiContainer];
                 this.popupDark.setVisible(false).disableInteractive();
@@ -298,7 +396,6 @@ export default class LevelSelect extends Phaser.Scene {
             panelItem.setVisible(panelsToShow.includes(panelItem));
             this.children.bringToTop(panelItem);
         });
-        //this.playPopupContainer.setVisible(this.currentPanel === GAME_PANEL.START_PANEL);
     }
 
     private changeGameState(state: string): void {
@@ -312,12 +409,6 @@ export default class LevelSelect extends Phaser.Scene {
             case GAME_STATE.PRE_GAME:
                 this.preGame();
                 break;
-            case GAME_STATE.START:
-                this.startLevelPrompt();
-                break;
-            case GAME_STATE.PLAYING:
-                this.startGameplay();
-                break;
             case GAME_STATE.ABANDONED:
                 this.exitOrHome();
                 break;
@@ -328,17 +419,6 @@ export default class LevelSelect extends Phaser.Scene {
 
     private preGame(): void {
         this.changePanel(GAME_PANEL.NONE);
-    }
-
-    private startLevelPrompt(): void {
-        console.log("Current level is ", gameState.currentLevel);
-        this.showPlayPopup();
-        this.changePanel(GAME_PANEL.LEVEL_SELECT);
-    }
-
-    private startGameplay(): void {
-        this.hidePlayPopup();
-        this.scene.start("Level");
     }
 
     private exitOrHome(): void {
@@ -355,14 +435,28 @@ export default class LevelSelect extends Phaser.Scene {
 
         LEVELS.forEach((data, index) => {
             if (index < gameState.currentLevel) {
-                const building = this.add.image(data.x, data.y + LEVEL_BUILDING_OFFSET_Y, data.building).setOrigin(0.5, 1);
+                const building = this.add.image(
+                    data.x,
+                    data.y + LEVEL_BUILDING_OFFSET_Y,
+                    data.building
+                ).setOrigin(0.5, 1);
+
                 building.scaleX = 1.8;
                 building.scaleY = 1.8;
+
+                // ── Completed building tap: open popup for THAT level ──────────
+                building.setInteractive({ useHandCursor: true });
+                building.on('pointerdown', () => {
+                    playSound(this, "click");
+                    this.openPopupForLevel(index);
+                });
+
                 this.mapWorldContainer.add(building);
                 this.completedBuildings.push(building);
             }
         });
 
+        // Position the "next unlock" button at the current (locked) level slot
         const current = LEVELS[gameState.currentLevel] ?? LEVELS[LEVELS.length - 1];
         this.startLevelButton.setPosition(current.x, current.y);
         this.locationMarker.setPosition(current.x, current.y - 120);
@@ -376,30 +470,6 @@ export default class LevelSelect extends Phaser.Scene {
             yoyo: true,
             repeat: -1
         });
-    }
-
-    private showPlayPopup(): void {
-        const level = LEVELS[gameState.currentLevel] ?? LEVELS[LEVELS.length - 1];
-
-        this.popupTitle.setText(`Building ${gameState.currentLevel + 1}`);
-        this.popupBlocks.setText(String(level.blockAmount));
-        this.popupPoints.setText(String(level.pointRequired));
-
-        this.popupDark.setVisible(true).setInteractive();
-        this.popupDark.alpha = 0;
-        this.playPopupContainer.setVisible(true);
-
-        this.tweens.add({
-            targets: this.popupDark,
-            alpha: 0.5,
-            duration: 200
-        });
-    }
-
-    private hidePlayPopup(): void {
-        this.popupDark.setVisible(false).disableInteractive();
-        this.playPopupContainer.setVisible(false);
-        this.game_start_panel_container.setVisible(false);
     }
 
     /* END-USER-CODE */
