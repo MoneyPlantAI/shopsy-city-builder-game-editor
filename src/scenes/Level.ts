@@ -494,23 +494,23 @@ export default class Level extends Phaser.Scene {
 		share_panel_container.add(sh_large_panel);
 
 		// sh_panel_1
-		const sh_panel_1 = this.add.image(672, 1041, "title");
+		const sh_panel_1 = this.add.image(672, 943, "title");
 		share_panel_container.add(sh_panel_1);
 
 		// sh_logo
-		const sh_logo = this.add.image(540, 565, "logo-01");
+		const sh_logo = this.add.image(540, 545, "logo-01");
 		share_panel_container.add(sh_logo);
 
 		// sh_panel
-		const sh_panel = this.add.image(540, 761, "sh-panel");
+		const sh_panel = this.add.image(540, 725, "sh-panel");
 		share_panel_container.add(sh_panel);
 
 		// share_text1
-		const share_text1 = this.add.image(540, 765, "share-text1");
+		const share_text1 = this.add.image(540, 729, "share-text1");
 		share_panel_container.add(share_text1);
 
 		// sh_charcter
-		const sh_charcter = this.add.image(225, 1141, "sh-character");
+		const sh_charcter = this.add.image(91, 1141, "sh-character");
 		share_panel_container.add(sh_charcter);
 
 		// final_score
