@@ -216,17 +216,13 @@ export default class Level extends Phaser.Scene {
 		top_ui_container.add(life_3);
 
 		// back_button1
-		const back_button1 = this.add.image(874, 6, "back-button");
+		const back_button1 = this.add.image(864, 36, "back-button");
 		back_button1.name = "back_button1";
-		back_button1.scaleX = 0.5780706990775125;
-		back_button1.scaleY = 0.5780706990775125;
 		top_ui_container.add(back_button1);
 
 		// pause_btn
-		const pause_btn = this.add.image(875, 4, "back-icon");
+		const pause_btn = this.add.image(864, 36, "back-icon");
 		pause_btn.name = "pause_btn";
-		pause_btn.scaleX = 0.6468326147050893;
-		pause_btn.scaleY = 0.6468326147050893;
 		top_ui_container.add(pause_btn);
 
 		// character_BG_1
