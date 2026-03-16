@@ -1321,7 +1321,6 @@ export default class Level extends Phaser.Scene {
 
 	private captureShopsyLayoutRoots(): void {
 		this.shopsyLayoutRoots = [
-			//this.game_start_panel_container,
 			this.pause_panel_container,
 			this.game_over_panel_container,
 			this.game_over_win_panel_container,
@@ -1623,7 +1622,6 @@ export default class Level extends Phaser.Scene {
 
 	private setupPanels(): void {
 		this.allPanels = [
-			//this.game_start_panel_container,
 			this.pause_panel_container,
 			this.game_over_panel_container,
 			this.game_over_win_panel_container,
@@ -1659,20 +1657,16 @@ export default class Level extends Phaser.Scene {
 
 	private setupInteractions(): void {
 
-		//this.tapIfPresent(this.exitBtnNode, () => shopsyBridge.exitGame());
 		this.tapIfPresent(this.pause_btn, () => this.changeGameState(GAME_STATE.PAUSED));
 		this.tapIfPresent(this.back_button1, () => this.changeGameState(GAME_STATE.PAUSED));
-		//this.tapIfPresent(this.startBtnNode, () => this.changeGameState(GAME_STATE.START));
 		this.tapIfPresent(this.pauseBtnNode, () => this.changeGameState(GAME_STATE.PAUSED));
 		this.tapIfPresent(this.pauseCloseBtnNode, () => this.changeGameState(GAME_STATE.RESUMED));
 		this.tapIfPresent(this.pauseRestartBtnNode, () => this.changeGameState(GAME_STATE.RESUMED));
 		this.tapIfPresent(this.pauseMapBtnNode, () => this.changeGameState(GAME_STATE.ABANDONED));
-		//this.tapIfPresent(this.endRestartBtnNode, () => this.changeGameState(GAME_STATE.RESTART));
 		this.tapIfPresent(this.endMapBtnNode, () => this.changeGameState(GAME_STATE.ABANDONED));
 		this.tapIfPresent(this.next_btn, () => {
-			  // Was this a replay of an already-completed building?
-		console.log("[Level] Next button clicked — checking replay status... playingLevelIndex:", this.playingLevelIndex, "gameState.currentLevel:", gameState.currentLevel);
-   		 const isReplay = this.playingLevelIndex !== gameState.currentLevel;
+		// Was this a replay of an already-completed building?
+   		const isReplay = this.playingLevelIndex !== gameState.currentLevel;
 		console.log("[Level] Next button clicked — isReplay:", isReplay, "playingLevelIndex:", this.playingLevelIndex, "gameState.currentLevel:", gameState.currentLevel);
     	if (isReplay) {
         // Don't advance level, just go back to the map
@@ -1685,14 +1679,9 @@ export default class Level extends Phaser.Scene {
 		this.tapIfPresent(this.win_btn, () => this.onGameWon());
 		this.tapIfPresent(this.lose_btn, () => this.onGameLost());
 		this.tapIfPresent(this.resume_btn, () => this.changeGameState(GAME_STATE.RESUMED));
-		//this.tapIfPresent(this.win_txt, () => this.onGameWon());
-		//this.tapIfPresent(this.win_btn1, () => this.onLoseButtonClicked());
-		//this.tapIfPresent(this.text_2, () => this.changeGameState(GAME_STATE.RESTART));
-		//this.tapIfPresent(this.text, () => this.changeGameState(GAME_STATE.RESTART));
 		this.tapIfPresent(this.shareBtnNode, () => this.changeGameState(GAME_STATE.SHARING));
-		//this.tapIfPresent(this.playAgainBtnNode, () => this.changeGameState(GAME_STATE.RESTART));
 		this.tapIfPresent(this.bottom_text_2, () => {
-			  // Was this a replay of an already-completed building?
+		// Was this a replay of an already-completed building?
 		console.log("[Level] Next button clicked — checking replay status... playingLevelIndex:", this.playingLevelIndex, "gameState.currentLevel:", gameState.currentLevel);
    		 const isReplay = this.playingLevelIndex !== gameState.currentLevel;
 		console.log("[Level] Next button clicked — isReplay:", isReplay, "playingLevelIndex:", this.playingLevelIndex, "gameState.currentLevel:", gameState.currentLevel);
@@ -2000,7 +1989,6 @@ export default class Level extends Phaser.Scene {
 		this.txtPointsAdded.setText("");
 		this.changePanel(GAME_PANEL.GAMEPLAY_PANEL);
 		this.changeGameState(GAME_STATE.START);
-		//this.changePanel(this.game_start_panel_container ? GAME_PANEL.START_PANEL : GAME_PANEL.GAMEPLAY_PANEL);
 	}
 
 	private startGame(): void {
@@ -2070,6 +2058,7 @@ export default class Level extends Phaser.Scene {
 	}
 	private _gameOverCalled = false;
 	private _currentScore = 0;
+
 	private onGameOver(result: "win" | "lost"): void{
 		   if (this._gameOverCalled) return;
 		   this._gameOverCalled = true;
@@ -2089,14 +2078,6 @@ export default class Level extends Phaser.Scene {
 			   playTimeInSec: Math.floor(this.timePlayedMs / 1000)
 		   });
 
-		   console.log("Max game bonus earned:", this.isMaxGameBonusEarned);
-		   console.log("Profile data at game over:", UserProfileManager.getProfileData());
-		   const coinsWon = UserProfileManager.getProfileData()?.claimableRewards?.perGameRewardCoinsForToday || 0;
-		   console.log(`Game over with result: ${result}. Coins won: ${coinsWon}`);
-		   this.superCoinsWonThisRound = coinsWon;
-		   ShopsyAnalytics.sendGameFinishedEvent(this.score, coinsWon, result, this.timePlayedMs);
-		   ShopsyAnalytics.sendCoinsEarnedEvent(coinsWon);
-
 		   // Wait before showing the game over panel
 		   this.time.delayedCall(this._gameOverDelayMs, () => {
 			   if(result === "win"){
@@ -2112,7 +2093,6 @@ export default class Level extends Phaser.Scene {
 		   this.share_btn?.setVisible(false);
 		   if (this.game_over_panel_container) {
 			   console.log(UserProfileManager.getProfileData());
-			   //this.superCoinsWonThisRound = UserProfileManager.getProfileData()?.claimableRewards?.perGameRewardCoinsForToday || 0;
 			   console.log("Coins lost this round:", this.superCoinsWonThisRound);
 			   this.high_score?.setText(String(this._currentScore));
 			   this.high_score_1?.setText(`${this._currentScore}`);
