@@ -37,7 +37,9 @@ export default class LevelSelect extends Phaser.Scene {
 		const mapUiContainer = this.add.container(0, 0);
 
 		// homeButton
-		const homeButton = this.add.sprite(70, 70, "btn-home");
+		const homeButton = this.add.sprite(97, 91, "btn-home");
+		homeButton.scaleX = 1.5049143620855445;
+		homeButton.scaleY = 1.5049143620855445;
 		mapUiContainer.add(homeButton);
 
 		// startLevelButton
@@ -70,36 +72,69 @@ export default class LevelSelect extends Phaser.Scene {
 
 		// popupBg
 		const popupBg = this.add.image(360, 540, "popup-play");
+		popupBg.scaleX = 0.6;
+		popupBg.scaleY = 0.6;
 		playPopupContainer.add(popupBg);
 
 		// popupPlayButton
-		const popupPlayButton = this.add.sprite(360, 650, "btn-play");
+		const popupPlayButton = this.add.sprite(360, 665, "Green-btn");
+		popupPlayButton.scaleX = 0.4475358034999831;
+		popupPlayButton.scaleY = 0.48401859219388726;
 		playPopupContainer.add(popupPlayButton);
 
 		// popupCloseButton
-		const popupCloseButton = this.add.sprite(515, 385, "btn-close");
+		const popupCloseButton = this.add.sprite(565, 371, "back-button");
+		popupCloseButton.scaleX = 0.38794673562614557;
+		popupCloseButton.scaleY = 0.38794673562614557;
 		playPopupContainer.add(popupCloseButton);
 
 		// popupTitle
-		const popupTitle = this.add.text(360, 383, "", {});
+		const popupTitle = this.add.text(360, 374, "", {});
 		popupTitle.setOrigin(0.5, 0.5);
 		popupTitle.text = "Building 1";
-		popupTitle.setStyle({ "align": "center", "color": "#FFFFFF", "fontFamily": "bebas", "fontSize": "40px" });
+		popupTitle.setStyle({ "align": "center", "color": "#f7e62a", "fontFamily": "CarterOne-Regular", "fontSize": "40px", "stroke": "#0a5bc0", "strokeThickness": 5 });
 		playPopupContainer.add(popupTitle);
 
-		// popupBlocks
-		const popupBlocks = this.add.text(340, 502, "", {});
-		popupBlocks.setOrigin(1, 0.5);
-		popupBlocks.text = "0";
-		popupBlocks.setStyle({ "align": "right", "color": "#FFFFFF", "fontFamily": "bebas", "fontSize": "30px" });
-		playPopupContainer.add(popupBlocks);
+		// back_icon
+		const back_icon = this.add.image(564, 370, "back-icon");
+		back_icon.scaleX = 0.3718945050517436;
+		back_icon.scaleY = 0.3718945050517436;
+		playPopupContainer.add(back_icon);
+
+		// bar_points
+		const bar_points = this.add.image(487, 522, "bar-points");
+		playPopupContainer.add(bar_points);
 
 		// popupPoints
-		const popupPoints = this.add.text(480, 502, "", {});
+		const popupPoints = this.add.text(519, 525, "", {});
 		popupPoints.setOrigin(1, 0.5);
 		popupPoints.text = "0";
-		popupPoints.setStyle({ "align": "right", "color": "#FFFFFF", "fontFamily": "bebas", "fontSize": "30px" });
+		popupPoints.setStyle({ "align": "right", "color": "#FFFFFF", "fontFamily": "CarterOne-Regular", "fontSize": "30px" });
 		playPopupContainer.add(popupPoints);
+
+		// gem
+		const gem = this.add.image(411, 520, "gem");
+		gem.scaleX = 0.7192741177190282;
+		gem.scaleY = 0.7192741177190282;
+		playPopupContainer.add(gem);
+
+		// bar_blocks
+		const bar_blocks = this.add.image(244, 519, "bar-blocks");
+		playPopupContainer.add(bar_blocks);
+
+		// popupBlocks
+		const popupBlocks = this.add.text(289, 521, "", {});
+		popupBlocks.setOrigin(1, 0.5);
+		popupBlocks.text = "0";
+		popupBlocks.setStyle({ "align": "right", "color": "#FFFFFF", "fontFamily": "CarterOne-Regular", "fontSize": "30px" });
+		playPopupContainer.add(popupBlocks);
+
+		// text_1
+		const text_1 = this.add.text(363, 659, "", {});
+		text_1.setOrigin(0.5, 0.5);
+		text_1.text = "Play";
+		text_1.setStyle({ "fontFamily": "CarterOne-Regular", "fontSize": "40px" });
+		playPopupContainer.add(text_1);
 
 		// game_start_panel_container
 		const game_start_panel_container = this.add.container(540, 960);
@@ -117,23 +152,24 @@ export default class LevelSelect extends Phaser.Scene {
 		game_start_panel_container.add(naz_new_screen);
 
 		// naz_text3
-		const naz_text3 = this.add.image(29, -362, "naz-text3");
+		const naz_text3 = this.add.image(-172, -168, "naz-text3");
 		naz_text3.name = "naz_text3";
 		game_start_panel_container.add(naz_text3);
 
 		// naz_text1
 		const naz_text1 = this.add.image(32, 361, "naz-text1");
+		naz_text1.visible = false;
 		game_start_panel_container.add(naz_text1);
 
 		// naz_text2
-		const naz_text2 = this.add.image(59, -101, "naz-text2");
+		const naz_text2 = this.add.image(14, 204, "naz-text2");
 		game_start_panel_container.add(naz_text2);
 
 		// top_text
 		const top_text = this.add.text(12, -537, "", {});
 		top_text.setOrigin(0.5, 0.64);
-		top_text.text = "Pop Nazars & Earn SuperCoins";
-		top_text.setStyle({ "color": "#ecff3bff", "fontFamily": "bebas", "fontSize": "42px", "stroke": "#600080ff", "strokeThickness": 10 });
+		top_text.text = "Stack & Earn Super Coins";
+		top_text.setStyle({ "color": "#ecff3bff", "fontFamily": "CarterOne-Regular", "fontSize": "42px", "stroke": "#0a5bc0", "strokeThickness": 10 });
 		game_start_panel_container.add(top_text);
 
 		// start_btn
@@ -175,8 +211,8 @@ export default class LevelSelect extends Phaser.Scene {
 		this.popupPlayButton = popupPlayButton;
 		this.popupCloseButton = popupCloseButton;
 		this.popupTitle = popupTitle;
-		this.popupBlocks = popupBlocks;
 		this.popupPoints = popupPoints;
+		this.popupBlocks = popupBlocks;
 		this.playPopupContainer = playPopupContainer;
 		this.start_btn = start_btn;
 		this.character_BG = character_BG;
@@ -197,8 +233,8 @@ export default class LevelSelect extends Phaser.Scene {
 	private popupPlayButton!: Phaser.GameObjects.Sprite;
 	private popupCloseButton!: Phaser.GameObjects.Sprite;
 	private popupTitle!: Phaser.GameObjects.Text;
-	private popupBlocks!: Phaser.GameObjects.Text;
 	private popupPoints!: Phaser.GameObjects.Text;
+	private popupBlocks!: Phaser.GameObjects.Text;
 	private playPopupContainer!: Phaser.GameObjects.Container;
 	private start_btn!: Phaser.GameObjects.Image;
 	private character_BG!: Phaser.GameObjects.Image;
@@ -229,6 +265,10 @@ export default class LevelSelect extends Phaser.Scene {
         this.mapUiContainer.setDepth(1000);
         this.popupDark.setDepth(2000);
         this.playPopupContainer.setDepth(2100);
+            // Ensure start panel UI stays above all
+            if (this.game_start_panel_container) {
+                this.game_start_panel_container.setDepth(2200);
+            }
 
         if (this.start_btn) {
             this.start_btn.setInteractive({ useHandCursor: true });

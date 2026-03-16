@@ -356,6 +356,11 @@
                 "key": "logo-01"
             },
             {
+                "url": "assets/images/share/logo1.png",
+                "type": "image",
+                "key": "logo1"
+            },
+            {
                 "url": "assets/images/game-end/low-score-character.png",
                 "type": "image",
                 "key": "low-score-character"

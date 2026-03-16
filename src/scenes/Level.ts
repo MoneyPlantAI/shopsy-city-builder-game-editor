@@ -278,39 +278,33 @@ export default class Level extends Phaser.Scene {
 		top_ui_container.add(win_txt);
 
 		// highScore_Panel_1
-		const highScore_Panel_1 = this.add.image(52, 189, "HighScore_Panel");
-		highScore_Panel_1.scaleX = 0.5277238860700069;
-		highScore_Panel_1.scaleY = 0.48707597170862665;
+		const highScore_Panel_1 = this.add.image(52, 189, "bar-points");
+		highScore_Panel_1.scaleX = 1.1785911243279024;
+		highScore_Panel_1.scaleY = 1.1785911243279024;
 		top_ui_container.add(highScore_Panel_1);
 
 		// gem
-		const gem = this.add.image(-43, 190, "gem");
+		const gem = this.add.image(-43, 188, "gem");
 		gem.name = "gem";
 		gem.scaleX = 0.7;
 		gem.scaleY = 0.7;
 		top_ui_container.add(gem);
 
 		// txtPoints
-		const txtPoints = this.add.text(81, 190, "", {});
+		const txtPoints = this.add.text(81, 195, "", {});
 		txtPoints.setOrigin(0.5, 0.5);
 		txtPoints.text = "0/0";
 		txtPoints.setStyle({ "align": "right", "fontFamily": "CarterOne-Regular", "fontSize": "35px" });
 		top_ui_container.add(txtPoints);
 
 		// highScore_Panel_2
-		const highScore_Panel_2 = this.add.image(18, 303, "HighScore_Panel");
-		highScore_Panel_2.scaleX = 0.38648749134631477;
-		highScore_Panel_2.scaleY = 0.48707597170862665;
+		const highScore_Panel_2 = this.add.image(47, 299, "bar-blocks");
+		highScore_Panel_2.scaleX = 1.1028507950415196;
+		highScore_Panel_2.scaleY = 1.1028507950415196;
 		top_ui_container.add(highScore_Panel_2);
 
-		// block
-		const block = this.add.image(-30, 303, "block");
-		block.scaleX = 0.3250328368857309;
-		block.scaleY = 0.3250328368857309;
-		top_ui_container.add(block);
-
 		// txtBlocks
-		const txtBlocks = this.add.text(68, 304, "", {});
+		const txtBlocks = this.add.text(96, 304, "", {});
 		txtBlocks.setOrigin(1, 0.5);
 		txtBlocks.text = "0";
 		txtBlocks.setStyle({ "align": "right", "fontFamily": "CarterOne-Regular", "fontSize": "35px" });
@@ -489,11 +483,13 @@ export default class Level extends Phaser.Scene {
 		share_panel_container.add(share_bg);
 
 		// sh_large_panel
-		const sh_large_panel = this.add.image(540, 1152, "sh-large-panel");
+		const sh_large_panel = this.add.image(540, 1270, "sh-large-panel");
 		share_panel_container.add(sh_large_panel);
 
 		// sh_panel_1
-		const sh_panel_1 = this.add.image(672, 943, "title");
+		const sh_panel_1 = this.add.image(545, 968, "title");
+		sh_panel_1.scaleX = 0.9383886518217711;
+		sh_panel_1.scaleY = 0.9383886518217711;
 		share_panel_container.add(sh_panel_1);
 
 		// sh_logo
@@ -501,26 +497,29 @@ export default class Level extends Phaser.Scene {
 		share_panel_container.add(sh_logo);
 
 		// sh_panel
-		const sh_panel = this.add.image(540, 725, "sh-panel");
+		const sh_panel = this.add.image(540, 681, "sh-panel");
+		sh_panel.setOrigin(0.5, 0);
 		share_panel_container.add(sh_panel);
 
 		// share_text1
 		const share_text1 = this.add.image(540, 729, "share-text1");
+		share_text1.visible = false;
 		share_panel_container.add(share_text1);
 
 		// sh_charcter
 		const sh_charcter = this.add.image(91, 1141, "sh-character");
+		sh_charcter.visible = false;
 		share_panel_container.add(sh_charcter);
 
 		// final_score
-		const final_score = this.add.text(786, 1261, "", {});
+		const final_score = this.add.text(791, 1293, "", {});
 		final_score.setOrigin(0, 0.5);
 		final_score.text = "0";
-		final_score.setStyle({ "fontFamily": "CarterOne-Regular", "fontSize": "65px", "stroke": "#9802ffff", "strokeThickness": 10 });
+		final_score.setStyle({ "fontFamily": "CarterOne-Regular", "fontSize": "65px", "stroke": "#1a60b6", "strokeThickness": 10 });
 		share_panel_container.add(final_score);
 
 		// Supercoin_text_1
-		const supercoin_text_1 = this.add.text(477, 1258, "", {});
+		const supercoin_text_1 = this.add.text(412, 1293, "", {});
 		supercoin_text_1.setOrigin(0.5, 0.5);
 		supercoin_text_1.text = "0";
 		supercoin_text_1.setStyle({ "align": "center", "fontFamily": "CarterOne-Regular", "fontSize": "65px", "stroke": "#a77203ff", "strokeThickness": 10 });
@@ -538,22 +537,23 @@ export default class Level extends Phaser.Scene {
 
 		// lowScore_Character_1
 		const lowScore_Character_1 = this.add.image(460, 445, "low-score-character");
+		lowScore_Character_1.visible = false;
 		game_over_lose_panel_container.add(lowScore_Character_1);
 
 		// score_text_1
-		const score_text_1 = this.add.text(540, 770, "", {});
+		const score_text_1 = this.add.text(540, 762, "", {});
 		score_text_1.name = "score_text_1";
 		score_text_1.setOrigin(0.5, 0.5);
-		score_text_1.text = "Uh Oh!";
-		score_text_1.setStyle({ "color": "#ffef4aff", "fontFamily": "CarterOne-Regular", "fontSize": "80px", "stroke": "#560085ff", "strokeThickness": 10 });
+		score_text_1.text = "Oh no!";
+		score_text_1.setStyle({ "color": "#ffef4aff", "fontFamily": "CarterOne-Regular", "fontSize": "80px", "stroke": "#1a60b6", "strokeThickness": 10 });
 		game_over_lose_panel_container.add(score_text_1);
 
 		// Bottom_text_1
-		const bottom_text_1 = this.add.text(540, 1225, "", {});
+		const bottom_text_1 = this.add.text(540, 1264, "", {});
 		bottom_text_1.name = "Bottom_text_1";
 		bottom_text_1.setOrigin(0.5, 0.5);
-		bottom_text_1.text = "Good Luck Coming Soon";
-		bottom_text_1.setStyle({ "color": "#ffffffff", "fontFamily": "CarterOne-Regular", "fontSize": "60PX", "stroke": "#58006bff", "strokeThickness": 10 });
+		bottom_text_1.text = "Try your luck again!";
+		bottom_text_1.setStyle({ "color": "#ffffffff", "fontFamily": "CarterOne-Regular", "fontSize": "60PX", "stroke": "#1a60b6", "strokeThickness": 10 });
 		game_over_lose_panel_container.add(bottom_text_1);
 
 		// play_again_btn
@@ -573,25 +573,27 @@ export default class Level extends Phaser.Scene {
 		game_over_lose_panel_container.add(text);
 
 		// low_score
-		const low_score = this.add.text(816, 1042, "", {});
+		const low_score = this.add.text(816, 1075, "", {});
 		low_score.name = "low_score";
 		low_score.setOrigin(0.5, 0.5);
 		low_score.text = "000";
-		low_score.setStyle({ "align": "center", "color": "#ffffffff", "fontFamily": "CarterOne-Regular", "fontSize": "85PX", "stroke": "#028fffff", "strokeThickness": 10 });
+		low_score.setStyle({ "align": "center", "color": "#ffffffff", "fontFamily": "CarterOne-Regular", "fontSize": "85PX", "stroke": "#1a60b6", "strokeThickness": 10 });
 		game_over_lose_panel_container.add(low_score);
 
-		// gem_3
-		const gem_3 = this.add.image(661, 1048, "gem");
-		gem_3.scaleX = 1.181837427563718;
-		gem_3.scaleY = 1.181837427563718;
-		game_over_lose_panel_container.add(gem_3);
-
 		// Supercoin_text
-		const supercoin_text = this.add.text(438, 1044, "", {});
+		const supercoin_text = this.add.text(419, 1074, "", {});
 		supercoin_text.setOrigin(0.5, 0.5);
 		supercoin_text.text = "0";
 		supercoin_text.setStyle({ "align": "center", "fontFamily": "CarterOne-Regular", "fontSize": "85px", "stroke": "#a77203ff", "strokeThickness": 10 });
 		game_over_lose_panel_container.add(supercoin_text);
+
+		// gem_3
+		const gem_3 = this.add.image(648, 1074, "gem");
+		game_over_lose_panel_container.add(gem_3);
+
+		// logo1
+		const logo1 = this.add.image(540, 467, "logo1");
+		game_over_lose_panel_container.add(logo1);
 
 		// game_over_win_panel_container
 		const game_over_win_panel_container = this.add.container(0, 0);
@@ -605,14 +607,15 @@ export default class Level extends Phaser.Scene {
 
 		// highScore_Character_1
 		const highScore_Character_1 = this.add.image(540, 490, "high-score-character");
+		highScore_Character_1.visible = false;
 		game_over_win_panel_container.add(highScore_Character_1);
 
 		// score_text
-		const score_text = this.add.text(540, 770, "", {});
+		const score_text = this.add.text(540, 761, "", {});
 		score_text.name = "score_text";
 		score_text.setOrigin(0.5, 0.5);
 		score_text.text = "Nicely Done";
-		score_text.setStyle({ "color": "#ffef4aff", "fontFamily": "CarterOne-Regular", "fontSize": "80px", "stroke": "#560085ff", "strokeThickness": 10 });
+		score_text.setStyle({ "color": "#ffef4aff", "fontFamily": "CarterOne-Regular", "fontSize": "80px", "stroke": "#1a60b6", "strokeThickness": 10 });
 		game_over_win_panel_container.add(score_text);
 
 		// Bottom_text
@@ -649,7 +652,7 @@ export default class Level extends Phaser.Scene {
 		game_over_win_panel_container.add(text_3);
 
 		// high_score_1
-		const high_score_1 = this.add.text(814, 1047, "", {});
+		const high_score_1 = this.add.text(810, 1076, "", {});
 		high_score_1.name = "high_score_1";
 		high_score_1.setOrigin(0.5, 0.5);
 		high_score_1.text = "000";
@@ -657,7 +660,7 @@ export default class Level extends Phaser.Scene {
 		game_over_win_panel_container.add(high_score_1);
 
 		// gem_2
-		const gem_2 = this.add.image(658, 1047, "gem");
+		const gem_2 = this.add.image(652, 1076, "gem");
 		gem_2.scaleX = 1.1889856074071514;
 		gem_2.scaleY = 1.1889856074071514;
 		game_over_win_panel_container.add(gem_2);
@@ -671,11 +674,15 @@ export default class Level extends Phaser.Scene {
 		game_over_win_panel_container.add(bottom_text_2);
 
 		// Supercoin_text1
-		const supercoin_text1 = this.add.text(441, 1050, "", {});
+		const supercoin_text1 = this.add.text(416, 1075, "", {});
 		supercoin_text1.setOrigin(0.5, 0.5);
 		supercoin_text1.text = "0";
 		supercoin_text1.setStyle({ "align": "center", "fontFamily": "CarterOne-Regular", "fontSize": "85px", "stroke": "#a77203ff", "strokeThickness": 10 });
 		game_over_win_panel_container.add(supercoin_text1);
+
+		// logo
+		const logo = this.add.image(540, 486, "logo1");
+		game_over_win_panel_container.add(logo);
 
 		// game_over_panel_container
 		const game_over_panel_container = this.add.container(517, 789);
@@ -887,18 +894,18 @@ export default class Level extends Phaser.Scene {
 		game_start_panel_container.add(naz_text3);
 
 		// naz_text1
-		const naz_text1 = this.add.image(32, 361, "naz-text1");
+		const naz_text1 = this.add.image(16, 204, "naz-text1");
 		game_start_panel_container.add(naz_text1);
 
 		// naz_text2
-		const naz_text2 = this.add.image(59, -101, "naz-text2");
+		const naz_text2 = this.add.image(-166, -167, "naz-text2");
 		game_start_panel_container.add(naz_text2);
 
 		// top_text
 		const top_text = this.add.text(12, -537, "", {});
 		top_text.setOrigin(0.5, 0.64);
-		top_text.text = "Pop Nazars & Earn SuperCoins";
-		top_text.setStyle({ "color": "#ecff3bff", "fontFamily": "bebas", "fontSize": "42px", "stroke": "#600080ff", "strokeThickness": 10 });
+		top_text.text = "Stack & Earn Super Coins";
+		top_text.setStyle({ "color": "#ecff3bff", "fontFamily": "CarterOne-Regular", "fontSize": "42px", "stroke": "#0a5bc0", "strokeThickness": 10 });
 		game_start_panel_container.add(top_text);
 
 		// start_btn
@@ -1445,7 +1452,7 @@ export default class Level extends Phaser.Scene {
 				break;
 		}
 	}
-	
+
 	private preGame(): void {
 		this.score                 = 0;
 		this.currentPoints         = 0;
@@ -1547,14 +1554,14 @@ export default class Level extends Phaser.Scene {
 		}
 	}
 
-	
+
 	private onGameWon(): void {
 		playSound(this, "completed");
 		this.isGameplayPaused = true;           // stop update loop
 		this.onGameOver("win");
 	}
 
-	
+
 	private onGameLost(): void {
 		playSound(this, "gameover");
 		this.isGameplayPaused = true;           // stop update loop
@@ -1697,7 +1704,7 @@ export default class Level extends Phaser.Scene {
 			})
 		);
 
-		
+
 		this.bridgeUnsubscribers.push(
 			shopsyBridge.on(ShopsyMessageAction.GAME_COMPLETED_ACK, (data) => {
 				console.log(`[${GAME_NAME}] Game completed`);
