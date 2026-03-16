@@ -19,6 +19,7 @@ import GameResponseManager from "../shopsystan/shopsyGameResponses";
 /* END-USER-IMPORTS */
 
 export default class Level extends Phaser.Scene {
+
 	constructor() {
 		super("Level");
 
@@ -26,7 +27,7 @@ export default class Level extends Phaser.Scene {
 		// Write your code here.
 		/* END-USER-CTR-CODE */
 	}
-	
+
 	editorCreate(): void {
 
 		// gameWorldContainer
@@ -1130,71 +1131,139 @@ export default class Level extends Phaser.Scene {
 	private waiting_for_game_response_panel_container!: Phaser.GameObjects.Container;
 
 	/* START-USER-CODE */
-	private _gameOverDelayMs = 2000;
 
+	// ─── PANEL / STATE MANAGEMENT (mirrors Nazariya exactly) ───────────────────
 	private allPanels: Phaser.GameObjects.Container[] = [];
+
 	private previousGameState: string = GAME_STATE.NONE;
 	private currentGameState: string = GAME_STATE.NONE;
-	private previousPanel: string = GAME_PANEL.NONE;
-	private currentPanel: string = GAME_PANEL.NONE;
+	private previousPanel: string   = GAME_PANEL.NONE;
+	private currentPanel: string    = GAME_PANEL.NONE;
 
+	public score        = 0;
+	public gameStartTime = 0;
+	public timePlayedMs  = 0;
+
+	// ─── SHOPSY ────────────────────────────────────────────────────────────────
+	private superCoinsWonThisRound = 0;
+	private gameResult: string;
+
+	// ─── MANAGERS ──────────────────────────────────────────────────────────────
+	private shareManager: ShareManager;
+	private errorPopupManager: ErrorPopupManager;
+	private errorPanelContainer?: Phaser.GameObjects.Container;
+	private bridgeUnsubscribers: Array<() => void> = [];
+
+	// ─── CITY-BUILDER-SPECIFIC FIELDS ──────────────────────────────────────────
 	private moveTo: "left" | "right" = "left";
-	private val = 0;
+	private val       = 0;
 	private oscillating = 0;
 	private isGameplayPaused = false;
 	private isMaxGameBonusEarned = false;
-	private gameStartTime = 0;
-	public timePlayedMs = 0;
-	public score = 0;
-	private currentPoints = 0;
-	private superCoinsWonThisRound = 0;
-	private gameResult: string;
-	private maxBlock = 0;
+
+	private currentPoints  = 0;
+	private maxBlock       = 0;
 	private requiredPoints = 0;
 
-	private pauseBtnNode?: Phaser.GameObjects.GameObject;
-	private startBtnNode?: Phaser.GameObjects.GameObject;
-	private pauseRestartBtnNode?: Phaser.GameObjects.GameObject;
-	private pauseMapBtnNode?: Phaser.GameObjects.GameObject;
-	private pauseCloseBtnNode?: Phaser.GameObjects.GameObject;
-	//private endRestartBtnNode?: Phaser.GameObjects.GameObject;
-	private endMapBtnNode?: Phaser.GameObjects.GameObject;
-	private endNextBtnNode?: Phaser.GameObjects.GameObject;
-	private shareBtnNode?: Phaser.GameObjects.GameObject;
-	//private playAgainBtnNode?: Phaser.GameObjects.GameObject;
-	private exitBtnNode?: Phaser.GameObjects.GameObject;
-	private errorPanelContainer?: Phaser.GameObjects.Container;
-	private errorPopupManager?: ErrorPopupManager;
-	private shareManager?: ShareManager;
-	private readonly shopsyDesignWidth = 1080;
+	// Snapshot of the actual gameplay score at game-end (before we normalise
+	// score → 100/0 for the bridge payload).
+	private _finalDisplayScore = 0;
+
+	private playingLevelIndex = 0;
+
+	// Shopsy-layout helpers (unchanged from original)
+	private readonly shopsyDesignWidth  = 1080;
 	private readonly shopsyDesignHeight = 1920;
 	private shopsyLayoutCaptured = false;
-	private shopsyLayout = new Map<Phaser.GameObjects.GameObject, { x: number; y: number; scaleX: number; scaleY: number }>();
+	private shopsyLayout     = new Map<Phaser.GameObjects.GameObject, { x: number; y: number; scaleX: number; scaleY: number }>();
 	private shopsyLayoutRoots: Phaser.GameObjects.GameObject[] = [];
 	private exit_back_button?: Phaser.GameObjects.Image;
 	private exit_btn?: Phaser.GameObjects.Image;
-	private bridgeUnsubscribers: Array<() => void> = [];
-	private playingLevelIndex: number = 0;
+
+	// Pause-popup nodes (original naming kept)
+	private pauseBtnNode?: Phaser.GameObjects.GameObject;
+	private pauseRestartBtnNode?: Phaser.GameObjects.GameObject;
+	private pauseMapBtnNode?: Phaser.GameObjects.GameObject;
+	private pauseCloseBtnNode?: Phaser.GameObjects.GameObject;
+	private endMapBtnNode?: Phaser.GameObjects.GameObject;
+	private shareBtnNode?: Phaser.GameObjects.GameObject;
+
+	// ───────────────────────────────────────────────────────────────────────────
+	// LIFECYCLE
+	// ───────────────────────────────────────────────────────────────────────────
 
 	init(data: { overrideLevelIndex?: number }): void {
-    this.playingLevelIndex =
-        data?.overrideLevelIndex != null
-            ? data.overrideLevelIndex
-            : gameState.currentLevel;
- 
-    console.log("[Level] init() — playingLevelIndex:", this.playingLevelIndex);
-}
+		this.playingLevelIndex =
+			data?.overrideLevelIndex != null
+				? data.overrideLevelIndex
+				: gameState.currentLevel;
+		console.log("[Level] init() — playingLevelIndex:", this.playingLevelIndex);
+	}
+
+	create(): void {
+		this.editorCreate();
+
+		this.cameras.main.setZoom(1);
+		this.cameras.main.setScroll(0, 0);
+		this.shopsyLayoutCaptured = false;
+
+		// Depth ordering
+		this.gameWorldContainer.setDepth(0);
+		this.gameplayContainer.setDepth(1000);
+		this.top_ui_container?.setDepth(1001);
+		this.fxContainer.setDepth(1100);
+		this.hudContainer.setDepth(2000);
+		this.popupDark.setDepth(2100);
+		this.pausePopupContainer.setDepth(2200);
+		this.endPopupContainer.setDepth(2200);
+
+		// Managers
+		this.setupManagers();
+
+		// Layout
+		this.setupShopsyUiBindings();
+		this.captureShopsyLayoutRoots();
+		this.applyShopsyLayoutTransform();
+		this.scale.on("resize", () => {
+			this.shopsyLayoutCaptured = false;
+			this.applyShopsyLayoutTransform();
+		}, this);
+		this.events.once("shutdown", () => this.scale.off("resize", this.applyShopsyLayoutTransform, this));
+		this.events.once("destroy",  () => this.scale.off("resize", this.applyShopsyLayoutTransform, this));
+
+		// Button-node aliases (keeps original variable names)
+		this.pauseBtnNode        = this.pause_btn;
+		this.pauseRestartBtnNode = this.resume_btn  ?? this.pauseRestartButton;
+		this.pauseMapBtnNode     = this.abandon_btn ?? this.pauseMapButton;
+		this.pauseCloseBtnNode   = this.pauseCloseButton;
+		this.endMapBtnNode       = this.endMapButton;
+		this.shareBtnNode        = this.share_btn;
+
+		// Standard setup — same order as Nazariya
+		this.setupPanels();
+		this.loadSounds();
+		this.setupBridgeListeners();
+		this.setupInteractions();
+		this.setupShopsy();
+
+		// City-Builder-specific one-time setup
+		this.setupGameplayCore();
+
+		// Initial state — mirrors Nazariya
+		this.changeGameState(GAME_STATE.PRE_GAME);
+
+		this.events.once("shutdown", () => this.cleanupBridgeListeners());
+		this.events.once("destroy",  () => this.cleanupBridgeListeners());
+
+		this.profile_text.setText(  UserProfileManager.getProfileData()?.basic.userName ?? "Player");
+		this.profile_text_1.setText(UserProfileManager.getProfileData()?.basic.userName ?? "Player");
+	}
+
 	update(): void {
-		if (this.isGameplayPaused || this.currentGameState !== GAME_STATE.PLAYING) {
-			return;
-		}
+		if (this.isGameplayPaused || this.currentGameState !== GAME_STATE.PLAYING) return;
 
 		if (this.moveTo === "left") {
-			if (this.val > -20) {
-				this.val -= 1;
-			} else {
-				this.moveTo = "right";
-			}
+			if (this.val > -20) { this.val -= 1; } else { this.moveTo = "right"; }
 		} else if (this.val < 20) {
 			this.val += 1;
 		} else {
@@ -1202,115 +1271,19 @@ export default class Level extends Phaser.Scene {
 		}
 
 		gameState.blocks.forEach((block) => {
-			if (!block.dropped) {
-				return;
-			}
+			if (!block.dropped) return;
 			block.x += this.moveTo === "left" ? -this.oscillating : this.oscillating;
 		});
 	}
 
-	   create(): void {
-		   this._gameOverCalled = false;
-		   this.editorCreate();
-		   // Ensure camera is reset to initial state at the start of the scene
-		   this.cameras.main.setZoom(1);
-		   this.cameras.main.setScroll(0, 0);
-		   // Always recapture layout on scene start to avoid double-scaling
-		   this.shopsyLayoutCaptured = false;
-
-		   this.gameWorldContainer.setDepth(0);
-		   this.gameplayContainer.setDepth(1000);
-		   // Ensure top_ui_container is above gameplayContainer
-		   if (this.top_ui_container) {
-			   this.top_ui_container.setDepth(1001);
-		   }
-		   this.fxContainer.setDepth(1100);
-		   this.hudContainer.setDepth(2000);
-		this.popupDark.setDepth(2100);
-		this.pausePopupContainer.setDepth(2200);
-		this.endPopupContainer.setDepth(2200);
-
-		this.setupManagers();
-		this.setupShopsyUiBindings();
-		this.captureShopsyLayoutRoots();
-		this.applyShopsyLayoutTransform();
-		// On every resize, recapture layout and reapply transform
-		this.scale.on("resize", () => {
-			this.shopsyLayoutCaptured = false;
-			this.applyShopsyLayoutTransform();
-		}, this);
-		this.events.once("shutdown", () => this.scale.off("resize", this.applyShopsyLayoutTransform, this));
-		this.events.once("destroy", () => this.scale.off("resize", this.applyShopsyLayoutTransform, this));
-
-		this.pauseBtnNode = this.pause_btn;//?? this.pauseButton;
-		this.startBtnNode = this.start_btn;
-		this.pauseRestartBtnNode = this.resume_btn ?? this.pauseRestartButton;
-		this.pauseMapBtnNode = this.abandon_btn ?? this.pauseMapButton;
-		this.pauseCloseBtnNode = this.pauseCloseButton;
-		//this.endRestartBtnNode = this.restart_btn ?? this.endRestartButton;
-		this.endMapBtnNode = this.endMapButton;
-		this.endNextBtnNode = (this as any).btn_next;
-		this.shareBtnNode = this.share_btn;
-		//this.playAgainBtnNode = this.restart_btn;
-		//this.next_btnNode = this.next_btn;
-		this.next_btn = this.next_btn;
-		//this.exitBtnNode = this.exit_btn;
-
-		this.setupPanels();
-		this.loadSounds();
-		this.setupBridgeListeners();
-		this.setupInteractions();
-		this.setupShopsy();
-
-		this.setupGameplayCore();
-
-		this.changeGameState(GAME_STATE.PRE_GAME);
-
-		this.events.once("shutdown", () => this.cleanupBridgeListeners());
-		this.events.once("destroy", () => this.cleanupBridgeListeners());
-		this.profile_text.setText(UserProfileManager.getProfileData()?.basic.userName ?? "Player");
-		this.profile_text_1.setText(UserProfileManager.getProfileData()?.basic.userName ?? "Player");
-	}
-
-	private setupGameplayCore(): void {
-		resetBlockRunState();
-
-		this.oscillating = 0;
-		this.claw.setDepth(1);
-
-		 this.maxBlock = LEVELS[this.playingLevelIndex].blockAmount;   
-		 this.requiredPoints = LEVELS[this.playingLevelIndex].pointRequired;
-		this.txtBlocks.setText(String(this.maxBlock));
-		this.txtPoints.setText(`0/${this.requiredPoints}`);
-
-		if (!this.anims.exists("collide")) {
-			this.anims.create({
-				key: "collide",
-				frames: this.anims.generateFrameNumbers("anim-collide"),
-				frameRate: 10
-			});
-		}
-
-		this.tweens.add({
-			targets: this.blockTop,
-			x: this.blockTop.x + 400,
-			duration: 1500,
-			ease: "Sine.easeInOut",
-			yoyo: true,
-			onUpdate: () => {
-				this.claw.x = this.blockTop.x;
-			},
-			repeat: -1
-		});
-
-		this.setupDropHandling();
-	}
+	// ───────────────────────────────────────────────────────────────────────────
+	// SETUP HELPERS
+	// ───────────────────────────────────────────────────────────────────────────
 
 	private setupManagers(): void {
 		this.errorPanelContainer = this.error_panel_container;
-		this.errorPopupManager = new ErrorPopupManager(this);
+		this.errorPopupManager   = new ErrorPopupManager(this);
 		this.errorPopupManager.init();
-
 		this.shareManager = new ShareManager(this as any);
 		this.shareManager.init();
 	}
@@ -1340,48 +1313,501 @@ export default class Level extends Phaser.Scene {
 	}
 
 	private applyShopsyLayoutTransform(): void {
-		if (!this.shopsyLayoutRoots.length) {
-			return;
-		}
+		if (!this.shopsyLayoutRoots.length) return;
 
-		const gameWidth = this.scale.gameSize.width;
+		const gameWidth  = this.scale.gameSize.width;
 		const gameHeight = this.scale.gameSize.height;
-		const scale = Math.min(gameWidth / this.shopsyDesignWidth, gameHeight / this.shopsyDesignHeight);
-		const offsetX = (gameWidth - this.shopsyDesignWidth * scale) * 0.5;
+		const scale   = Math.min(gameWidth / this.shopsyDesignWidth, gameHeight / this.shopsyDesignHeight);
+		const offsetX = (gameWidth  - this.shopsyDesignWidth  * scale) * 0.5;
 		const offsetY = (gameHeight - this.shopsyDesignHeight * scale) * 0.5;
 
 		if (!this.shopsyLayoutCaptured) {
 			this.shopsyLayoutRoots.forEach((child) => {
-				const transform = child as unknown as Phaser.GameObjects.Components.Transform;
-				this.shopsyLayout.set(child, {
-					x: transform.x ?? 0,
-					y: transform.y ?? 0,
-					scaleX: transform.scaleX ?? 1,
-					scaleY: transform.scaleY ?? 1
-				});
+				const t = child as unknown as Phaser.GameObjects.Components.Transform;
+				this.shopsyLayout.set(child, { x: t.x ?? 0, y: t.y ?? 0, scaleX: t.scaleX ?? 1, scaleY: t.scaleY ?? 1 });
 			});
 			this.shopsyLayoutCaptured = true;
 		}
 
 		this.shopsyLayout.forEach((base, child) => {
-			const transform = child as unknown as Phaser.GameObjects.Components.Transform;
-			transform.x = base.x * scale + offsetX;
-			transform.y = base.y * scale + offsetY;
-			transform.scaleX = base.scaleX * scale;
-			transform.scaleY = base.scaleY * scale;
+			const t = child as unknown as Phaser.GameObjects.Components.Transform;
+			t.x      = base.x      * scale + offsetX;
+			t.y      = base.y      * scale + offsetY;
+			t.scaleX = base.scaleX * scale;
+			t.scaleY = base.scaleY * scale;
 		});
 	}
 
 	private loadSounds(): void {
-		// Lifecycle placeholder for template parity.
-		// City Builder currently relies on core playSound(...) utility for SFX.
+		// City Builder uses the playSound() utility — no sounds to preload here.
+	}
+
+	private setupPanels(): void {
+		this.allPanels = [
+			this.game_start_panel_container,
+			this.pause_panel_container,
+			this.game_over_panel_container,
+			this.game_over_win_panel_container,
+			this.game_over_lose_panel_container,
+			this.share_panel_container,
+			this.errorPanelContainer,
+			this.top_ui_container,
+			this.game_elements_container,
+			this.waiting_for_game_response_panel_container,
+			this.hudContainer,
+			this.pausePopupContainer,
+			this.endPopupContainer,
+		].filter((panel): panel is Phaser.GameObjects.Container => Boolean(panel));
+
+		// All panels: fixed to camera so camera scroll doesn't move them
+		const setScrollFactorRecursively = (obj: any): void => {
+			if (obj && typeof obj.setScrollFactor === "function") obj.setScrollFactor(0);
+			if (obj?.list) obj.list.forEach((child: any) => setScrollFactorRecursively(child));
+		};
+		this.allPanels.forEach(p => setScrollFactorRecursively(p));
+
+		// Initial visibility — everything off; changePanel will reveal the right one
+		this.allPanels.forEach(p => p.setVisible(false));
+		this.popupDark.setVisible(false).disableInteractive();
+	}
+
+	private changePanel(panel: string): void {
+		if (this.currentPanel === panel) return;
+
+		this.previousPanel = this.currentPanel;
+		this.currentPanel  = panel;
+
+		let panelsToShow: Phaser.GameObjects.Container[] = [];
+
+		switch (this.currentPanel) {
+			case GAME_PANEL.START_PANEL:
+				panelsToShow = [this.game_start_panel_container];
+				break;
+			case GAME_PANEL.PAUSE_PANEL:
+				panelsToShow = [this.pause_panel_container];
+				break;
+			case GAME_PANEL.GAME_OVER_WIN_PANEL:
+				panelsToShow = [this.game_over_panel_container, this.game_over_win_panel_container];
+				break;
+			case GAME_PANEL.GAME_OVER_LOSE_PANEL:
+				panelsToShow = [this.game_over_panel_container, this.game_over_lose_panel_container];
+				break;
+			case GAME_PANEL.WAITING_FOR_GAME_RESPONSE:
+				panelsToShow = [this.waiting_for_game_response_panel_container];
+				break;
+			case GAME_PANEL.SHARE_PANEL:
+				panelsToShow = [this.share_panel_container];
+				break;
+			case GAME_PANEL.ERROR_PANEL:
+				if (this.errorPanelContainer) panelsToShow = [this.errorPanelContainer];
+				break;
+			case GAME_PANEL.GAMEPLAY_PANEL:
+				panelsToShow = [this.top_ui_container, this.game_elements_container];
+				break;
+			default:
+				break;
+		}
+
+		for (const p of this.allPanels) {
+			const show = panelsToShow.includes(p);
+			p.setVisible(show);
+			this.children.bringToTop(p);
+		}
+
+		// Show/hide the 3-D gameplay world depending on panel
+		const showWorld = this.currentPanel !== GAME_PANEL.START_PANEL;
+		this.gameplayContainer.setVisible(showWorld);
+		this.fxContainer.setVisible(showWorld);
+	}
+
+
+	private changeGameState(state: string): void {
+		if (this.currentGameState === state) return;
+
+		this.previousGameState = this.currentGameState;
+		this.currentGameState  = state;
+
+		switch (this.currentGameState) {
+			case GAME_STATE.PRE_GAME:               this.preGame();                       break;
+			case GAME_STATE.START:                  this.startGame();                     break;
+			case GAME_STATE.PAUSED:                 this.pauseGame();                     break;
+			case GAME_STATE.RESUMED:                this.resumeGame();                    break;
+			case GAME_STATE.GAME_OVER_WIN:          this.onGameWon();                     break;
+			case GAME_STATE.GAME_OVER_LOSE:         this.onGameLost();                    break;
+			case GAME_STATE.WAITING_FOR_GAME_RESPONSE: this.onWaitingForShopsyGameResponse(); break;
+			case GAME_STATE.RESTART:                this.restartGame();                   break;
+			case GAME_STATE.SHARING:                this.shareGame();                     break;
+			case GAME_STATE.ERROR:                  this.showError();                     break;
+			case GAME_STATE.ABANDONED:              this.abandonGame();                   break;
+			case GAME_STATE.PLAYING:                                                      break;
+			default:
+				console.log(`[${GAME_NAME}] Unhandled game state: ${state}`);
+				break;
+		}
+	}
+	
+	private preGame(): void {
+		this.score                 = 0;
+		this.currentPoints         = 0;
+		this.superCoinsWonThisRound = 0;
+		this.txtPoints.setColor("#FFFFFF");
+		this.txtPointsAdded.setText("");
+		this.changePanel(GAME_PANEL.GAMEPLAY_PANEL);
+		this.changeGameState(GAME_STATE.START);
+	}
+
+	private startGame(): void {
+		if (this.currentGameState !== GAME_STATE.START) return;
+
+		this.gameStartTime        = this.time.now;
+		this.timePlayedMs         = 0;
+		this.currentPoints        = 0;
+		this.score                = 0;
+		this.isMaxGameBonusEarned = false;
+		this.isGameplayPaused     = false;
+
+		shopsyBridge.roundStarted();
+		PlayerPrefs.gamesPlayedToday++;
+		PlayerPrefs.gamesPlayedTotal++;
+		ShopsyAnalytics.sendGameStartedEvent();
+
+		this.changeGameState(GAME_STATE.PLAYING);
+		this.changePanel(GAME_PANEL.GAMEPLAY_PANEL);
+	}
+
+	private pauseGame(): void {
+		if (this.currentGameState !== GAME_STATE.PAUSED) return;
+
+		if (this.previousGameState === GAME_STATE.PLAYING) {
+			this.isGameplayPaused = true;
+		}
+		this.changePanel(GAME_PANEL.PAUSE_PANEL);
+	}
+
+	private resumeGame(): void {
+		if (this.currentGameState !== GAME_STATE.RESUMED) return;
+
+		this.isGameplayPaused = false;
+		this.changeGameState(GAME_STATE.PLAYING);
+		this.changePanel(GAME_PANEL.GAMEPLAY_PANEL);
+	}
+
+	private onGameOver(gameResult: string): void {
+		if (
+			this.currentGameState !== GAME_STATE.GAME_OVER_WIN &&
+			this.currentGameState !== GAME_STATE.GAME_OVER_LOSE
+		) return;
+
+		this.timePlayedMs       = this.time.now - this.gameStartTime;
+		this.gameResult         = gameResult;
+		this._finalDisplayScore = this.currentPoints; // keep raw score for display
+
+		// Normalise score sent to bridge (100 = win, 0 = lose) — same as original
+		const bridgeGems = gameResult === "win" ? 100 : 0;
+
+		// Tell Shopsy — response comes back via GAME_COMPLETED_ACK → onShopsyGameResponse()
+		shopsyBridge.gameCompleted({
+			gems:           bridgeGems,
+			playTimeInSec:  Math.floor(this.timePlayedMs / 1000)
+		});
+
+		this.changeGameState(GAME_STATE.WAITING_FOR_GAME_RESPONSE);
+	}
+
+	private onWaitingForShopsyGameResponse(): void {
+		this.changePanel(GAME_PANEL.WAITING_FOR_GAME_RESPONSE);
+	}
+
+	private onShopsyGameResponse(): void {
+		this.high_score?.setText( String(this._finalDisplayScore));
+		this.time_spend?.setText( this.formatTime(this.timePlayedMs));
+		this.high_score_1?.setText(String(this._finalDisplayScore));
+		this.low_score?.setText(   String(this._finalDisplayScore));
+		this.final_score?.setText(String(this._finalDisplayScore));
+
+		this.superCoinsWonThisRound = GameResponseManager.getCoinsEarnedForGame();
+		this.supercoin_text1?.setText( String(this.superCoinsWonThisRound));
+		this.supercoin_text?.setText(  String(this.superCoinsWonThisRound));
+		this.supercoin_text_1?.setText(String(this.superCoinsWonThisRound));
+
+		ShopsyAnalytics.sendGameFinishedEvent(
+			this._finalDisplayScore,
+			this.superCoinsWonThisRound,
+			this.gameResult,
+			this.timePlayedMs
+		);
+		ShopsyAnalytics.sendCoinsEarnedEvent(this.superCoinsWonThisRound);
+
+		console.log(`[${GAME_NAME}] Time Played: ${this.timePlayedMs} ms`);
+
+		if (this.gameResult === "win") {
+			this.changePanel(GAME_PANEL.GAME_OVER_WIN_PANEL);
+		} else {
+			this.changePanel(GAME_PANEL.GAME_OVER_LOSE_PANEL);
+		}
+	}
+
+	
+	private onGameWon(): void {
+		playSound(this, "completed");
+		this.isGameplayPaused = true;           // stop update loop
+		this.onGameOver("win");
+	}
+
+	
+	private onGameLost(): void {
+		playSound(this, "gameover");
+		this.isGameplayPaused = true;           // stop update loop
+		this.share_btn?.setVisible(false);
+		this.onGameOver("lost");
+	}
+
+	private restartGame(): void {
+		console.log(`[${GAME_NAME}] Restart Game`);
+		this.scene.start("Level");
+	}
+
+	private abandonGame(): void {
+		this.timePlayedMs = this.time.now - this.gameStartTime;
+		ShopsyAnalytics.sendGameAbandonedEvent(this.currentPoints, this.timePlayedMs);
+
+		const coinsWon = this.isMaxGameBonusEarned
+			? 0
+			: UserProfileManager.getProfileData()?.claimableRewards?.perGameRewardCoinsForToday || 0;
+		ShopsyAnalytics.sendCoinsEarnedEvent(coinsWon);
+
+		if (shopsyBridge.isNative) {
+			shopsyBridge.exitGame();
+			return;
+		}
+		this.goToLevelSelect();
+	}
+
+	private async shareGame(): Promise<void> {
+		this.changePanel(GAME_PANEL.SHARE_PANEL);
+		this.final_score?.setText(String(this._finalDisplayScore));
+		await new Promise(resolve => this.time.delayedCall(100, resolve));
+		this.shareManager?.ExecuteShareFlow();
+	}
+
+	private showError(): void {
+		this.changePanel(GAME_PANEL.ERROR_PANEL);
+		this.errorPopupManager?.showError(ErrorType.FATAL);
+	}
+
+	// ───────────────────────────────────────────────────────────────────────────
+	// INTERACTIONS
+	// ───────────────────────────────────────────────────────────────────────────
+
+	private setupInteractions(): void {
+		this.tapIfPresent(this.start_btn,        () => this.changeGameState(GAME_STATE.START));
+		this.tapIfPresent(this.pause_btn,        () => this.changeGameState(GAME_STATE.PAUSED));
+		this.tapIfPresent(this.back_button1,     () => this.changeGameState(GAME_STATE.PAUSED));
+		this.tapIfPresent(this.pauseBtnNode,     () => this.changeGameState(GAME_STATE.PAUSED));
+		this.tapIfPresent(this.pauseCloseBtnNode,() => this.changeGameState(GAME_STATE.RESUMED));
+		this.tapIfPresent(this.pauseRestartBtnNode, () => this.changeGameState(GAME_STATE.RESUMED));
+		this.tapIfPresent(this.resume_btn,       () => this.changeGameState(GAME_STATE.RESUMED));
+		this.tapIfPresent(this.pauseMapBtnNode,  () => this.changeGameState(GAME_STATE.ABANDONED));
+		this.tapIfPresent(this.abandon_btn,      () => this.changeGameState(GAME_STATE.ABANDONED));
+		this.tapIfPresent(this.endMapBtnNode,    () => this.changeGameState(GAME_STATE.ABANDONED));
+		this.tapIfPresent(this.shareBtnNode,     () => this.changeGameState(GAME_STATE.SHARING));
+		this.tapIfPresent(this.share_btn,        () => this.changeGameState(GAME_STATE.SHARING));
+		this.tapIfPresent(this.play_again_btn,   () => this.changeGameState(GAME_STATE.RESTART));
+
+		// "Next" button — advances level or returns to map if this was a replay
+		const handleNext = () => {
+			const isReplay = this.playingLevelIndex !== gameState.currentLevel;
+			console.log("[Level] Next — isReplay:", isReplay,
+				"playingLevelIndex:", this.playingLevelIndex,
+				"currentLevel:", gameState.currentLevel);
+			if (isReplay) {
+				this.goToLevelSelect();
+			} else {
+				this.changeGameState(GAME_STATE.RESTART);
+			}
+		};
+		this.tapIfPresent(this.next_btn,      handleNext);
+		this.tapIfPresent(this.bottom_text_2, handleNext);
+
+		// Debug shortcuts (visible only in editor / testing)
+		this.tapIfPresent(this.win_btn, () => {
+			this.blockTop.destroy();
+			setCurrentLevel(gameState.currentLevel + 1);
+			this.changeGameState(GAME_STATE.GAME_OVER_WIN);
+		});
+		this.tapIfPresent(this.lose_btn, () => {
+			this.blockTop.destroy();
+			this.changeGameState(GAME_STATE.GAME_OVER_LOSE);
+		});
+
+		this.tapIfPresent(this.endNextButton, () => {
+			setCurrentLevel(gameState.currentLevel + 1);
+			this.scene.start("LevelSelection");
+		});
+	}
+
+	private tapIfPresent(
+		button: Phaser.GameObjects.GameObject | undefined,
+		callback: () => void
+	): void {
+		if (!button) return;
+		this.tapInteractionHelper(button, callback);
+	}
+
+	private tapInteractionHelper(
+		button: Phaser.GameObjects.GameObject,
+		callback: () => void
+	): void {
+		button.setInteractive({ useHandCursor: true });
+		button.on("pointerdown", () => {
+			if (navigator.vibrate) navigator.vibrate(50);
+			playSound(this, "click");
+			this.tweens.add({
+				targets:  button,
+				scaleX:   0.9,
+				scaleY:   0.9,
+				yoyo:     true,
+				ease:     "Linear",
+				duration: 100,
+				onComplete: callback
+			});
+		});
+	}
+
+	private setupBridgeListeners(): void {
+		this.bridgeUnsubscribers.push(
+			shopsyBridge.on(ShopsyMessageAction.UPDATE_PROFILE, (data) => {
+				console.log(`[${GAME_NAME}] Profile received: ${JSON.stringify(data)}`);
+				const source: "cache" | "server" = data?.source || "cache";
+				const profileData = data?.profile || data;
+				if (source !== "server") {
+					console.log(`[${GAME_NAME}] Ignoring non-server profile update`);
+					return;
+				}
+				UserProfileManager.setProfileData(profileData, source);
+				this.onShopsyProfileLoaded();
+			})
+		);
+
+		this.bridgeUnsubscribers.push(
+			shopsyBridge.on(ShopsyMessageAction.GAME_STARTED_ACK, (data) => {
+				console.log(`[${GAME_NAME}] Game started`);
+				this.isMaxGameBonusEarned = data?.isMaxGameBonusEarned ?? false;
+				GameResponseManager.setGameStartedResponse(data);
+			})
+		);
+
+		
+		this.bridgeUnsubscribers.push(
+			shopsyBridge.on(ShopsyMessageAction.GAME_COMPLETED_ACK, (data) => {
+				console.log(`[${GAME_NAME}] Game completed`);
+				GameResponseManager.setGameEndedResponse(data);
+				this.onShopsyGameResponse();   
+			})
+		);
+
+		this.bridgeUnsubscribers.push(
+			shopsyBridge.on(ShopsyMessageAction.UPDATE_GAME_CONFIG, (config: any) => {
+				this.onShopsyGameConfigLoaded(config?.gameConfig ?? config);
+			})
+		);
+	}
+
+	private setupShopsy(): void {
+		const bridgeInitialized = this.registry.get("bridgeInitialized");
+		if (!bridgeInitialized) {
+			console.warn(`[${GAME_NAME}] Bridge not pre-initialized, initializing now…`);
+			initShopsyBridge();
+			this.registry.set("bridgeInitialized", true);
+			shopsyBridge.requestProfile();
+			shopsyBridge.requestGameConfig(GAME_ID);
+		}
+
+		shopsyBridge.gameLoaded();
+		shopsyBridge.startGame();
+
+		const loadDurationMs = this.registry.get("loadDurationMs");
+		if (loadDurationMs != null) {
+			ShopsyAnalytics.sendGameLoadedEvent(loadDurationMs);
+		}
+
+		if (PlayerPrefs.isNewDay) {
+			PlayerPrefs.gamesPlayedToday    = 0;
+			PlayerPrefs.lastLoginDate       = new Date().toISOString();
+		}
+
+		const pauseAudio  = () => this.sound.pauseAll();
+		const resumeAudio = () => this.sound.resumeAll();
+		document.addEventListener("visibilitychange", () => {
+			document.hidden ? pauseAudio() : resumeAudio();
+		});
+		this.game.events.on(Phaser.Core.Events.BLUR,  pauseAudio);
+		this.game.events.on(Phaser.Core.Events.FOCUS, resumeAudio);
+	}
+
+	private onShopsyProfileLoaded(): void {
+		const userName = UserProfileManager.getProfileData()?.basic.userName ?? "Player";
+		this.profile_text?.setText(userName);
+		this.profile_text_1?.setText(userName);
+	}
+
+	private onShopsyGameConfigLoaded(gameConfig: any): void {
+		applyGameplayConfig({
+			maxToleranceX:           gameConfig?.maxToleranceX,
+			targetYIncrement:        gameConfig?.targetYIncrement,
+			dropDurationHit:         gameConfig?.dropDurationHit,
+			dropDurationMiss:        gameConfig?.dropDurationMiss,
+			scrollDuration:          gameConfig?.scrollDuration,
+			oscillatingBreakpoints:  gameConfig?.oscillatingBreakpoints
+		});
+	}
+
+	private cleanupBridgeListeners(): void {
+		this.bridgeUnsubscribers.forEach(u => u());
+		this.bridgeUnsubscribers = [];
+	}
+
+	public goToPreviousPanel(): void {
+		this.changePanel(this.previousPanel);
+	}
+
+	private setupGameplayCore(): void {
+		resetBlockRunState();
+
+		this.oscillating = 0;
+		this.claw.setDepth(1);
+
+		this.maxBlock      = LEVELS[this.playingLevelIndex].blockAmount;
+		this.requiredPoints = LEVELS[this.playingLevelIndex].pointRequired;
+		this.txtBlocks.setText(String(this.maxBlock));
+		this.txtPoints.setText(`0/${this.requiredPoints}`);
+
+		if (!this.anims.exists("collide")) {
+			this.anims.create({
+				key:       "collide",
+				frames:    this.anims.generateFrameNumbers("anim-collide"),
+				frameRate: 10
+			});
+		}
+
+		this.tweens.add({
+			targets:  this.blockTop,
+			x:        this.blockTop.x + 400,
+			duration: 1500,
+			ease:     "Sine.easeInOut",
+			yoyo:     true,
+			onUpdate: () => { this.claw.x = this.blockTop.x; },
+			repeat:   -1
+		});
+
+		this.setupDropHandling();
 	}
 
 	private setupDropHandling(): void {
-		let targetDropY = 880;
+		let targetDropY     = 880;
 		const targetYIncrement = gameplayConfig.targetYIncrement;
-		const maxToleranceX = gameplayConfig.maxToleranceX;
-		let lastBlock = false;
+		const maxToleranceX    = gameplayConfig.maxToleranceX;
+		let lastBlock          = false;
 
 		let spineGood: any;
 		let spinePerfect: any;
@@ -1399,7 +1825,6 @@ export default class Level extends Phaser.Scene {
 				}
 				return spineGood;
 			}
-
 			if (!spinePerfect) {
 				spinePerfect = spineFactory.spine(-400, -400, "perfect", "perfect-atlas");
 				spinePerfect.setVisible(false);
@@ -1410,13 +1835,11 @@ export default class Level extends Phaser.Scene {
 
 		this.input.off("pointerdown");
 		this.input.on("pointerdown", (pointer: Phaser.Input.Pointer) => {
-			// If pointer is over pause_btn or back_button1, do nothing
-			if (this.pause_btn && this.pause_btn.getBounds().contains(pointer.x, pointer.y) || this.back_button1 && this.back_button1.getBounds().contains(pointer.x, pointer.y)) {
-				return;
-			}
-			if (this.currentGameState !== GAME_STATE.PLAYING || this.isGameplayPaused || !this.blockTop.visible) {
-				return;
-			}
+			if (
+				(this.pause_btn   && this.pause_btn.getBounds().contains(pointer.x, pointer.y)) ||
+				(this.back_button1 && this.back_button1.getBounds().contains(pointer.x, pointer.y))
+			) return;
+			if (this.currentGameState !== GAME_STATE.PLAYING || this.isGameplayPaused || !this.blockTop.visible) return;
 			this.blockTop.setVisible(false);
 			this.claw.setTexture("claw2");
 			dropTheBlock();
@@ -1424,8 +1847,8 @@ export default class Level extends Phaser.Scene {
 
 		const dropTheBlock = (): void => {
 			if (this.isGameplayPaused) return;
-			const key = gameState.blocks.length >= this.maxBlock - 1 ? "block-top" : "block";
-			lastBlock = key === "block-top";
+			const key  = gameState.blocks.length >= this.maxBlock - 1 ? "block-top" : "block";
+			lastBlock  = key === "block-top";
 
 			const block = this.add.sprite(this.blockTop.x, this.blockTop.y, key) as DroppedBlockSprite;
 			this.gameplayContainer.add(block);
@@ -1433,21 +1856,21 @@ export default class Level extends Phaser.Scene {
 			if (!isColliding()) {
 				targetDropY = this.blockTop.y + 1080 + 200;
 				this.tweens.add({
-					targets: block,
-					y: targetDropY,
+					targets:  block,
+					y:        targetDropY,
 					duration: gameplayConfig.dropDurationMiss,
-					ease: "Sine.easeIn",
-					onComplete: () => this.onGameOver("lost")
+					ease:     "Sine.easeIn",
+					onComplete: () => this.changeGameState(GAME_STATE.GAME_OVER_LOSE)
 				});
 				return;
 			}
 
 			gameState.blocks.push(block);
 			this.tweens.add({
-				targets: block,
-				y: targetDropY,
+				targets:  block,
+				y:        targetDropY,
 				duration: gameplayConfig.dropDurationHit,
-				ease: "Sine.easeIn",
+				ease:     "Sine.easeIn",
 				onComplete: () => {
 					playSound(this, "hit");
 					this.cameras.main.shake(150, 0.004);
@@ -1458,7 +1881,7 @@ export default class Level extends Phaser.Scene {
 						showCollideAnimation(block.x, block.y + 60);
 						if (lastBlock) {
 							playSound(this, "positive");
-							this.time.delayedCall(2000, () => buildingFinish());
+							this.time.delayedCall(800, () => buildingFinish());
 						} else {
 							targetDropY -= targetYIncrement;
 							scrollUp();
@@ -1468,9 +1891,7 @@ export default class Level extends Phaser.Scene {
 						getDropScore(block);
 
 						gameplayConfig.oscillatingBreakpoints.forEach(([count, amount]) => {
-							if (gameState.blocks.length === count) {
-								this.oscillating = amount;
-							}
+							if (gameState.blocks.length === count) this.oscillating = amount;
 						});
 					} else {
 						blockToppling();
@@ -1482,32 +1903,28 @@ export default class Level extends Phaser.Scene {
 		};
 
 		const isColliding = (): boolean => {
-			if (gameState.blocks.length < 2) {
-				return true;
-			}
-			const distance = getXDistance();
-			return distance !== null && distance < this.blockTop.displayWidth - 5;
+			if (gameState.blocks.length < 2) return true;
+			const d = getXDistance();
+			return d !== null && d < this.blockTop.displayWidth - 5;
 		};
 
 		const scrollUp = (): void => {
 			let minusY = targetYIncrement;
 			const latest = gameState.blocks[gameState.blocks.length - 1];
-			if (latest && latest.y - this.blockTop.y > 1200) {
-				minusY = 0;
-			}
+			if (latest && latest.y - this.blockTop.y > 1200) minusY = 0;
 
 			this.tweens.add({
-				targets: this.claw,
-				y: this.claw.y - (minusY / 1.5),
+				targets:  this.claw,
+				y:        this.claw.y - (minusY / 1.5),
 				duration: gameplayConfig.scrollDuration,
-				ease: "Sine.easeInOut"
+				ease:     "Sine.easeInOut"
 			});
 
 			this.tweens.add({
-				targets: this.cameras.main,
-				scrollY: this.cameras.main.scrollY - minusY,
+				targets:  this.cameras.main,
+				scrollY:  this.cameras.main.scrollY - minusY,
 				duration: gameplayConfig.scrollDuration,
-				ease: "Sine.easeInOut",
+				ease:     "Sine.easeInOut",
 				onComplete: () => {
 					this.blockTop.y -= (minusY / 1.5);
 					this.blockTop.setVisible(true);
@@ -1520,12 +1937,10 @@ export default class Level extends Phaser.Scene {
 		};
 
 		const getXDistance = (): number | null => {
-			if (gameState.blocks.length === 0) {
-				return null;
-			}
+			if (gameState.blocks.length === 0) return null;
 			if (gameState.blocks.length >= 2) {
 				const prev = gameState.blocks[gameState.blocks.length - 2];
-				const cur = gameState.blocks[gameState.blocks.length - 1];
+				const cur  = gameState.blocks[gameState.blocks.length - 1];
 				return Phaser.Math.Distance.Between(prev.x, 0, cur.x, 0);
 			}
 			const cur = gameState.blocks[gameState.blocks.length - 1];
@@ -1534,18 +1949,11 @@ export default class Level extends Phaser.Scene {
 
 		const getDropScore = (block: DroppedBlockSprite): void => {
 			const distance = getXDistance();
-			if (distance === null || distance > maxToleranceX) {
-				return;
-			}
-
+			if (distance === null || distance > maxToleranceX) return;
 			const calculatedScore = Math.ceil((1 - distance / maxToleranceX) * 50);
 			this.onScoreUpdated(calculatedScore);
-
-			if (distance <= 3) {
-				showQualityTxt("perfect", block);
-			} else if (distance <= 10) {
-				showQualityTxt("good", block);
-			}
+			if      (distance <= 3)  showQualityTxt("perfect", block);
+			else if (distance <= 10) showQualityTxt("good",    block);
 		};
 
 		const blockToppling = (): void => {
@@ -1557,26 +1965,20 @@ export default class Level extends Phaser.Scene {
 			const current = gameState.blocks[gameState.blocks.length - 1];
 
 			this.tweens.add({
-				targets: current,
-				y: this.cameras.main.scrollY + 1080 + 200,
+				targets:  current,
+				y:        this.cameras.main.scrollY + 1080 + 200,
 				duration: 1200,
-				ease: "Sine.easeIn",
-				onComplete: () => {
-					this.changeGameState(GAME_STATE.WAITING_FOR_GAME_RESPONSE);
-					// Wait, then trigger game over (lose)
-					this.time.delayedCall(this._gameOverDelayMs, () => {
-						this.onGameOver("lost");
-					});
-				}
+				ease:     "Sine.easeIn",
+				onComplete: () => this.changeGameState(GAME_STATE.GAME_OVER_LOSE)
 			});
 
 			const rotateLeft = current.x < previousX;
 			this.tweens.add({
-				targets: current,
+				targets:  current,
 				rotation: rotateLeft ? -3 : 3,
-				x: current.x + (rotateLeft ? -180 : 180),
+				x:        current.x + (rotateLeft ? -180 : 180),
 				duration: 1200,
-				ease: "Sine.easeOut"
+				ease:     "Sine.easeOut"
 			});
 		};
 
@@ -1597,614 +1999,53 @@ export default class Level extends Phaser.Scene {
 			}
 		};
 
+		/** Decides win/lose once the final block has landed. */
 		const buildingFinish = (): void => {
-
 			if (this.currentPoints >= this.requiredPoints) {
+				// Advance level only if this wasn't a replay
 				if (gameState.currentLevel < LEVELS.length - 1) {
 					const isReplay = this.playingLevelIndex !== gameState.currentLevel;
-					console.log("[Level] Building finished! — isReplay:", isReplay, "playingLevelIndex:", this.playingLevelIndex, "gameState.currentLevel:", gameState.currentLevel);
-					if(!isReplay)
-					{
-
-						setCurrentLevel(gameState.currentLevel + 1);
-					}
-
+					if (!isReplay) setCurrentLevel(gameState.currentLevel + 1);
 				}
-				this.changeGameState(GAME_STATE.WAITING_FOR_GAME_RESPONSE);
-
-				this.onGameOver("win");
+				this.changeGameState(GAME_STATE.GAME_OVER_WIN);
 			} else {
-				this.changeGameState(GAME_STATE.WAITING_FOR_GAME_RESPONSE);
-				this.onGameOver("lost");
+				this.changeGameState(GAME_STATE.GAME_OVER_LOSE);
 			}
 		};
 	}
 
-	private setupPanels(): void {
-		this.allPanels = [
-			this.pause_panel_container,
-			this.game_over_panel_container,
-			this.game_over_win_panel_container,
-			this.game_over_lose_panel_container,
-			this.share_panel_container,
-			this.errorPanelContainer,
-			this.top_ui_container,
-			this.game_elements_container,
-			this.hudContainer,
-			this.pausePopupContainer,
-			this.endPopupContainer
-	        ,this.waiting_for_game_response_panel_container
-		].filter((panel): panel is Phaser.GameObjects.Container => Boolean(panel));
-
-		// Make all UI panels fixed to the camera (not affected by camera scroll)
-		const setScrollFactorRecursively = (obj: any): void => {
-			if (obj && typeof obj.setScrollFactor === 'function') {
-				obj.setScrollFactor(0);
-			}
-			if (obj && obj.list) {
-				obj.list.forEach((child: any) => setScrollFactorRecursively(child));
-			}
-		};
-
-		this.allPanels.forEach(panel => setScrollFactorRecursively(panel));
-
-		this.popupDark.setVisible(false).disableInteractive();
-		this.pausePopupContainer.setVisible(false);
-		this.endPopupContainer.setVisible(false);
-		this.top_ui_container.setVisible(false);
-		this.hudContainer.setVisible(false);
-	}
-
-	private setupInteractions(): void {
-
-		this.tapIfPresent(this.pause_btn, () => this.changeGameState(GAME_STATE.PAUSED));
-		this.tapIfPresent(this.back_button1, () => this.changeGameState(GAME_STATE.PAUSED));
-		this.tapIfPresent(this.pauseBtnNode, () => this.changeGameState(GAME_STATE.PAUSED));
-		this.tapIfPresent(this.pauseCloseBtnNode, () => this.changeGameState(GAME_STATE.RESUMED));
-		this.tapIfPresent(this.pauseRestartBtnNode, () => this.changeGameState(GAME_STATE.RESUMED));
-		this.tapIfPresent(this.pauseMapBtnNode, () => this.changeGameState(GAME_STATE.ABANDONED));
-		this.tapIfPresent(this.endMapBtnNode, () => this.changeGameState(GAME_STATE.ABANDONED));
-		this.tapIfPresent(this.next_btn, () => {
-		// Was this a replay of an already-completed building?
-   		const isReplay = this.playingLevelIndex !== gameState.currentLevel;
-		console.log("[Level] Next button clicked — isReplay:", isReplay, "playingLevelIndex:", this.playingLevelIndex, "gameState.currentLevel:", gameState.currentLevel);
-    	if (isReplay) {
-        // Don't advance level, just go back to the map
-        this.goToLevelSelect();
-   		 } else {
-        // Normal progression — restart into the next level
-        this.changeGameState(GAME_STATE.RESTART);
-   		 }
-		});//this.changeGameState(GAME_STATE.RESTART));
-		this.tapIfPresent(this.win_btn, () => this.onGameWon());
-		this.tapIfPresent(this.lose_btn, () => this.onGameLost());
-		this.tapIfPresent(this.resume_btn, () => this.changeGameState(GAME_STATE.RESUMED));
-		this.tapIfPresent(this.shareBtnNode, () => this.changeGameState(GAME_STATE.SHARING));
-		this.tapIfPresent(this.bottom_text_2, () => {
-		// Was this a replay of an already-completed building?
-		console.log("[Level] Next button clicked — checking replay status... playingLevelIndex:", this.playingLevelIndex, "gameState.currentLevel:", gameState.currentLevel);
-   		 const isReplay = this.playingLevelIndex !== gameState.currentLevel;
-		console.log("[Level] Next button clicked — isReplay:", isReplay, "playingLevelIndex:", this.playingLevelIndex, "gameState.currentLevel:", gameState.currentLevel);
-    	if (isReplay) {
-        // Don't advance level, just go back to the map
-        this.goToLevelSelect();
-   		 } else {
-        // Normal progression — restart into the next level
-        this.changeGameState(GAME_STATE.RESTART);
-   		 }
-		});
-		//this.tapIfPresent(this.next_btn, () => this.changeGameState(GAME_STATE.RESTART));
-		this.tapIfPresent(this.play_again_btn, () => this.changeGameState(GAME_STATE.RESTART));
-		this.tapIfPresent(this.endNextButton, () => {
-			setCurrentLevel(gameState.currentLevel + 1);
-			this.scene.start("LevelSelection");
-		});
-	}
-
-
-	onLoseButtonClicked(): void {
-		this.changeGameState(GAME_STATE.GAME_OVER_LOSE);
-	}
-
-	private tapIfPresent(button: Phaser.GameObjects.GameObject | undefined, callback: () => void): void {
-		if (!button) {
-			console.warn("Button not found for interaction:", callback);
-			return;
-		}
-
-
-		this.tapInteractionHelper(button, callback);
-	}
-
-	private tapInteractionHelper(button: Phaser.GameObjects.GameObject, callback: () => void): void {
-		button.setInteractive({ useHandCursor: true });
-		button.on("pointerdown", () => {
-			playSound(this, "click");
-			//for win lose shorcut
-			if (button === this.win_btn) {
-
-				this.blockTop.destroy();
-				setCurrentLevel(gameState.currentLevel + 1);
-			}
-			else if (button === this.lose_btn) {
-				this.blockTop.destroy();
-
-			}
-			this.tweens.add({
-				targets: button,
-				scaleX: 0.9,
-				scaleY: 0.9,
-				yoyo: true,
-				ease: "Linear",
-				duration: 100,
-				onComplete: callback
-			});
-		});
-	}
-
-	private setupBridgeListeners(): void {
-		this.bridgeUnsubscribers.push(
-			shopsyBridge.on(ShopsyMessageAction.GAME_STARTED_ACK, (data) => {
-				this.isMaxGameBonusEarned = data?.isMaxGameBonusEarned ?? false;
-				GameResponseManager.setGameStartedResponse(data);
-			})
-		);
-		this.bridgeUnsubscribers.push(
-			shopsyBridge.on(ShopsyMessageAction.GAME_COMPLETED_ACK, (data) => {
-				console.log("[City Builder] Game completed ack", data);
-				GameResponseManager.setGameEndedResponse(data);
-				this.onShopsyGameResponse();
-			})
-		);
-	}
-
-	private setupShopsy(): void {
-		const bridgeInitialized = this.registry.get("bridgeInitialized");
-		if (!bridgeInitialized) {
-			console.warn(`[${GAME_NAME}] Bridge not pre-initialized, initializing now...`);
-			initShopsyBridge();
-			this.registry.set("bridgeInitialized", true);
-			shopsyBridge.requestProfile();
-			shopsyBridge.requestGameConfig(GAME_ID);
-		}
-
-		shopsyBridge.gameLoaded();
-		shopsyBridge.startGame();
-
-		const loadDurationMs = this.registry.get("loadDurationMs");
-		if (loadDurationMs != null) {
-			ShopsyAnalytics.sendGameLoadedEvent(loadDurationMs);
-		}
-
-		if (PlayerPrefs.isNewDay) {
-			PlayerPrefs.gamesPlayedToday = 0;
-			PlayerPrefs.lastLoginDate = new Date().toISOString();
-		}
-
-		this.bridgeUnsubscribers.push(
-			shopsyBridge.on(ShopsyMessageAction.UPDATE_PROFILE, (data) => {
-				const source: "cache" | "server" = data?.source || "cache";
-				const profileData = data?.profile || data;
-				if (source !== "server" || !profileData) {
-					return;
-				}
-				console.log(`[${GAME_NAME}] Profile data updated from server:`, profileData);
-				UserProfileManager.setProfileData(profileData, source);
-				this.onShopsyProfileLoaded();
-			})
-		);
-
-		this.bridgeUnsubscribers.push(
-			shopsyBridge.on(ShopsyMessageAction.UPDATE_GAME_CONFIG, (config: any) => {
-				this.onShopsyGameConfigLoaded(config?.gameConfig ?? config);
-			})
-		);
-
-		const pauseAudio = () => this.sound.pauseAll();
-		const resumeAudio = () => this.sound.resumeAll();
-		document.addEventListener("visibilitychange", () => {
-			document.hidden ? pauseAudio() : resumeAudio();
-		});
-		this.game.events.on(Phaser.Core.Events.BLUR, pauseAudio);
-		this.game.events.on(Phaser.Core.Events.FOCUS, resumeAudio);
-	}
-
-	private onShopsyProfileLoaded(): void {
-		// City Builder currently has no profile text label in gameplay HUD.
-		// Reserved for template parity and future profile UI.
-		console.log("[City Builder] User profile loaded:", UserProfileManager.getProfileData());
-		this.profile_text.setText(UserProfileManager.getProfileData()?.basic.userName ?? "Player");
-		this.profile_text_1.setText(UserProfileManager.getProfileData()?.basic.userName ?? "Player");
-	}
-
-	private onShopsyGameConfigLoaded(gameConfig: any): void {
-		applyGameplayConfig({
-			maxToleranceX: gameConfig?.maxToleranceX,
-			targetYIncrement: gameConfig?.targetYIncrement,
-			dropDurationHit: gameConfig?.dropDurationHit,
-			dropDurationMiss: gameConfig?.dropDurationMiss,
-			scrollDuration: gameConfig?.scrollDuration,
-			oscillatingBreakpoints: gameConfig?.oscillatingBreakpoints
-		});
-	}
-
-	private cleanupBridgeListeners(): void {
-		this.bridgeUnsubscribers.forEach((unsubscribe) => unsubscribe());
-		this.bridgeUnsubscribers = [];
-	}
-
-	private setPanelScrollFactorAndInteractivity(panel: Phaser.GameObjects.Container) {
-		if (panel && typeof panel.setScrollFactor === 'function') {
-			panel.setScrollFactor(0);
-		}
-		if (panel && panel.list) {
-			panel.list.forEach(child => {
-				if (typeof child.setInteractive === 'function' && child.input === undefined) {
-					child.setInteractive({ useHandCursor: true });
-				}
-			});
-		}
-	}
-
-	public goToPreviousPanel() {
-		this.changePanel(this.previousPanel);
-	}
-
-	private changePanel(panel: string): void {
-		if (this.currentPanel === panel) {
-			return;
-		}
-		this.previousPanel = this.currentPanel;
-		this.currentPanel = panel;
-
-		let panelsToShow: Phaser.GameObjects.Container[] = [];
-		this.popupDark.setVisible(false).disableInteractive();
-
-		if (true) {
-			switch (this.currentPanel) {
-				case GAME_PANEL.START_PANEL:
-					panelsToShow = [this.game_start_panel_container];
-					break;
-				case GAME_PANEL.PAUSE_PANEL:
-					if (this.pause_panel_container) {
-						panelsToShow = [this.pause_panel_container];
-					}
-					break;
-				case GAME_PANEL.WAITING_FOR_GAME_RESPONSE:
-					console.log("Waiting..."+this.waiting_for_game_response_panel_container.name);
-					if (this.waiting_for_game_response_panel_container) {
-						panelsToShow = [this.waiting_for_game_response_panel_container];
-					}
-					break;
-				case GAME_PANEL.GAME_OVER_WIN_PANEL:
-					console.log("Switching to GAME_OVER_WIN_PANEL");
-
-					if (this.game_over_panel_container && this.game_over_win_panel_container) {
-						 panelsToShow = [this.game_over_panel_container, this.game_over_win_panel_container];
-						//panelsToShow = [this.game_over_win_panel_container];
-
-					}
-					break;
-				case GAME_PANEL.GAME_OVER_LOSE_PANEL:
-					console.log("Switching to GAME_OVER_LOSE_PANEL");
-					if (this.game_over_panel_container && this.game_over_lose_panel_container) {
-						panelsToShow = [this.game_over_panel_container, this.game_over_lose_panel_container];
-					}
-					break;
-
-				case GAME_PANEL.SHARE_PANEL:
-					if (this.share_panel_container) {
-						panelsToShow = [this.share_panel_container];
-					}
-					break;
-				case GAME_PANEL.ERROR_PANEL:
-					if (this.errorPanelContainer) {
-						panelsToShow = [this.errorPanelContainer];
-					}
-					break;
-				case GAME_PANEL.GAMEPLAY_PANEL:
-				default:
-					if (this.top_ui_container) {
-						panelsToShow.push(this.top_ui_container);
-					}
-					if (this.game_elements_container) {
-						panelsToShow.push(this.game_elements_container);
-					}
-					//panelsToShow.push(this.hudContainer);
-					break;
-			}
-		} 
-		this.allPanels.forEach((panelItem) => {
-			panelItem.setVisible(panelsToShow.includes(panelItem));
-			if (panelsToShow.includes(panelItem)) {
-				this.setPanelScrollFactorAndInteractivity(panelItem);
-			}
-			this.children.bringToTop(panelItem);
-		});
-
-		const showGameplayWorld = this.currentPanel !== GAME_PANEL.START_PANEL;
-		this.gameplayContainer.setVisible(showGameplayWorld);
-		this.fxContainer.setVisible(showGameplayWorld);
-
-		if (this.popupDark.visible) {
-			this.popupDark.alpha = 0;
-			this.tweens.add({ targets: this.popupDark, alpha: 0.5, duration: 200 });
-			this.children.bringToTop(this.popupDark);
-			panelsToShow.forEach((panelItem) => this.children.bringToTop(panelItem));
-		}
-	}
-
-	private changeGameState(state: string): void {
-		if (this.currentGameState === state) {
-			return;
-		}
-		this.previousGameState = this.currentGameState;
-		this.currentGameState = state;
-
-		switch (this.currentGameState) {
-			case GAME_STATE.PRE_GAME:
-				this.preGame();
-				break;
-			case GAME_STATE.START:
-				this.startGame();
-				break;
-			case GAME_STATE.PAUSED:
-				this.pauseGame();
-				break;
-			case GAME_STATE.RESUMED:
-				this.resumeGame();
-				break;
-			case GAME_STATE.WAITING_FOR_GAME_RESPONSE:
-				this.onWaitingForShopsyGameResponse();
-				break;
-			case GAME_STATE.GAME_OVER_WIN:
-				this.onGameWon();
-				break;
-			case GAME_STATE.GAME_OVER_LOSE:
-				this.onGameLost();
-				break;
-			case GAME_STATE.RESTART:
-				this.restartGame();
-				break;
-			case GAME_STATE.SHARING:
-				this.shareGame();
-				break;
-			case GAME_STATE.ERROR:
-				this.showError();
-				break;
-			case GAME_STATE.ABANDONED:
-				this.abandonGame();
-				break;
-			case GAME_STATE.PLAYING:
-			default:
-				break;
-		}
-	}
-
-	private preGame(): void {
-		this.superCoinsWonThisRound = 0;
-		this.currentPoints = 0;
-		this.score = 0;
-		this.txtPoints.setColor("#FFFFFF");
-		this.txtPointsAdded.setText("");
-		this.changePanel(GAME_PANEL.GAMEPLAY_PANEL);
-		this.changeGameState(GAME_STATE.START);
-	}
-
-	private startGame(): void {
-		this.gameStartTime = this.time.now;
-		this.timePlayedMs = 0;
-		this.currentPoints = 0;
-		this.score = 0;
-		this.isMaxGameBonusEarned = false;
-		this.isGameplayPaused = false;
-
-		shopsyBridge.roundStarted();
-		PlayerPrefs.gamesPlayedToday++;
-		PlayerPrefs.gamesPlayedTotal++;
-		ShopsyAnalytics.sendGameStartedEvent();
-
-		this.changeGameState(GAME_STATE.PLAYING);
-		this.changePanel(GAME_PANEL.GAMEPLAY_PANEL);
-	}
-
-	private pauseGame(): void {
-		//this.blockTop.destroy();
-		if (this.previousGameState === GAME_STATE.PLAYING) {
-			this.isGameplayPaused = true;
-			//this.tweens.pauseAll();
-		}
-		this.changePanel(GAME_PANEL.PAUSE_PANEL);
-	}
-
-	private resumeGame(): void {
-		this.isGameplayPaused = false;
-		//this.tweens.resumeAll();
-		this.changeGameState(GAME_STATE.PLAYING);
-		this.changePanel(GAME_PANEL.GAMEPLAY_PANEL);
-		//this.scene.start("Level");
-	}
+	// ─── IN-GAME HUD UPDATES ───────────────────────────────────────────────────
 
 	private onScoreUpdated(addedScore: number): void {
 		this.currentPoints += addedScore;
-		this.score = this.currentPoints;
+		this.score          = this.currentPoints;
 		this.txtPoints.setText(`${this.currentPoints}/${this.requiredPoints}`);
-		if (this.currentPoints > this.requiredPoints) {
-			this.txtPoints.setColor("#54ff82");
-		}
+		if (this.currentPoints > this.requiredPoints) this.txtPoints.setColor("#54ff82");
 		this.txtPointsAdded.setText(`+${addedScore}`);
 		this.time.delayedCall(1000, () => this.txtPointsAdded.setText(""));
 	}
 
 	private onBlockAmountUpdated(value: number): void {
 		this.txtBlocks.setText(String(value));
-		this.gems_collect.setText(`${gameState.totalStackedBlocks}`);
-	}
-	private onWaitingForShopsyGameResponse() {
-		console.log("Waiting for game response from Shopsy...");
-		this.changePanel(GAME_PANEL.WAITING_FOR_GAME_RESPONSE);
-	}
-	private onShopsyGameResponse(){
-		this.superCoinsWonThisRound = GameResponseManager.getCoinsEarnedForGame();
-		this.supercoin_text1?.setText(`${this.superCoinsWonThisRound}`);
-		this.supercoin_text?.setText(`${this.superCoinsWonThisRound}`);
-		this.supercoin_text_1?.setText(`${this.superCoinsWonThisRound}`);
-		//Send gamefinished event
-		ShopsyAnalytics.sendGameFinishedEvent(this.score, this.superCoinsWonThisRound, this.gameResult, this.timePlayedMs);
-
-		// Coins Earned event
-		ShopsyAnalytics.sendCoinsEarnedEvent(this.superCoinsWonThisRound);
-
-	}
-	private _gameOverCalled = false;
-	private _currentScore = 0;
-
-	private onGameOver(result: "win" | "lost"): void{
-		   if (this._gameOverCalled) return;
-		   this._gameOverCalled = true;
-		   this.gameResult = result;
-		   console.log(`Game over with result: ${result}`);
-		   this.timePlayedMs = this.time.now - this.gameStartTime;
-		   this._currentScore = this.currentPoints;
-		   if(result === "win"){
-			this.currentPoints=100;
-			}else{
-				this.currentPoints=0;
-			}
-		   this.score = this.currentPoints;
-		   this.changeGameState(GAME_STATE.WAITING_FOR_GAME_RESPONSE);
-		   shopsyBridge.gameCompleted({
-			   gems: this.score,
-			   playTimeInSec: Math.floor(this.timePlayedMs / 1000)
-		   });
-
-		   // Wait before showing the game over panel
-		   this.time.delayedCall(this._gameOverDelayMs, () => {
-			   if(result === "win"){
-				   this.onGameWon();
-			   }else{
-				   this.onGameLost();
-			   }
-		   });
-	   }
-
-	   private onGameLost(): void {
-		   playSound(this, "gameover");
-		   this.share_btn?.setVisible(false);
-		   if (this.game_over_panel_container) {
-			   console.log(UserProfileManager.getProfileData());
-			   console.log("Coins lost this round:", this.superCoinsWonThisRound);
-			   this.high_score?.setText(String(this._currentScore));
-			   this.high_score_1?.setText(`${this._currentScore}`);
-			   this.supercoin_text?.setText(`${this.superCoinsWonThisRound}`);
-			   this.low_score?.setText(`${this._currentScore}`);
-			   this.time_spend?.setText(this.formatTime(this.timePlayedMs));
-		   } else {
-			   this.endTitle.setText("STAGE FAILED!");
-			   this.superCoinsWonThisRound = UserProfileManager.getProfileData()?.claimableRewards?.perGameRewardCoinsForToday || 0;
-			   console.log("Coins lost this round:", this.superCoinsWonThisRound);
-			   this.supercoin_text?.setText(`${this.superCoinsWonThisRound}`);
-			   this.endBlocks.setText(`${gameState.totalStackedBlocks}/${this.maxBlock}`);
-			   this.endPoints.setText(`${this._currentScore}`);
-			   this.endRestartButton.setVisible(true);
-			   this.endMapButton.setVisible(true);
-		   }
-		   this.changePanel(GAME_PANEL.GAME_OVER_LOSE_PANEL);
-	   }
-
-	   private onGameWon(): void {
-		   playSound(this, "completed");
-		   this.superCoinsWonThisRound = UserProfileManager.getProfileData()?.claimableRewards?.perGameRewardCoinsForToday || 0;
-		   if (this.game_over_panel_container) {
-			   console.log("Coins won this round:", this.superCoinsWonThisRound);
-			this.final_score?.setText(`${this._currentScore}`);
-			   this.high_score?.setText(String(this._currentScore));
-			   this.high_score_1?.setText(String(this._currentScore));
-			   this.supercoin_text1?.setText(`${this.superCoinsWonThisRound}`);
-			   this.low_score?.setText(String(this._currentScore));
-			   this.time_spend?.setText(this.formatTime(this.timePlayedMs));
-		   } else {
-			   this.endTitle.setText("COMPLETED!");
-			   this.endBlocks.setText(`${gameState.totalStackedBlocks}/${this.maxBlock}`);
-			   this.endPoints.setText(`${this._currentScore}`);
-			   this.supercoin_text1?.setText(`${this.superCoinsWonThisRound}`);
-			   this.endRestartButton.setVisible(false);
-			   this.endMapButton.setVisible(false);
-		   }
-
-		   this.changePanel(GAME_PANEL.GAME_OVER_WIN_PANEL);
-		   //this.tapIfPresent(this.next_btn, () => this.goToLevelSelect());
-	   }
-
-	private restartGame(): void {
-
-		this.scene.start("Level");
+		this.gems_collect.setText(String(gameState.totalStackedBlocks));
 	}
 
-	private abandonGame(): void {
-		this.timePlayedMs = this.time.now - this.gameStartTime;
-		ShopsyAnalytics.sendGameAbandonedEvent(this.currentPoints, this.timePlayedMs);
+	// ─── UTILITIES ────────────────────────────────────────────────────────────
 
-		const coinsWon = this.isMaxGameBonusEarned
-			? 0
-			: UserProfileManager.getProfileData()?.claimableRewards?.perGameRewardCoinsForToday || 0;
-		ShopsyAnalytics.sendCoinsEarnedEvent(coinsWon);
-
-		if (shopsyBridge.isNative) {
-			shopsyBridge.exitGame();
-			return;
-		}
-
-		this.goToLevelSelect();
-	}
-
-	private shareGame(): void {
-		this.changePanel(GAME_PANEL.SHARE_PANEL);
-		if (this.shareManager) {
-			void this.shareManager.ExecuteShareFlow();
-			return;
-		}
-		this.goToLevelSelect();
-	}
-
-	private showError(): void {
-		this.changePanel(GAME_PANEL.ERROR_PANEL);
-		this.errorPopupManager?.showError(ErrorType.FATAL);
-	}
-
-	private formatTime(timeMs: number): string {
-		const totalSeconds = Math.max(0, Math.floor(timeMs / 1000));
-		const minutes = Math.floor(totalSeconds / 60);
-		const seconds = totalSeconds % 60;
+	private formatTime(ms: number): string {
+		const totalSeconds = Math.max(0, Math.floor(ms / 1000));
+		const minutes      = Math.floor(totalSeconds / 60);
+		const seconds      = totalSeconds % 60;
 		return `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
-	}
-
-	private getSceneObject<T extends Phaser.GameObjects.GameObject>(name: string): T | undefined {
-		const obj = this.findByNameDeep(this.children.list as Phaser.GameObjects.GameObject[], name);
-		return obj ? obj as T : undefined;
-	}
-
-	private findByNameDeep(
-		list: Phaser.GameObjects.GameObject[],
-		name: string
-	): Phaser.GameObjects.GameObject | undefined {
-		for (const obj of list) {
-			if (obj.name === name) {
-				return obj;
-			}
-			if (obj instanceof Phaser.GameObjects.Container) {
-				const nested = this.findByNameDeep(obj.list as Phaser.GameObjects.GameObject[], name);
-				if (nested) {
-					return nested;
-				}
-			}
-		}
-		return undefined;
 	}
 
 	private goToLevelSelect(): void {
 		console.log("Navigating to Level Select");
 		this.scene.start("Preload");
+	}
+
+	onLoseButtonClicked(): void {
+		this.changeGameState(GAME_STATE.GAME_OVER_LOSE);
 	}
 
 	/* END-USER-CODE */
