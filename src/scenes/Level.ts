@@ -15,6 +15,7 @@ import { initShopsyBridge, shopsyBridge, ShopsyMessageAction } from "../shopsyst
 import { ShareManager } from "../share/ShareManager";
 import { GAME_ID, GAME_NAME } from "../utils/config";
 import { PlayerPrefs } from "../utils/PlayerPrefs";
+import GameResponseManager from "../shopsystan/shopsyGameResponses";
 /* END-USER-IMPORTS */
 
 export default class Level extends Phaser.Scene {
@@ -1147,6 +1148,7 @@ export default class Level extends Phaser.Scene {
 	public score = 0;
 	private currentPoints = 0;
 	private superCoinsWonThisRound = 0;
+	private gameResult: string;
 	private maxBlock = 0;
 	private requiredPoints = 0;
 
@@ -1755,11 +1757,14 @@ export default class Level extends Phaser.Scene {
 		this.bridgeUnsubscribers.push(
 			shopsyBridge.on(ShopsyMessageAction.GAME_STARTED_ACK, (data) => {
 				this.isMaxGameBonusEarned = data?.isMaxGameBonusEarned ?? false;
+				GameResponseManager.setGameStartedResponse(data);
 			})
 		);
 		this.bridgeUnsubscribers.push(
 			shopsyBridge.on(ShopsyMessageAction.GAME_COMPLETED_ACK, (data) => {
 				console.log("[City Builder] Game completed ack", data);
+				GameResponseManager.setGameEndedResponse(data);
+				this.onShopsyGameResponse();
 			})
 		);
 	}
@@ -1845,9 +1850,6 @@ export default class Level extends Phaser.Scene {
 		}
 		if (panel && panel.list) {
 			panel.list.forEach(child => {
-				// if (typeof child.setScrollFactor === 'function') {
-				// 	child.setScrollFactor(0);
-				// }
 				if (typeof child.setInteractive === 'function' && child.input === undefined) {
 					child.setInteractive({ useHandCursor: true });
 				}
@@ -1922,44 +1924,7 @@ export default class Level extends Phaser.Scene {
 					//panelsToShow.push(this.hudContainer);
 					break;
 			}
-		} else {
-			// switch (this.currentPanel) {
-			// 	case GAME_PANEL.PAUSE_PANEL:
-			// 		panelsToShow = [this.hudContainer, this.pausePopupContainer];
-			// 		this.popupDark.setVisible(true).setInteractive();
-			// 		break;
-			// 	case GAME_PANEL.WAITING_FOR_GAME_RESPONSE:
-			// 		if (this.waiting_for_game_response_panel_container) {
-			// 			panelsToShow = [this.waiting_for_game_response_panel_container];
-			// 			this.popupDark.setVisible(true).setInteractive();
-			// 		}
-			// 		break;
-			// 	case GAME_PANEL.GAME_OVER_WIN_PANEL:
-			// 	case GAME_PANEL.GAME_OVER_LOSE_PANEL:
-			// 		panelsToShow = [this.hudContainer, this.endPopupContainer];
-			// 		this.popupDark.setVisible(true).setInteractive();
-			// 		break;
-			// 	case GAME_PANEL.ERROR_PANEL:
-			// 		panelsToShow = [this.hudContainer];
-			// 		if (this.errorPanelContainer) {
-			// 			panelsToShow.push(this.errorPanelContainer);
-			// 		}
-			// 		this.popupDark.setVisible(true).setInteractive();
-			// 		break;
-			// 	case GAME_PANEL.SHARE_PANEL:
-			// 		panelsToShow = [this.hudContainer];
-			// 		if (this.share_panel_container) {
-			// 			panelsToShow.push(this.share_panel_container);
-			// 		}
-			// 		this.popupDark.setVisible(true).setInteractive();
-			// 		break;
-			// 	case GAME_PANEL.GAMEPLAY_PANEL:
-			// 	default:
-			// 		panelsToShow = [this.hudContainer];
-			// 		break;
-			// }
-		}
-
+		} 
 		this.allPanels.forEach((panelItem) => {
 			panelItem.setVisible(panelsToShow.includes(panelItem));
 			if (panelsToShow.includes(panelItem)) {
@@ -2091,12 +2056,24 @@ export default class Level extends Phaser.Scene {
 		console.log("Waiting for game response from Shopsy...");
 		this.changePanel(GAME_PANEL.WAITING_FOR_GAME_RESPONSE);
 	}
+	private onShopsyGameResponse(){
+		this.superCoinsWonThisRound = GameResponseManager.getCoinsEarnedForGame();
+		this.supercoin_text1?.setText(`${this.superCoinsWonThisRound}`);
+		this.supercoin_text?.setText(`${this.superCoinsWonThisRound}`);
+		this.supercoin_text_1?.setText(`${this.superCoinsWonThisRound}`);
+		//Send gamefinished event
+		ShopsyAnalytics.sendGameFinishedEvent(this.score, this.superCoinsWonThisRound, this.gameResult, this.timePlayedMs);
 
-	   private _gameOverCalled = false;
-	   private _currentScore = 0;
-	   private onGameOver(result: "win" | "lost"): void {
+		// Coins Earned event
+		ShopsyAnalytics.sendCoinsEarnedEvent(this.superCoinsWonThisRound);
+
+	}
+	private _gameOverCalled = false;
+	private _currentScore = 0;
+	private onGameOver(result: "win" | "lost"): void{
 		   if (this._gameOverCalled) return;
 		   this._gameOverCalled = true;
+		   this.gameResult = result;
 		   console.log(`Game over with result: ${result}`);
 		   this.timePlayedMs = this.time.now - this.gameStartTime;
 		   this._currentScore = this.currentPoints;
@@ -2112,9 +2089,6 @@ export default class Level extends Phaser.Scene {
 			   playTimeInSec: Math.floor(this.timePlayedMs / 1000)
 		   });
 
-		//    const coinsWon = this.isMaxGameBonusEarned
-		// 	   ? 0
-		// 	   : UserProfileManager.getProfileData()?.claimableRewards?.perGameRewardCoinsForToday || 0;
 		   console.log("Max game bonus earned:", this.isMaxGameBonusEarned);
 		   console.log("Profile data at game over:", UserProfileManager.getProfileData());
 		   const coinsWon = UserProfileManager.getProfileData()?.claimableRewards?.perGameRewardCoinsForToday || 0;
