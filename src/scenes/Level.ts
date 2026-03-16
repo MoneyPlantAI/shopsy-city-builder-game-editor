@@ -284,10 +284,10 @@ export default class Level extends Phaser.Scene {
 		top_ui_container.add(highScore_Panel_1);
 
 		// gem
-		const gem = this.add.image(-43, 188, "gem");
+		const gem = this.add.image(-43, 190, "gem");
 		gem.name = "gem";
-		gem.scaleX = 0.7;
-		gem.scaleY = 0.7;
+		gem.scaleX = 0.8395470376849977;
+		gem.scaleY = 0.8395470376849977;
 		top_ui_container.add(gem);
 
 		// txtPoints
@@ -619,11 +619,11 @@ export default class Level extends Phaser.Scene {
 		game_over_win_panel_container.add(score_text);
 
 		// Bottom_text
-		const bottom_text = this.add.text(540, 1225, "", {});
+		const bottom_text = this.add.text(540, 1252, "", {});
 		bottom_text.name = "Bottom_text";
 		bottom_text.setOrigin(0.5, 0.5);
-		bottom_text.text = "100% Nazar Protection";
-		bottom_text.setStyle({ "color": "#ffffffff", "fontFamily": "CarterOne-Regular", "fontSize": "60PX", "stroke": "#58006bff", "strokeThickness": 10 });
+		bottom_text.text = "You’re a pro!";
+		bottom_text.setStyle({ "color": "#ffffffff", "fontFamily": "CarterOne-Regular", "fontSize": "60PX", "stroke": "#1a60b6", "strokeThickness": 10 });
 		game_over_win_panel_container.add(bottom_text);
 
 		// btn_next 
@@ -656,7 +656,7 @@ export default class Level extends Phaser.Scene {
 		high_score_1.name = "high_score_1";
 		high_score_1.setOrigin(0.5, 0.5);
 		high_score_1.text = "000";
-		high_score_1.setStyle({ "align": "center", "color": "#ffffffff", "fontFamily": "CarterOne-Regular", "fontSize": "85PX", "stroke": "#028fffff", "strokeThickness": 10 });
+		high_score_1.setStyle({ "align": "center", "color": "#ffffffff", "fontFamily": "CarterOne-Regular", "fontSize": "85PX", "stroke": "#1a60b6", "strokeThickness": 10 });
 		game_over_win_panel_container.add(high_score_1);
 
 		// gem_2

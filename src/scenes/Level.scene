@@ -582,9 +582,9 @@
                         "key": "gem"
                     },
                     "x": -43,
-                    "y": 188,
-                    "scaleX": 0.7,
-                    "scaleY": 0.7
+                    "y": 190,
+                    "scaleX": 0.8395470376849977,
+                    "scaleY": 0.8395470376849977
                 },
                 {
                     "type": "Text",
@@ -1272,14 +1272,14 @@
                     "label": "Bottom_text",
                     "useGameObjectName": true,
                     "x": 540,
-                    "y": 1225,
+                    "y": 1252,
                     "originX": 0.5,
                     "originY": 0.5,
-                    "text": "100% Nazar Protection",
+                    "text": "You’re a pro!",
                     "fontFamily": "CarterOne-Regular",
                     "fontSize": "60PX",
                     "color": "#ffffffff",
-                    "stroke": "#58006bff",
+                    "stroke": "#1a60b6",
                     "strokeThickness": 10
                 },
                 {
@@ -1348,7 +1348,7 @@
                     "fontFamily": "CarterOne-Regular",
                     "fontSize": "85PX",
                     "color": "#ffffffff",
-                    "stroke": "#028fffff",
+                    "stroke": "#1a60b6",
                     "strokeThickness": 10
                 },
                 {
