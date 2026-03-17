@@ -949,7 +949,6 @@
             "label": "share_panel_container",
             "useGameObjectName": true,
             "scope": "PUBLIC",
-            "visible": false,
             "list": [
                 {
                     "type": "Image",
@@ -1006,30 +1005,6 @@
                     "x": 540,
                     "y": 681,
                     "originY": 0
-                },
-                {
-                    "type": "Image",
-                    "id": "d78f424c-0fb3-4a66-a763-8c6a86f65968",
-                    "label": "share_text1",
-                    "scope": "CLASS",
-                    "texture": {
-                        "key": "share-text1"
-                    },
-                    "x": 540,
-                    "y": 729,
-                    "visible": false
-                },
-                {
-                    "type": "Image",
-                    "id": "1aaf5bca-47e2-4f2a-be55-ea587983c857",
-                    "label": "sh_charcter",
-                    "scope": "CLASS",
-                    "texture": {
-                        "key": "sh-character"
-                    },
-                    "x": 91,
-                    "y": 1141,
-                    "visible": false
                 },
                 {
                     "type": "Text",

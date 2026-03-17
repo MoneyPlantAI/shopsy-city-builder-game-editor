@@ -476,7 +476,6 @@ export default class Level extends Phaser.Scene {
 		// share_panel_container
 		const share_panel_container = this.add.container(0, 0);
 		share_panel_container.name = "share_panel_container";
-		share_panel_container.visible = false;
 
 		// share_bg
 		const share_bg = this.add.image(540, 960, "share-bg");
@@ -500,16 +499,6 @@ export default class Level extends Phaser.Scene {
 		const sh_panel = this.add.image(540, 681, "sh-panel");
 		sh_panel.setOrigin(0.5, 0);
 		share_panel_container.add(sh_panel);
-
-		// share_text1
-		const share_text1 = this.add.image(540, 729, "share-text1");
-		share_text1.visible = false;
-		share_panel_container.add(share_text1);
-
-		// sh_charcter
-		const sh_charcter = this.add.image(91, 1141, "sh-character");
-		sh_charcter.visible = false;
-		share_panel_container.add(sh_charcter);
 
 		// final_score
 		const final_score = this.add.text(791, 1293, "", {});
@@ -1010,8 +999,6 @@ export default class Level extends Phaser.Scene {
 		this.sh_panel_1 = sh_panel_1;
 		this.sh_logo = sh_logo;
 		this.sh_panel = sh_panel;
-		this.share_text1 = share_text1;
-		this.sh_charcter = sh_charcter;
 		this.final_score = final_score;
 		this.supercoin_text_1 = supercoin_text_1;
 		this.share_panel_container = share_panel_container;
@@ -1100,8 +1087,6 @@ export default class Level extends Phaser.Scene {
 	private sh_panel_1!: Phaser.GameObjects.Image;
 	private sh_logo!: Phaser.GameObjects.Image;
 	private sh_panel!: Phaser.GameObjects.Image;
-	private share_text1!: Phaser.GameObjects.Image;
-	private sh_charcter!: Phaser.GameObjects.Image;
 	private final_score!: Phaser.GameObjects.Text;
 	private supercoin_text_1!: Phaser.GameObjects.Text;
 	public share_panel_container!: Phaser.GameObjects.Container;
