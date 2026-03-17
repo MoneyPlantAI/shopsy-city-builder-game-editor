@@ -1276,7 +1276,7 @@ export default class Level extends Phaser.Scene {
 		this.errorPanelContainer = this.error_panel_container;
 		this.errorPopupManager   = new ErrorPopupManager(this);
 		this.errorPopupManager.init();
-		this.shareManager = new ShareManager(this as any);
+		this.shareManager = new ShareManager(this);
 		this.shareManager.init();
 	}
 
