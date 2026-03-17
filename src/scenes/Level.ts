@@ -1156,6 +1156,7 @@ export default class Level extends Phaser.Scene {
 	private currentPoints  = 0;
 	private maxBlock       = 0;
 	private requiredPoints = 0;
+	private extraBgTiles: Phaser.GameObjects.Image[] = [];
 
 	// Snapshot of the actual gameplay score at game-end (before we normalise
 	// score → 100/0 for the bridge payload).
@@ -1791,6 +1792,25 @@ export default class Level extends Phaser.Scene {
 			onUpdate: () => { this.claw.x = this.blockTop.x; },
 			repeat:   -1
 		});
+
+		// Spawn extra bg-game3 tiles so the background covers the full height
+		// needed for this level. The static tiles only go up to y=-2700 (center),
+		// i.e. the topmost pixel is at local y=-3240. Levels with many blocks
+		// scroll the camera above that, exposing black.
+		this.extraBgTiles.forEach(t => t.destroy());
+		this.extraBgTiles = [];
+		const bgTileHeight = 1080;
+		const topmostStaticY = -2700;                                    // bgGame3b center
+		const maxScrollLocal = gameplayConfig.targetYIncrement * (this.maxBlock - 1);
+		const neededTopY     = this.blockTop.y - maxScrollLocal - bgTileHeight; // buffer
+		let nextTileY        = topmostStaticY - bgTileHeight;
+		while (nextTileY + bgTileHeight / 2 > neededTopY) {
+			const tile = this.add.image(360, nextTileY, "bg-game3");
+			this.gameWorldContainer.add(tile);
+			this.gameWorldContainer.sendToBack(tile);
+			this.extraBgTiles.push(tile);
+			nextTileY -= bgTileHeight;
+		}
 
 		this.setupDropHandling();
 	}
