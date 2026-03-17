@@ -1905,20 +1905,24 @@ export default class Level extends Phaser.Scene {
 			const latest = gameState.blocks[gameState.blocks.length - 1];
 			if (latest && latest.y - this.blockTop.y > 1200) minusY = 0;
 
+			// Use the container's actual runtime scaleY (set by applyShopsyLayoutTransform)
+			// so that local-unit movements of blockTop/claw stay in sync with the world-unit camera scroll.
+			const containerScaleY = this.gameplayContainer.scaleY;
+
 			this.tweens.add({
 				targets:  this.claw,
-				y:        this.claw.y - (minusY / 1.5),
+				y:        this.claw.y - minusY,
 				duration: gameplayConfig.scrollDuration,
 				ease:     "Sine.easeInOut"
 			});
 
 			this.tweens.add({
 				targets:  this.cameras.main,
-				scrollY:  this.cameras.main.scrollY - minusY,
+				scrollY:  this.cameras.main.scrollY - minusY * containerScaleY,
 				duration: gameplayConfig.scrollDuration,
 				ease:     "Sine.easeInOut",
 				onComplete: () => {
-					this.blockTop.y -= (minusY / 1.5);
+					this.blockTop.y -= minusY;
 					this.blockTop.setVisible(true);
 					if (LEVELS[gameState.currentLevel].blockAmount - gameState.totalStackedBlocks === 1) {
 						this.blockTop.setTexture("block-top");
@@ -1956,9 +1960,11 @@ export default class Level extends Phaser.Scene {
 				: 360;
 			const current = gameState.blocks[gameState.blocks.length - 1];
 
+			// Fall target must be in container-local coordinates (not world/camera coords).
+			// Adding 1080+200 local units guarantees the block drops well below the visible area.
 			this.tweens.add({
 				targets:  current,
-				y:        this.cameras.main.scrollY + 1080 + 200,
+				y:        current.y + 1080 + 200,
 				duration: 1200,
 				ease:     "Sine.easeIn",
 				onComplete: () => this.changeGameState(GAME_STATE.GAME_OVER_LOSE)
