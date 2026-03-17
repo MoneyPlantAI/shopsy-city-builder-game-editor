@@ -269,6 +269,11 @@ export default class LevelSelect extends Phaser.Scene {
             if (this.game_start_panel_container) {
                 this.game_start_panel_container.setDepth(2200);
             }
+            // Hide startLevelButton and locationMarker if all levels are complete (currentLevel == 8)
+            if (gameState.currentLevel === 8) {
+                this.startLevelButton.setVisible(false);
+                this.locationMarker.setVisible(false);
+            }
 
         if (this.start_btn) {
             this.start_btn.setInteractive({ useHandCursor: true });
