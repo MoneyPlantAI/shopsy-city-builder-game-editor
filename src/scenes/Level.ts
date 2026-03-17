@@ -1656,8 +1656,8 @@ export default class Level extends Phaser.Scene {
 			playSound(this, "click");
 			this.tweens.add({
 				targets:  button,
-				scaleX:   0.9,
-				scaleY:   0.9,
+				scaleX:   0.5,
+				scaleY:   0.5,
 				yoyo:     true,
 				ease:     "Linear",
 				duration: 100,

@@ -68,7 +68,6 @@ export default class LevelSelect extends Phaser.Scene {
 		const playPopupContainer = this.add.container(-48, 116);
 		playPopupContainer.scaleX = 1.6663067937480376;
 		playPopupContainer.scaleY = 1.6663067937480376;
-		playPopupContainer.visible = false;
 
 		// popupBg
 		const popupBg = this.add.image(360, 540, "popup-play");
@@ -78,8 +77,8 @@ export default class LevelSelect extends Phaser.Scene {
 
 		// popupPlayButton
 		const popupPlayButton = this.add.sprite(360, 665, "Green-btn");
-		popupPlayButton.scaleX = 0.4475358034999831;
-		popupPlayButton.scaleY = 0.48401859219388726;
+		popupPlayButton.scaleX = 0.4;
+		popupPlayButton.scaleY = 0.4;
 		playPopupContainer.add(popupPlayButton);
 
 		// popupCloseButton
@@ -326,8 +325,8 @@ export default class LevelSelect extends Phaser.Scene {
 
             this.tweens.add({
                 targets: this.popupPlayButton,
-                scaleX: 0.9,
-                scaleY: 0.9,
+                scaleX: 0.5,
+                scaleY: 0.5,
                 yoyo: true,
                 ease: "Linear",
                 duration: 100,
@@ -348,8 +347,8 @@ export default class LevelSelect extends Phaser.Scene {
             playSound(this, "click");
             this.tweens.add({
                 targets: button,
-                scaleX: 0.9,
-                scaleY: 0.9,
+                scaleX: 0.5,
+                scaleY: 0.5,
                 yoyo: true,
                 ease: "Linear",
                 duration: 100,
