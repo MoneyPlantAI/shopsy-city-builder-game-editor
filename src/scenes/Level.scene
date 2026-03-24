@@ -1046,7 +1046,6 @@
             "displayName": "game_over_lose_panel_container",
             "useGameObjectName": true,
             "scope": "CLASS",
-            "visible": false,
             "list": [
                 {
                     "type": "Image",
@@ -1200,8 +1199,8 @@
                     "texture": {
                         "key": "exit-game-btn"
                     },
-                    "x": 537,
-                    "y": 1520
+                    "x": 540,
+                    "y": 1522
                 }
             ]
         },

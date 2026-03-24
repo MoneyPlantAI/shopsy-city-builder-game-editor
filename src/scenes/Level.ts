@@ -518,7 +518,6 @@ export default class Level extends Phaser.Scene {
 		// game_over_lose_panel_container
 		const game_over_lose_panel_container = this.add.container(0, 0);
 		game_over_lose_panel_container.name = "game_over_lose_panel_container";
-		game_over_lose_panel_container.visible = false;
 
 		// score_panel_2
 		const score_panel_2 = this.add.image(540, 1035, "score-panel");
@@ -586,7 +585,7 @@ export default class Level extends Phaser.Scene {
 		game_over_lose_panel_container.add(logo1);
 
 		// exit_from_lose_screen_btn
-		const exit_from_lose_screen_btn = this.add.image(537, 1520, "exit-game-btn");
+		const exit_from_lose_screen_btn = this.add.image(540, 1522, "exit-game-btn");
 		game_over_lose_panel_container.add(exit_from_lose_screen_btn);
 
 		// game_over_win_panel_container
