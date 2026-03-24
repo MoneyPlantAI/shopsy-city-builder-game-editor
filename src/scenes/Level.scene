@@ -1046,6 +1046,7 @@
             "displayName": "game_over_lose_panel_container",
             "useGameObjectName": true,
             "scope": "CLASS",
+            "visible": false,
             "list": [
                 {
                     "type": "Image",
@@ -1556,7 +1557,8 @@
                         "key": "share-btn"
                     },
                     "x": 23,
-                    "y": 711
+                    "y": 711,
+                    "visible": false
                 },
                 {
                     "type": "Text",

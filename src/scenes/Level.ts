@@ -518,6 +518,7 @@ export default class Level extends Phaser.Scene {
 		// game_over_lose_panel_container
 		const game_over_lose_panel_container = this.add.container(0, 0);
 		game_over_lose_panel_container.name = "game_over_lose_panel_container";
+		game_over_lose_panel_container.visible = false;
 
 		// score_panel_2
 		const score_panel_2 = this.add.image(540, 1035, "score-panel");
@@ -766,6 +767,7 @@ export default class Level extends Phaser.Scene {
 		// share_btn
 		const share_btn = this.add.image(23, 711, "share-btn");
 		share_btn.name = "share_btn";
+		share_btn.visible = false;
 		game_over_panel_container.add(share_btn);
 
 		// score_text2
