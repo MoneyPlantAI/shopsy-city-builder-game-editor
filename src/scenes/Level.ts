@@ -476,6 +476,7 @@ export default class Level extends Phaser.Scene {
 		// share_panel_container
 		const share_panel_container = this.add.container(0, 0);
 		share_panel_container.name = "share_panel_container";
+		share_panel_container.visible = false;
 
 		// share_bg
 		const share_bg = this.add.image(540, 960, "share-bg");
@@ -517,7 +518,6 @@ export default class Level extends Phaser.Scene {
 		// game_over_lose_panel_container
 		const game_over_lose_panel_container = this.add.container(0, 0);
 		game_over_lose_panel_container.name = "game_over_lose_panel_container";
-		game_over_lose_panel_container.visible = false;
 
 		// score_panel_2
 		const score_panel_2 = this.add.image(540, 1035, "score-panel");
@@ -546,7 +546,7 @@ export default class Level extends Phaser.Scene {
 		game_over_lose_panel_container.add(bottom_text_1);
 
 		// play_again_btn
-		const play_again_btn = this.add.image(540, 1719, "play-again-btn");
+		const play_again_btn = this.add.image(540, 1734, "play-again-btn");
 		game_over_lose_panel_container.add(play_again_btn);
 
 		// high_score_bg_1
@@ -583,6 +583,10 @@ export default class Level extends Phaser.Scene {
 		// logo1
 		const logo1 = this.add.image(540, 467, "logo1");
 		game_over_lose_panel_container.add(logo1);
+
+		// exit_from_lose_screen_btn
+		const exit_from_lose_screen_btn = this.add.image(537, 1520, "exit-game-btn");
+		game_over_lose_panel_container.add(exit_from_lose_screen_btn);
 
 		// game_over_win_panel_container
 		const game_over_win_panel_container = this.add.container(0, 0);
@@ -626,6 +630,7 @@ export default class Level extends Phaser.Scene {
 		const next_btn = this.add.image(540, 1721, "Green-btn");
 		next_btn.scaleX = 1.01;
 		next_btn.scaleY = 1.01;
+		next_btn.visible = false;
 		game_over_win_panel_container.add(next_btn);
 
 		// high_score_bg
@@ -658,6 +663,7 @@ export default class Level extends Phaser.Scene {
 		const bottom_text_2 = this.add.text(543, 1709, "", {});
 		bottom_text_2.name = "Bottom_text_2";
 		bottom_text_2.setOrigin(0.5, 0.5);
+		bottom_text_2.visible = false;
 		bottom_text_2.text = "Next";
 		bottom_text_2.setStyle({ "color": "#ffffffff", "fontFamily": "CarterOne-Regular", "fontSize": "70PX", "stroke": "#0d6b00ff", "strokeThickness": 12 });
 		game_over_win_panel_container.add(bottom_text_2);
@@ -672,6 +678,10 @@ export default class Level extends Phaser.Scene {
 		// logo
 		const logo = this.add.image(540, 486, "logo1");
 		game_over_win_panel_container.add(logo);
+
+		// exit_from_win_screen_btn
+		const exit_from_win_screen_btn = this.add.image(540, 1556, "claim-rewards-btn");
+		game_over_win_panel_container.add(exit_from_win_screen_btn);
 
 		// game_over_panel_container
 		const game_over_panel_container = this.add.container(517, 789);
@@ -1006,6 +1016,7 @@ export default class Level extends Phaser.Scene {
 		this.play_again_btn = play_again_btn;
 		this.low_score = low_score;
 		this.supercoin_text = supercoin_text;
+		this.exit_from_lose_screen_btn = exit_from_lose_screen_btn;
 		this.game_over_lose_panel_container = game_over_lose_panel_container;
 		this.highScore_Character_1 = highScore_Character_1;
 		this.btn_next_ = btn_next_;
@@ -1013,6 +1024,7 @@ export default class Level extends Phaser.Scene {
 		this.high_score_1 = high_score_1;
 		this.bottom_text_2 = bottom_text_2;
 		this.supercoin_text1 = supercoin_text1;
+		this.exit_from_win_screen_btn = exit_from_win_screen_btn;
 		this.game_over_win_panel_container = game_over_win_panel_container;
 		this.time_spend = time_spend;
 		this.high_score = high_score;
@@ -1094,6 +1106,7 @@ export default class Level extends Phaser.Scene {
 	private play_again_btn!: Phaser.GameObjects.Image;
 	private low_score!: Phaser.GameObjects.Text;
 	private supercoin_text!: Phaser.GameObjects.Text;
+	private exit_from_lose_screen_btn!: Phaser.GameObjects.Image;
 	private game_over_lose_panel_container!: Phaser.GameObjects.Container;
 	private highScore_Character_1!: Phaser.GameObjects.Image;
 	private btn_next_!: Phaser.GameObjects.Image;
@@ -1101,6 +1114,7 @@ export default class Level extends Phaser.Scene {
 	private high_score_1!: Phaser.GameObjects.Text;
 	private bottom_text_2!: Phaser.GameObjects.Text;
 	private supercoin_text1!: Phaser.GameObjects.Text;
+	private exit_from_win_screen_btn!: Phaser.GameObjects.Image;
 	private game_over_win_panel_container!: Phaser.GameObjects.Container;
 	private time_spend!: Phaser.GameObjects.Text;
 	private high_score!: Phaser.GameObjects.Text;
@@ -1606,7 +1620,8 @@ export default class Level extends Phaser.Scene {
 		this.tapIfPresent(this.shareBtnNode,     () => this.changeGameState(GAME_STATE.SHARING));
 		this.tapIfPresent(this.share_btn,        () => this.changeGameState(GAME_STATE.SHARING));
 		this.tapIfPresent(this.play_again_btn,   () => this.changeGameState(GAME_STATE.RESTART));
-
+		this.tapIfPresent(this.exit_from_win_screen_btn, () => this.changeGameState(GAME_STATE.ABANDONED));
+		this.tapIfPresent(this.exit_from_lose_screen_btn, () => this.changeGameState(GAME_STATE.ABANDONED));
 		// "Next" button — advances level or returns to map if this was a replay
 		const handleNext = () => {
 			const isReplay = this.playingLevelIndex !== gameState.currentLevel;

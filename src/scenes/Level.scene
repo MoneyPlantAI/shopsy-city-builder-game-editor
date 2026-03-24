@@ -949,6 +949,7 @@
             "label": "share_panel_container",
             "useGameObjectName": true,
             "scope": "PUBLIC",
+            "visible": false,
             "list": [
                 {
                     "type": "Image",
@@ -1045,7 +1046,6 @@
             "displayName": "game_over_lose_panel_container",
             "useGameObjectName": true,
             "scope": "CLASS",
-            "visible": false,
             "list": [
                 {
                     "type": "Image",
@@ -1111,7 +1111,7 @@
                         "key": "play-again-btn"
                     },
                     "x": 540,
-                    "y": 1719
+                    "y": 1734
                 },
                 {
                     "type": "Image",
@@ -1190,6 +1190,17 @@
                     },
                     "x": 540,
                     "y": 467
+                },
+                {
+                    "type": "Image",
+                    "id": "5665d8d8-1594-491c-8f75-503cb0e5b0c4",
+                    "label": "exit_from_lose_screen_btn",
+                    "scope": "CLASS",
+                    "texture": {
+                        "key": "exit-game-btn"
+                    },
+                    "x": 537,
+                    "y": 1520
                 }
             ]
         },
@@ -1282,7 +1293,8 @@
                     "x": 540,
                     "y": 1721,
                     "scaleX": 1.01,
-                    "scaleY": 1.01
+                    "scaleY": 1.01,
+                    "visible": false
                 },
                 {
                     "type": "Image",
@@ -1348,6 +1360,7 @@
                     "y": 1709,
                     "originX": 0.5,
                     "originY": 0.5,
+                    "visible": false,
                     "text": "Next",
                     "fontFamily": "CarterOne-Regular",
                     "fontSize": "70PX",
@@ -1380,6 +1393,17 @@
                     },
                     "x": 540,
                     "y": 486
+                },
+                {
+                    "type": "Image",
+                    "id": "0db898f9-c2ac-4e9a-9d79-0f05555607a7",
+                    "label": "exit_from_win_screen_btn",
+                    "scope": "CLASS",
+                    "texture": {
+                        "key": "claim-rewards-btn"
+                    },
+                    "x": 540,
+                    "y": 1556
                 }
             ]
         },

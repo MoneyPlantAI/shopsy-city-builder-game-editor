@@ -198,6 +198,11 @@
                 "key": "character-icon"
             },
             {
+                "url": "assets/images/game-end/claim-rewards-btn.png",
+                "type": "image",
+                "key": "claim-rewards-btn"
+            },
+            {
                 "url": "assets/images/gameplay/claw1.png",
                 "type": "image",
                 "key": "claw1"
@@ -260,6 +265,11 @@
                 "url": "assets/images/error/error-icon3.png",
                 "type": "image",
                 "key": "error-icon3"
+            },
+            {
+                "url": "assets/images/game-end/exit-game-btn.png",
+                "type": "image",
+                "key": "exit-game-btn"
             },
             {
                 "url": [
