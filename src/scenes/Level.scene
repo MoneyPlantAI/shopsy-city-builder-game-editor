@@ -1046,6 +1046,7 @@
             "displayName": "game_over_lose_panel_container",
             "useGameObjectName": true,
             "scope": "CLASS",
+            "visible": false,
             "list": [
                 {
                     "type": "Image",
@@ -1415,7 +1416,6 @@
             "scope": "CLASS",
             "x": 517,
             "y": 789,
-            "visible": false,
             "list": [
                 {
                     "type": "Image",
@@ -1683,6 +1683,28 @@
                     "fontSize": "35px",
                     "stroke": "#332f2fff",
                     "strokeThickness": 10
+                },
+                {
+                    "type": "Image",
+                    "id": "e158bc87-1ad6-4009-a003-e01886ee7374",
+                    "label": "gameover_exit_btn",
+                    "scope": "CLASS",
+                    "texture": {
+                        "key": "back-button"
+                    },
+                    "x": 454,
+                    "y": -667
+                },
+                {
+                    "type": "Image",
+                    "id": "acf896aa-e67f-4c5c-8196-af1502a35a8d",
+                    "label": "gameover_exit_btn1",
+                    "scope": "CLASS",
+                    "texture": {
+                        "key": "back-icon"
+                    },
+                    "x": 455,
+                    "y": -670
                 }
             ]
         },

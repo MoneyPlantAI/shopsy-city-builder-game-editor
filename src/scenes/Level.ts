@@ -518,6 +518,7 @@ export default class Level extends Phaser.Scene {
 		// game_over_lose_panel_container
 		const game_over_lose_panel_container = this.add.container(0, 0);
 		game_over_lose_panel_container.name = "game_over_lose_panel_container";
+		game_over_lose_panel_container.visible = false;
 
 		// score_panel_2
 		const score_panel_2 = this.add.image(540, 1035, "score-panel");
@@ -686,7 +687,6 @@ export default class Level extends Phaser.Scene {
 		// game_over_panel_container
 		const game_over_panel_container = this.add.container(517, 789);
 		game_over_panel_container.name = "game_over_panel_container";
-		game_over_panel_container.visible = false;
 
 		// blur_bg
 		const blur_bg = this.add.image(23, 169, "blur-bg");
@@ -838,6 +838,14 @@ export default class Level extends Phaser.Scene {
 		profile_text_1.text = "Guest";
 		profile_text_1.setStyle({ "align": "center", "fixedWidth": 210, "fontFamily": "CarterOne-Regular", "fontSize": "35px", "stroke": "#332f2fff", "strokeThickness": 10 });
 		game_over_panel_container.add(profile_text_1);
+
+		// gameover_exit_btn
+		const gameover_exit_btn = this.add.image(454, -667, "back-button");
+		game_over_panel_container.add(gameover_exit_btn);
+
+		// gameover_exit_btn1
+		const gameover_exit_btn1 = this.add.image(455, -670, "back-icon");
+		game_over_panel_container.add(gameover_exit_btn1);
 
 		// pause_panel_container
 		const pause_panel_container = this.add.container(330, 960);
@@ -1034,6 +1042,8 @@ export default class Level extends Phaser.Scene {
 		this.share_btn = share_btn;
 		this.character_BG_2 = character_BG_2;
 		this.profile_text_1 = profile_text_1;
+		this.gameover_exit_btn = gameover_exit_btn;
+		this.gameover_exit_btn1 = gameover_exit_btn1;
 		this.game_over_panel_container = game_over_panel_container;
 		this.bg_blur = bg_blur;
 		this.pause_panel = pause_panel;
@@ -1124,6 +1134,8 @@ export default class Level extends Phaser.Scene {
 	private share_btn!: Phaser.GameObjects.Image;
 	private character_BG_2!: Phaser.GameObjects.Image;
 	private profile_text_1!: Phaser.GameObjects.Text;
+	private gameover_exit_btn!: Phaser.GameObjects.Image;
+	private gameover_exit_btn1!: Phaser.GameObjects.Image;
 	private game_over_panel_container!: Phaser.GameObjects.Container;
 	private bg_blur!: Phaser.GameObjects.Image;
 	private pause_panel!: Phaser.GameObjects.Image;
@@ -1623,6 +1635,8 @@ export default class Level extends Phaser.Scene {
 		this.tapIfPresent(this.play_again_btn,   () => this.changeGameState(GAME_STATE.RESTART));
 		this.tapIfPresent(this.exit_from_win_screen_btn, () => this.changeGameState(GAME_STATE.ABANDONED));
 		this.tapIfPresent(this.exit_from_lose_screen_btn, () => this.changeGameState(GAME_STATE.ABANDONED));
+		this.tapIfPresent(this.gameover_exit_btn, () => this.changeGameState(GAME_STATE.ABANDONED));
+		this.tapIfPresent(this.gameover_exit_btn1, () => this.changeGameState(GAME_STATE.ABANDONED));
 		// "Next" button — advances level or returns to map if this was a replay
 		const handleNext = () => {
 			const isReplay = this.playingLevelIndex !== gameState.currentLevel;
