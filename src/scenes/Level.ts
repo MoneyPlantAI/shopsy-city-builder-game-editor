@@ -1156,12 +1156,12 @@ export default class Level extends Phaser.Scene {
 
 	private previousGameState: string = GAME_STATE.NONE;
 	private currentGameState: string = GAME_STATE.NONE;
-	private previousPanel: string   = GAME_PANEL.NONE;
-	private currentPanel: string    = GAME_PANEL.NONE;
+	private previousPanel: string = GAME_PANEL.NONE;
+	private currentPanel: string = GAME_PANEL.NONE;
 
-	public score        = 0;
+	public score = 0;
 	public gameStartTime = 0;
-	public timePlayedMs  = 0;
+	public timePlayedMs = 0;
 
 	// ─── SHOPSY ────────────────────────────────────────────────────────────────
 	private superCoinsWonThisRound = 0;
@@ -1175,13 +1175,13 @@ export default class Level extends Phaser.Scene {
 
 	// ─── CITY-BUILDER-SPECIFIC FIELDS ──────────────────────────────────────────
 	private moveTo: "left" | "right" = "left";
-	private val       = 0;
+	private val = 0;
 	private oscillating = 0;
 	private isGameplayPaused = false;
 	private isMaxGameBonusEarned = false;
 
-	private currentPoints  = 0;
-	private maxBlock       = 0;
+	private currentPoints = 0;
+	private maxBlock = 0;
 	private requiredPoints = 0;
 	private extraBgTiles: Phaser.GameObjects.Image[] = [];
 
@@ -1192,10 +1192,10 @@ export default class Level extends Phaser.Scene {
 	private playingLevelIndex = 0;
 
 	// Shopsy-layout helpers (unchanged from original)
-	private readonly shopsyDesignWidth  = 1080;
+	private readonly shopsyDesignWidth = 1080;
 	private readonly shopsyDesignHeight = 1920;
 	private shopsyLayoutCaptured = false;
-	private shopsyLayout     = new Map<Phaser.GameObjects.GameObject, { x: number; y: number; scaleX: number; scaleY: number }>();
+	private shopsyLayout = new Map<Phaser.GameObjects.GameObject, { x: number; y: number; scaleX: number; scaleY: number }>();
 	private shopsyLayoutRoots: Phaser.GameObjects.GameObject[] = [];
 	private exit_back_button?: Phaser.GameObjects.Image;
 	private exit_btn?: Phaser.GameObjects.Image;
@@ -1249,15 +1249,15 @@ export default class Level extends Phaser.Scene {
 			this.applyShopsyLayoutTransform();
 		}, this);
 		this.events.once("shutdown", () => this.scale.off("resize", this.applyShopsyLayoutTransform, this));
-		this.events.once("destroy",  () => this.scale.off("resize", this.applyShopsyLayoutTransform, this));
+		this.events.once("destroy", () => this.scale.off("resize", this.applyShopsyLayoutTransform, this));
 
 		// Button-node aliases (keeps original variable names)
-		this.pauseBtnNode        = this.pause_btn;
-		this.pauseRestartBtnNode = this.resume_btn  ?? this.pauseRestartButton;
-		this.pauseMapBtnNode     = this.abandon_btn ?? this.pauseMapButton;
-		this.pauseCloseBtnNode   = this.pauseCloseButton;
-		this.endMapBtnNode       = this.endMapButton;
-		this.shareBtnNode        = this.share_btn;
+		this.pauseBtnNode = this.pause_btn;
+		this.pauseRestartBtnNode = this.resume_btn ?? this.pauseRestartButton;
+		this.pauseMapBtnNode = this.abandon_btn ?? this.pauseMapButton;
+		this.pauseCloseBtnNode = this.pauseCloseButton;
+		this.endMapBtnNode = this.endMapButton;
+		this.shareBtnNode = this.share_btn;
 
 		// Standard setup — same order as Nazariya
 		this.setupPanels();
@@ -1273,9 +1273,9 @@ export default class Level extends Phaser.Scene {
 		this.changeGameState(GAME_STATE.PRE_GAME);
 
 		this.events.once("shutdown", () => this.cleanupBridgeListeners());
-		this.events.once("destroy",  () => this.cleanupBridgeListeners());
+		this.events.once("destroy", () => this.cleanupBridgeListeners());
 
-		this.profile_text.setText(  UserProfileManager.getProfileData()?.basic.userName ?? "Player");
+		this.profile_text.setText(UserProfileManager.getProfileData()?.basic.userName ?? "Player");
 		this.profile_text_1.setText(UserProfileManager.getProfileData()?.basic.userName ?? "Player");
 	}
 
@@ -1302,7 +1302,7 @@ export default class Level extends Phaser.Scene {
 
 	private setupManagers(): void {
 		this.errorPanelContainer = this.error_panel_container;
-		this.errorPopupManager   = new ErrorPopupManager(this);
+		this.errorPopupManager = new ErrorPopupManager(this);
 		this.errorPopupManager.init();
 		this.shareManager = new ShareManager(this);
 		this.shareManager.init();
@@ -1335,10 +1335,10 @@ export default class Level extends Phaser.Scene {
 	private applyShopsyLayoutTransform(): void {
 		if (!this.shopsyLayoutRoots.length) return;
 
-		const gameWidth  = this.scale.gameSize.width;
+		const gameWidth = this.scale.gameSize.width;
 		const gameHeight = this.scale.gameSize.height;
-		const scale   = Math.min(gameWidth / this.shopsyDesignWidth, gameHeight / this.shopsyDesignHeight);
-		const offsetX = (gameWidth  - this.shopsyDesignWidth  * scale) * 0.5;
+		const scale = Math.min(gameWidth / this.shopsyDesignWidth, gameHeight / this.shopsyDesignHeight);
+		const offsetX = (gameWidth - this.shopsyDesignWidth * scale) * 0.5;
 		const offsetY = (gameHeight - this.shopsyDesignHeight * scale) * 0.5;
 
 		if (!this.shopsyLayoutCaptured) {
@@ -1351,8 +1351,8 @@ export default class Level extends Phaser.Scene {
 
 		this.shopsyLayout.forEach((base, child) => {
 			const t = child as unknown as Phaser.GameObjects.Components.Transform;
-			t.x      = base.x      * scale + offsetX;
-			t.y      = base.y      * scale + offsetY;
+			t.x = base.x * scale + offsetX;
+			t.y = base.y * scale + offsetY;
 			t.scaleX = base.scaleX * scale;
 			t.scaleY = base.scaleY * scale;
 		});
@@ -1395,7 +1395,7 @@ export default class Level extends Phaser.Scene {
 		if (this.currentPanel === panel) return;
 
 		this.previousPanel = this.currentPanel;
-		this.currentPanel  = panel;
+		this.currentPanel = panel;
 
 		let panelsToShow: Phaser.GameObjects.Container[] = [];
 
@@ -1445,21 +1445,21 @@ export default class Level extends Phaser.Scene {
 		if (this.currentGameState === state) return;
 
 		this.previousGameState = this.currentGameState;
-		this.currentGameState  = state;
+		this.currentGameState = state;
 
 		switch (this.currentGameState) {
-			case GAME_STATE.PRE_GAME:               this.preGame();                       break;
-			case GAME_STATE.START:                  this.startGame();                     break;
-			case GAME_STATE.PAUSED:                 this.pauseGame();                     break;
-			case GAME_STATE.RESUMED:                this.resumeGame();                    break;
-			case GAME_STATE.GAME_OVER_WIN:          this.onGameWon();                     break;
-			case GAME_STATE.GAME_OVER_LOSE:         this.onGameLost();                    break;
+			case GAME_STATE.PRE_GAME: this.preGame(); break;
+			case GAME_STATE.START: this.startGame(); break;
+			case GAME_STATE.PAUSED: this.pauseGame(); break;
+			case GAME_STATE.RESUMED: this.resumeGame(); break;
+			case GAME_STATE.GAME_OVER_WIN: this.onGameWon(); break;
+			case GAME_STATE.GAME_OVER_LOSE: this.onGameLost(); break;
 			case GAME_STATE.WAITING_FOR_GAME_RESPONSE: this.onWaitingForShopsyGameResponse(); break;
-			case GAME_STATE.RESTART:                this.restartGame();                   break;
-			case GAME_STATE.SHARING:                this.shareGame();                     break;
-			case GAME_STATE.ERROR:                  this.showError();                     break;
-			case GAME_STATE.ABANDONED:              this.abandonGame();                   break;
-			case GAME_STATE.PLAYING:                                                      break;
+			case GAME_STATE.RESTART: this.restartGame(); break;
+			case GAME_STATE.SHARING: this.shareGame(); break;
+			case GAME_STATE.ERROR: this.showError(); break;
+			case GAME_STATE.ABANDONED: this.abandonGame(); break;
+			case GAME_STATE.PLAYING: break;
 			default:
 				console.log(`[${GAME_NAME}] Unhandled game state: ${state}`);
 				break;
@@ -1467,8 +1467,8 @@ export default class Level extends Phaser.Scene {
 	}
 
 	private preGame(): void {
-		this.score                 = 0;
-		this.currentPoints         = 0;
+		this.score = 0;
+		this.currentPoints = 0;
 		this.superCoinsWonThisRound = 0;
 		this.txtPoints.setColor("#FFFFFF");
 		this.txtPointsAdded.setText("");
@@ -1479,12 +1479,12 @@ export default class Level extends Phaser.Scene {
 	private startGame(): void {
 		if (this.currentGameState !== GAME_STATE.START) return;
 
-		this.gameStartTime        = this.time.now;
-		this.timePlayedMs         = 0;
-		this.currentPoints        = 0;
-		this.score                = 0;
+		this.gameStartTime = this.time.now;
+		this.timePlayedMs = 0;
+		this.currentPoints = 0;
+		this.score = 0;
 		this.isMaxGameBonusEarned = false;
-		this.isGameplayPaused     = false;
+		this.isGameplayPaused = false;
 
 		shopsyBridge.roundStarted();
 		PlayerPrefs.gamesPlayedToday++;
@@ -1518,8 +1518,8 @@ export default class Level extends Phaser.Scene {
 			this.currentGameState !== GAME_STATE.GAME_OVER_LOSE
 		) return;
 
-		this.timePlayedMs       = this.time.now - this.gameStartTime;
-		this.gameResult         = gameResult;
+		this.timePlayedMs = this.time.now - this.gameStartTime;
+		this.gameResult = gameResult;
 		this._finalDisplayScore = this.currentPoints; // keep raw score for display
 
 		// Normalise score sent to bridge (100 = win, 0 = lose) — same as original
@@ -1527,8 +1527,8 @@ export default class Level extends Phaser.Scene {
 
 		// Tell Shopsy — response comes back via GAME_COMPLETED_ACK → onShopsyGameResponse()
 		shopsyBridge.gameCompleted({
-			gems:           bridgeGems,
-			playTimeInSec:  Math.floor(this.timePlayedMs / 1000)
+			gems: bridgeGems,
+			playTimeInSec: Math.floor(this.timePlayedMs / 1000)
 		});
 
 		this.changeGameState(GAME_STATE.WAITING_FOR_GAME_RESPONSE);
@@ -1539,15 +1539,15 @@ export default class Level extends Phaser.Scene {
 	}
 
 	private onShopsyGameResponse(): void {
-		this.high_score?.setText( String(this._finalDisplayScore));
-		this.time_spend?.setText( this.formatTime(this.timePlayedMs));
+		this.high_score?.setText(String(this._finalDisplayScore));
+		this.time_spend?.setText(this.formatTime(this.timePlayedMs));
 		this.high_score_1?.setText(String(this._finalDisplayScore));
-		this.low_score?.setText(   String(this._finalDisplayScore));
+		this.low_score?.setText(String(this._finalDisplayScore));
 		this.final_score?.setText(String(this._finalDisplayScore));
 
 		this.superCoinsWonThisRound = GameResponseManager.getCoinsEarnedForGame();
-		this.supercoin_text1?.setText( String(this.superCoinsWonThisRound));
-		this.supercoin_text?.setText(  String(this.superCoinsWonThisRound));
+		this.supercoin_text1?.setText(String(this.superCoinsWonThisRound));
+		this.supercoin_text?.setText(String(this.superCoinsWonThisRound));
 		this.supercoin_text_1?.setText(String(this.superCoinsWonThisRound));
 
 		ShopsyAnalytics.sendGameFinishedEvent(
@@ -1590,12 +1590,6 @@ export default class Level extends Phaser.Scene {
 	private abandonGame(): void {
 		this.timePlayedMs = this.time.now - this.gameStartTime;
 		ShopsyAnalytics.sendGameAbandonedEvent(this.currentPoints, this.timePlayedMs);
-
-		const coinsWon = this.isMaxGameBonusEarned
-			? 0
-			: UserProfileManager.getProfileData()?.claimableRewards?.perGameRewardCoinsForToday || 0;
-		ShopsyAnalytics.sendCoinsEarnedEvent(coinsWon);
-
 		if (shopsyBridge.isNative) {
 			shopsyBridge.exitGame();
 			return;
@@ -1620,19 +1614,19 @@ export default class Level extends Phaser.Scene {
 	// ───────────────────────────────────────────────────────────────────────────
 
 	private setupInteractions(): void {
-		this.tapIfPresent(this.start_btn,        () => this.changeGameState(GAME_STATE.START));
-		this.tapIfPresent(this.pause_btn,        () => this.changeGameState(GAME_STATE.PAUSED));
-		this.tapIfPresent(this.back_button1,     () => this.changeGameState(GAME_STATE.PAUSED));
-		this.tapIfPresent(this.pauseBtnNode,     () => this.changeGameState(GAME_STATE.PAUSED));
-		this.tapIfPresent(this.pauseCloseBtnNode,() => this.changeGameState(GAME_STATE.RESUMED));
+		this.tapIfPresent(this.start_btn, () => this.changeGameState(GAME_STATE.START));
+		this.tapIfPresent(this.pause_btn, () => this.changeGameState(GAME_STATE.PAUSED));
+		this.tapIfPresent(this.back_button1, () => this.changeGameState(GAME_STATE.PAUSED));
+		this.tapIfPresent(this.pauseBtnNode, () => this.changeGameState(GAME_STATE.PAUSED));
+		this.tapIfPresent(this.pauseCloseBtnNode, () => this.changeGameState(GAME_STATE.RESUMED));
 		this.tapIfPresent(this.pauseRestartBtnNode, () => this.changeGameState(GAME_STATE.RESUMED));
-		this.tapIfPresent(this.resume_btn,       () => this.changeGameState(GAME_STATE.RESUMED));
-		this.tapIfPresent(this.pauseMapBtnNode,  () => this.changeGameState(GAME_STATE.ABANDONED));
-		this.tapIfPresent(this.abandon_btn,      () => this.changeGameState(GAME_STATE.ABANDONED));
-		this.tapIfPresent(this.endMapBtnNode,    () => this.changeGameState(GAME_STATE.ABANDONED));
-		this.tapIfPresent(this.shareBtnNode,     () => this.changeGameState(GAME_STATE.SHARING));
-		this.tapIfPresent(this.share_btn,        () => this.changeGameState(GAME_STATE.SHARING));
-		this.tapIfPresent(this.play_again_btn,   () => this.changeGameState(GAME_STATE.RESTART));
+		this.tapIfPresent(this.resume_btn, () => this.changeGameState(GAME_STATE.RESUMED));
+		this.tapIfPresent(this.pauseMapBtnNode, () => this.changeGameState(GAME_STATE.ABANDONED));
+		this.tapIfPresent(this.abandon_btn, () => this.changeGameState(GAME_STATE.ABANDONED));
+		this.tapIfPresent(this.endMapBtnNode, () => this.changeGameState(GAME_STATE.ABANDONED));
+		this.tapIfPresent(this.shareBtnNode, () => this.changeGameState(GAME_STATE.SHARING));
+		this.tapIfPresent(this.share_btn, () => this.changeGameState(GAME_STATE.SHARING));
+		this.tapIfPresent(this.play_again_btn, () => this.changeGameState(GAME_STATE.RESTART));
 		this.tapIfPresent(this.exit_from_win_screen_btn, () => this.changeGameState(GAME_STATE.ABANDONED));
 		this.tapIfPresent(this.exit_from_lose_screen_btn, () => this.changeGameState(GAME_STATE.ABANDONED));
 		this.tapIfPresent(this.gameover_exit_btn, () => this.changeGameState(GAME_STATE.ABANDONED));
@@ -1649,7 +1643,7 @@ export default class Level extends Phaser.Scene {
 				this.changeGameState(GAME_STATE.RESTART);
 			}
 		};
-		this.tapIfPresent(this.next_btn,      handleNext);
+		this.tapIfPresent(this.next_btn, handleNext);
 		this.tapIfPresent(this.bottom_text_2, handleNext);
 
 		// Debug shortcuts (visible only in editor / testing)
@@ -1686,11 +1680,11 @@ export default class Level extends Phaser.Scene {
 			if (navigator.vibrate) navigator.vibrate(50);
 			playSound(this, "click");
 			this.tweens.add({
-				targets:  button,
-				scaleX:   0.5,
-				scaleY:   0.5,
-				yoyo:     true,
-				ease:     "Linear",
+				targets: button,
+				scaleX: 0.5,
+				scaleY: 0.5,
+				yoyo: true,
+				ease: "Linear",
 				duration: 100,
 				onComplete: callback
 			});
@@ -1725,7 +1719,7 @@ export default class Level extends Phaser.Scene {
 			shopsyBridge.on(ShopsyMessageAction.GAME_COMPLETED_ACK, (data) => {
 				console.log(`[${GAME_NAME}] Game completed`);
 				GameResponseManager.setGameEndedResponse(data);
-				this.onShopsyGameResponse();   
+				this.onShopsyGameResponse();
 			})
 		);
 
@@ -1755,16 +1749,16 @@ export default class Level extends Phaser.Scene {
 		}
 
 		if (PlayerPrefs.isNewDay) {
-			PlayerPrefs.gamesPlayedToday    = 0;
-			PlayerPrefs.lastLoginDate       = new Date().toISOString();
+			PlayerPrefs.gamesPlayedToday = 0;
+			PlayerPrefs.lastLoginDate = new Date().toISOString();
 		}
 
-		const pauseAudio  = () => this.sound.pauseAll();
+		const pauseAudio = () => this.sound.pauseAll();
 		const resumeAudio = () => this.sound.resumeAll();
 		document.addEventListener("visibilitychange", () => {
 			document.hidden ? pauseAudio() : resumeAudio();
 		});
-		this.game.events.on(Phaser.Core.Events.BLUR,  pauseAudio);
+		this.game.events.on(Phaser.Core.Events.BLUR, pauseAudio);
 		this.game.events.on(Phaser.Core.Events.FOCUS, resumeAudio);
 	}
 
@@ -1776,12 +1770,12 @@ export default class Level extends Phaser.Scene {
 
 	private onShopsyGameConfigLoaded(gameConfig: any): void {
 		applyGameplayConfig({
-			maxToleranceX:           gameConfig?.maxToleranceX,
-			targetYIncrement:        gameConfig?.targetYIncrement,
-			dropDurationHit:         gameConfig?.dropDurationHit,
-			dropDurationMiss:        gameConfig?.dropDurationMiss,
-			scrollDuration:          gameConfig?.scrollDuration,
-			oscillatingBreakpoints:  gameConfig?.oscillatingBreakpoints
+			maxToleranceX: gameConfig?.maxToleranceX,
+			targetYIncrement: gameConfig?.targetYIncrement,
+			dropDurationHit: gameConfig?.dropDurationHit,
+			dropDurationMiss: gameConfig?.dropDurationMiss,
+			scrollDuration: gameConfig?.scrollDuration,
+			oscillatingBreakpoints: gameConfig?.oscillatingBreakpoints
 		});
 	}
 
@@ -1800,27 +1794,27 @@ export default class Level extends Phaser.Scene {
 		this.oscillating = 0;
 		this.claw.setDepth(1);
 
-		this.maxBlock      = LEVELS[this.playingLevelIndex].blockAmount;
+		this.maxBlock = LEVELS[this.playingLevelIndex].blockAmount;
 		this.requiredPoints = LEVELS[this.playingLevelIndex].pointRequired;
 		this.txtBlocks.setText(String(this.maxBlock));
 		this.txtPoints.setText(`0/${this.requiredPoints}`);
 
 		if (!this.anims.exists("collide")) {
 			this.anims.create({
-				key:       "collide",
-				frames:    this.anims.generateFrameNumbers("anim-collide"),
+				key: "collide",
+				frames: this.anims.generateFrameNumbers("anim-collide"),
 				frameRate: 10
 			});
 		}
 
 		this.tweens.add({
-			targets:  this.blockTop,
-			x:        this.blockTop.x + 400,
+			targets: this.blockTop,
+			x: this.blockTop.x + 400,
 			duration: 1500,
-			ease:     "Sine.easeInOut",
-			yoyo:     true,
+			ease: "Sine.easeInOut",
+			yoyo: true,
 			onUpdate: () => { this.claw.x = this.blockTop.x; },
-			repeat:   -1
+			repeat: -1
 		});
 
 		// Spawn extra bg-game3 tiles so the background covers the full height
@@ -1832,8 +1826,8 @@ export default class Level extends Phaser.Scene {
 		const bgTileHeight = 1080;
 		const topmostStaticY = -2700;                                    // bgGame3b center
 		const maxScrollLocal = gameplayConfig.targetYIncrement * (this.maxBlock - 1);
-		const neededTopY     = this.blockTop.y - maxScrollLocal - bgTileHeight; // buffer
-		let nextTileY        = topmostStaticY - bgTileHeight;
+		const neededTopY = this.blockTop.y - maxScrollLocal - bgTileHeight; // buffer
+		let nextTileY = topmostStaticY - bgTileHeight;
 		while (nextTileY + bgTileHeight / 2 > neededTopY) {
 			const tile = this.add.image(360, nextTileY, "bg-game3");
 			this.gameWorldContainer.add(tile);
@@ -1846,10 +1840,10 @@ export default class Level extends Phaser.Scene {
 	}
 
 	private setupDropHandling(): void {
-		let targetDropY     = 880;
+		let targetDropY = 880;
 		const targetYIncrement = gameplayConfig.targetYIncrement;
-		const maxToleranceX    = gameplayConfig.maxToleranceX;
-		let lastBlock          = false;
+		const maxToleranceX = gameplayConfig.maxToleranceX;
+		let lastBlock = false;
 
 		let spineGood: any;
 		let spinePerfect: any;
@@ -1878,7 +1872,7 @@ export default class Level extends Phaser.Scene {
 		this.input.off("pointerdown");
 		this.input.on("pointerdown", (pointer: Phaser.Input.Pointer) => {
 			if (
-				(this.pause_btn   && this.pause_btn.getBounds().contains(pointer.x, pointer.y)) ||
+				(this.pause_btn && this.pause_btn.getBounds().contains(pointer.x, pointer.y)) ||
 				(this.back_button1 && this.back_button1.getBounds().contains(pointer.x, pointer.y))
 			) return;
 			if (this.currentGameState !== GAME_STATE.PLAYING || this.isGameplayPaused || !this.blockTop.visible) return;
@@ -1889,8 +1883,8 @@ export default class Level extends Phaser.Scene {
 
 		const dropTheBlock = (): void => {
 			if (this.isGameplayPaused) return;
-			const key  = gameState.blocks.length >= this.maxBlock - 1 ? "block-top" : "block";
-			lastBlock  = key === "block-top";
+			const key = gameState.blocks.length >= this.maxBlock - 1 ? "block-top" : "block";
+			lastBlock = key === "block-top";
 
 			const block = this.add.sprite(this.blockTop.x, this.blockTop.y, key) as DroppedBlockSprite;
 			this.gameplayContainer.add(block);
@@ -1898,10 +1892,10 @@ export default class Level extends Phaser.Scene {
 			if (!isColliding()) {
 				targetDropY = this.blockTop.y + 1080 + 200;
 				this.tweens.add({
-					targets:  block,
-					y:        targetDropY,
+					targets: block,
+					y: targetDropY,
 					duration: gameplayConfig.dropDurationMiss,
-					ease:     "Sine.easeIn",
+					ease: "Sine.easeIn",
 					onComplete: () => this.changeGameState(GAME_STATE.GAME_OVER_LOSE)
 				});
 				return;
@@ -1909,10 +1903,10 @@ export default class Level extends Phaser.Scene {
 
 			gameState.blocks.push(block);
 			this.tweens.add({
-				targets:  block,
-				y:        targetDropY,
+				targets: block,
+				y: targetDropY,
 				duration: gameplayConfig.dropDurationHit,
-				ease:     "Sine.easeIn",
+				ease: "Sine.easeIn",
 				onComplete: () => {
 					playSound(this, "hit");
 					this.cameras.main.shake(150, 0.004);
@@ -1960,17 +1954,17 @@ export default class Level extends Phaser.Scene {
 			const containerScaleY = this.gameplayContainer.scaleY;
 
 			this.tweens.add({
-				targets:  this.claw,
-				y:        this.claw.y - minusY,
+				targets: this.claw,
+				y: this.claw.y - minusY,
 				duration: gameplayConfig.scrollDuration,
-				ease:     "Sine.easeInOut"
+				ease: "Sine.easeInOut"
 			});
 
 			this.tweens.add({
-				targets:  this.cameras.main,
-				scrollY:  this.cameras.main.scrollY - minusY * containerScaleY,
+				targets: this.cameras.main,
+				scrollY: this.cameras.main.scrollY - minusY * containerScaleY,
 				duration: gameplayConfig.scrollDuration,
-				ease:     "Sine.easeInOut",
+				ease: "Sine.easeInOut",
 				onComplete: () => {
 					this.blockTop.y -= minusY;
 					this.blockTop.setVisible(true);
@@ -1986,7 +1980,7 @@ export default class Level extends Phaser.Scene {
 			if (gameState.blocks.length === 0) return null;
 			if (gameState.blocks.length >= 2) {
 				const prev = gameState.blocks[gameState.blocks.length - 2];
-				const cur  = gameState.blocks[gameState.blocks.length - 1];
+				const cur = gameState.blocks[gameState.blocks.length - 1];
 				return Phaser.Math.Distance.Between(prev.x, 0, cur.x, 0);
 			}
 			const cur = gameState.blocks[gameState.blocks.length - 1];
@@ -1998,8 +1992,8 @@ export default class Level extends Phaser.Scene {
 			if (distance === null || distance > maxToleranceX) return;
 			const calculatedScore = Math.ceil((1 - distance / maxToleranceX) * 50);
 			this.onScoreUpdated(calculatedScore);
-			if      (distance <= 3)  showQualityTxt("perfect", block);
-			else if (distance <= 10) showQualityTxt("good",    block);
+			if (distance <= 3) showQualityTxt("perfect", block);
+			else if (distance <= 10) showQualityTxt("good", block);
 		};
 
 		const blockToppling = (): void => {
@@ -2013,20 +2007,20 @@ export default class Level extends Phaser.Scene {
 			// Fall target must be in container-local coordinates (not world/camera coords).
 			// Adding 1080+200 local units guarantees the block drops well below the visible area.
 			this.tweens.add({
-				targets:  current,
-				y:        current.y + 1080 + 200,
+				targets: current,
+				y: current.y + 1080 + 200,
 				duration: 1200,
-				ease:     "Sine.easeIn",
+				ease: "Sine.easeIn",
 				onComplete: () => this.changeGameState(GAME_STATE.GAME_OVER_LOSE)
 			});
 
 			const rotateLeft = current.x < previousX;
 			this.tweens.add({
-				targets:  current,
+				targets: current,
 				rotation: rotateLeft ? -3 : 3,
-				x:        current.x + (rotateLeft ? -180 : 180),
+				x: current.x + (rotateLeft ? -180 : 180),
 				duration: 1200,
-				ease:     "Sine.easeOut"
+				ease: "Sine.easeOut"
 			});
 		};
 
@@ -2066,7 +2060,7 @@ export default class Level extends Phaser.Scene {
 
 	private onScoreUpdated(addedScore: number): void {
 		this.currentPoints += addedScore;
-		this.score          = this.currentPoints;
+		this.score = this.currentPoints;
 		this.txtPoints.setText(`${this.currentPoints}/${this.requiredPoints}`);
 		if (this.currentPoints > this.requiredPoints) this.txtPoints.setColor("#54ff82");
 		this.txtPointsAdded.setText(`+${addedScore}`);
@@ -2082,8 +2076,8 @@ export default class Level extends Phaser.Scene {
 
 	private formatTime(ms: number): string {
 		const totalSeconds = Math.max(0, Math.floor(ms / 1000));
-		const minutes      = Math.floor(totalSeconds / 60);
-		const seconds      = totalSeconds % 60;
+		const minutes = Math.floor(totalSeconds / 60);
+		const seconds = totalSeconds % 60;
 		return `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
 	}
 
