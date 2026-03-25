@@ -1,3 +1,4 @@
+import Level from "../scenes/Level";
 import { shopsyBridge } from "../shopsystan/shopsyBridge";
 import { GAME_NAME, GAME_ID } from "../utils/config";
 import { ensureShareFontsLoaded, serializeShareCard, renderShareCardToBase64 } from "./ShareCardRenderer";
@@ -6,13 +7,13 @@ import { ShopsyAnalytics } from "../shopsystan/shopsyAnalytics";
 import { ShopsyMessageAction } from "../shopsystan/shopsyBridge";
 
 export class ShareManager {
-    private scene: any;
+    private scene: Level;
     private initialized = false;
 
     private isSharing: boolean = false;
     private isFontLoaded: boolean = false;
 
-    constructor(scene: any) {
+    constructor(scene: Level) {
         this.scene = scene;
     }
 

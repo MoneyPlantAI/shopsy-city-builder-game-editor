@@ -47,8 +47,10 @@
                     "texture": {
                         "key": "btn-home"
                     },
-                    "x": 70,
-                    "y": 70
+                    "x": 97,
+                    "y": 91,
+                    "scaleX": 1.5049143620855445,
+                    "scaleY": 1.5049143620855445
                 },
                 {
                     "type": "Sprite",
@@ -114,7 +116,9 @@
                         "key": "popup-play"
                     },
                     "x": 360,
-                    "y": 540
+                    "y": 540,
+                    "scaleX": 0.6,
+                    "scaleY": 0.6
                 },
                 {
                     "type": "Sprite",
@@ -122,10 +126,12 @@
                     "label": "popupPlayButton",
                     "scope": "CLASS",
                     "texture": {
-                        "key": "btn-play"
+                        "key": "Green-btn"
                     },
                     "x": 360,
-                    "y": 650
+                    "y": 665,
+                    "scaleX": 0.4,
+                    "scaleY": 0.4
                 },
                 {
                     "type": "Sprite",
@@ -133,10 +139,12 @@
                     "label": "popupCloseButton",
                     "scope": "CLASS",
                     "texture": {
-                        "key": "btn-close"
+                        "key": "back-button"
                     },
-                    "x": 515,
-                    "y": 385
+                    "x": 565,
+                    "y": 371,
+                    "scaleX": 0.38794673562614557,
+                    "scaleY": 0.38794673562614557
                 },
                 {
                     "type": "Text",
@@ -144,44 +152,247 @@
                     "label": "popupTitle",
                     "scope": "CLASS",
                     "x": 360,
-                    "y": 383,
+                    "y": 374,
                     "originX": 0.5,
                     "originY": 0.5,
                     "text": "Building 1",
                     "align": "center",
-                    "fontFamily": "bebas",
+                    "fontFamily": "CarterOne-Regular",
                     "fontSize": "40px",
-                    "color": "#FFFFFF"
+                    "color": "#f7e62a",
+                    "stroke": "#0a5bc0",
+                    "strokeThickness": 5
+                },
+                {
+                    "type": "Image",
+                    "id": "e01344df-0bb9-46b4-ae12-59117b726563",
+                    "label": "back_icon",
+                    "texture": {
+                        "key": "back-icon"
+                    },
+                    "x": 564,
+                    "y": 370,
+                    "scaleX": 0.3718945050517436,
+                    "scaleY": 0.3718945050517436
+                },
+                {
+                    "type": "Image",
+                    "id": "079789d4-e072-4f8c-b461-98a17ca1f1d8",
+                    "label": "bar_points",
+                    "texture": {
+                        "key": "bar-points"
+                    },
+                    "x": 487,
+                    "y": 522
                 },
                 {
                     "type": "Text",
-                    "id": "dd47b21e-f474-46fe-8a56-7405f6ec2f6d",
-                    "label": "popupBlocks",
-                    "scope": "CLASS",
-                    "x": 340,
-                    "y": 502,
-                    "originX": 1,
-                    "originY": 0.5,
-                    "text": "0",
-                    "align": "right",
-                    "fontFamily": "bebas",
-                    "fontSize": "30px",
-                    "color": "#FFFFFF"
-                },
-                {
-                    "type": "Text",
-                    "id": "e4792911-3fb0-4430-b7e9-81a865f3f1ad",
+                    "id": "ee27e911-bd5d-434e-8e49-1b98349ab9c4",
                     "label": "popupPoints",
                     "scope": "CLASS",
-                    "x": 480,
-                    "y": 502,
+                    "x": 519,
+                    "y": 525,
                     "originX": 1,
                     "originY": 0.5,
                     "text": "0",
                     "align": "right",
-                    "fontFamily": "bebas",
+                    "fontFamily": "CarterOne-Regular",
                     "fontSize": "30px",
                     "color": "#FFFFFF"
+                },
+                {
+                    "type": "Image",
+                    "id": "e99f676f-1c20-440d-a899-2378a1b9f2b6",
+                    "label": "gem",
+                    "texture": {
+                        "key": "gem"
+                    },
+                    "x": 411,
+                    "y": 520,
+                    "scaleX": 0.7192741177190282,
+                    "scaleY": 0.7192741177190282
+                },
+                {
+                    "type": "Image",
+                    "id": "1c046154-e4e7-46dd-b7de-7da80818717c",
+                    "label": "bar_blocks",
+                    "texture": {
+                        "key": "bar-blocks"
+                    },
+                    "x": 244,
+                    "y": 519
+                },
+                {
+                    "type": "Text",
+                    "id": "7ef4db26-67a0-412c-b011-051566ebb819",
+                    "label": "popupBlocks",
+                    "scope": "CLASS",
+                    "x": 289,
+                    "y": 521,
+                    "originX": 1,
+                    "originY": 0.5,
+                    "text": "0",
+                    "align": "right",
+                    "fontFamily": "CarterOne-Regular",
+                    "fontSize": "30px",
+                    "color": "#FFFFFF"
+                },
+                {
+                    "type": "Text",
+                    "id": "5a04dec9-0fd1-4726-a99f-941b0be30aa0",
+                    "label": "text_1",
+                    "x": 363,
+                    "y": 659,
+                    "originX": 0.5,
+                    "originY": 0.5,
+                    "text": "Play",
+                    "fontFamily": "CarterOne-Regular",
+                    "fontSize": "40px"
+                }
+            ]
+        },
+        {
+            "type": "Container",
+            "id": "74758d88-7f46-48ad-8d65-71f8208c8e74",
+            "label": "game_start_panel_container",
+            "useGameObjectName": true,
+            "scope": "CLASS",
+            "x": 540,
+            "y": 960,
+            "visible": false,
+            "list": [
+                {
+                    "type": "Image",
+                    "id": "86485e67-0eb4-42ac-b724-06387a14c294",
+                    "label": "blur_bg_1",
+                    "texture": {
+                        "key": "blur-bg"
+                    },
+                    "x": 8,
+                    "scaleX": 1.1,
+                    "scaleY": 1.1
+                },
+                {
+                    "type": "Image",
+                    "id": "c63822b8-15ea-44db-a58a-ee760223b5ce",
+                    "label": "naz_new_screen",
+                    "texture": {
+                        "key": "start-panel"
+                    },
+                    "x": 12,
+                    "y": 42
+                },
+                {
+                    "type": "Image",
+                    "id": "14d8c246-8cf2-4c5f-962b-eab511712c4b",
+                    "label": "naz_text3",
+                    "useGameObjectName": true,
+                    "texture": {
+                        "key": "naz-text3"
+                    },
+                    "x": -172,
+                    "y": -168
+                },
+                {
+                    "type": "Image",
+                    "id": "f5c968b4-5695-42a6-a6b8-39def09dcb61",
+                    "label": "naz_text1",
+                    "texture": {
+                        "key": "naz-text1"
+                    },
+                    "x": 32,
+                    "y": 361,
+                    "visible": false
+                },
+                {
+                    "type": "Image",
+                    "id": "e0da3351-9ada-4616-8ad4-bb52c9c48e7d",
+                    "label": "naz_text2",
+                    "texture": {
+                        "key": "naz-text2"
+                    },
+                    "x": 14,
+                    "y": 204
+                },
+                {
+                    "type": "Text",
+                    "id": "1c66bf82-9018-4bdd-b9e2-6ec75c83ac10",
+                    "label": "top_text",
+                    "x": 12,
+                    "y": -537,
+                    "originX": 0.5,
+                    "originY": 0.64,
+                    "text": "Stack & Earn Super Coins",
+                    "fontFamily": "CarterOne-Regular",
+                    "fontSize": "42px",
+                    "color": "#ecff3bff",
+                    "stroke": "#0a5bc0",
+                    "strokeThickness": 10
+                },
+                {
+                    "type": "Image",
+                    "id": "9fc81c85-e479-471f-a833-667ac9baf32d",
+                    "label": "start_btn",
+                    "useGameObjectName": true,
+                    "scope": "CLASS",
+                    "texture": {
+                        "key": "start-btn"
+                    },
+                    "x": 12,
+                    "y": 857
+                },
+                {
+                    "type": "Image",
+                    "id": "bf8d1f2a-57f7-4b54-b92a-f24d5e6cf7f7",
+                    "label": "character_BG",
+                    "useGameObjectName": true,
+                    "scope": "CLASS",
+                    "texture": {
+                        "key": "character-bg"
+                    },
+                    "x": -410,
+                    "y": -798
+                },
+                {
+                    "type": "Image",
+                    "id": "9bfcf604-2883-4a09-82f8-722f11565661",
+                    "label": "character_Icon",
+                    "useGameObjectName": true,
+                    "texture": {
+                        "key": "character-icon"
+                    },
+                    "x": -410,
+                    "y": -798
+                },
+                {
+                    "type": "Text",
+                    "id": "3949b645-4d30-4bb8-ac33-a1e137dced6e",
+                    "label": "profile_text",
+                    "useGameObjectName": true,
+                    "scope": "CLASS",
+                    "x": -409,
+                    "y": -683,
+                    "originX": 0.5,
+                    "originY": 0.5,
+                    "text": "Guest",
+                    "fixedWidth": 210,
+                    "align": "center",
+                    "fontFamily": "font-1",
+                    "fontSize": "35px",
+                    "stroke": "#332f2fff",
+                    "strokeThickness": 10
+                },
+                {
+                    "type": "Image",
+                    "id": "18af49f2-8386-41c7-9b9e-3cc2a923b3e4",
+                    "label": "title_1",
+                    "displayName": "title_1",
+                    "useGameObjectName": true,
+                    "texture": {
+                        "key": "game-title"
+                    },
+                    "x": 12,
+                    "y": -788
                 }
             ]
         }

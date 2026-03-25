@@ -31,6 +31,11 @@
                 "key": "bar-points"
             },
             {
+                "url": "assets/images/loading/bg-blur.png",
+                "type": "image",
+                "key": "bg-blur"
+            },
+            {
                 "url": "assets/images/gameplay/bg-game1.png",
                 "type": "image",
                 "key": "bg-game1"
@@ -193,6 +198,11 @@
                 "key": "character-icon"
             },
             {
+                "url": "assets/images/game-end/claim-rewards-btn.png",
+                "type": "image",
+                "key": "claim-rewards-btn"
+            },
+            {
                 "url": "assets/images/gameplay/claw1.png",
                 "type": "image",
                 "key": "claw1"
@@ -257,6 +267,11 @@
                 "key": "error-icon3"
             },
             {
+                "url": "assets/images/game-end/exit-game-btn.png",
+                "type": "image",
+                "key": "exit-game-btn"
+            },
+            {
                 "url": [
                     "assets/audio/fall.mp3"
                 ],
@@ -309,6 +324,11 @@
                 "url": "assets/spine/good.atlas"
             },
             {
+                "url": "assets/images/game-end/Green-btn.png",
+                "type": "image",
+                "key": "Green-btn"
+            },
+            {
                 "url": "assets/images/game-end/high-score-bg.png",
                 "type": "image",
                 "key": "high-score-bg"
@@ -344,6 +364,11 @@
                 "url": "assets/images/common/logo-01.png",
                 "type": "image",
                 "key": "logo-01"
+            },
+            {
+                "url": "assets/images/share/logo1.png",
+                "type": "image",
+                "key": "logo1"
             },
             {
                 "url": "assets/images/game-end/low-score-character.png",

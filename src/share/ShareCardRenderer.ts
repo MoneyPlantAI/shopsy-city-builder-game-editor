@@ -138,12 +138,6 @@ export const resolveImagePath = (textureKey: string): string => {
 
   switch (textureKey) {
 
-    case 'sh-character':
-      return tempPath + 'assets/images/share/sh-character.png';
-
-    case 'share-text1':
-      return tempPath + 'assets/images/share/share-text1.png';
-
     case 'sh-panel':
       return tempPath + 'assets/images/share/sh-panel.png';
 

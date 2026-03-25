@@ -6,14 +6,11 @@ export interface UserProfile {
     gameStats: UserProfileGameStats;
     earnings: UserProfileEarnings;
     claimableRewards: UserProfileClaimableRewards;
-
 }
 
 export interface UserProfileBasic {
     userId?: string;
     userName?: string;
-    avatarUrl?: string;
-    authToken?: string;
 }
 
 export interface UserProfileLogin {
@@ -21,36 +18,46 @@ export interface UserProfileLogin {
     loginDay?: number;
     loginStreak?: number;
     dailyLoginAwarded?: boolean;
-
     isFirstVisit?: boolean;
-    ftueRewardGiven?: boolean;
+    ftueCompleted?: boolean;
+    isFirstLoginToday?: boolean;
 }
 
 export interface UserProfileGameStats {
+    games: UserProfileGameStat[];
+}
+
+export interface UserProfileGameStat {
+    gameName?: string;
+    rewards?: UserProfileGameStatReward;
+    stats?: UserProfileGameStatStat;
+}
+
+export interface UserProfileGameStatReward {
+    coinsEarnedToday?: number;
+    coinsEarnedTotal?: number;
+    isMaxGameBonusEarned?: boolean;
+}
+
+export interface UserProfileGameStatStat {
     gamesPlayedToday?: number;
     gamesPlayedTotal?: number;
-    mostPlayedGame?: string;
-    mostPlayedGameCount?: number;
-    totalPlayTimeSec?: number;
+
 }
 
 export interface UserProfileEarnings {
-    gemsEarnedToday?: number;
-    gemsEarnedTotal?: number;
     coinsEarnedTotal?: number;
-    totalCoinsEarnedToday?: number;
-    currentGems?: number;
-    // currentCoins?: number;
+    coinsEarnedToday?: number;
+    coinsEarnedMonthly?: number;
+    isMaxGameBonusEarnedToday?: boolean;
+    monthlyRewardBonusAwarded?: boolean;
+    isRewardJourneyCompleted?: boolean;
+    newMonthRewardsJourneyStarted?: boolean;
+
 }
 
-export interface UserProfileClaimableRewards {
-    loginRewardCoinsForToday?: number;
-    perGameRewardCoinsForToday?: number;
-    maxEarnableCoinForToday?: number;
 
-    claimableGameRewardCoins?: number;
-    claimableLoginRewardCoins?: number;
-    claimableSignupRewardCoins?: number;
-    lockedLoginRewardCoins?: number;
-    lockedGameRewardCoins?: number;
+
+export interface UserProfileClaimableRewards {
+
 }
