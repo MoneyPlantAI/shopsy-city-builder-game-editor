@@ -28,7 +28,7 @@ export interface UserProfileGameStats {
 }
 
 export interface UserProfileGameStat {
-    gameName?: string;
+    gameId?: string;
     rewards?: UserProfileGameStatReward;
     stats?: UserProfileGameStatStat;
 }
