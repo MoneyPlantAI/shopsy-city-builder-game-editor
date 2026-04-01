@@ -968,6 +968,26 @@ export default class Level extends Phaser.Scene {
 		text_4.setStyle({ "fontFamily": "CarterOne-Regular", "fontSize": "70px", "stroke": "#332f2fff", "strokeThickness": 10 });
 		waiting_for_game_response_panel_container.add(text_4);
 
+		// tutorial
+		const tutorial = this.add.container(0, 0);
+		tutorial.visible = false;
+
+		// image_2
+		const image_2 = this.add.image(540, 960, "bg-blur");
+		image_2.alpha = 0.5;
+		image_2.alphaTopLeft = 0.5;
+		image_2.alphaTopRight = 0.5;
+		image_2.alphaBottomLeft = 0.5;
+		image_2.alphaBottomRight = 0.5;
+		tutorial.add(image_2);
+
+		// text_5
+		const text_5 = this.add.text(540, 960, "", {});
+		text_5.setOrigin(0.5, 0.5);
+		text_5.text = "Tap to place the block";
+		text_5.setStyle({ "fontFamily": "CarterOne-Regular", "fontSize": "65px", "stroke": "#000000ff", "strokeThickness": 7 });
+		tutorial.add(text_5);
+
 		this.bgGame1 = bgGame1;
 		this.bgGame2 = bgGame2;
 		this.bgGame3a = bgGame3a;
@@ -1056,6 +1076,9 @@ export default class Level extends Phaser.Scene {
 		this.game_start_panel_container = game_start_panel_container;
 		this.text_4 = text_4;
 		this.waiting_for_game_response_panel_container = waiting_for_game_response_panel_container;
+		this.image_2 = image_2;
+		this.text_5 = text_5;
+		this.tutorial = tutorial;
 
 		this.events.emit("scene-awake");
 	}
@@ -1148,6 +1171,9 @@ export default class Level extends Phaser.Scene {
 	private game_start_panel_container!: Phaser.GameObjects.Container;
 	private text_4!: Phaser.GameObjects.Text;
 	private waiting_for_game_response_panel_container!: Phaser.GameObjects.Container;
+	private image_2!: Phaser.GameObjects.Image;
+	private text_5!: Phaser.GameObjects.Text;
+	private tutorial!: Phaser.GameObjects.Container;
 
 	/* START-USER-CODE */
 
@@ -1236,6 +1262,8 @@ export default class Level extends Phaser.Scene {
 		this.popupDark.setDepth(2100);
 		this.pausePopupContainer.setDepth(2200);
 		this.endPopupContainer.setDepth(2200);
+		this.tutorial.setDepth(3000);
+		this.tutorial.setVisible(false);
 
 		// Managers
 		this.setupManagers();
@@ -1493,6 +1521,26 @@ export default class Level extends Phaser.Scene {
 
 		this.changeGameState(GAME_STATE.PLAYING);
 		this.changePanel(GAME_PANEL.GAMEPLAY_PANEL);
+		this.showGameplayTutorialIfNeeded();
+	}
+
+	private showGameplayTutorialIfNeeded(): void {
+		const shouldShowTutorial = this.playingLevelIndex === 0 && !PlayerPrefs.hasSeenGameplayTutorial;
+
+		this.tutorial.setVisible(shouldShowTutorial);
+
+		if (shouldShowTutorial) {
+			this.children.bringToTop(this.tutorial);
+		}
+
+		if (this.playingLevelIndex > 0 && !PlayerPrefs.hasSeenGameplayTutorial) {
+			PlayerPrefs.hasSeenGameplayTutorial = true;
+		}
+	}
+
+	private hideGameplayTutorial(): void {
+		this.tutorial.setVisible(false);
+		PlayerPrefs.hasSeenGameplayTutorial = true;
 	}
 
 	private pauseGame(): void {
@@ -1871,10 +1919,15 @@ export default class Level extends Phaser.Scene {
 
 		this.input.off("pointerdown");
 		this.input.on("pointerdown", (pointer: Phaser.Input.Pointer) => {
-			if (
+			const wasTutorialVisible = this.tutorial.visible;
+			if (this.tutorial.visible) {
+				this.hideGameplayTutorial();
+			}
+
+			if (!wasTutorialVisible && (
 				(this.pause_btn && this.pause_btn.getBounds().contains(pointer.x, pointer.y)) ||
 				(this.back_button1 && this.back_button1.getBounds().contains(pointer.x, pointer.y))
-			) return;
+			)) return;
 			if (this.currentGameState !== GAME_STATE.PLAYING || this.isGameplayPaused || !this.blockTop.visible) return;
 			this.blockTop.setVisible(false);
 			this.claw.setTexture("claw2");

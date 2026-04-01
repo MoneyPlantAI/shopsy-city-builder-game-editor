@@ -59,6 +59,7 @@ export class PlayerPrefs {
       this.requestValue('games_played_today', 0),
       this.requestValue('games_played_total', 0),
       this.requestValue('has_seen_tutorial', false),
+      this.requestValue('has_seen_gameplay_tutorial', false),
     ];
 
     this.hydrationPromise = Promise.all(requests)
@@ -204,5 +205,13 @@ export class PlayerPrefs {
 
   static set hasSeenTutorial(value: boolean) {
     this.write('has_seen_tutorial', value);
+  }
+
+  static get hasSeenGameplayTutorial(): boolean {
+    return this.read('has_seen_gameplay_tutorial', false);
+  }
+
+  static set hasSeenGameplayTutorial(value: boolean) {
+    this.write('has_seen_gameplay_tutorial', value);
   }
 }

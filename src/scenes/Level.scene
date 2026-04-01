@@ -1974,6 +1974,46 @@
                     "strokeThickness": 10
                 }
             ]
+        },
+        {
+            "type": "Container",
+            "id": "0166b15f-17bf-4d06-b788-0b7750d7341b",
+            "label": "tutorial",
+            "scope": "CLASS",
+            "visible": false,
+            "list": [
+                {
+                    "type": "Image",
+                    "id": "5bc39099-4860-48d3-8d4d-837b667c980b",
+                    "label": "image_2",
+                    "scope": "CLASS",
+                    "texture": {
+                        "key": "bg-blur"
+                    },
+                    "x": 540,
+                    "y": 960,
+                    "alpha": 0.5,
+                    "alphaTopLeft": 0.5,
+                    "alphaTopRight": 0.5,
+                    "alphaBottomLeft": 0.5,
+                    "alphaBottomRight": 0.5
+                },
+                {
+                    "type": "Text",
+                    "id": "f2bfe32e-731b-4f42-ad10-ff8ae41cbb32",
+                    "label": "text_5",
+                    "scope": "CLASS",
+                    "x": 540,
+                    "y": 960,
+                    "originX": 0.5,
+                    "originY": 0.5,
+                    "text": "Tap to place the block",
+                    "fontFamily": "CarterOne-Regular",
+                    "fontSize": "65px",
+                    "stroke": "#000000ff",
+                    "strokeThickness": 7
+                }
+            ]
         }
     ],
     "plainObjects": [],
