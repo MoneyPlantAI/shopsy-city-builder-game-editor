@@ -516,6 +516,11 @@
                 "key": "title"
             },
             {
+                "url": "assets/images/game-start/TutorialBG.png",
+                "type": "image",
+                "key": "TutorialBG"
+            },
+            {
                 "url": "assets/images/gameplay/txt-good.png",
                 "type": "image",
                 "key": "txt-good"
