@@ -77,6 +77,35 @@
                     "y": 405,
                     "scaleX": 1.9499397018284805,
                     "scaleY": 1.9499397018284805
+                },
+                {
+                    "type": "Image",
+                    "id": "ae6445da-7792-41b8-8a5a-46872efc7018",
+                    "label": "TutorialBG",
+                    "scope": "CLASS",
+                    "texture": {
+                        "key": "TutorialBG"
+                    },
+                    "x": 697,
+                    "y": 683,
+                    "visible": false
+                },
+                {
+                    "type": "Text",
+                    "id": "1e9a0498-b08f-441a-ad54-51ce8acc735e",
+                    "label": "TutorialText",
+                    "scope": "CLASS",
+                    "x": 700,
+                    "y": 698,
+                    "originX": 0.5,
+                    "originY": 0.5,
+                    "visible": false,
+                    "text": "Tap here for the \nfirst level",
+                    "align": "center",
+                    "fontFamily": "CarterOne-Regular",
+                    "fontSize": "35px",
+                    "stroke": "#000000ff",
+                    "strokeThickness": 3
                 }
             ]
         },

@@ -10,6 +10,7 @@ import { LEVELS, LEVEL_BUILDING_OFFSET_Y } from "../data/levels";
 import { GAME_PANEL } from "../game-core/GamePanel";
 import { GAME_STATE } from "../game-core/GameState";
 import { shopsyBridge } from "../shopsystan/shopsyBridge";
+import { PlayerPrefs } from "../utils/PlayerPrefs";
 /* END-USER-IMPORTS */
 
 export default class LevelSelect extends Phaser.Scene {
@@ -54,6 +55,19 @@ export default class LevelSelect extends Phaser.Scene {
 		locationMarker.scaleY = 1.9499397018284805;
 		mapUiContainer.add(locationMarker);
 
+		// TutorialBG
+		const tutorialBG = this.add.image(697, 683, "TutorialBG");
+		tutorialBG.visible = false;
+		mapUiContainer.add(tutorialBG);
+
+		// TutorialText
+		const tutorialText = this.add.text(700, 698, "", {});
+		tutorialText.setOrigin(0.5, 0.5);
+		tutorialText.visible = false;
+		tutorialText.text = "Tap here for the \nfirst level";
+		tutorialText.setStyle({ "align": "center", "fontFamily": "CarterOne-Regular", "fontSize": "35px", "stroke": "#000000ff", "strokeThickness": 3 });
+		mapUiContainer.add(tutorialText);
+
 		// popupDark
 		const popupDark = this.add.rectangle(0, 0, 720, 1080);
 		popupDark.scaleX = 1.505657351827596;
@@ -68,6 +82,7 @@ export default class LevelSelect extends Phaser.Scene {
 		const playPopupContainer = this.add.container(-48, 116);
 		playPopupContainer.scaleX = 1.6663067937480376;
 		playPopupContainer.scaleY = 1.6663067937480376;
+		playPopupContainer.visible = false;
 
 		// popupBg
 		const popupBg = this.add.image(360, 540, "popup-play");
@@ -204,6 +219,8 @@ export default class LevelSelect extends Phaser.Scene {
 		this.homeButton = homeButton;
 		this.startLevelButton = startLevelButton;
 		this.locationMarker = locationMarker;
+		this.tutorialBG = tutorialBG;
+		this.tutorialText = tutorialText;
 		this.mapUiContainer = mapUiContainer;
 		this.popupDark = popupDark;
 		this.popupBg = popupBg;
@@ -226,6 +243,8 @@ export default class LevelSelect extends Phaser.Scene {
 	private homeButton!: Phaser.GameObjects.Sprite;
 	private startLevelButton!: Phaser.GameObjects.Sprite;
 	private locationMarker!: Phaser.GameObjects.Image;
+	private tutorialBG!: Phaser.GameObjects.Image;
+	private tutorialText!: Phaser.GameObjects.Text;
 	private mapUiContainer!: Phaser.GameObjects.Container;
 	private popupDark!: Phaser.GameObjects.Rectangle;
 	private popupBg!: Phaser.GameObjects.Image;
@@ -287,6 +306,7 @@ export default class LevelSelect extends Phaser.Scene {
         this.renderLevelMap();
         this.setupPanels();
         this.setupInteractions();
+        this.updateTutorialVisibility();
         this.changeGameState(GAME_STATE.PRE_GAME);
     }
 
@@ -301,6 +321,7 @@ export default class LevelSelect extends Phaser.Scene {
 
         // ── Current-level (new unlock) button ─────────────────────────────────
         this.tapInteractionHelper(this.startBtnNode, () => {
+            this.hideTutorial();
             this.openPopupForLevel(gameState.currentLevel);
         });
 
@@ -514,6 +535,23 @@ export default class LevelSelect extends Phaser.Scene {
             yoyo: true,
             repeat: -1
         });
+    }
+
+    private updateTutorialVisibility(): void {
+        const shouldShowTutorial = gameState.currentLevel === 0 && !PlayerPrefs.hasSeenTutorial;
+
+        this.tutorialBG.setVisible(shouldShowTutorial);
+        this.tutorialText.setVisible(shouldShowTutorial);
+
+        if (gameState.currentLevel > 0 && !PlayerPrefs.hasSeenTutorial) {
+            PlayerPrefs.hasSeenTutorial = true;
+        }
+    }
+
+    private hideTutorial(): void {
+        this.tutorialBG.setVisible(false);
+        this.tutorialText.setVisible(false);
+        PlayerPrefs.hasSeenTutorial = true;
     }
 
     /* END-USER-CODE */
