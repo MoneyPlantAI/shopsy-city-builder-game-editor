@@ -53,4 +53,10 @@ export class ShopsyAnalytics {
             "score": score,
         });
     }
+    static sendCtaClickedEvent(ctaName: string) {
+        shopsyBridge.analyticsEvent("in_game_cta_clicked", {
+            "game_id": GAME_ID,
+            "cta_name": ctaName
+        });
+    }
 }
