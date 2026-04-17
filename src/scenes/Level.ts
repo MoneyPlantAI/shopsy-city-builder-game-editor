@@ -592,7 +592,6 @@ export default class Level extends Phaser.Scene {
 		// game_over_win_panel_container
 		const game_over_win_panel_container = this.add.container(0, 0);
 		game_over_win_panel_container.name = "game_over_win_panel_container";
-		game_over_win_panel_container.visible = false;
 
 		// score_panel_1
 		const score_panel_1 = this.add.image(534, 1035, "score-panel");
@@ -670,7 +669,7 @@ export default class Level extends Phaser.Scene {
 		game_over_win_panel_container.add(bottom_text_2);
 
 		// Supercoin_text1
-		const supercoin_text1 = this.add.text(416, 1075, "", {});
+		const supercoin_text1 = this.add.text(386, 1075, "", {});
 		supercoin_text1.setOrigin(0.5, 0.5);
 		supercoin_text1.text = "0";
 		supercoin_text1.setStyle({ "align": "center", "fontFamily": "CarterOne-Regular", "fontSize": "85px", "stroke": "#a77203ff", "strokeThickness": 10 });
@@ -687,6 +686,7 @@ export default class Level extends Phaser.Scene {
 		// game_over_panel_container
 		const game_over_panel_container = this.add.container(517, 789);
 		game_over_panel_container.name = "game_over_panel_container";
+		game_over_panel_container.visible = false;
 
 		// blur_bg
 		const blur_bg = this.add.image(23, 169, "blur-bg");

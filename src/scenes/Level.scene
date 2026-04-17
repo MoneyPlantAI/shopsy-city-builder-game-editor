@@ -1212,7 +1212,6 @@
             "displayName": "game_over_win_panel_container",
             "useGameObjectName": true,
             "scope": "CLASS",
-            "visible": false,
             "list": [
                 {
                     "type": "Image",
@@ -1374,7 +1373,7 @@
                     "id": "849a01f5-719e-4a2b-ad89-c366900b203f",
                     "label": "Supercoin_text1",
                     "scope": "CLASS",
-                    "x": 416,
+                    "x": 386,
                     "y": 1075,
                     "originX": 0.5,
                     "originY": 0.5,
@@ -1416,6 +1415,7 @@
             "scope": "CLASS",
             "x": 517,
             "y": 789,
+            "visible": false,
             "list": [
                 {
                     "type": "Image",
