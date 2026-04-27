@@ -538,18 +538,10 @@ export default class LevelSelect extends Phaser.Scene {
     }
 
     private updateTutorialVisibility(): void {
-        const shouldShowTutorial = gameState.currentLevel === 0 && !PlayerPrefs.hasSeenTutorial;
+        const shouldShowTutorial = gameState.currentLevel === 0;
 
         this.tutorialBG.setVisible(shouldShowTutorial);
         this.tutorialText.setVisible(shouldShowTutorial);
-
-        if (shouldShowTutorial) {
-            // Mark as seen the moment it is shown so it never appears again,
-            // even if the player exits without tapping the start button.
-            PlayerPrefs.hasSeenTutorial = true;
-        } else if (gameState.currentLevel > 0 && !PlayerPrefs.hasSeenTutorial) {
-            PlayerPrefs.hasSeenTutorial = true;
-        }
     }
 
     private hideTutorial(): void {
