@@ -1994,6 +1994,7 @@ export default class Level extends Phaser.Scene {
 				ease: "Sine.easeIn",
 				onComplete: () => {
 					playSound(this, "hit");
+					if (navigator.vibrate) navigator.vibrate(80);
 					this.cameras.main.shake(150, 0.004);
 					gameState.totalStackedBlocks++;
 
