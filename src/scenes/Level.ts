@@ -18,6 +18,9 @@ import { PlayerPrefs } from "../utils/PlayerPrefs";
 import GameResponseManager from "../shopsystan/shopsyGameResponses";
 /* END-USER-IMPORTS */
 
+// Tracks whether the gameplay tutorial has already been shown this session (resets on page reload)
+let _gameplayTutorialShownThisSession = false;
+
 export default class Level extends Phaser.Scene {
 
 	constructor() {
@@ -592,6 +595,7 @@ export default class Level extends Phaser.Scene {
 		// game_over_win_panel_container
 		const game_over_win_panel_container = this.add.container(0, 0);
 		game_over_win_panel_container.name = "game_over_win_panel_container";
+		game_over_win_panel_container.visible = false;
 
 		// score_panel_1
 		const score_panel_1 = this.add.image(534, 1035, "score-panel");
@@ -1525,22 +1529,16 @@ export default class Level extends Phaser.Scene {
 	}
 
 	private showGameplayTutorialIfNeeded(): void {
-		const shouldShowTutorial = this.playingLevelIndex === 0 && !PlayerPrefs.hasSeenGameplayTutorial;
-
+		const shouldShowTutorial = !_gameplayTutorialShownThisSession;
 		this.tutorial.setVisible(shouldShowTutorial);
-
 		if (shouldShowTutorial) {
 			this.children.bringToTop(this.tutorial);
-		}
-
-		if (this.playingLevelIndex > 0 && !PlayerPrefs.hasSeenGameplayTutorial) {
-			PlayerPrefs.hasSeenGameplayTutorial = true;
 		}
 	}
 
 	private hideGameplayTutorial(): void {
 		this.tutorial.setVisible(false);
-		PlayerPrefs.hasSeenGameplayTutorial = true;
+		_gameplayTutorialShownThisSession = true;
 	}
 
 	private pauseGame(): void {

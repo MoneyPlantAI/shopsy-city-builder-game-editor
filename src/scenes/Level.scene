@@ -1212,6 +1212,7 @@
             "displayName": "game_over_win_panel_container",
             "useGameObjectName": true,
             "scope": "CLASS",
+            "visible": false,
             "list": [
                 {
                     "type": "Image",
