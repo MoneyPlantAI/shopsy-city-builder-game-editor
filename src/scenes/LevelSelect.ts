@@ -526,6 +526,14 @@ export default class LevelSelect extends Phaser.Scene {
         this.startLevelButton.setPosition(current.x, current.y);
         this.locationMarker.setPosition(current.x, current.y - 120);
 
+        // Position tutorial elements relative to locationMarker (preserving original y offsets: +278, +293)
+        this.tutorialBG.setPosition(current.x, this.locationMarker.y + 278);
+        this.tutorialText.setPosition(current.x, this.locationMarker.y + 293);
+
+        const ordinals = ["first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth"];
+        const ordinal = ordinals[gameState.currentLevel] ?? `${gameState.currentLevel + 1}th`;
+        this.tutorialText.setText(`Tap here for the \n${ordinal} level`);
+
         this.tweens.killTweensOf(this.locationMarker);
         this.tweens.add({
             targets: this.locationMarker,
@@ -538,10 +546,8 @@ export default class LevelSelect extends Phaser.Scene {
     }
 
     private updateTutorialVisibility(): void {
-        const shouldShowTutorial = gameState.currentLevel === 0;
-
-        this.tutorialBG.setVisible(shouldShowTutorial);
-        this.tutorialText.setVisible(shouldShowTutorial);
+        this.tutorialBG.setVisible(true);
+        this.tutorialText.setVisible(true);
     }
 
     private hideTutorial(): void {
