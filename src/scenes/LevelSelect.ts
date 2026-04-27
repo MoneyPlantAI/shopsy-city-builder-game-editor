@@ -321,7 +321,6 @@ export default class LevelSelect extends Phaser.Scene {
 
         // ── Current-level (new unlock) button ─────────────────────────────────
         this.tapInteractionHelper(this.startBtnNode, () => {
-            this.hideTutorial();
             this.openPopupForLevel(gameState.currentLevel);
         });
 
@@ -551,9 +550,7 @@ export default class LevelSelect extends Phaser.Scene {
     }
 
     private hideTutorial(): void {
-        this.tutorialBG.setVisible(false);
-        this.tutorialText.setVisible(false);
-        PlayerPrefs.hasSeenTutorial = true;
+        // Tutorial is always visible
     }
 
     /* END-USER-CODE */
