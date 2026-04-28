@@ -1637,6 +1637,10 @@ export default class Level extends Phaser.Scene {
 		this.timePlayedMs = this.time.now - this.gameStartTime;
 		ShopsyAnalytics.sendGameAbandonedEvent(this.currentPoints, this.timePlayedMs);
 		if (shopsyBridge.isNative) {
+			shopsyBridge.gameCompleted({
+				gems: 0, // No coins for abandoning, even if they had points at the time
+				playTimeInSec: Math.floor(this.timePlayedMs / 1000)
+			});
 			shopsyBridge.exitGame();
 			return;
 		}

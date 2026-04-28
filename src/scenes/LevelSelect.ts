@@ -487,6 +487,10 @@ export default class LevelSelect extends Phaser.Scene {
 
     private exitOrHome(): void {
         if (shopsyBridge.isNative) {
+            shopsyBridge.gameCompleted({
+                gems: 0, // No coins for abandoning, even if they had points at the time
+                playTimeInSec: 0
+            });
             shopsyBridge.exitGame();
         } else {
             this.scene.restart();
