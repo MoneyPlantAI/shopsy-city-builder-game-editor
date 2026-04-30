@@ -17,6 +17,8 @@ import { GAME_ID, GAME_NAME } from "../utils/config";
 import { PlayerPrefs } from "../utils/PlayerPrefs";
 import GameResponseManager from "../shopsystan/shopsyGameResponses";
 /* END-USER-IMPORTS */
+// Tracks whether the gameplay tutorial has already been shown this session (resets on page reload)
+let _gameplayTutorialShownThisSession = false;
 
 export default class Level extends Phaser.Scene {
 
