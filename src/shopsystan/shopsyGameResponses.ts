@@ -35,4 +35,5 @@ export interface GameEndedResponse {
     totalCoinsEarnedToday: number;
     coinsEarnedTotal: number;
     coinsEarnedForGame: number;
+    isMaxGameBonusEarned: boolean;
 }

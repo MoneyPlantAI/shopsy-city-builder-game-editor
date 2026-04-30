@@ -716,7 +716,8 @@
                     "texture": {
                         "key": "error-icon2"
                     },
-                    "y": 12
+                    "y": 12,
+                    "visible": false
                 },
                 {
                     "type": "Image",
@@ -726,7 +727,8 @@
                     "texture": {
                         "key": "error-icon3"
                     },
-                    "y": 12
+                    "y": 12,
+                    "visible": false
                 },
                 {
                     "type": "Image",
@@ -736,7 +738,8 @@
                     "texture": {
                         "key": "error-icon1"
                     },
-                    "x": 17
+                    "x": 17,
+                    "visible": false
                 },
                 {
                     "type": "Image",
@@ -746,14 +749,15 @@
                     "texture": {
                         "key": "error-icon2"
                     },
-                    "y": 12
+                    "y": 12,
+                    "visible": false
                 },
                 {
                     "type": "Text",
                     "id": "e945adfa-f7d1-42a9-af66-74aff44ecbc4",
                     "label": "Error_title1",
                     "useGameObjectName": true,
-                    "x": 421,
+                    "x": 310,
                     "y": 176,
                     "originX": 0.5,
                     "originY": 0.5,
@@ -769,7 +773,7 @@
                     "id": "dff4a0a1-b0a2-4402-8dc4-1185fcc75c3b",
                     "label": "Error_title2",
                     "useGameObjectName": true,
-                    "x": 406,
+                    "x": 295,
                     "y": 175,
                     "originX": 0.5,
                     "originY": 0.5,
@@ -785,7 +789,7 @@
                     "id": "0afc69f0-b206-448f-8b8a-80d34ea3fb42",
                     "label": "Error_title3",
                     "useGameObjectName": true,
-                    "x": 460,
+                    "x": 349,
                     "y": 176,
                     "originX": 0.5,
                     "originY": 0.5,
@@ -800,7 +804,7 @@
                     "id": "26a6b476-f0f7-40ca-8397-464c2797254b",
                     "label": "Error_title4",
                     "useGameObjectName": true,
-                    "x": 454,
+                    "x": 343,
                     "y": 176,
                     "originX": 0.5,
                     "originY": 0.5,
@@ -816,7 +820,7 @@
                     "id": "7b6e12ed-daf5-4a84-af7d-adb0497a1c27",
                     "label": "error_subtitle1",
                     "useGameObjectName": true,
-                    "x": 435,
+                    "x": 324,
                     "y": 263,
                     "originX": 0.5,
                     "originY": 0.5,
@@ -832,7 +836,7 @@
                     "id": "3d86af41-98e9-44aa-9bd4-6e00b4ecb3ba",
                     "label": "error_subtitle2",
                     "useGameObjectName": true,
-                    "x": 409,
+                    "x": 298,
                     "y": 265,
                     "originX": 0.5,
                     "originY": 0.5,
@@ -848,7 +852,7 @@
                     "id": "2409acb0-0c36-49a3-83a0-c624b03c38a6",
                     "label": "error_subtitle3",
                     "useGameObjectName": true,
-                    "x": 444,
+                    "x": 333,
                     "y": 265,
                     "originX": 0.5,
                     "originY": 0.5,
@@ -863,7 +867,7 @@
                     "id": "1215d4c0-9c30-40a1-a348-7d55e5849048",
                     "label": "error_subtitle4",
                     "useGameObjectName": true,
-                    "x": 281,
+                    "x": 170,
                     "y": 265,
                     "originY": 0.5,
                     "visible": false,
@@ -1092,6 +1096,7 @@
                     "id": "c544a3af-8bae-4d91-96b5-a68ee1736b40",
                     "label": "Bottom_text_1",
                     "useGameObjectName": true,
+                    "scope": "CLASS",
                     "x": 540,
                     "y": 1264,
                     "originX": 0.5,
@@ -1242,6 +1247,7 @@
                     "id": "856c1bbd-c7ae-40ed-8832-c3f5c97e5d9a",
                     "label": "score_text",
                     "useGameObjectName": true,
+                    "scope": "CLASS",
                     "x": 540,
                     "y": 761,
                     "originX": 0.5,
@@ -1258,6 +1264,7 @@
                     "id": "3a8811e3-6c1d-4d28-925f-f964ca21a8f9",
                     "label": "Bottom_text",
                     "useGameObjectName": true,
+                    "scope": "CLASS",
                     "x": 540,
                     "y": 1252,
                     "originX": 0.5,
@@ -1402,6 +1409,17 @@
                     "scope": "CLASS",
                     "texture": {
                         "key": "claim-rewards-btn"
+                    },
+                    "x": 540,
+                    "y": 1556
+                },
+                {
+                    "type": "Image",
+                    "id": "a173f452-9fd7-4ebb-a593-c9946c274885",
+                    "label": "exit_from_win_screen_btn_1",
+                    "scope": "CLASS",
+                    "texture": {
+                        "key": "exit-game-btn"
                     },
                     "x": 540,
                     "y": 1556

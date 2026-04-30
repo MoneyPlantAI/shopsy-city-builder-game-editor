@@ -18,9 +18,6 @@ import { PlayerPrefs } from "../utils/PlayerPrefs";
 import GameResponseManager from "../shopsystan/shopsyGameResponses";
 /* END-USER-IMPORTS */
 
-// Tracks whether the gameplay tutorial has already been shown this session (resets on page reload)
-let _gameplayTutorialShownThisSession = false;
-
 export default class Level extends Phaser.Scene {
 
 	constructor() {
@@ -353,25 +350,29 @@ export default class Level extends Phaser.Scene {
 		// Error_icon1
 		const error_icon1 = this.add.image(0, 12, "error-icon2");
 		error_icon1.name = "Error_icon1";
+		error_icon1.visible = false;
 		error_panel_container.add(error_icon1);
 
 		// Error_icon2
 		const error_icon2 = this.add.image(0, 12, "error-icon3");
 		error_icon2.name = "Error_icon2";
+		error_icon2.visible = false;
 		error_panel_container.add(error_icon2);
 
 		// Error_icon3
 		const error_icon3 = this.add.image(17, 0, "error-icon1");
 		error_icon3.name = "Error_icon3";
+		error_icon3.visible = false;
 		error_panel_container.add(error_icon3);
 
 		// Error_icon4
 		const error_icon4 = this.add.image(0, 12, "error-icon2");
 		error_icon4.name = "Error_icon4";
+		error_icon4.visible = false;
 		error_panel_container.add(error_icon4);
 
 		// Error_title1
-		const error_title1 = this.add.text(421, 176, "", {});
+		const error_title1 = this.add.text(310, 176, "", {});
 		error_title1.name = "Error_title1";
 		error_title1.setOrigin(0.5, 0.5);
 		error_title1.visible = false;
@@ -380,7 +381,7 @@ export default class Level extends Phaser.Scene {
 		error_panel_container.add(error_title1);
 
 		// Error_title2
-		const error_title2 = this.add.text(406, 175, "", {});
+		const error_title2 = this.add.text(295, 175, "", {});
 		error_title2.name = "Error_title2";
 		error_title2.setOrigin(0.5, 0.5);
 		error_title2.visible = false;
@@ -389,7 +390,7 @@ export default class Level extends Phaser.Scene {
 		error_panel_container.add(error_title2);
 
 		// Error_title3
-		const error_title3 = this.add.text(460, 176, "", {});
+		const error_title3 = this.add.text(349, 176, "", {});
 		error_title3.name = "Error_title3";
 		error_title3.setOrigin(0.5, 0.5);
 		error_title3.text = "Something went wrong";
@@ -397,7 +398,7 @@ export default class Level extends Phaser.Scene {
 		error_panel_container.add(error_title3);
 
 		// Error_title4
-		const error_title4 = this.add.text(454, 176, "", {});
+		const error_title4 = this.add.text(343, 176, "", {});
 		error_title4.name = "Error_title4";
 		error_title4.setOrigin(0.5, 0.5);
 		error_title4.visible = false;
@@ -406,7 +407,7 @@ export default class Level extends Phaser.Scene {
 		error_panel_container.add(error_title4);
 
 		// error_subtitle1
-		const error_subtitle1 = this.add.text(435, 263, "", {});
+		const error_subtitle1 = this.add.text(324, 263, "", {});
 		error_subtitle1.name = "error_subtitle1";
 		error_subtitle1.setOrigin(0.5, 0.5);
 		error_subtitle1.visible = false;
@@ -415,7 +416,7 @@ export default class Level extends Phaser.Scene {
 		error_panel_container.add(error_subtitle1);
 
 		// error_subtitle2
-		const error_subtitle2 = this.add.text(409, 265, "", {});
+		const error_subtitle2 = this.add.text(298, 265, "", {});
 		error_subtitle2.name = "error_subtitle2";
 		error_subtitle2.setOrigin(0.5, 0.5);
 		error_subtitle2.visible = false;
@@ -424,7 +425,7 @@ export default class Level extends Phaser.Scene {
 		error_panel_container.add(error_subtitle2);
 
 		// error_subtitle3
-		const error_subtitle3 = this.add.text(444, 265, "", {});
+		const error_subtitle3 = this.add.text(333, 265, "", {});
 		error_subtitle3.name = "error_subtitle3";
 		error_subtitle3.setOrigin(0.5, 0.5);
 		error_subtitle3.text = "We're Working on this,\n       please try again";
@@ -432,7 +433,7 @@ export default class Level extends Phaser.Scene {
 		error_panel_container.add(error_subtitle3);
 
 		// error_subtitle4
-		const error_subtitle4 = this.add.text(281, 265, "", {});
+		const error_subtitle4 = this.add.text(170, 265, "", {});
 		error_subtitle4.name = "error_subtitle4";
 		error_subtitle4.setOrigin(0, 0.5);
 		error_subtitle4.visible = false;
@@ -686,6 +687,10 @@ export default class Level extends Phaser.Scene {
 		// exit_from_win_screen_btn
 		const exit_from_win_screen_btn = this.add.image(540, 1556, "claim-rewards-btn");
 		game_over_win_panel_container.add(exit_from_win_screen_btn);
+
+		// exit_from_win_screen_btn_1
+		const exit_from_win_screen_btn_1 = this.add.image(540, 1556, "exit-game-btn");
+		game_over_win_panel_container.add(exit_from_win_screen_btn_1);
 
 		// game_over_panel_container
 		const game_over_panel_container = this.add.container(517, 789);
@@ -1046,18 +1051,22 @@ export default class Level extends Phaser.Scene {
 		this.supercoin_text_1 = supercoin_text_1;
 		this.share_panel_container = share_panel_container;
 		this.lowScore_Character_1 = lowScore_Character_1;
+		this.bottom_text_1 = bottom_text_1;
 		this.play_again_btn = play_again_btn;
 		this.low_score = low_score;
 		this.supercoin_text = supercoin_text;
 		this.exit_from_lose_screen_btn = exit_from_lose_screen_btn;
 		this.game_over_lose_panel_container = game_over_lose_panel_container;
 		this.highScore_Character_1 = highScore_Character_1;
+		this.score_text = score_text;
+		this.bottom_text = bottom_text;
 		this.btn_next_ = btn_next_;
 		this.next_btn = next_btn;
 		this.high_score_1 = high_score_1;
 		this.bottom_text_2 = bottom_text_2;
 		this.supercoin_text1 = supercoin_text1;
 		this.exit_from_win_screen_btn = exit_from_win_screen_btn;
+		this.exit_from_win_screen_btn_1 = exit_from_win_screen_btn_1;
 		this.game_over_win_panel_container = game_over_win_panel_container;
 		this.time_spend = time_spend;
 		this.high_score = high_score;
@@ -1141,18 +1150,22 @@ export default class Level extends Phaser.Scene {
 	private supercoin_text_1!: Phaser.GameObjects.Text;
 	public share_panel_container!: Phaser.GameObjects.Container;
 	private lowScore_Character_1!: Phaser.GameObjects.Image;
+	private bottom_text_1!: Phaser.GameObjects.Text;
 	private play_again_btn!: Phaser.GameObjects.Image;
 	private low_score!: Phaser.GameObjects.Text;
 	private supercoin_text!: Phaser.GameObjects.Text;
 	private exit_from_lose_screen_btn!: Phaser.GameObjects.Image;
 	private game_over_lose_panel_container!: Phaser.GameObjects.Container;
 	private highScore_Character_1!: Phaser.GameObjects.Image;
+	private score_text!: Phaser.GameObjects.Text;
+	private bottom_text!: Phaser.GameObjects.Text;
 	private btn_next_!: Phaser.GameObjects.Image;
 	private next_btn!: Phaser.GameObjects.Image;
 	private high_score_1!: Phaser.GameObjects.Text;
 	private bottom_text_2!: Phaser.GameObjects.Text;
 	private supercoin_text1!: Phaser.GameObjects.Text;
 	private exit_from_win_screen_btn!: Phaser.GameObjects.Image;
+	private exit_from_win_screen_btn_1!: Phaser.GameObjects.Image;
 	private game_over_win_panel_container!: Phaser.GameObjects.Container;
 	private time_spend!: Phaser.GameObjects.Text;
 	private high_score!: Phaser.GameObjects.Text;
@@ -1615,6 +1628,19 @@ export default class Level extends Phaser.Scene {
 
 
 	private onGameWon(): void {
+		if(this.superCoinsWonThisRound>0) {
+			this.score_text?.setText("Nicely Done");
+			this.bottom_text?.setText("You've won Super Coins!");
+			this.exit_from_win_screen_btn?.setVisible(true);
+			this.exit_from_win_screen_btn_1?.setVisible(false);
+		}
+		else{
+			this.score_text?.setText("Nicely Done");
+			this.bottom_text?.setText("Congratulations!");
+			this.exit_from_win_screen_btn?.setVisible(false);
+			this.exit_from_win_screen_btn_1?.setVisible(true);
+
+		}
 		playSound(this, "completed");
 		this.isGameplayPaused = true;           // stop update loop
 		this.onGameOver("win");
@@ -1622,6 +1648,16 @@ export default class Level extends Phaser.Scene {
 
 
 	private onGameLost(): void {
+		if(this.isMaxGameBonusEarned)
+		{
+			//this.Bottom_text_1
+			this.play_again_btn?.setVisible(false);
+			this.bottom_text_1?.setText("Better Luck Next Time");
+		}
+		else{
+			this.play_again_btn?.setVisible(true);
+			this.bottom_text_1?.setText("Let's Try again!");
+		}
 		playSound(this, "gameover");
 		this.isGameplayPaused = true;           // stop update loop
 		this.share_btn?.setVisible(false);
@@ -1802,6 +1838,7 @@ export default class Level extends Phaser.Scene {
 		this.bridgeUnsubscribers.push(
 			shopsyBridge.on(ShopsyMessageAction.GAME_COMPLETED_ACK, (data) => {
 				console.log(`[${GAME_NAME}] Game completed`);
+				this.isMaxGameBonusEarned = data?.isMaxGameBonusEarned ?? true;
 				GameResponseManager.setGameEndedResponse(data);
 				this.onShopsyGameResponse();
 			})
