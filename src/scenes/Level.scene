@@ -651,6 +651,7 @@
             "scope": "CLASS",
             "x": 206,
             "y": 699,
+            "visible": false,
             "list": [
                 {
                     "type": "Image",
@@ -1436,7 +1437,6 @@
             "scope": "CLASS",
             "x": 517,
             "y": 789,
-            "visible": false,
             "list": [
                 {
                     "type": "Image",
@@ -1685,7 +1685,9 @@
                         "key": "character-icon"
                     },
                     "x": -399,
-                    "y": -669
+                    "y": -669,
+                    "scaleX": 1.138783514614004,
+                    "scaleY": 1.138783514614004
                 },
                 {
                     "type": "Text",

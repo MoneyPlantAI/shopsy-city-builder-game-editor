@@ -323,6 +323,7 @@ export default class Level extends Phaser.Scene {
 		// error_panel_container
 		const error_panel_container = this.add.container(206, 699);
 		error_panel_container.name = "error_panel_container";
+		error_panel_container.visible = false;
 
 		// bg_blur_1
 		const bg_blur_1 = this.add.image(334, 255, "blur-bg");
@@ -698,7 +699,6 @@ export default class Level extends Phaser.Scene {
 		// game_over_panel_container
 		const game_over_panel_container = this.add.container(517, 789);
 		game_over_panel_container.name = "game_over_panel_container";
-		game_over_panel_container.visible = false;
 
 		// blur_bg
 		const blur_bg = this.add.image(23, 169, "blur-bg");
@@ -841,6 +841,8 @@ export default class Level extends Phaser.Scene {
 		// character_Icon_2
 		const character_Icon_2 = this.add.image(-399, -669, "character-icon");
 		character_Icon_2.name = "character_Icon_2";
+		character_Icon_2.scaleX = 1.138783514614004;
+		character_Icon_2.scaleY = 1.138783514614004;
 		game_over_panel_container.add(character_Icon_2);
 
 		// profile_text_1
@@ -1633,7 +1635,7 @@ export default class Level extends Phaser.Scene {
 
 
 	private onGameWon(): void {
-		if(this.superCoinsWonThisRound>0) {
+		if(GameResponseManager.getCoinsEarnedForGame()>0) {
 			this.score_text?.setText("Nicely Done");
 			this.bottom_text?.setText("You've won Super Coins!");
 			this.exit_from_win_screen_btn?.setVisible(true);
