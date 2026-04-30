@@ -481,11 +481,14 @@
                     "id": "ad936889-9142-4c69-8eda-945212fbecf0",
                     "label": "character_Icon_1",
                     "useGameObjectName": true,
+                    "scope": "CLASS",
                     "texture": {
                         "key": "character-icon"
                     },
                     "x": 1,
-                    "y": 42
+                    "y": 42,
+                    "scaleX": 1.1303800689684422,
+                    "scaleY": 1.1303800689684422
                 },
                 {
                     "type": "Image",
@@ -648,7 +651,6 @@
             "scope": "CLASS",
             "x": 206,
             "y": 699,
-            "visible": false,
             "list": [
                 {
                     "type": "Image",

@@ -234,6 +234,8 @@ export default class Level extends Phaser.Scene {
 		// character_Icon_1
 		const character_Icon_1 = this.add.image(1, 42, "character-icon");
 		character_Icon_1.name = "character_Icon_1";
+		character_Icon_1.scaleX = 1.1303800689684422;
+		character_Icon_1.scaleY = 1.1303800689684422;
 		top_ui_container.add(character_Icon_1);
 
 		// barPoints
@@ -321,7 +323,6 @@ export default class Level extends Phaser.Scene {
 		// error_panel_container
 		const error_panel_container = this.add.container(206, 699);
 		error_panel_container.name = "error_panel_container";
-		error_panel_container.visible = false;
 
 		// bg_blur_1
 		const bg_blur_1 = this.add.image(334, 255, "blur-bg");
@@ -1035,6 +1036,7 @@ export default class Level extends Phaser.Scene {
 		this.back_button1 = back_button1;
 		this.pause_btn = pause_btn;
 		this.character_BG_1 = character_BG_1;
+		this.character_Icon_1 = character_Icon_1;
 		this.barPoints = barPoints;
 		this.lose_btn = lose_btn;
 		this.text_2 = text_2;
@@ -1134,6 +1136,7 @@ export default class Level extends Phaser.Scene {
 	private back_button1!: Phaser.GameObjects.Image;
 	private pause_btn!: Phaser.GameObjects.Image;
 	private character_BG_1!: Phaser.GameObjects.Image;
+	private character_Icon_1!: Phaser.GameObjects.Image;
 	private barPoints!: Phaser.GameObjects.Image;
 	private lose_btn!: Phaser.GameObjects.Image;
 	private text_2!: Phaser.GameObjects.Text;
@@ -1742,6 +1745,9 @@ export default class Level extends Phaser.Scene {
 			ShopsyAnalytics.sendCtaClickedEvent("play_again_btn");
 			this.changeGameState(GAME_STATE.RESTART)});
 		this.tapIfPresent(this.exit_from_win_screen_btn, () => {
+			ShopsyAnalytics.sendCtaClickedEvent("exit_from_win_screen_btn");
+			this.changeGameState(GAME_STATE.ABANDONED)});
+		this.tapIfPresent(this.exit_from_win_screen_btn_1, () => {
 			ShopsyAnalytics.sendCtaClickedEvent("exit_from_win_screen_btn");
 			this.changeGameState(GAME_STATE.ABANDONED)});
 		this.tapIfPresent(this.exit_from_lose_screen_btn, () => {
