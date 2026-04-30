@@ -849,6 +849,7 @@ export default class Level extends Phaser.Scene {
 
 		// bg_blur_1
 		const bg_blur_1 = this.add.image(334, 255, "blur-bg");
+		bg_blur_1.scaleY = 1.0091367689080406;
 		error_panel_container.add(bg_blur_1);
 
 		// Error_box1
