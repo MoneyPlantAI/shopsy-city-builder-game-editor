@@ -1437,6 +1437,7 @@
             "scope": "CLASS",
             "x": 517,
             "y": 789,
+            "visible": false,
             "list": [
                 {
                     "type": "Image",

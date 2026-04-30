@@ -699,6 +699,7 @@ export default class Level extends Phaser.Scene {
 		// game_over_panel_container
 		const game_over_panel_container = this.add.container(517, 789);
 		game_over_panel_container.name = "game_over_panel_container";
+		game_over_panel_container.visible = false;
 
 		// blur_bg
 		const blur_bg = this.add.image(23, 169, "blur-bg");
@@ -1627,15 +1628,7 @@ export default class Level extends Phaser.Scene {
 		console.log(`[${GAME_NAME}] Time Played: ${this.timePlayedMs} ms`);
 
 		if (this.gameResult === "win") {
-			this.changePanel(GAME_PANEL.GAME_OVER_WIN_PANEL);
-		} else {
-			this.changePanel(GAME_PANEL.GAME_OVER_LOSE_PANEL);
-		}
-	}
-
-
-	private onGameWon(): void {
-		if(GameResponseManager.getCoinsEarnedForGame()>0) {
+			if(GameResponseManager.getCoinsEarnedForGame()>0) {
 			this.score_text?.setText("Nicely Done");
 			this.bottom_text?.setText("You've won Super Coins!");
 			this.exit_from_win_screen_btn?.setVisible(true);
@@ -1648,6 +1641,26 @@ export default class Level extends Phaser.Scene {
 			this.exit_from_win_screen_btn_1?.setVisible(true);
 
 		}
+			this.changePanel(GAME_PANEL.GAME_OVER_WIN_PANEL);
+		}
+		else {
+			if(this.isMaxGameBonusEarned)
+			{
+				//this.Bottom_text_1
+				this.play_again_btn?.setVisible(false);
+				this.bottom_text_1?.setText("Better Luck Next Time");
+			}
+			else{
+				this.play_again_btn?.setVisible(true);
+				this.bottom_text_1?.setText("Let's Try again!");
+			}
+			this.changePanel(GAME_PANEL.GAME_OVER_LOSE_PANEL);
+		}
+	}
+
+
+	private onGameWon(): void {
+		
 		playSound(this, "completed");
 		this.isGameplayPaused = true;           // stop update loop
 		this.onGameOver("win");
@@ -1655,16 +1668,7 @@ export default class Level extends Phaser.Scene {
 
 
 	private onGameLost(): void {
-		if(this.isMaxGameBonusEarned)
-		{
-			//this.Bottom_text_1
-			this.play_again_btn?.setVisible(false);
-			this.bottom_text_1?.setText("Better Luck Next Time");
-		}
-		else{
-			this.play_again_btn?.setVisible(true);
-			this.bottom_text_1?.setText("Let's Try again!");
-		}
+		
 		playSound(this, "gameover");
 		this.isGameplayPaused = true;           // stop update loop
 		this.share_btn?.setVisible(false);
