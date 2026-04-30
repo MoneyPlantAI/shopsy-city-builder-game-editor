@@ -320,167 +320,6 @@ export default class Level extends Phaser.Scene {
 		txtPointsAdded.setStyle({ "color": "#23b84b", "fontFamily": "CarterOne-Regular", "fontSize": "35px" });
 		top_ui_container.add(txtPointsAdded);
 
-		// error_panel_container
-		const error_panel_container = this.add.container(206, 699);
-		error_panel_container.name = "error_panel_container";
-		error_panel_container.visible = false;
-
-		// bg_blur_1
-		const bg_blur_1 = this.add.image(334, 255, "blur-bg");
-		error_panel_container.add(bg_blur_1);
-
-		// Error_box1
-		const error_box1 = this.add.image(338, 157, "error-box1");
-		error_box1.name = "Error_box1";
-		error_panel_container.add(error_box1);
-
-		// Error_box2
-		const error_box2 = this.add.image(338, 157, "error-box2");
-		error_box2.name = "Error_box2";
-		error_panel_container.add(error_box2);
-
-		// button_type_2
-		const button_type_2 = this.add.image(334, 1021, "error-button2");
-		button_type_2.name = "button_type_2";
-		button_type_2.visible = false;
-		error_panel_container.add(button_type_2);
-
-		// button_type_1
-		const button_type_1 = this.add.image(334, 1021, "error-button");
-		button_type_1.name = "button_type_1";
-		button_type_1.visible = false;
-		error_panel_container.add(button_type_1);
-
-		// Error_icon1
-		const error_icon1 = this.add.image(0, 12, "error-icon2");
-		error_icon1.name = "Error_icon1";
-		error_icon1.visible = false;
-		error_panel_container.add(error_icon1);
-
-		// Error_icon2
-		const error_icon2 = this.add.image(0, 12, "error-icon3");
-		error_icon2.name = "Error_icon2";
-		error_icon2.visible = false;
-		error_panel_container.add(error_icon2);
-
-		// Error_icon3
-		const error_icon3 = this.add.image(17, 0, "error-icon1");
-		error_icon3.name = "Error_icon3";
-		error_icon3.visible = false;
-		error_panel_container.add(error_icon3);
-
-		// Error_icon4
-		const error_icon4 = this.add.image(0, 12, "error-icon2");
-		error_icon4.name = "Error_icon4";
-		error_icon4.visible = false;
-		error_panel_container.add(error_icon4);
-
-		// Error_title1
-		const error_title1 = this.add.text(310, 176, "", {});
-		error_title1.name = "Error_title1";
-		error_title1.setOrigin(0.5, 0.5);
-		error_title1.visible = false;
-		error_title1.text = "No internet!";
-		error_title1.setStyle({ "fontFamily": "font-1", "fontSize": "50px", "stroke": "#000000ff", "strokeThickness": 10 });
-		error_panel_container.add(error_title1);
-
-		// Error_title2
-		const error_title2 = this.add.text(295, 175, "", {});
-		error_title2.name = "Error_title2";
-		error_title2.setOrigin(0.5, 0.5);
-		error_title2.visible = false;
-		error_title2.text = "Adding Rewards!";
-		error_title2.setStyle({ "fontFamily": "font-1", "fontSize": "50px", "stroke": "#000000ff", "strokeThickness": 10 });
-		error_panel_container.add(error_title2);
-
-		// Error_title3
-		const error_title3 = this.add.text(349, 176, "", {});
-		error_title3.name = "Error_title3";
-		error_title3.setOrigin(0.5, 0.5);
-		error_title3.text = "Something went wrong";
-		error_title3.setStyle({ "fontFamily": "CarterOne-Regular", "fontSize": "50px", "stroke": "#000000ff", "strokeThickness": 10 });
-		error_panel_container.add(error_title3);
-
-		// Error_title4
-		const error_title4 = this.add.text(343, 176, "", {});
-		error_title4.name = "Error_title4";
-		error_title4.setOrigin(0.5, 0.5);
-		error_title4.visible = false;
-		error_title4.text = "Device unsupported";
-		error_title4.setStyle({ "fontFamily": "font-1", "fontSize": "50px", "stroke": "#000000ff", "strokeThickness": 10 });
-		error_panel_container.add(error_title4);
-
-		// error_subtitle1
-		const error_subtitle1 = this.add.text(324, 263, "", {});
-		error_subtitle1.name = "error_subtitle1";
-		error_subtitle1.setOrigin(0.5, 0.5);
-		error_subtitle1.visible = false;
-		error_subtitle1.text = "Please connect to the \n   internet and retry";
-		error_subtitle1.setStyle({ "color": "#000000ff", "fontFamily": "font-1", "fontSize": "35px", "stroke": "#000000ff" });
-		error_panel_container.add(error_subtitle1);
-
-		// error_subtitle2
-		const error_subtitle2 = this.add.text(298, 265, "", {});
-		error_subtitle2.name = "error_subtitle2";
-		error_subtitle2.setOrigin(0.5, 0.5);
-		error_subtitle2.visible = false;
-		error_subtitle2.text = "your rewards will be added\n    to your account shortly";
-		error_subtitle2.setStyle({ "color": "#000000ff", "fontFamily": "font-1", "fontSize": "35px", "stroke": "#000000ff" });
-		error_panel_container.add(error_subtitle2);
-
-		// error_subtitle3
-		const error_subtitle3 = this.add.text(333, 265, "", {});
-		error_subtitle3.name = "error_subtitle3";
-		error_subtitle3.setOrigin(0.5, 0.5);
-		error_subtitle3.text = "We're Working on this,\n       please try again";
-		error_subtitle3.setStyle({ "color": "#000000ff", "fontFamily": "CarterOne-Regular", "fontSize": "35px", "stroke": "#000000ff" });
-		error_panel_container.add(error_subtitle3);
-
-		// error_subtitle4
-		const error_subtitle4 = this.add.text(170, 265, "", {});
-		error_subtitle4.name = "error_subtitle4";
-		error_subtitle4.setOrigin(0, 0.5);
-		error_subtitle4.visible = false;
-		error_subtitle4.text = "your device does not\nsupport the graphics";
-		error_subtitle4.setStyle({ "color": "#000000ff", "fontFamily": "font-1", "fontSize": "35px", "stroke": "#000000ff" });
-		error_panel_container.add(error_subtitle4);
-
-		// button_text_1
-		const button_text_1 = this.add.text(334, 1021, "", {});
-		button_text_1.name = "button_text_1";
-		button_text_1.setOrigin(0.5, 0.5);
-		button_text_1.visible = false;
-		button_text_1.text = "Retry";
-		button_text_1.setStyle({ "color": "#ffffffff", "fontFamily": "font-1", "fontSize": "55px", "stroke": "#000000ff", "strokeThickness": 10 });
-		error_panel_container.add(button_text_1);
-
-		// button_text_2
-		const button_text_2 = this.add.text(334, 1021, "", {});
-		button_text_2.name = "button_text_2";
-		button_text_2.setOrigin(0.5, 0.5);
-		button_text_2.visible = false;
-		button_text_2.text = "Okay";
-		button_text_2.setStyle({ "color": "#ffffffff", "fontFamily": "font-1", "fontSize": "55px", "stroke": "#000000ff", "strokeThickness": 10 });
-		error_panel_container.add(button_text_2);
-
-		// button_text_3
-		const button_text_3 = this.add.text(334, 1021, "", {});
-		button_text_3.name = "button_text_3";
-		button_text_3.setOrigin(0.5, 0.5);
-		button_text_3.visible = false;
-		button_text_3.text = "Try Again";
-		button_text_3.setStyle({ "color": "#ffffffff", "fontFamily": "font-1", "fontSize": "55px", "stroke": "#000000ff", "strokeThickness": 10 });
-		error_panel_container.add(button_text_3);
-
-		// button_text_4
-		const button_text_4 = this.add.text(334, 1021, "", {});
-		button_text_4.name = "button_text_4";
-		button_text_4.setOrigin(0.5, 0.5);
-		button_text_4.visible = false;
-		button_text_4.text = "Close";
-		button_text_4.setStyle({ "color": "#ffffffff", "fontFamily": "font-1", "fontSize": "55px", "stroke": "#000000ff", "strokeThickness": 10 });
-		error_panel_container.add(button_text_4);
-
 		// share_panel_container
 		const share_panel_container = this.add.container(0, 0);
 		share_panel_container.name = "share_panel_container";
@@ -1003,6 +842,143 @@ export default class Level extends Phaser.Scene {
 		text_5.setStyle({ "fontFamily": "CarterOne-Regular", "fontSize": "65px", "stroke": "#000000ff", "strokeThickness": 7 });
 		tutorial.add(text_5);
 
+		// error_panel_container
+		const error_panel_container = this.add.container(206, 699);
+		error_panel_container.name = "error_panel_container";
+		error_panel_container.visible = false;
+
+		// bg_blur_1
+		const bg_blur_1 = this.add.image(334, 255, "blur-bg");
+		error_panel_container.add(bg_blur_1);
+
+		// Error_box1
+		const error_box1 = this.add.image(338, 157, "error-box1");
+		error_box1.name = "Error_box1";
+		error_panel_container.add(error_box1);
+
+		// Error_box2
+		const error_box2 = this.add.image(338, 157, "error-box2");
+		error_box2.name = "Error_box2";
+		error_panel_container.add(error_box2);
+
+		// button_type_2
+		const button_type_2 = this.add.image(334, 1021, "error-button2");
+		button_type_2.name = "button_type_2";
+		button_type_2.visible = false;
+		error_panel_container.add(button_type_2);
+
+		// button_type_1
+		const button_type_1 = this.add.image(334, 1021, "error-button");
+		button_type_1.name = "button_type_1";
+		button_type_1.visible = false;
+		error_panel_container.add(button_type_1);
+
+		// Error_title1
+		const error_title1 = this.add.text(310, 176, "", {});
+		error_title1.name = "Error_title1";
+		error_title1.setOrigin(0.5, 0.5);
+		error_title1.visible = false;
+		error_title1.text = "No internet!";
+		error_title1.setStyle({ "fontFamily": "font-1", "fontSize": "50px", "stroke": "#000000ff", "strokeThickness": 10 });
+		error_panel_container.add(error_title1);
+
+		// Error_title2
+		const error_title2 = this.add.text(295, 175, "", {});
+		error_title2.name = "Error_title2";
+		error_title2.setOrigin(0.5, 0.5);
+		error_title2.visible = false;
+		error_title2.text = "Adding Rewards!";
+		error_title2.setStyle({ "fontFamily": "font-1", "fontSize": "50px", "stroke": "#000000ff", "strokeThickness": 10 });
+		error_panel_container.add(error_title2);
+
+		// Error_title3
+		const error_title3 = this.add.text(349, 176, "", {});
+		error_title3.name = "Error_title3";
+		error_title3.setOrigin(0.5, 0.5);
+		error_title3.text = "Something went wrong";
+		error_title3.setStyle({ "fontFamily": "CarterOne-Regular", "fontSize": "50px", "stroke": "#000000ff", "strokeThickness": 10 });
+		error_panel_container.add(error_title3);
+
+		// Error_title4
+		const error_title4 = this.add.text(343, 176, "", {});
+		error_title4.name = "Error_title4";
+		error_title4.setOrigin(0.5, 0.5);
+		error_title4.visible = false;
+		error_title4.text = "Device unsupported";
+		error_title4.setStyle({ "fontFamily": "font-1", "fontSize": "50px", "stroke": "#000000ff", "strokeThickness": 10 });
+		error_panel_container.add(error_title4);
+
+		// error_subtitle1
+		const error_subtitle1 = this.add.text(324, 263, "", {});
+		error_subtitle1.name = "error_subtitle1";
+		error_subtitle1.setOrigin(0.5, 0.5);
+		error_subtitle1.visible = false;
+		error_subtitle1.text = "Please connect to the \n   internet and retry";
+		error_subtitle1.setStyle({ "color": "#000000ff", "fontFamily": "font-1", "fontSize": "35px", "stroke": "#000000ff" });
+		error_panel_container.add(error_subtitle1);
+
+		// error_subtitle2
+		const error_subtitle2 = this.add.text(298, 265, "", {});
+		error_subtitle2.name = "error_subtitle2";
+		error_subtitle2.setOrigin(0.5, 0.5);
+		error_subtitle2.visible = false;
+		error_subtitle2.text = "your rewards will be added\n    to your account shortly";
+		error_subtitle2.setStyle({ "color": "#000000ff", "fontFamily": "font-1", "fontSize": "35px", "stroke": "#000000ff" });
+		error_panel_container.add(error_subtitle2);
+
+		// error_subtitle3
+		const error_subtitle3 = this.add.text(333, 265, "", {});
+		error_subtitle3.name = "error_subtitle3";
+		error_subtitle3.setOrigin(0.5, 0.5);
+		error_subtitle3.text = "We're Working on this,\n       please try again";
+		error_subtitle3.setStyle({ "color": "#000000ff", "fontFamily": "CarterOne-Regular", "fontSize": "35px", "stroke": "#000000ff" });
+		error_panel_container.add(error_subtitle3);
+
+		// error_subtitle4
+		const error_subtitle4 = this.add.text(170, 265, "", {});
+		error_subtitle4.name = "error_subtitle4";
+		error_subtitle4.setOrigin(0, 0.5);
+		error_subtitle4.visible = false;
+		error_subtitle4.text = "your device does not\nsupport the graphics";
+		error_subtitle4.setStyle({ "color": "#000000ff", "fontFamily": "font-1", "fontSize": "35px", "stroke": "#000000ff" });
+		error_panel_container.add(error_subtitle4);
+
+		// button_text_1
+		const button_text_1 = this.add.text(334, 1021, "", {});
+		button_text_1.name = "button_text_1";
+		button_text_1.setOrigin(0.5, 0.5);
+		button_text_1.visible = false;
+		button_text_1.text = "Retry";
+		button_text_1.setStyle({ "color": "#ffffffff", "fontFamily": "font-1", "fontSize": "55px", "stroke": "#000000ff", "strokeThickness": 10 });
+		error_panel_container.add(button_text_1);
+
+		// button_text_2
+		const button_text_2 = this.add.text(334, 1021, "", {});
+		button_text_2.name = "button_text_2";
+		button_text_2.setOrigin(0.5, 0.5);
+		button_text_2.visible = false;
+		button_text_2.text = "Okay";
+		button_text_2.setStyle({ "color": "#ffffffff", "fontFamily": "font-1", "fontSize": "55px", "stroke": "#000000ff", "strokeThickness": 10 });
+		error_panel_container.add(button_text_2);
+
+		// button_text_3
+		const button_text_3 = this.add.text(334, 1021, "", {});
+		button_text_3.name = "button_text_3";
+		button_text_3.setOrigin(0.5, 0.5);
+		button_text_3.visible = false;
+		button_text_3.text = "Try Again";
+		button_text_3.setStyle({ "color": "#ffffffff", "fontFamily": "font-1", "fontSize": "55px", "stroke": "#000000ff", "strokeThickness": 10 });
+		error_panel_container.add(button_text_3);
+
+		// button_text_4
+		const button_text_4 = this.add.text(334, 1021, "", {});
+		button_text_4.name = "button_text_4";
+		button_text_4.setOrigin(0.5, 0.5);
+		button_text_4.visible = false;
+		button_text_4.text = "Close";
+		button_text_4.setStyle({ "color": "#ffffffff", "fontFamily": "font-1", "fontSize": "55px", "stroke": "#000000ff", "strokeThickness": 10 });
+		error_panel_container.add(button_text_4);
+
 		this.bgGame1 = bgGame1;
 		this.bgGame2 = bgGame2;
 		this.bgGame3a = bgGame3a;
@@ -1050,7 +1026,6 @@ export default class Level extends Phaser.Scene {
 		this.txtBlocks = txtBlocks;
 		this.txtPointsAdded = txtPointsAdded;
 		this.top_ui_container = top_ui_container;
-		this.error_panel_container = error_panel_container;
 		this.sh_panel_1 = sh_panel_1;
 		this.sh_logo = sh_logo;
 		this.sh_panel = sh_panel;
@@ -1099,6 +1074,7 @@ export default class Level extends Phaser.Scene {
 		this.image_2 = image_2;
 		this.text_5 = text_5;
 		this.tutorial = tutorial;
+		this.error_panel_container = error_panel_container;
 
 		this.events.emit("scene-awake");
 	}
@@ -1150,7 +1126,6 @@ export default class Level extends Phaser.Scene {
 	private txtBlocks!: Phaser.GameObjects.Text;
 	private txtPointsAdded!: Phaser.GameObjects.Text;
 	private top_ui_container!: Phaser.GameObjects.Container;
-	private error_panel_container!: Phaser.GameObjects.Container;
 	private sh_panel_1!: Phaser.GameObjects.Image;
 	private sh_logo!: Phaser.GameObjects.Image;
 	private sh_panel!: Phaser.GameObjects.Image;
@@ -1199,6 +1174,7 @@ export default class Level extends Phaser.Scene {
 	private image_2!: Phaser.GameObjects.Image;
 	private text_5!: Phaser.GameObjects.Text;
 	private tutorial!: Phaser.GameObjects.Container;
+	private error_panel_container!: Phaser.GameObjects.Container;
 
 	/* START-USER-CODE */
 
@@ -1660,7 +1636,7 @@ export default class Level extends Phaser.Scene {
 
 
 	private onGameWon(): void {
-		
+
 		playSound(this, "completed");
 		this.isGameplayPaused = true;           // stop update loop
 		this.onGameOver("win");
@@ -1668,7 +1644,7 @@ export default class Level extends Phaser.Scene {
 
 
 	private onGameLost(): void {
-		
+
 		playSound(this, "gameover");
 		this.isGameplayPaused = true;           // stop update loop
 		this.share_btn?.setVisible(false);

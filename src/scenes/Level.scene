@@ -645,313 +645,6 @@
         },
         {
             "type": "Container",
-            "id": "42906b4d-8110-4011-b49b-f57b823456ff",
-            "label": "error_panel_container",
-            "useGameObjectName": true,
-            "scope": "CLASS",
-            "x": 206,
-            "y": 699,
-            "visible": false,
-            "list": [
-                {
-                    "type": "Image",
-                    "id": "707f1ffd-397b-49e3-87a6-7ba257e83b8c",
-                    "label": "bg_blur_1",
-                    "texture": {
-                        "key": "blur-bg"
-                    },
-                    "x": 334,
-                    "y": 255
-                },
-                {
-                    "type": "Image",
-                    "id": "72089b00-14a5-4b20-9b82-57c72bea612a",
-                    "label": "Error_box1",
-                    "displayName": "Error_box1",
-                    "useGameObjectName": true,
-                    "texture": {
-                        "key": "error-box1"
-                    },
-                    "x": 338,
-                    "y": 157
-                },
-                {
-                    "type": "Image",
-                    "id": "09f266a6-f464-4ef7-ac1d-aee2d58ac0fb",
-                    "label": "Error_box2",
-                    "displayName": "Error_box2",
-                    "useGameObjectName": true,
-                    "texture": {
-                        "key": "error-box2"
-                    },
-                    "x": 338,
-                    "y": 157
-                },
-                {
-                    "type": "Image",
-                    "id": "4af5005c-f7c7-4629-b659-9427689344e5",
-                    "label": "button_type_2",
-                    "useGameObjectName": true,
-                    "texture": {
-                        "key": "error-button2"
-                    },
-                    "x": 334,
-                    "y": 1021,
-                    "visible": false
-                },
-                {
-                    "type": "Image",
-                    "id": "084b05cb-bc0f-4a4e-816e-222134cdb7a1",
-                    "label": "button_type_1",
-                    "useGameObjectName": true,
-                    "texture": {
-                        "key": "error-button"
-                    },
-                    "x": 334,
-                    "y": 1021,
-                    "visible": false
-                },
-                {
-                    "type": "Image",
-                    "id": "15a6fa40-664c-4baf-9ee7-563378ac4a06",
-                    "label": "Error_icon1",
-                    "useGameObjectName": true,
-                    "texture": {
-                        "key": "error-icon2"
-                    },
-                    "y": 12,
-                    "visible": false
-                },
-                {
-                    "type": "Image",
-                    "id": "18acfd60-c680-4ffe-a78c-7d5776691c7d",
-                    "label": "Error_icon2",
-                    "useGameObjectName": true,
-                    "texture": {
-                        "key": "error-icon3"
-                    },
-                    "y": 12,
-                    "visible": false
-                },
-                {
-                    "type": "Image",
-                    "id": "6516b2c9-67d1-4eea-98bd-5acf4309c4ee",
-                    "label": "Error_icon3",
-                    "useGameObjectName": true,
-                    "texture": {
-                        "key": "error-icon1"
-                    },
-                    "x": 17,
-                    "visible": false
-                },
-                {
-                    "type": "Image",
-                    "id": "a7afa52f-d7de-4881-a366-f660606a5d41",
-                    "label": "Error_icon4",
-                    "useGameObjectName": true,
-                    "texture": {
-                        "key": "error-icon2"
-                    },
-                    "y": 12,
-                    "visible": false
-                },
-                {
-                    "type": "Text",
-                    "id": "e945adfa-f7d1-42a9-af66-74aff44ecbc4",
-                    "label": "Error_title1",
-                    "useGameObjectName": true,
-                    "x": 310,
-                    "y": 176,
-                    "originX": 0.5,
-                    "originY": 0.5,
-                    "visible": false,
-                    "text": "No internet!",
-                    "fontFamily": "font-1",
-                    "fontSize": "50px",
-                    "stroke": "#000000ff",
-                    "strokeThickness": 10
-                },
-                {
-                    "type": "Text",
-                    "id": "dff4a0a1-b0a2-4402-8dc4-1185fcc75c3b",
-                    "label": "Error_title2",
-                    "useGameObjectName": true,
-                    "x": 295,
-                    "y": 175,
-                    "originX": 0.5,
-                    "originY": 0.5,
-                    "visible": false,
-                    "text": "Adding Rewards!",
-                    "fontFamily": "font-1",
-                    "fontSize": "50px",
-                    "stroke": "#000000ff",
-                    "strokeThickness": 10
-                },
-                {
-                    "type": "Text",
-                    "id": "0afc69f0-b206-448f-8b8a-80d34ea3fb42",
-                    "label": "Error_title3",
-                    "useGameObjectName": true,
-                    "x": 349,
-                    "y": 176,
-                    "originX": 0.5,
-                    "originY": 0.5,
-                    "text": "Something went wrong",
-                    "fontFamily": "CarterOne-Regular",
-                    "fontSize": "50px",
-                    "stroke": "#000000ff",
-                    "strokeThickness": 10
-                },
-                {
-                    "type": "Text",
-                    "id": "26a6b476-f0f7-40ca-8397-464c2797254b",
-                    "label": "Error_title4",
-                    "useGameObjectName": true,
-                    "x": 343,
-                    "y": 176,
-                    "originX": 0.5,
-                    "originY": 0.5,
-                    "visible": false,
-                    "text": "Device unsupported",
-                    "fontFamily": "font-1",
-                    "fontSize": "50px",
-                    "stroke": "#000000ff",
-                    "strokeThickness": 10
-                },
-                {
-                    "type": "Text",
-                    "id": "7b6e12ed-daf5-4a84-af7d-adb0497a1c27",
-                    "label": "error_subtitle1",
-                    "useGameObjectName": true,
-                    "x": 324,
-                    "y": 263,
-                    "originX": 0.5,
-                    "originY": 0.5,
-                    "visible": false,
-                    "text": "Please connect to the \n   internet and retry",
-                    "fontFamily": "font-1",
-                    "fontSize": "35px",
-                    "color": "#000000ff",
-                    "stroke": "#000000ff"
-                },
-                {
-                    "type": "Text",
-                    "id": "3d86af41-98e9-44aa-9bd4-6e00b4ecb3ba",
-                    "label": "error_subtitle2",
-                    "useGameObjectName": true,
-                    "x": 298,
-                    "y": 265,
-                    "originX": 0.5,
-                    "originY": 0.5,
-                    "visible": false,
-                    "text": "your rewards will be added\n    to your account shortly",
-                    "fontFamily": "font-1",
-                    "fontSize": "35px",
-                    "color": "#000000ff",
-                    "stroke": "#000000ff"
-                },
-                {
-                    "type": "Text",
-                    "id": "2409acb0-0c36-49a3-83a0-c624b03c38a6",
-                    "label": "error_subtitle3",
-                    "useGameObjectName": true,
-                    "x": 333,
-                    "y": 265,
-                    "originX": 0.5,
-                    "originY": 0.5,
-                    "text": "We're Working on this,\n       please try again",
-                    "fontFamily": "CarterOne-Regular",
-                    "fontSize": "35px",
-                    "color": "#000000ff",
-                    "stroke": "#000000ff"
-                },
-                {
-                    "type": "Text",
-                    "id": "1215d4c0-9c30-40a1-a348-7d55e5849048",
-                    "label": "error_subtitle4",
-                    "useGameObjectName": true,
-                    "x": 170,
-                    "y": 265,
-                    "originY": 0.5,
-                    "visible": false,
-                    "text": "your device does not\nsupport the graphics",
-                    "fontFamily": "font-1",
-                    "fontSize": "35px",
-                    "color": "#000000ff",
-                    "stroke": "#000000ff"
-                },
-                {
-                    "type": "Text",
-                    "id": "23aa3360-68e1-4e74-9ccb-2b3770fc622c",
-                    "label": "button_text_1",
-                    "useGameObjectName": true,
-                    "x": 334,
-                    "y": 1021,
-                    "originX": 0.5,
-                    "originY": 0.5,
-                    "visible": false,
-                    "text": "Retry",
-                    "fontFamily": "font-1",
-                    "fontSize": "55px",
-                    "color": "#ffffffff",
-                    "stroke": "#000000ff",
-                    "strokeThickness": 10
-                },
-                {
-                    "type": "Text",
-                    "id": "5b0943ff-b63e-4ed7-bce6-f087d7129ac8",
-                    "label": "button_text_2",
-                    "useGameObjectName": true,
-                    "x": 334,
-                    "y": 1021,
-                    "originX": 0.5,
-                    "originY": 0.5,
-                    "visible": false,
-                    "text": "Okay",
-                    "fontFamily": "font-1",
-                    "fontSize": "55px",
-                    "color": "#ffffffff",
-                    "stroke": "#000000ff",
-                    "strokeThickness": 10
-                },
-                {
-                    "type": "Text",
-                    "id": "3a5fae9d-d614-4935-8f38-e92a1bf968d0",
-                    "label": "button_text_3",
-                    "useGameObjectName": true,
-                    "x": 334,
-                    "y": 1021,
-                    "originX": 0.5,
-                    "originY": 0.5,
-                    "visible": false,
-                    "text": "Try Again",
-                    "fontFamily": "font-1",
-                    "fontSize": "55px",
-                    "color": "#ffffffff",
-                    "stroke": "#000000ff",
-                    "strokeThickness": 10
-                },
-                {
-                    "type": "Text",
-                    "id": "cb165580-c637-41df-a52e-bc72fc516c7d",
-                    "label": "button_text_4",
-                    "useGameObjectName": true,
-                    "x": 334,
-                    "y": 1021,
-                    "originX": 0.5,
-                    "originY": 0.5,
-                    "visible": false,
-                    "text": "Close",
-                    "fontFamily": "font-1",
-                    "fontSize": "55px",
-                    "color": "#ffffffff",
-                    "stroke": "#000000ff",
-                    "strokeThickness": 10
-                }
-            ]
-        },
-        {
-            "type": "Container",
             "id": "f23c03a5-d0fa-45f3-96cb-dd0d5bcec4a2",
             "label": "share_panel_container",
             "useGameObjectName": true,
@@ -2036,6 +1729,269 @@
                     "fontSize": "65px",
                     "stroke": "#000000ff",
                     "strokeThickness": 7
+                }
+            ]
+        },
+        {
+            "type": "Container",
+            "id": "42906b4d-8110-4011-b49b-f57b823456ff",
+            "label": "error_panel_container",
+            "useGameObjectName": true,
+            "scope": "CLASS",
+            "x": 206,
+            "y": 699,
+            "visible": false,
+            "list": [
+                {
+                    "type": "Image",
+                    "id": "707f1ffd-397b-49e3-87a6-7ba257e83b8c",
+                    "label": "bg_blur_1",
+                    "texture": {
+                        "key": "blur-bg"
+                    },
+                    "x": 334,
+                    "y": 255
+                },
+                {
+                    "type": "Image",
+                    "id": "72089b00-14a5-4b20-9b82-57c72bea612a",
+                    "label": "Error_box1",
+                    "displayName": "Error_box1",
+                    "useGameObjectName": true,
+                    "texture": {
+                        "key": "error-box1"
+                    },
+                    "x": 338,
+                    "y": 157
+                },
+                {
+                    "type": "Image",
+                    "id": "09f266a6-f464-4ef7-ac1d-aee2d58ac0fb",
+                    "label": "Error_box2",
+                    "displayName": "Error_box2",
+                    "useGameObjectName": true,
+                    "texture": {
+                        "key": "error-box2"
+                    },
+                    "x": 338,
+                    "y": 157
+                },
+                {
+                    "type": "Image",
+                    "id": "4af5005c-f7c7-4629-b659-9427689344e5",
+                    "label": "button_type_2",
+                    "useGameObjectName": true,
+                    "texture": {
+                        "key": "error-button2"
+                    },
+                    "x": 334,
+                    "y": 1021,
+                    "visible": false
+                },
+                {
+                    "type": "Image",
+                    "id": "084b05cb-bc0f-4a4e-816e-222134cdb7a1",
+                    "label": "button_type_1",
+                    "useGameObjectName": true,
+                    "texture": {
+                        "key": "error-button"
+                    },
+                    "x": 334,
+                    "y": 1021,
+                    "visible": false
+                },
+                {
+                    "type": "Text",
+                    "id": "e945adfa-f7d1-42a9-af66-74aff44ecbc4",
+                    "label": "Error_title1",
+                    "useGameObjectName": true,
+                    "x": 310,
+                    "y": 176,
+                    "originX": 0.5,
+                    "originY": 0.5,
+                    "visible": false,
+                    "text": "No internet!",
+                    "fontFamily": "font-1",
+                    "fontSize": "50px",
+                    "stroke": "#000000ff",
+                    "strokeThickness": 10
+                },
+                {
+                    "type": "Text",
+                    "id": "dff4a0a1-b0a2-4402-8dc4-1185fcc75c3b",
+                    "label": "Error_title2",
+                    "useGameObjectName": true,
+                    "x": 295,
+                    "y": 175,
+                    "originX": 0.5,
+                    "originY": 0.5,
+                    "visible": false,
+                    "text": "Adding Rewards!",
+                    "fontFamily": "font-1",
+                    "fontSize": "50px",
+                    "stroke": "#000000ff",
+                    "strokeThickness": 10
+                },
+                {
+                    "type": "Text",
+                    "id": "0afc69f0-b206-448f-8b8a-80d34ea3fb42",
+                    "label": "Error_title3",
+                    "useGameObjectName": true,
+                    "x": 349,
+                    "y": 176,
+                    "originX": 0.5,
+                    "originY": 0.5,
+                    "text": "Something went wrong",
+                    "fontFamily": "CarterOne-Regular",
+                    "fontSize": "50px",
+                    "stroke": "#000000ff",
+                    "strokeThickness": 10
+                },
+                {
+                    "type": "Text",
+                    "id": "26a6b476-f0f7-40ca-8397-464c2797254b",
+                    "label": "Error_title4",
+                    "useGameObjectName": true,
+                    "x": 343,
+                    "y": 176,
+                    "originX": 0.5,
+                    "originY": 0.5,
+                    "visible": false,
+                    "text": "Device unsupported",
+                    "fontFamily": "font-1",
+                    "fontSize": "50px",
+                    "stroke": "#000000ff",
+                    "strokeThickness": 10
+                },
+                {
+                    "type": "Text",
+                    "id": "7b6e12ed-daf5-4a84-af7d-adb0497a1c27",
+                    "label": "error_subtitle1",
+                    "useGameObjectName": true,
+                    "x": 324,
+                    "y": 263,
+                    "originX": 0.5,
+                    "originY": 0.5,
+                    "visible": false,
+                    "text": "Please connect to the \n   internet and retry",
+                    "fontFamily": "font-1",
+                    "fontSize": "35px",
+                    "color": "#000000ff",
+                    "stroke": "#000000ff"
+                },
+                {
+                    "type": "Text",
+                    "id": "3d86af41-98e9-44aa-9bd4-6e00b4ecb3ba",
+                    "label": "error_subtitle2",
+                    "useGameObjectName": true,
+                    "x": 298,
+                    "y": 265,
+                    "originX": 0.5,
+                    "originY": 0.5,
+                    "visible": false,
+                    "text": "your rewards will be added\n    to your account shortly",
+                    "fontFamily": "font-1",
+                    "fontSize": "35px",
+                    "color": "#000000ff",
+                    "stroke": "#000000ff"
+                },
+                {
+                    "type": "Text",
+                    "id": "2409acb0-0c36-49a3-83a0-c624b03c38a6",
+                    "label": "error_subtitle3",
+                    "useGameObjectName": true,
+                    "x": 333,
+                    "y": 265,
+                    "originX": 0.5,
+                    "originY": 0.5,
+                    "text": "We're Working on this,\n       please try again",
+                    "fontFamily": "CarterOne-Regular",
+                    "fontSize": "35px",
+                    "color": "#000000ff",
+                    "stroke": "#000000ff"
+                },
+                {
+                    "type": "Text",
+                    "id": "1215d4c0-9c30-40a1-a348-7d55e5849048",
+                    "label": "error_subtitle4",
+                    "useGameObjectName": true,
+                    "x": 170,
+                    "y": 265,
+                    "originY": 0.5,
+                    "visible": false,
+                    "text": "your device does not\nsupport the graphics",
+                    "fontFamily": "font-1",
+                    "fontSize": "35px",
+                    "color": "#000000ff",
+                    "stroke": "#000000ff"
+                },
+                {
+                    "type": "Text",
+                    "id": "23aa3360-68e1-4e74-9ccb-2b3770fc622c",
+                    "label": "button_text_1",
+                    "useGameObjectName": true,
+                    "x": 334,
+                    "y": 1021,
+                    "originX": 0.5,
+                    "originY": 0.5,
+                    "visible": false,
+                    "text": "Retry",
+                    "fontFamily": "font-1",
+                    "fontSize": "55px",
+                    "color": "#ffffffff",
+                    "stroke": "#000000ff",
+                    "strokeThickness": 10
+                },
+                {
+                    "type": "Text",
+                    "id": "5b0943ff-b63e-4ed7-bce6-f087d7129ac8",
+                    "label": "button_text_2",
+                    "useGameObjectName": true,
+                    "x": 334,
+                    "y": 1021,
+                    "originX": 0.5,
+                    "originY": 0.5,
+                    "visible": false,
+                    "text": "Okay",
+                    "fontFamily": "font-1",
+                    "fontSize": "55px",
+                    "color": "#ffffffff",
+                    "stroke": "#000000ff",
+                    "strokeThickness": 10
+                },
+                {
+                    "type": "Text",
+                    "id": "3a5fae9d-d614-4935-8f38-e92a1bf968d0",
+                    "label": "button_text_3",
+                    "useGameObjectName": true,
+                    "x": 334,
+                    "y": 1021,
+                    "originX": 0.5,
+                    "originY": 0.5,
+                    "visible": false,
+                    "text": "Try Again",
+                    "fontFamily": "font-1",
+                    "fontSize": "55px",
+                    "color": "#ffffffff",
+                    "stroke": "#000000ff",
+                    "strokeThickness": 10
+                },
+                {
+                    "type": "Text",
+                    "id": "cb165580-c637-41df-a52e-bc72fc516c7d",
+                    "label": "button_text_4",
+                    "useGameObjectName": true,
+                    "x": 334,
+                    "y": 1021,
+                    "originX": 0.5,
+                    "originY": 0.5,
+                    "visible": false,
+                    "text": "Close",
+                    "fontFamily": "font-1",
+                    "fontSize": "55px",
+                    "color": "#ffffffff",
+                    "stroke": "#000000ff",
+                    "strokeThickness": 10
                 }
             ]
         }
