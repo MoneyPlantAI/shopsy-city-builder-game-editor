@@ -240,7 +240,8 @@
                         "key": "bar-points"
                     },
                     "x": 487,
-                    "y": 522
+                    "y": 522,
+                    "visible": false
                 },
                 {
                     "type": "Text",
@@ -251,6 +252,7 @@
                     "y": 525,
                     "originX": 1,
                     "originY": 0.5,
+                    "visible": false,
                     "text": "0",
                     "align": "right",
                     "fontFamily": "CarterOne-Regular",
@@ -267,7 +269,8 @@
                     "x": 411,
                     "y": 520,
                     "scaleX": 0.7192741177190282,
-                    "scaleY": 0.7192741177190282
+                    "scaleY": 0.7192741177190282,
+                    "visible": false
                 },
                 {
                     "type": "Image",
@@ -276,7 +279,7 @@
                     "texture": {
                         "key": "bar-blocks"
                     },
-                    "x": 244,
+                    "x": 364,
                     "y": 519
                 },
                 {
@@ -284,7 +287,7 @@
                     "id": "7ef4db26-67a0-412c-b011-051566ebb819",
                     "label": "popupBlocks",
                     "scope": "CLASS",
-                    "x": 289,
+                    "x": 409,
                     "y": 521,
                     "originX": 1,
                     "originY": 0.5,

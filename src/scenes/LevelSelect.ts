@@ -131,11 +131,13 @@ export default class LevelSelect extends Phaser.Scene {
 
 		// bar_points
 		const bar_points = this.add.image(487, 522, "bar-points");
+		bar_points.visible = false;
 		playPopupContainer.add(bar_points);
 
 		// popupPoints
 		const popupPoints = this.add.text(519, 525, "", {});
 		popupPoints.setOrigin(1, 0.5);
+		popupPoints.visible = false;
 		popupPoints.text = "0";
 		popupPoints.setStyle({ "align": "right", "color": "#FFFFFF", "fontFamily": "CarterOne-Regular", "fontSize": "30px" });
 		playPopupContainer.add(popupPoints);
@@ -144,14 +146,15 @@ export default class LevelSelect extends Phaser.Scene {
 		const gem = this.add.image(411, 520, "gem");
 		gem.scaleX = 0.7192741177190282;
 		gem.scaleY = 0.7192741177190282;
+		gem.visible = false;
 		playPopupContainer.add(gem);
 
 		// bar_blocks
-		const bar_blocks = this.add.image(244, 519, "bar-blocks");
+		const bar_blocks = this.add.image(364, 519, "bar-blocks");
 		playPopupContainer.add(bar_blocks);
 
 		// popupBlocks
-		const popupBlocks = this.add.text(289, 521, "", {});
+		const popupBlocks = this.add.text(409, 521, "", {});
 		popupBlocks.setOrigin(1, 0.5);
 		popupBlocks.text = "0";
 		popupBlocks.setStyle({ "align": "right", "color": "#FFFFFF", "fontFamily": "CarterOne-Regular", "fontSize": "30px" });
