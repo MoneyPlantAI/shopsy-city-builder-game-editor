@@ -72,6 +72,7 @@ export default class LevelSelect extends Phaser.Scene {
 		const levelBase = this.add.image(487, 661, "Level-Bg");
 		levelBase.scaleX = 1.8253848813480107;
 		levelBase.scaleY = 1.8253848813480107;
+		levelBase.visible = false;
 		mapUiContainer.add(levelBase);
 
 		// lockImg
@@ -166,6 +167,7 @@ export default class LevelSelect extends Phaser.Scene {
 		// game_start_panel_container
 		const game_start_panel_container = this.add.container(540, 960);
 		game_start_panel_container.name = "game_start_panel_container";
+		game_start_panel_container.visible = false;
 
 		// blur_bg_1
 		const blur_bg_1 = this.add.image(8, 0, "blur-bg");

@@ -118,7 +118,8 @@
                     "x": 487,
                     "y": 661,
                     "scaleX": 1.8253848813480107,
-                    "scaleY": 1.8253848813480107
+                    "scaleY": 1.8253848813480107,
+                    "visible": false
                 },
                 {
                     "type": "Image",
@@ -315,6 +316,7 @@
             "scope": "CLASS",
             "x": 540,
             "y": 960,
+            "visible": false,
             "list": [
                 {
                     "type": "Image",
