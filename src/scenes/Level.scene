@@ -573,7 +573,8 @@
                     "x": 52,
                     "y": 189,
                     "scaleX": 1.1785911243279024,
-                    "scaleY": 1.1785911243279024
+                    "scaleY": 1.1785911243279024,
+                    "visible": false
                 },
                 {
                     "type": "Image",
@@ -587,7 +588,8 @@
                     "x": -43,
                     "y": 190,
                     "scaleX": 0.8395470376849977,
-                    "scaleY": 0.8395470376849977
+                    "scaleY": 0.8395470376849977,
+                    "visible": false
                 },
                 {
                     "type": "Text",
@@ -598,6 +600,7 @@
                     "y": 195,
                     "originX": 0.5,
                     "originY": 0.5,
+                    "visible": false,
                     "text": "0/0",
                     "align": "right",
                     "fontFamily": "CarterOne-Regular",
@@ -611,7 +614,7 @@
                         "key": "bar-blocks"
                     },
                     "x": 47,
-                    "y": 299,
+                    "y": 187,
                     "scaleX": 1.1028507950415196,
                     "scaleY": 1.1028507950415196
                 },
@@ -621,7 +624,7 @@
                     "label": "txtBlocks",
                     "scope": "CLASS",
                     "x": 96,
-                    "y": 304,
+                    "y": 192,
                     "originX": 1,
                     "originY": 0.5,
                     "text": "0",
@@ -849,6 +852,7 @@
                     "y": 1075,
                     "originX": 0.5,
                     "originY": 0.5,
+                    "visible": false,
                     "text": "000",
                     "align": "center",
                     "fontFamily": "CarterOne-Regular",
@@ -858,12 +862,22 @@
                     "strokeThickness": 10
                 },
                 {
+                    "type": "Image",
+                    "id": "4e625100-f20a-4e57-bbc8-8964a983bd87",
+                    "label": "image_5",
+                    "texture": {
+                        "key": "SuperCoinBG"
+                    },
+                    "x": 522,
+                    "y": 1025
+                },
+                {
                     "type": "Text",
                     "id": "1968b574-bf80-4e72-9927-a912a62c6908",
                     "label": "Supercoin_text",
                     "scope": "CLASS",
-                    "x": 419,
-                    "y": 1074,
+                    "x": 571,
+                    "y": 1059,
                     "originX": 0.5,
                     "originY": 0.5,
                     "text": "0",
@@ -881,7 +895,8 @@
                         "key": "gem"
                     },
                     "x": 648,
-                    "y": 1074
+                    "y": 1074,
+                    "visible": false
                 },
                 {
                     "type": "Image",
@@ -903,6 +918,16 @@
                     },
                     "x": 540,
                     "y": 1522
+                },
+                {
+                    "type": "Image",
+                    "id": "a66e0665-e586-419c-8e82-079fa3b0c940",
+                    "label": "image_6",
+                    "texture": {
+                        "key": "Coin"
+                    },
+                    "x": 473,
+                    "y": 1061
                 }
             ]
         },
@@ -1034,6 +1059,7 @@
                     "y": 1076,
                     "originX": 0.5,
                     "originY": 0.5,
+                    "visible": false,
                     "text": "000",
                     "align": "center",
                     "fontFamily": "CarterOne-Regular",
@@ -1052,7 +1078,8 @@
                     "x": 652,
                     "y": 1076,
                     "scaleX": 1.1889856074071514,
-                    "scaleY": 1.1889856074071514
+                    "scaleY": 1.1889856074071514,
+                    "visible": false
                 },
                 {
                     "type": "Text",
@@ -1073,12 +1100,22 @@
                     "strokeThickness": 12
                 },
                 {
+                    "type": "Image",
+                    "id": "aad96843-6c5d-4d7e-839c-818752389ec2",
+                    "label": "image_3",
+                    "texture": {
+                        "key": "SuperCoinBG"
+                    },
+                    "x": 528,
+                    "y": 1027
+                },
+                {
                     "type": "Text",
                     "id": "849a01f5-719e-4a2b-ad89-c366900b203f",
                     "label": "Supercoin_text1",
                     "scope": "CLASS",
-                    "x": 386,
-                    "y": 1075,
+                    "x": 589,
+                    "y": 1052,
                     "originX": 0.5,
                     "originY": 0.5,
                     "text": "0",
@@ -1119,6 +1156,16 @@
                     },
                     "x": 540,
                     "y": 1556
+                },
+                {
+                    "type": "Image",
+                    "id": "bc5aaac6-ecf4-4df0-ac47-59b21b35cd59",
+                    "label": "image_4",
+                    "texture": {
+                        "key": "Coin"
+                    },
+                    "x": 474,
+                    "y": 1053
                 }
             ]
         },

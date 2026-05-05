@@ -220,6 +220,11 @@
                 "key": "click"
             },
             {
+                "url": "assets/images/ui-assets/Coin.png",
+                "type": "image",
+                "key": "Coin"
+            },
+            {
                 "url": [
                     "assets/audio/completed.mp3"
                 ],
@@ -356,9 +361,19 @@
                 "key": "icon"
             },
             {
+                "url": "assets/images/gameplay/Level-Bg.png",
+                "type": "image",
+                "key": "Level-Bg"
+            },
+            {
                 "url": "assets/images/gameplay/location-marker.png",
                 "type": "image",
                 "key": "location-marker"
+            },
+            {
+                "url": "assets/images/gameplay/LockIcon.png",
+                "type": "image",
+                "key": "LockIcon"
             },
             {
                 "url": "assets/images/common/logo-01.png",
@@ -509,6 +524,11 @@
                 "url": "assets/images/game-start/start-panel.png",
                 "type": "image",
                 "key": "start-panel"
+            },
+            {
+                "url": "assets/images/ui-assets/SuperCoinBG.png",
+                "type": "image",
+                "key": "SuperCoinBG"
             },
             {
                 "url": "assets/images/gameplay/game-title.png",

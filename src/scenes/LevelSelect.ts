@@ -68,6 +68,19 @@ export default class LevelSelect extends Phaser.Scene {
 		tutorialText.setStyle({ "align": "center", "fontFamily": "CarterOne-Regular", "fontSize": "35px", "stroke": "#000000ff", "strokeThickness": 3 });
 		mapUiContainer.add(tutorialText);
 
+		// levelBase
+		const levelBase = this.add.image(487, 661, "Level-Bg");
+		levelBase.scaleX = 1.8253848813480107;
+		levelBase.scaleY = 1.8253848813480107;
+		mapUiContainer.add(levelBase);
+
+		// lockImg
+		const lockImg = this.add.image(482, 644, "LockIcon");
+		lockImg.scaleX = 0.40805543546350576;
+		lockImg.scaleY = 0.40805543546350576;
+		lockImg.visible = false;
+		mapUiContainer.add(lockImg);
+
 		// popupDark
 		const popupDark = this.add.rectangle(0, 0, 720, 1080);
 		popupDark.scaleX = 1.505657351827596;
@@ -153,7 +166,6 @@ export default class LevelSelect extends Phaser.Scene {
 		// game_start_panel_container
 		const game_start_panel_container = this.add.container(540, 960);
 		game_start_panel_container.name = "game_start_panel_container";
-		game_start_panel_container.visible = false;
 
 		// blur_bg_1
 		const blur_bg_1 = this.add.image(8, 0, "blur-bg");
@@ -168,6 +180,7 @@ export default class LevelSelect extends Phaser.Scene {
 		// naz_text3
 		const naz_text3 = this.add.image(-172, -168, "naz-text3");
 		naz_text3.name = "naz_text3";
+		naz_text3.visible = false;
 		game_start_panel_container.add(naz_text3);
 
 		// naz_text1
@@ -221,6 +234,8 @@ export default class LevelSelect extends Phaser.Scene {
 		this.locationMarker = locationMarker;
 		this.tutorialBG = tutorialBG;
 		this.tutorialText = tutorialText;
+		this.levelBase = levelBase;
+		this.lockImg = lockImg;
 		this.mapUiContainer = mapUiContainer;
 		this.popupDark = popupDark;
 		this.popupBg = popupBg;
@@ -245,6 +260,8 @@ export default class LevelSelect extends Phaser.Scene {
 	private locationMarker!: Phaser.GameObjects.Image;
 	private tutorialBG!: Phaser.GameObjects.Image;
 	private tutorialText!: Phaser.GameObjects.Text;
+	private levelBase!: Phaser.GameObjects.Image;
+	private lockImg!: Phaser.GameObjects.Image;
 	private mapUiContainer!: Phaser.GameObjects.Container;
 	private popupDark!: Phaser.GameObjects.Rectangle;
 	private popupBg!: Phaser.GameObjects.Image;
@@ -267,6 +284,9 @@ export default class LevelSelect extends Phaser.Scene {
     private previousPanel: string = GAME_PANEL.NONE;
     private currentPanel: string = GAME_PANEL.NONE;
     private completedBuildings: Phaser.GameObjects.Image[] = [];
+    private levelLabels: Phaser.GameObjects.Text[] = [];
+    private lockBases: Phaser.GameObjects.Image[] = [];
+    private lockIcons: Phaser.GameObjects.Image[] = [];
     private homeBtnNode!: Phaser.GameObjects.Sprite;
     private startBtnNode!: Phaser.GameObjects.Sprite;
     private popupPlayBtnNode!: Phaser.GameObjects.Sprite;
@@ -500,6 +520,12 @@ export default class LevelSelect extends Phaser.Scene {
     private renderLevelMap(): void {
         this.completedBuildings.forEach((item) => item.destroy());
         this.completedBuildings = [];
+        this.levelLabels.forEach((t) => t.destroy());
+        this.levelLabels = [];
+        this.lockBases.forEach((b) => b.destroy());
+        this.lockBases = [];
+        this.lockIcons.forEach((i) => i.destroy());
+        this.lockIcons = [];
 
         LEVELS.forEach((data, index) => {
             if (index < gameState.currentLevel) {
@@ -521,36 +547,80 @@ export default class LevelSelect extends Phaser.Scene {
 
                 this.mapWorldContainer.add(building);
                 this.completedBuildings.push(building);
+            } else if (index !== gameState.currentLevel) {
+                // Locked level — layer order: levelBase (bottom) → lockImg → Level text (top)
+
+                // 1. Base platform
+                const base = this.add.image(data.x, data.y+10, "Level-Bg").setOrigin(0.5, 0.5);
+                base.scaleX = 1.8253848813480;
+                base.scaleY = 1.8253848813480;
+                this.mapWorldContainer.add(base);
+                this.lockBases.push(base);
+
+                // 2. Lock icon
+                const lock = this.add.image(data.x, data.y-30, "LockIcon").setOrigin(0.5, 0.5);
+                lock.scaleX = 0.40805543546350576;
+                lock.scaleY = 0.40805543546350576;
+                this.mapWorldContainer.add(lock);
+                this.lockIcons.push(lock);
+
+                // 3. Level label (topmost)
+                const label = this.add.text(
+                    data.x,
+                    data.y+30,
+                    `Level ${index + 1}`,
+                    {
+                        fontFamily: "CarterOne-Regular",
+                        fontSize: "38px",
+                        color: "#ffffff",
+                        stroke: "#000000",
+                        strokeThickness: 6,
+                        align: "center"
+                    }
+                ).setOrigin(0.5, 0.5);
+                this.mapWorldContainer.add(label);
+                this.levelLabels.push(label);
             }
         });
 
-        // Position the "next unlock" button at the current (locked) level slot
-        const current = LEVELS[gameState.currentLevel] ?? LEVELS[LEVELS.length - 1];
-        this.startLevelButton.setPosition(current.x, current.y);
-        this.locationMarker.setPosition(current.x, current.y - 120);
+        const allLevelsComplete = gameState.currentLevel >= LEVELS.length;
 
-        // Position tutorial elements relative to locationMarker (preserving original y offsets: +278, +293)
-        this.tutorialBG.setPosition(current.x, this.locationMarker.y + 278);
-        this.tutorialText.setPosition(current.x, this.locationMarker.y + 293);
-
-        const ordinals = ["first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth"];
-        const ordinal = ordinals[gameState.currentLevel] ?? `${gameState.currentLevel + 1}th`;
-        this.tutorialText.setText(`Tap here for the \n${ordinal} level`);
-
+        // Hide start button, marker and tutorial when all levels are done
+        this.startLevelButton.setVisible(!allLevelsComplete);
+        this.locationMarker.setVisible(!allLevelsComplete);
+        this.tutorialBG.setVisible(!allLevelsComplete);
+        this.tutorialText.setVisible(!allLevelsComplete);
         this.tweens.killTweensOf(this.locationMarker);
-        this.tweens.add({
-            targets: this.locationMarker,
-            y: this.locationMarker.y - 80,
-            duration: 600,
-            ease: "Sine.easeInOut",
-            yoyo: true,
-            repeat: -1
-        });
+
+        if (!allLevelsComplete) {
+            // Position the "next unlock" button at the current (locked) level slot
+            const current = LEVELS[gameState.currentLevel];
+            this.startLevelButton.setPosition(current.x, current.y);
+            this.locationMarker.setPosition(current.x, current.y - 120);
+
+            // Position tutorial elements relative to locationMarker (preserving original y offsets: +278, +293)
+            this.tutorialBG.setPosition(current.x, this.locationMarker.y + 278);
+            this.tutorialText.setPosition(current.x, this.locationMarker.y + 293);
+
+            const ordinals = ["first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth"];
+            const ordinal = ordinals[gameState.currentLevel] ?? `${gameState.currentLevel + 1}th`;
+            this.tutorialText.setText(`Tap here for the \n${ordinal} level`);
+
+            this.tweens.add({
+                targets: this.locationMarker,
+                y: this.locationMarker.y - 80,
+                duration: 600,
+                ease: "Sine.easeInOut",
+                yoyo: true,
+                repeat: -1
+            });
+        }
     }
 
     private updateTutorialVisibility(): void {
-        this.tutorialBG.setVisible(true);
-        this.tutorialText.setVisible(true);
+        const allLevelsComplete = gameState.currentLevel >= LEVELS.length;
+        this.tutorialBG.setVisible(!allLevelsComplete);
+        this.tutorialText.setVisible(!allLevelsComplete);
     }
 
     private hideTutorial(): void {

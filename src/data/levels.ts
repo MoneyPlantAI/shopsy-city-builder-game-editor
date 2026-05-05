@@ -14,8 +14,8 @@ export const LEVELS: LevelDefinition[] = [
     { x: 490, y: 649, pointRequired: 525, blockAmount: 25, building: "building4" },
     { x: 270, y: 1598, pointRequired: 600, blockAmount: 30, building: "building5" },
     { x: 544, y: 1443, pointRequired: 735, blockAmount: 35, building: "building6" },
-    { x: 335, y: 286, pointRequired: 750, blockAmount: 35, building: "building7" },
-    { x: 987, y: 177, pointRequired: 787, blockAmount: 35, building: "building8" }
+    { x: 364, y: 313, pointRequired: 750, blockAmount: 35, building: "building7" },
+    { x: 936, y: 172, pointRequired: 787, blockAmount: 35, building: "building8" }
 ];
 
 export const LEVEL_BUILDING_OFFSET_Y = 100;

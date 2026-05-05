@@ -285,6 +285,7 @@ export default class Level extends Phaser.Scene {
 		const highScore_Panel_1 = this.add.image(52, 189, "bar-points");
 		highScore_Panel_1.scaleX = 1.1785911243279024;
 		highScore_Panel_1.scaleY = 1.1785911243279024;
+		highScore_Panel_1.visible = false;
 		top_ui_container.add(highScore_Panel_1);
 
 		// gem
@@ -292,23 +293,25 @@ export default class Level extends Phaser.Scene {
 		gem.name = "gem";
 		gem.scaleX = 0.8395470376849977;
 		gem.scaleY = 0.8395470376849977;
+		gem.visible = false;
 		top_ui_container.add(gem);
 
 		// txtPoints
 		const txtPoints = this.add.text(81, 195, "", {});
 		txtPoints.setOrigin(0.5, 0.5);
+		txtPoints.visible = false;
 		txtPoints.text = "0/0";
 		txtPoints.setStyle({ "align": "right", "fontFamily": "CarterOne-Regular", "fontSize": "35px" });
 		top_ui_container.add(txtPoints);
 
 		// highScore_Panel_2
-		const highScore_Panel_2 = this.add.image(47, 299, "bar-blocks");
+		const highScore_Panel_2 = this.add.image(47, 187, "bar-blocks");
 		highScore_Panel_2.scaleX = 1.1028507950415196;
 		highScore_Panel_2.scaleY = 1.1028507950415196;
 		top_ui_container.add(highScore_Panel_2);
 
 		// txtBlocks
-		const txtBlocks = this.add.text(96, 304, "", {});
+		const txtBlocks = this.add.text(96, 192, "", {});
 		txtBlocks.setOrigin(1, 0.5);
 		txtBlocks.text = "0";
 		txtBlocks.setStyle({ "align": "right", "fontFamily": "CarterOne-Regular", "fontSize": "35px" });
@@ -413,12 +416,17 @@ export default class Level extends Phaser.Scene {
 		const low_score = this.add.text(816, 1075, "", {});
 		low_score.name = "low_score";
 		low_score.setOrigin(0.5, 0.5);
+		low_score.visible = false;
 		low_score.text = "000";
 		low_score.setStyle({ "align": "center", "color": "#ffffffff", "fontFamily": "CarterOne-Regular", "fontSize": "85PX", "stroke": "#1a60b6", "strokeThickness": 10 });
 		game_over_lose_panel_container.add(low_score);
 
+		// image_5
+		const image_5 = this.add.image(522, 1025, "SuperCoinBG");
+		game_over_lose_panel_container.add(image_5);
+
 		// Supercoin_text
-		const supercoin_text = this.add.text(419, 1074, "", {});
+		const supercoin_text = this.add.text(571, 1059, "", {});
 		supercoin_text.setOrigin(0.5, 0.5);
 		supercoin_text.text = "0";
 		supercoin_text.setStyle({ "align": "center", "fontFamily": "CarterOne-Regular", "fontSize": "85px", "stroke": "#a77203ff", "strokeThickness": 10 });
@@ -426,6 +434,7 @@ export default class Level extends Phaser.Scene {
 
 		// gem_3
 		const gem_3 = this.add.image(648, 1074, "gem");
+		gem_3.visible = false;
 		game_over_lose_panel_container.add(gem_3);
 
 		// logo1
@@ -435,6 +444,10 @@ export default class Level extends Phaser.Scene {
 		// exit_from_lose_screen_btn
 		const exit_from_lose_screen_btn = this.add.image(540, 1522, "exit-game-btn");
 		game_over_lose_panel_container.add(exit_from_lose_screen_btn);
+
+		// image_6
+		const image_6 = this.add.image(473, 1061, "Coin");
+		game_over_lose_panel_container.add(image_6);
 
 		// game_over_win_panel_container
 		const game_over_win_panel_container = this.add.container(0, 0);
@@ -497,6 +510,7 @@ export default class Level extends Phaser.Scene {
 		const high_score_1 = this.add.text(810, 1076, "", {});
 		high_score_1.name = "high_score_1";
 		high_score_1.setOrigin(0.5, 0.5);
+		high_score_1.visible = false;
 		high_score_1.text = "000";
 		high_score_1.setStyle({ "align": "center", "color": "#ffffffff", "fontFamily": "CarterOne-Regular", "fontSize": "85PX", "stroke": "#1a60b6", "strokeThickness": 10 });
 		game_over_win_panel_container.add(high_score_1);
@@ -505,6 +519,7 @@ export default class Level extends Phaser.Scene {
 		const gem_2 = this.add.image(652, 1076, "gem");
 		gem_2.scaleX = 1.1889856074071514;
 		gem_2.scaleY = 1.1889856074071514;
+		gem_2.visible = false;
 		game_over_win_panel_container.add(gem_2);
 
 		// Bottom_text_2
@@ -516,8 +531,12 @@ export default class Level extends Phaser.Scene {
 		bottom_text_2.setStyle({ "color": "#ffffffff", "fontFamily": "CarterOne-Regular", "fontSize": "70PX", "stroke": "#0d6b00ff", "strokeThickness": 12 });
 		game_over_win_panel_container.add(bottom_text_2);
 
+		// image_3
+		const image_3 = this.add.image(528, 1027, "SuperCoinBG");
+		game_over_win_panel_container.add(image_3);
+
 		// Supercoin_text1
-		const supercoin_text1 = this.add.text(386, 1075, "", {});
+		const supercoin_text1 = this.add.text(589, 1052, "", {});
 		supercoin_text1.setOrigin(0.5, 0.5);
 		supercoin_text1.text = "0";
 		supercoin_text1.setStyle({ "align": "center", "fontFamily": "CarterOne-Regular", "fontSize": "85px", "stroke": "#a77203ff", "strokeThickness": 10 });
@@ -534,6 +553,10 @@ export default class Level extends Phaser.Scene {
 		// exit_from_win_screen_btn_1
 		const exit_from_win_screen_btn_1 = this.add.image(540, 1556, "exit-game-btn");
 		game_over_win_panel_container.add(exit_from_win_screen_btn_1);
+
+		// image_4
+		const image_4 = this.add.image(474, 1053, "Coin");
+		game_over_win_panel_container.add(image_4);
 
 		// game_over_panel_container
 		const game_over_panel_container = this.add.container(517, 789);
@@ -2086,7 +2109,7 @@ export default class Level extends Phaser.Scene {
 				onComplete: () => {
 					this.blockTop.y -= minusY;
 					this.blockTop.setVisible(true);
-					if (LEVELS[gameState.currentLevel].blockAmount - gameState.totalStackedBlocks === 1) {
+					if (LEVELS[this.playingLevelIndex].blockAmount - gameState.totalStackedBlocks === 1) {
 						this.blockTop.setTexture("block-top");
 					}
 					this.claw.setTexture("claw1");
@@ -2162,11 +2185,9 @@ export default class Level extends Phaser.Scene {
 		/** Decides win/lose once the final block has landed. */
 		const buildingFinish = (): void => {
 			if (this.currentPoints >= this.requiredPoints) {
-				// Advance level only if this wasn't a replay
-				if (gameState.currentLevel < LEVELS.length - 1) {
-					const isReplay = this.playingLevelIndex !== gameState.currentLevel;
-					if (!isReplay) setCurrentLevel(gameState.currentLevel + 1);
-				}
+				// Advance level on win (including last level → currentLevel becomes LEVELS.length)
+				const isReplay = this.playingLevelIndex !== gameState.currentLevel;
+				if (!isReplay) setCurrentLevel(gameState.currentLevel + 1);
 				this.changeGameState(GAME_STATE.GAME_OVER_WIN);
 			} else {
 				this.changeGameState(GAME_STATE.GAME_OVER_LOSE);
