@@ -170,7 +170,6 @@ export default class LevelSelect extends Phaser.Scene {
 		// game_start_panel_container
 		const game_start_panel_container = this.add.container(540, 960);
 		game_start_panel_container.name = "game_start_panel_container";
-		game_start_panel_container.visible = false;
 
 		// blur_bg_1
 		const blur_bg_1 = this.add.image(8, 0, "blur-bg");
