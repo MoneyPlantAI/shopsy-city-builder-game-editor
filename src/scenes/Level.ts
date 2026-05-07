@@ -17,8 +17,6 @@ import { GAME_ID, GAME_NAME } from "../utils/config";
 import { PlayerPrefs } from "../utils/PlayerPrefs";
 import GameResponseManager from "../shopsystan/shopsyGameResponses";
 /* END-USER-IMPORTS */
-// Tracks whether the gameplay tutorial has already been shown this session (resets on page reload)
-let _gameplayTutorialShownThisSession = false;
 
 export default class Level extends Phaser.Scene {
 
@@ -548,6 +546,8 @@ export default class Level extends Phaser.Scene {
 
 		// exit_from_win_screen_btn
 		const exit_from_win_screen_btn = this.add.image(540, 1556, "claim-rewards-btn");
+		exit_from_win_screen_btn.scaleX = 0.8808370845737925;
+		exit_from_win_screen_btn.scaleY = 0.8808370845737925;
 		game_over_win_panel_container.add(exit_from_win_screen_btn);
 
 		// exit_from_win_screen_btn_1
