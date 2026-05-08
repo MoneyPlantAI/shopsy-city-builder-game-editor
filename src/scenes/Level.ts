@@ -18,6 +18,8 @@ import { PlayerPrefs } from "../utils/PlayerPrefs";
 import GameResponseManager from "../shopsystan/shopsyGameResponses";
 /* END-USER-IMPORTS */
 
+let _gameplayTutorialShownThisSession = false;
+
 export default class Level extends Phaser.Scene {
 
 	constructor() {
