@@ -1,5 +1,5 @@
 import { shopsyBridge } from "../shopsystan/shopsyBridge";
-import { GAME_ID } from "../utils/config";
+import { GAME_ID, GAME_NAME } from "../utils/config";
 import { PlayerPrefs } from "../utils/PlayerPrefs";
 
 export class ShopsyAnalytics {
@@ -8,13 +8,15 @@ export class ShopsyAnalytics {
         console.log("Load duration (ms):", loadDurationMs);
         shopsyBridge.analyticsEvent("Game_Entered", {
             "load_time": Math.round(loadDurationMs / 1000),
-            "game_id": GAME_ID
+            "game_id": GAME_ID,
+            "game_name": GAME_NAME
         });
     }
 
     static sendGameStartedEvent() {
         shopsyBridge.analyticsEvent("Game_Started", {
             "game_id": GAME_ID,
+            "game_name": GAME_NAME,
             "daily_attempt_number": PlayerPrefs.gamesPlayedToday,
             "total_attempt_number": PlayerPrefs.gamesPlayedTotal
         });
@@ -23,6 +25,7 @@ export class ShopsyAnalytics {
     static sendGameFinishedEvent(score: number, coinsWon: number, gameResult: string, timePlayedMs: number) {
         shopsyBridge.analyticsEvent("Game_Finished", {
             "game_id": GAME_ID,
+            "game_name": GAME_NAME,
             "score": score,
             "coins_earned": coinsWon,
             "result": gameResult,
@@ -33,6 +36,7 @@ export class ShopsyAnalytics {
     static sendCoinsEarnedEvent(coinsEarned: number) {
         shopsyBridge.analyticsEvent("Coins_Earned", {
             "game_id": GAME_ID,
+            "game_name": GAME_NAME,
             "coins_earned": coinsEarned
         });
     }
@@ -40,6 +44,7 @@ export class ShopsyAnalytics {
     static sendGameAbandonedEvent(score: number, timePlayedMs: number) {
         shopsyBridge.analyticsEvent("Game_Abandoned", {
             "game_id": GAME_ID,
+            "game_name": GAME_NAME,
             "score": score,
             "coins_earned": 0,
             "play_time": Math.floor(timePlayedMs / 1000)
@@ -50,12 +55,14 @@ export class ShopsyAnalytics {
         shopsyBridge.analyticsEvent("Score_Shared", {
             "success": success,
             "game_id": GAME_ID,
+            "game_name": GAME_NAME,
             "score": score,
         });
     }
     static sendCtaClickedEvent(ctaName: string) {
         shopsyBridge.analyticsEvent("in_game_cta_clicked", {
             "game_id": GAME_ID,
+            "game_name": GAME_NAME,
             "cta_name": ctaName
         });
     }
