@@ -938,7 +938,6 @@
             "displayName": "game_over_win_panel_container",
             "useGameObjectName": true,
             "scope": "CLASS",
-            "visible": false,
             "list": [
                 {
                     "type": "Image",
@@ -1103,6 +1102,7 @@
                     "type": "Image",
                     "id": "aad96843-6c5d-4d7e-839c-818752389ec2",
                     "label": "image_3",
+                    "scope": "CLASS",
                     "texture": {
                         "key": "SuperCoinBG"
                     },

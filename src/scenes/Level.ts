@@ -18,8 +18,6 @@ import { PlayerPrefs } from "../utils/PlayerPrefs";
 import GameResponseManager from "../shopsystan/shopsyGameResponses";
 /* END-USER-IMPORTS */
 
-let _gameplayTutorialShownThisSession = false;
-
 export default class Level extends Phaser.Scene {
 
 	constructor() {
@@ -452,7 +450,6 @@ export default class Level extends Phaser.Scene {
 		// game_over_win_panel_container
 		const game_over_win_panel_container = this.add.container(0, 0);
 		game_over_win_panel_container.name = "game_over_win_panel_container";
-		game_over_win_panel_container.visible = false;
 
 		// score_panel_1
 		const score_panel_1 = this.add.image(534, 1035, "score-panel");
@@ -1072,6 +1069,7 @@ export default class Level extends Phaser.Scene {
 		this.next_btn = next_btn;
 		this.high_score_1 = high_score_1;
 		this.bottom_text_2 = bottom_text_2;
+		this.image_3 = image_3;
 		this.supercoin_text1 = supercoin_text1;
 		this.exit_from_win_screen_btn = exit_from_win_screen_btn;
 		this.exit_from_win_screen_btn_1 = exit_from_win_screen_btn_1;
@@ -1172,6 +1170,7 @@ export default class Level extends Phaser.Scene {
 	private next_btn!: Phaser.GameObjects.Image;
 	private high_score_1!: Phaser.GameObjects.Text;
 	private bottom_text_2!: Phaser.GameObjects.Text;
+	private image_3!: Phaser.GameObjects.Image;
 	private supercoin_text1!: Phaser.GameObjects.Text;
 	private exit_from_win_screen_btn!: Phaser.GameObjects.Image;
 	private exit_from_win_screen_btn_1!: Phaser.GameObjects.Image;
@@ -1631,18 +1630,23 @@ export default class Level extends Phaser.Scene {
 
 		if (this.gameResult === "win") {
 			if(GameResponseManager.getCoinsEarnedForGame()>0) {
-			this.score_text?.setText("Nicely Done");
-			this.bottom_text?.setText("You've won Super Coins!");
-			this.exit_from_win_screen_btn?.setVisible(true);
-			this.exit_from_win_screen_btn_1?.setVisible(false);
-		}
+				this.score_text?.setText("Nicely Done");
+				this.bottom_text?.setText("You've won Super Coins!");
+				this.exit_from_win_screen_btn?.setVisible(true);
+				this.exit_from_win_screen_btn_1?.setVisible(false);
+				this.image_3?.setVisible(true);
+				this.bottom_text.setPosition(540, 1252);
+			}
 		else{
-			this.score_text?.setText("Nicely Done");
-			this.bottom_text?.setText("Congratulations!");
-			this.exit_from_win_screen_btn?.setVisible(false);
-			this.exit_from_win_screen_btn_1?.setVisible(true);
+				this.score_text?.setText("Nicely Done");
+				this.bottom_text?.setText("Congratulations!");
+				this.image_3?.setVisible(false);
+				this.supercoin_text1?.setVisible(false);
+				this.bottom_text.setPosition(540, 1070);
+				this.exit_from_win_screen_btn?.setVisible(false);
+				this.exit_from_win_screen_btn_1?.setVisible(true);
 
-		}
+			}
 			this.changePanel(GAME_PANEL.GAME_OVER_WIN_PANEL);
 		}
 		else {
