@@ -450,6 +450,7 @@ export default class Level extends Phaser.Scene {
 		// game_over_win_panel_container
 		const game_over_win_panel_container = this.add.container(0, 0);
 		game_over_win_panel_container.name = "game_over_win_panel_container";
+		game_over_win_panel_container.visible = false;
 
 		// score_panel_1
 		const score_panel_1 = this.add.image(534, 1035, "score-panel");
@@ -1073,6 +1074,7 @@ export default class Level extends Phaser.Scene {
 		this.supercoin_text1 = supercoin_text1;
 		this.exit_from_win_screen_btn = exit_from_win_screen_btn;
 		this.exit_from_win_screen_btn_1 = exit_from_win_screen_btn_1;
+		this.image_4 = image_4;
 		this.game_over_win_panel_container = game_over_win_panel_container;
 		this.time_spend = time_spend;
 		this.high_score = high_score;
@@ -1174,6 +1176,7 @@ export default class Level extends Phaser.Scene {
 	private supercoin_text1!: Phaser.GameObjects.Text;
 	private exit_from_win_screen_btn!: Phaser.GameObjects.Image;
 	private exit_from_win_screen_btn_1!: Phaser.GameObjects.Image;
+	private image_4!: Phaser.GameObjects.Image;
 	private game_over_win_panel_container!: Phaser.GameObjects.Container;
 	private time_spend!: Phaser.GameObjects.Text;
 	private high_score!: Phaser.GameObjects.Text;
@@ -1635,11 +1638,14 @@ export default class Level extends Phaser.Scene {
 				this.exit_from_win_screen_btn?.setVisible(true);
 				this.exit_from_win_screen_btn_1?.setVisible(false);
 				this.image_3?.setVisible(true);
+				this.image_4?.setVisible(true);
+				this.supercoin_text1?.setVisible(true);
 				this.bottom_text.setPosition(540, 1252);
 			}
 		else{
 				this.score_text?.setText("Nicely Done");
 				this.bottom_text?.setText("Congratulations!");
+				this.image_4?.setVisible(false);
 				this.image_3?.setVisible(false);
 				this.supercoin_text1?.setVisible(false);
 				this.bottom_text.setPosition(540, 1070);

@@ -938,6 +938,7 @@
             "displayName": "game_over_win_panel_container",
             "useGameObjectName": true,
             "scope": "CLASS",
+            "visible": false,
             "list": [
                 {
                     "type": "Image",
@@ -1163,6 +1164,7 @@
                     "type": "Image",
                     "id": "bc5aaac6-ecf4-4df0-ac47-59b21b35cd59",
                     "label": "image_4",
+                    "scope": "CLASS",
                     "texture": {
                         "key": "Coin"
                     },
