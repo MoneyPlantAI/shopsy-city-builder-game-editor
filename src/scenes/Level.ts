@@ -1727,31 +1727,29 @@ export default class Level extends Phaser.Scene {
 			ShopsyAnalytics.sendCtaClickedEvent("start_btn");
 			this.changeGameState(GAME_STATE.START)});
 		this.tapIfPresent(this.pause_btn, () => {
-			ShopsyAnalytics.sendCtaClickedEvent("pause_btn");
 			this.changeGameState(GAME_STATE.PAUSED)});
 		this.tapIfPresent(this.back_button1, () => {
-			ShopsyAnalytics.sendCtaClickedEvent("back_button");
+			
 			this.changeGameState(GAME_STATE.PAUSED)});
 		this.tapIfPresent(this.pauseBtnNode, () => {
-			ShopsyAnalytics.sendCtaClickedEvent("pauseBtnNode");
 			this.changeGameState(GAME_STATE.PAUSED)});
 		this.tapIfPresent(this.pauseCloseBtnNode, () => {
-			ShopsyAnalytics.sendCtaClickedEvent("pauseCloseBtnNode");
+			ShopsyAnalytics.sendCtaClickedEvent("resume_btn");
 			this.changeGameState(GAME_STATE.RESUMED)});
 		this.tapIfPresent(this.pauseRestartBtnNode, () => {
-			ShopsyAnalytics.sendCtaClickedEvent("pauseRestartBtnNode");
+			ShopsyAnalytics.sendCtaClickedEvent("resume_btn");
 			this.changeGameState(GAME_STATE.RESUMED)});
 		this.tapIfPresent(this.resume_btn, () => {
 			ShopsyAnalytics.sendCtaClickedEvent("resume_btn");
 			this.changeGameState(GAME_STATE.RESUMED)});
 		this.tapIfPresent(this.pauseMapBtnNode, () => {
-			ShopsyAnalytics.sendCtaClickedEvent("pauseMapBtnNode");
+			ShopsyAnalytics.sendCtaClickedEvent("exit_btn");
 			this.changeGameState(GAME_STATE.ABANDONED)});
 		this.tapIfPresent(this.abandon_btn, () => {
-			ShopsyAnalytics.sendCtaClickedEvent("abandon_btn");
+			ShopsyAnalytics.sendCtaClickedEvent("exit_btn");
 			this.changeGameState(GAME_STATE.ABANDONED)});
 		this.tapIfPresent(this.endMapBtnNode, () => {
-			ShopsyAnalytics.sendCtaClickedEvent("endMapBtnNode");
+			ShopsyAnalytics.sendCtaClickedEvent("exit_btn");
 			this.changeGameState(GAME_STATE.ABANDONED)});
 		this.tapIfPresent(this.shareBtnNode, () => {
 			ShopsyAnalytics.sendCtaClickedEvent("shareBtnNode");
@@ -1763,19 +1761,17 @@ export default class Level extends Phaser.Scene {
 			ShopsyAnalytics.sendCtaClickedEvent("play_again_btn");
 			this.changeGameState(GAME_STATE.RESTART)});
 		this.tapIfPresent(this.exit_from_win_screen_btn, () => {
-			ShopsyAnalytics.sendCtaClickedEvent("exit_from_win_screen_btn");
+			ShopsyAnalytics.sendCtaClickedEvent("exit_win_btn");
 			this.changeGameState(GAME_STATE.ABANDONED)});
 		this.tapIfPresent(this.exit_from_win_screen_btn_1, () => {
-			ShopsyAnalytics.sendCtaClickedEvent("exit_from_win_screen_btn");
+			ShopsyAnalytics.sendCtaClickedEvent("exit_win_btn");
 			this.changeGameState(GAME_STATE.ABANDONED)});
 		this.tapIfPresent(this.exit_from_lose_screen_btn, () => {
-			ShopsyAnalytics.sendCtaClickedEvent("exit_from_lose_screen_btn");
+			ShopsyAnalytics.sendCtaClickedEvent("exit_lose_btn");
 			this.changeGameState(GAME_STATE.ABANDONED)});
 		this.tapIfPresent(this.gameover_exit_btn, () => {
-			ShopsyAnalytics.sendCtaClickedEvent("gameover_exit_btn");
 			this.changeGameState(GAME_STATE.ABANDONED)});
 		this.tapIfPresent(this.gameover_exit_btn1, () => {
-			ShopsyAnalytics.sendCtaClickedEvent("gameover_exit_btn");
 			this.changeGameState(GAME_STATE.ABANDONED)});
 		// "Next" button — advances level or returns to map if this was a replay
 		const handleNext = () => {
