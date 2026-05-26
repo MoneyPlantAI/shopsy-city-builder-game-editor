@@ -318,11 +318,7 @@ export default class LevelSelect extends Phaser.Scene {
                 this.locationMarker.setVisible(false);
             }
 
-        if (this.start_btn) {
-            ShopsyAnalytics.sendCtaClickedEvent("start_btn");
-            this.start_btn.setInteractive({ useHandCursor: true });
-            this.start_btn.on('pointerdown', () => this.changePanel(GAME_PANEL.GAMEPLAY_PANEL));
-        }
+      
 
         this.homeBtnNode = configureButton(this.homeButton, "home");
         this.startBtnNode = configureButton(this.startLevelButton, "start-level");
@@ -350,7 +346,10 @@ export default class LevelSelect extends Phaser.Scene {
             ShopsyAnalytics.sendCtaClickedEvent("start_btn");
             this.openPopupForLevel(gameState.currentLevel);
         });
-
+         this.tapInteractionHelper(this.start_btn, () => {
+            ShopsyAnalytics.sendCtaClickedEvent("start_btn");
+             this.start_btn.on('pointerdown', () => this.changePanel(GAME_PANEL.GAMEPLAY_PANEL));
+        });
         // ── Popup close: hide popup and reset states so re-open always works ──
         this.tapInteractionHelper(this.popupCloseBtnNode, () => this.closePopupAndReset());
 

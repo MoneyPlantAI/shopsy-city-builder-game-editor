@@ -1727,19 +1727,14 @@ export default class Level extends Phaser.Scene {
 			ShopsyAnalytics.sendCtaClickedEvent("start_btn");
 			this.changeGameState(GAME_STATE.START)});
 		this.tapIfPresent(this.pause_btn, () => {
+			ShopsyAnalytics.sendCtaClickedEvent("pause_btn");
 			this.changeGameState(GAME_STATE.PAUSED)});
 		this.tapIfPresent(this.back_button1, () => {
-			
+
 			this.changeGameState(GAME_STATE.PAUSED)});
 		this.tapIfPresent(this.pauseBtnNode, () => {
 			this.changeGameState(GAME_STATE.PAUSED)});
-		this.tapIfPresent(this.pauseCloseBtnNode, () => {
-			ShopsyAnalytics.sendCtaClickedEvent("resume_btn");
-			this.changeGameState(GAME_STATE.RESUMED)});
 		this.tapIfPresent(this.pauseRestartBtnNode, () => {
-			ShopsyAnalytics.sendCtaClickedEvent("resume_btn");
-			this.changeGameState(GAME_STATE.RESUMED)});
-		this.tapIfPresent(this.resume_btn, () => {
 			ShopsyAnalytics.sendCtaClickedEvent("resume_btn");
 			this.changeGameState(GAME_STATE.RESUMED)});
 		this.tapIfPresent(this.pauseMapBtnNode, () => {
