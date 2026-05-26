@@ -9,6 +9,7 @@ import { configureButton } from "../core/ui-factory";
 import { LEVELS, LEVEL_BUILDING_OFFSET_Y } from "../data/levels";
 import { GAME_PANEL } from "../game-core/GamePanel";
 import { GAME_STATE } from "../game-core/GameState";
+import { ShopsyAnalytics } from "../shopsystan/shopsyAnalytics";
 import { shopsyBridge } from "../shopsystan/shopsyBridge";
 import { PlayerPrefs } from "../utils/PlayerPrefs";
 /* END-USER-IMPORTS */
@@ -318,6 +319,7 @@ export default class LevelSelect extends Phaser.Scene {
             }
 
         if (this.start_btn) {
+            ShopsyAnalytics.sendCtaClickedEvent("start_btn");
             this.start_btn.setInteractive({ useHandCursor: true });
             this.start_btn.on('pointerdown', () => this.changePanel(GAME_PANEL.GAMEPLAY_PANEL));
         }
@@ -345,6 +347,7 @@ export default class LevelSelect extends Phaser.Scene {
 
         // ── Current-level (new unlock) button ─────────────────────────────────
         this.tapInteractionHelper(this.startBtnNode, () => {
+            ShopsyAnalytics.sendCtaClickedEvent("start_btn");
             this.openPopupForLevel(gameState.currentLevel);
         });
 
@@ -359,7 +362,7 @@ export default class LevelSelect extends Phaser.Scene {
         this.popupPlayButton.setInteractive({ useHandCursor: true });
         this.popupPlayButton.on("pointerdown", () => {
             playSound(this, "click");
-
+            ShopsyAnalytics.sendCtaClickedEvent("start_game");
             // ── Snapshot the level NOW, before any tween or reset can clear it ──
             const levelToPlay = this.selectedLevelIndex >= 0
                 ? this.selectedLevelIndex
