@@ -16,8 +16,9 @@ import { ShareManager } from "../share/ShareManager";
 import { GAME_ID, GAME_NAME } from "../utils/config";
 import { PlayerPrefs } from "../utils/PlayerPrefs";
 import GameResponseManager from "../shopsystan/shopsyGameResponses";
-/* END-USER-IMPORTS */
+
 let _gameplayTutorialShownThisSession = false;
+/* END-USER-IMPORTS */
 export default class Level extends Phaser.Scene {
 
 	constructor() {
@@ -1630,7 +1631,7 @@ export default class Level extends Phaser.Scene {
 		console.log(`[${GAME_NAME}] Time Played: ${this.timePlayedMs} ms`);
 
 		if (this.gameResult === "win") {
-			if(GameResponseManager.getCoinsEarnedForGame()>0) {
+			if (GameResponseManager.getCoinsEarnedForGame() > 0) {
 				this.score_text?.setText("Nicely Done");
 				this.bottom_text?.setText("You've won Super Coins!");
 				this.exit_from_win_screen_btn?.setVisible(true);
@@ -1640,7 +1641,7 @@ export default class Level extends Phaser.Scene {
 				this.supercoin_text1?.setVisible(true);
 				this.bottom_text.setPosition(540, 1252);
 			}
-		else{
+			else {
 				this.score_text?.setText("Nicely Done");
 				this.bottom_text?.setText("Congratulations!");
 				this.image_4?.setVisible(false);
@@ -1654,13 +1655,12 @@ export default class Level extends Phaser.Scene {
 			this.changePanel(GAME_PANEL.GAME_OVER_WIN_PANEL);
 		}
 		else {
-			if(this.isMaxGameBonusEarned)
-			{
+			if (this.isMaxGameBonusEarned) {
 				//this.Bottom_text_1
 				this.play_again_btn?.setVisible(false);
 				this.bottom_text_1?.setText("Better Luck Next Time");
 			}
-			else{
+			else {
 				this.play_again_btn?.setVisible(true);
 				this.bottom_text_1?.setText("Let's Try again!");
 			}
