@@ -1258,10 +1258,9 @@ export default class Level extends Phaser.Scene {
 	// Pause-popup nodes (original naming kept)
 	private pauseBtnNode?: Phaser.GameObjects.GameObject;
 	private pauseRestartBtnNode?: Phaser.GameObjects.GameObject;
-	private pauseMapBtnNode?: Phaser.GameObjects.GameObject;
-	private pauseCloseBtnNode?: Phaser.GameObjects.GameObject;
-	private endMapBtnNode?: Phaser.GameObjects.GameObject;
-	private shareBtnNode?: Phaser.GameObjects.GameObject;
+	// private pauseMapBtnNode?: Phaser.GameObjects.GameObject;
+	// private pauseCloseBtnNode?: Phaser.GameObjects.GameObject;
+	// private endMapBtnNode?: Phaser.GameObjects.GameObject;
 
 	// ───────────────────────────────────────────────────────────────────────────
 	// LIFECYCLE
@@ -1311,10 +1310,9 @@ export default class Level extends Phaser.Scene {
 		// Button-node aliases (keeps original variable names)
 		this.pauseBtnNode = this.pause_btn;
 		this.pauseRestartBtnNode = this.resume_btn ?? this.pauseRestartButton;
-		this.pauseMapBtnNode = this.abandon_btn ?? this.pauseMapButton;
-		this.pauseCloseBtnNode = this.pauseCloseButton;
-		this.endMapBtnNode = this.endMapButton;
-		this.shareBtnNode = this.share_btn;
+		// this.pauseMapBtnNode = this.abandon_btn ?? this.pauseMapButton;
+		// this.pauseCloseBtnNode = this.pauseCloseButton;
+		// this.endMapBtnNode = this.endMapButton;
 
 		// Standard setup — same order as Nazariya
 		this.setupPanels();
@@ -1725,49 +1723,63 @@ export default class Level extends Phaser.Scene {
 	private setupInteractions(): void {
 		this.tapIfPresent(this.start_btn, () => {
 			ShopsyAnalytics.sendCtaClickedEvent("start_btn");
-			this.changeGameState(GAME_STATE.START)});
+			this.changeGameState(GAME_STATE.START)
+		});
 		this.tapIfPresent(this.pause_btn, () => {
 			ShopsyAnalytics.sendCtaClickedEvent("pause_btn");
-			this.changeGameState(GAME_STATE.PAUSED)});
+			this.changeGameState(GAME_STATE.PAUSED)
+		});
 		this.tapIfPresent(this.back_button1, () => {
 
-			this.changeGameState(GAME_STATE.PAUSED)});
+			this.changeGameState(GAME_STATE.PAUSED)
+		});
 		this.tapIfPresent(this.pauseBtnNode, () => {
-			this.changeGameState(GAME_STATE.PAUSED)});
+			this.changeGameState(GAME_STATE.PAUSED)
+		});
 		this.tapIfPresent(this.pauseRestartBtnNode, () => {
 			ShopsyAnalytics.sendCtaClickedEvent("resume_btn");
-			this.changeGameState(GAME_STATE.RESUMED)});
-		this.tapIfPresent(this.pauseMapBtnNode, () => {
-			ShopsyAnalytics.sendCtaClickedEvent("exit_btn");
-			this.changeGameState(GAME_STATE.ABANDONED)});
+			this.changeGameState(GAME_STATE.RESUMED)
+		});
+		// this.tapIfPresent(this.pauseMapBtnNode, () => {
+		// 	ShopsyAnalytics.sendCtaClickedEvent("exit_btn");
+		// 	this.changeGameState(GAME_STATE.ABANDONED)
+		// });
 		this.tapIfPresent(this.abandon_btn, () => {
-			ShopsyAnalytics.sendCtaClickedEvent("exit_btn");
-			this.changeGameState(GAME_STATE.ABANDONED)});
-		this.tapIfPresent(this.endMapBtnNode, () => {
-			ShopsyAnalytics.sendCtaClickedEvent("exit_btn");
-			this.changeGameState(GAME_STATE.ABANDONED)});
-		this.tapIfPresent(this.shareBtnNode, () => {
-			ShopsyAnalytics.sendCtaClickedEvent("shareBtnNode");
-			this.changeGameState(GAME_STATE.SHARING)});
+			ShopsyAnalytics.sendCtaClickedEvent("abandon_btn");
+			this.changeGameState(GAME_STATE.ABANDONED)
+		});
+		// this.tapIfPresent(this.endMapBtnNode, () => {
+		// 	ShopsyAnalytics.sendCtaClickedEvent("exit_btn");
+		// 	this.changeGameState(GAME_STATE.ABANDONED)
+		// });
 		this.tapIfPresent(this.share_btn, () => {
 			ShopsyAnalytics.sendCtaClickedEvent("share_btn");
-			this.changeGameState(GAME_STATE.SHARING)});
+			this.changeGameState(GAME_STATE.SHARING)
+		});
 		this.tapIfPresent(this.play_again_btn, () => {
 			ShopsyAnalytics.sendCtaClickedEvent("play_again_btn");
-			this.changeGameState(GAME_STATE.RESTART)});
+			this.changeGameState(GAME_STATE.RESTART)
+		});
 		this.tapIfPresent(this.exit_from_win_screen_btn, () => {
-			ShopsyAnalytics.sendCtaClickedEvent("exit_win_btn");
-			this.changeGameState(GAME_STATE.ABANDONED)});
+			ShopsyAnalytics.sendCtaClickedEvent("claim_rewards_btn");
+			shopsyBridge.exitGame();
+		});
 		this.tapIfPresent(this.exit_from_win_screen_btn_1, () => {
 			ShopsyAnalytics.sendCtaClickedEvent("exit_win_btn");
-			this.changeGameState(GAME_STATE.ABANDONED)});
+			shopsyBridge.exitGame();
+		});
 		this.tapIfPresent(this.exit_from_lose_screen_btn, () => {
 			ShopsyAnalytics.sendCtaClickedEvent("exit_lose_btn");
-			this.changeGameState(GAME_STATE.ABANDONED)});
+			shopsyBridge.exitGame();
+		});
 		this.tapIfPresent(this.gameover_exit_btn, () => {
-			this.changeGameState(GAME_STATE.ABANDONED)});
+			ShopsyAnalytics.sendCtaClickedEvent("exit_btn");
+			shopsyBridge.exitGame();
+		});
 		this.tapIfPresent(this.gameover_exit_btn1, () => {
-			this.changeGameState(GAME_STATE.ABANDONED)});
+			ShopsyAnalytics.sendCtaClickedEvent("exit_btn");
+			shopsyBridge.exitGame();
+		});
 		// "Next" button — advances level or returns to map if this was a replay
 		const handleNext = () => {
 			const isReplay = this.playingLevelIndex !== gameState.currentLevel;
