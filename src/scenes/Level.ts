@@ -1878,18 +1878,18 @@ export default class Level extends Phaser.Scene {
 			shopsyBridge.requestGameConfig(GAME_ID);
 		}
 
-		shopsyBridge.gameLoaded();
+		// shopsyBridge.gameLoaded();
 		shopsyBridge.startGame();
 
-		const loadDurationMs = this.registry.get("loadDurationMs");
-		if (loadDurationMs != null) {
-			ShopsyAnalytics.sendGameLoadedEvent(loadDurationMs);
-		}
+		// const loadDurationMs = this.registry.get("loadDurationMs");
+		// if (loadDurationMs != null) {
+		// 	ShopsyAnalytics.sendGameLoadedEvent(loadDurationMs);
+		// }
 
-		if (PlayerPrefs.isNewDay) {
-			PlayerPrefs.gamesPlayedToday = 0;
-			PlayerPrefs.lastLoginDate = new Date().toISOString();
-		}
+		// if (PlayerPrefs.isNewDay) {
+		// 	PlayerPrefs.gamesPlayedToday = 0;
+		// 	PlayerPrefs.lastLoginDate = new Date().toISOString();
+		// }
 
 		const pauseAudio = () => this.sound.pauseAll();
 		const resumeAudio = () => this.sound.resumeAll();

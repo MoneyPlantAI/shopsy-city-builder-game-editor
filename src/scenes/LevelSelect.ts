@@ -10,7 +10,8 @@ import { LEVELS, LEVEL_BUILDING_OFFSET_Y } from "../data/levels";
 import { GAME_PANEL } from "../game-core/GamePanel";
 import { GAME_STATE } from "../game-core/GameState";
 import { ShopsyAnalytics } from "../shopsystan/shopsyAnalytics";
-import { shopsyBridge } from "../shopsystan/shopsyBridge";
+import { initShopsyBridge, shopsyBridge } from "../shopsystan/shopsyBridge";
+import { GAME_NAME } from "../utils/config";
 import { PlayerPrefs } from "../utils/PlayerPrefs";
 /* END-USER-IMPORTS */
 
@@ -308,17 +309,19 @@ export default class LevelSelect extends Phaser.Scene {
         this.mapUiContainer.setDepth(1000);
         this.popupDark.setDepth(2000);
         this.playPopupContainer.setDepth(2100);
-            // Ensure start panel UI stays above all
-            if (this.game_start_panel_container) {
-                this.game_start_panel_container.setDepth(2200);
-            }
-            // Hide startLevelButton and locationMarker if all levels are complete (currentLevel == 8)
-            if (gameState.currentLevel === 8) {
-                this.startLevelButton.setVisible(false);
-                this.locationMarker.setVisible(false);
-            }
 
 
+        // Ensure start panel UI stays above all
+        if (this.game_start_panel_container) {
+            this.game_start_panel_container.setDepth(2200);
+        }
+        // Hide startLevelButton and locationMarker if all levels are complete (currentLevel == 8)
+        if (gameState.currentLevel === 8) {
+            this.startLevelButton.setVisible(false);
+            this.locationMarker.setVisible(false);
+        }
+
+        this.setupShopsy();
 
         this.homeBtnNode = configureButton(this.homeButton, "home");
         this.startBtnNode = configureButton(this.startLevelButton, "start-level");
@@ -330,6 +333,23 @@ export default class LevelSelect extends Phaser.Scene {
         this.setupInteractions();
         this.updateTutorialVisibility();
         this.changeGameState(GAME_STATE.PRE_GAME);
+    }
+
+    private setupShopsy() {
+        const bridgeInitialized = this.registry.get("bridgeInitialized");
+        if (!bridgeInitialized) {
+            console.warn(`[${GAME_NAME}] Bridge not pre-initialized, initializing now…`);
+            initShopsyBridge();
+            this.registry.set("bridgeInitialized", true);
+        }
+
+        shopsyBridge.gameLoaded();
+
+        const loadDurationMs = this.registry.get("loadDurationMs");
+        if (loadDurationMs != null) {
+            ShopsyAnalytics.sendGameLoadedEvent(loadDurationMs);
+        }
+
     }
 
     private setupPanels(): void {
