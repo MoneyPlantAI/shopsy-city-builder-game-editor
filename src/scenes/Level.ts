@@ -1745,7 +1745,7 @@ export default class Level extends Phaser.Scene {
 		// 	this.changeGameState(GAME_STATE.ABANDONED)
 		// });
 		this.tapIfPresent(this.abandon_btn, () => {
-			ShopsyAnalytics.sendCtaClickedEvent("abandon_btn");
+			ShopsyAnalytics.sendCtaClickedEvent("abandon_game");
 			this.changeGameState(GAME_STATE.ABANDONED)
 		});
 		// this.tapIfPresent(this.endMapBtnNode, () => {
